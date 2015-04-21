@@ -6,7 +6,14 @@ public class Fraction {
     private int denominator;
     private String myTestString;
     private Double myTestDouble;
-    /**
+    
+    public Double getMyTestDouble() {
+		return myTestDouble;
+	}
+	public void setMyTestDouble(Double myTestDouble) {
+		this.myTestDouble = myTestDouble;
+	}
+	/**
      * Constructs a fraction with the specified numerator and denominator
      * @param numerator the numerator of the fraction
      * @param denominator the denominator of the fraction
