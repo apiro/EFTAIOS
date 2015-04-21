@@ -6,8 +6,15 @@ public class Fraction {
     private int denominator;
     private String myTestString;
     private Double myTestDouble;
+    private int i;
     
-    public Double getMyTestDouble() {
+    public String getMyTestString() {
+		return myTestString;
+	}
+	public void setMyTestString(String myTestString) {
+		this.myTestString = myTestString;
+	}
+	public Double getMyTestDouble() {
 		return myTestDouble;
 	}
 	public void setMyTestDouble(Double myTestDouble) {
