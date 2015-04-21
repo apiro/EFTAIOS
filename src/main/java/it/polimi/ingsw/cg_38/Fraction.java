@@ -56,10 +56,7 @@ public class Fraction {
     int num= (this.numerator * f.denominator) + (this.denominator *
         f.numerator);
     int den= this.denominator * f.denominator;
-    Fraction sum=null;
-    sum.setNumerator(num);
-    sum.setDenominator(den);
-    //Fraction sum=new Fraction(num, den);
+    Fraction sum=new Fraction(num, den);
     return sum;
     }
     @Override
