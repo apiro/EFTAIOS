@@ -4,6 +4,8 @@ public class Fraction {
 	
 	private int numerator;
     private int denominator;
+    private String myTestString;
+    private Double myTestDouble;
     /**
      * Constructs a fraction with the specified numerator and denominator
      * @param numerator the numerator of the fraction
