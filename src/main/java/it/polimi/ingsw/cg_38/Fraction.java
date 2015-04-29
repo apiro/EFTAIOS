@@ -7,6 +7,7 @@ public class Fraction {
     private String myTestString;
     private Double myTestDouble;
     private int i;
+    private String s;
     
     public String getMyTestString() {
 		return myTestString;
