@@ -27,6 +27,8 @@ public class Galilei extends Map {
      */
     public Map createGalilei() {
         // TODO implement here
+    	this.table[1][2] = new Sector();
+    	
         return null;
     }
 
