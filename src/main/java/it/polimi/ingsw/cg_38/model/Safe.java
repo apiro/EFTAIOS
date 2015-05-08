@@ -10,11 +10,7 @@ public class Safe extends Sector {
      * 
      */
     public Safe() {
+    	this.name = "Safe";
     }
-
-    /**
-     * 
-     */
-    public final String name = "Safe";
 
 }

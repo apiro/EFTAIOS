@@ -10,11 +10,6 @@ public class HumansStartingPoint extends Sector {
      * 
      */
     public HumansStartingPoint() {
+    	this.name = "HumansStartingPoint";
     }
-
-    /**
-     * 
-     */
-    public final String name = "HumansStartingPoint";
-
 }

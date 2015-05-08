@@ -10,11 +10,7 @@ public class Hatch extends Sector {
      * 
      */
     public Hatch() {
+    	this.name = "Hatch";
     }
-
-    /**
-     * 
-     */
-    public final String name = "Hatch";
-
+    
 }

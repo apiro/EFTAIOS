@@ -9,17 +9,12 @@ public abstract class Avatar {
     /**
      * 
      */
-    private ObjectCard[] myCards;
+    private ArrayList<ObjectCard> myCards;
 
     /**
      * 
      */
     private Sector currentSector;
-
-    /**
-     * 
-     */
-    private int numTurniGiocati;
 
     /**
      * 
@@ -46,13 +41,12 @@ public abstract class Avatar {
      */
     private ArrayList<Movement> myMovements;
 
-
-
-    /**
+	/**
      * @param Name name
      */
     public void Avatar(Name name) {
         // TODO implement here
+    	this.setName(name);
     }
 
     /**
@@ -61,7 +55,8 @@ public abstract class Avatar {
      */
     public Card draw(Deck deck) {
         // TODO implement here
-        return null;
+    	Card drown = deck.draw();
+        return drown;
     }
 
     /**
@@ -70,32 +65,36 @@ public abstract class Avatar {
      */
     public String move(Sector sector) {
         // TODO implement here
-        return "";
+    	this.setCurrentSector(sector);
+        return sector.getName();
     }
 
-    /**
+    public void setCurrentSector(Sector currentSector) {
+		this.currentSector = currentSector;
+	}
+
+	/**
      * @param Card card 
      * @return
      */
     public Card eliminateFromMyCards(Card card) {
         // TODO implement here
-        return null;
+    	this.getMyCards().remove(card);
+        return card;
     }
-
+    
     /**
      * @param Card card 
      * @return
      */
-    public void addCard(Card card) {
+    public Boolean addCard(Card card) {
         // TODO implement here
-    }
-
-    /**
-     * @param Sector sector 
-     * @return
-     */
-    public void setCurrentSector(Sector sector) {
-        // TODO implement here
+    	if(this.getMyCards().size()<=3) {
+    		this.getMyCards().add((ObjectCard)card);
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
 
     /**
@@ -105,18 +104,61 @@ public abstract class Avatar {
     public abstract Boolean canMove(Sector sector);
 
     /**
-     * @return
-     */
-    public void setPowered() {
-        // TODO implement here
-    }
-
-    /**
      * @param Sector sector 
      * @return
      */
     public void attack(Sector sector) {
         // TODO implement here
+    	
     }
+    
+    /**
+     * getter e setter
+     * **/
+
+	public Name getName() {
+		return name;
+	}
+
+	public void setName(Name name) {
+		this.name = name;
+	}
+
+	public Boolean getIsPowered() {
+		return isPowered;
+	}
+
+	public void setIsPowered(Boolean isPowered) {
+		this.isPowered = isPowered;
+	}
+
+	public LifeState getIsAlive() {
+		return isAlive;
+	}
+
+	public void setIsAlive(LifeState isAlive) {
+		this.isAlive = isAlive;
+	}
+
+	public EndState getIsWinner() {
+		return isWinner;
+	}
+
+	public void setIsWinner(EndState isWinner) {
+		this.isWinner = isWinner;
+	}
+
+	public ArrayList<ObjectCard> getMyCards() {
+		return myCards;
+	}
+
+	public Sector getCurrentSector() {
+		return currentSector;
+	}
+
+	public ArrayList<Movement> getMyMovements() {
+		return myMovements;
+	}
+
 
 }

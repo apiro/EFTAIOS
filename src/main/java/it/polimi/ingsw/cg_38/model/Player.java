@@ -11,7 +11,12 @@ public class Player {
      */
     public Player() {
     }
-
+    
+	/**
+     * 
+     */
+    private int numTurniGiocati;
+    
     /**
      * 
      */
@@ -22,13 +27,29 @@ public class Player {
      */
     private String name;
 
+    /**
+     * getter e setter
+     * **/
 
+    public int getNumTurniGiocati() {
+		return numTurniGiocati;
+	}
 
+	public void setNumTurniGiocati(int numTurniGiocati) {
+		this.numTurniGiocati = numTurniGiocati;
+	}
 
+	public Avatar getAvatar() {
+		return avatar;
+	}
 
+	public void setAvatar(Avatar avatar) {
+		this.avatar = avatar;
+	}
 
-
-
+	public String getName() {
+		return name;
+	}
 
 
     /**
@@ -44,6 +65,12 @@ public class Player {
      */
     public void Player(String name) {
         // TODO implement here
+    }
+    /**
+     * @param String name
+     */
+    public void finishTurn(){
+    	this.setNumTurniGiocati(this.getNumTurniGiocati()+1);
     }
 
 }

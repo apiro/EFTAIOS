@@ -10,11 +10,6 @@ public class AlienStartingPoint extends Sector {
      * 
      */
     public AlienStartingPoint() {
+    	this.name = "AlienStartingPoint";
     }
-
-    /**
-     * 
-     */
-    public final String name = "AlienStartingPoint";
-
 }

@@ -17,6 +17,17 @@ public class MapCreator {
      */
     public Map createMap(String type) {
         // TODO implement here
+    	Map creating;
+    	if(type == "Galilei") {
+    		creating = new Galilei();
+    		((Galilei) creating).createGalilei();
+    	} else if (type == "Galvani") {
+    		creating = new Galvani();
+    		((Galvani) creating).createGalvani();
+    	} else if (type == "Fermi") {
+    		creating = new Fermi();
+    		((Fermi) creating).createFermi();
+    	}
     	return null;
     }
 

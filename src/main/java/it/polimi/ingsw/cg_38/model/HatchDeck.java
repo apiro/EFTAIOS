@@ -15,12 +15,12 @@ public class HatchDeck implements Deck {
     /**
      * 
      */
-    private HatchCard[] hatchDeck;
+    private ArrayList<HatchCard> hatchDeck;
 
     /**
      * 
      */
-    private HatchCard[] rejectedHatchDeck;
+    private ArrayList<HatchCard> rejectedHatchDeck;
 
 
 

@@ -15,15 +15,12 @@ public class ObjectDeck implements Deck {
     /**
      * 
      */
-    private ObjectCard[] objectDeck;
+    private ArrayList<ObjectCard> objectDeck;
 
     /**
      * 
      */
-    private ObjectCard[] rejectedObjectDeck;
-
-
-
+    private ArrayList<ObjectCard> rejectedObjectDeck;
 
     /**
      * 

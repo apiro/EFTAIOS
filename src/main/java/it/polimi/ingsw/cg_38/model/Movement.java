@@ -6,10 +6,13 @@ import java.util.*;
  */
 public class Movement {
 
-    /**
-     * 
+	/**
+     * @param Sector sector  
+     * @param int number
      */
-    public Movement() {
+    public Movement(Sector sector , int number) {
+        this.setTargetsector(sector);
+        this.setTurnNumber(number);
     }
 
     /**
@@ -23,11 +26,22 @@ public class Movement {
     public Sector targetsector;
 
     /**
-     * @param Sector sector  
-     * @param int number
+     * getter e setter
      */
-    public Movement(Sector sector , int number) {
-        // TODO implement here
-    }
+	public int getTurnNumber() {
+		return turnNumber;
+	}
+
+	public void setTurnNumber(int turnNumber) {
+		this.turnNumber = turnNumber;
+	}
+
+	public Sector getTargetsector() {
+		return targetsector;
+	}
+
+	public void setTargetsector(Sector targetsector) {
+		this.targetsector = targetsector;
+	}
 
 }

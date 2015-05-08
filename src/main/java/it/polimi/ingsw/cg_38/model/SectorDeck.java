@@ -15,15 +15,12 @@ public class SectorDeck implements Deck {
     /**
      * 
      */
-    private SectorCard[] sectorDeck;
+    private ArrayList<SectorCard> sectorDeck;
 
     /**
      * 
      */
-    private SectorCard[] rejectedSectorDeck;
-
-
-
+    private ArrayList<SectorCard> rejectedSectorDeck;
 
     /**
      * 
