@@ -15,7 +15,7 @@ public abstract class Map {
     /**
      * 
      */
-    private Sector[][] table;
+    public Sector[][] table;
 
 
 
