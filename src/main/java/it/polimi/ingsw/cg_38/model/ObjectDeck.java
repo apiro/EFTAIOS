@@ -4,7 +4,7 @@ import java.util.*;
 /**
  * 
  */
-public class ObjectDeck implements Deck {
+public class ObjectDeck extends Deck {
 
     /**
      * 
@@ -30,18 +30,11 @@ public class ObjectDeck implements Deck {
     }
 
     /**
-     * @param Card card 
-     * @return
-     */
-    public void addCard(Card card) {
-        // TODO implement here
-    }
-
-    /**
-     * @return
+     *
      */
     public void shuffle() {
         // TODO implement here
+    	Collections.shuffle(this.getObjectDeck());
     }
 
     /**
@@ -49,24 +42,31 @@ public class ObjectDeck implements Deck {
      */
     public Card draw() {
         // TODO implement here
-        return null;
+    	Card estracted = this.getObjectDeck().get(0);
+    	this.getObjectDeck().remove(estracted);
+    	this.shuffle();
+        return estracted;
     }
 
     /**
      * @param Card card 
-     * @return
      */
-    public Card eliminateCard(Card card) {
-        // TODO implement here
-        return null;
+    public void eliminateCard(Card card) {
+    	this.getObjectDeck().remove(card);
+    	this.getRejectedObjectDeck().add((ObjectCard) card);
     }
 
-    /**
-     * @param Card[] toAdd 
-     * @return
-     */
-    public void setSectorDeck(Card[] toAdd) {
-        // TODO implement here
-    }
+    public ArrayList<ObjectCard> getObjectDeck() {
+		return objectDeck;
+	}
+
+	public void setObjectDeck(ArrayList<ObjectCard> objectDeck) {
+		this.objectDeck = objectDeck;
+	}
+
+	public ArrayList<ObjectCard> getRejectedObjectDeck() {
+		return rejectedObjectDeck;
+	}
+	
 
 }

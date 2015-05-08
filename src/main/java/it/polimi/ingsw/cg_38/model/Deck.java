@@ -4,31 +4,21 @@ import java.util.*;
 /**
  * 
  */
-public interface Deck {
+public abstract class Deck {
 
-	public void shuffle();
+	/**
+     *
+     */
+	public abstract void shuffle();
 
     /**
-     * @return
+     * costructor
      */
-    public Card draw();
-
-    /**
-     * @param Card card 
-     * @return
-     */
-    public Card eliminateCard(Card card);
+    public abstract Card draw();
 
     /**
      * @param Card card 
-     * @return
      */
-    public void addCard(Card card);
+    public abstract void eliminateCard(Card card);
 
-    /**
-     * @param Card[] toAdd 
-     * @return
-     */
-    public void setSectorDeck(Card[] toAdd);
-	
 }

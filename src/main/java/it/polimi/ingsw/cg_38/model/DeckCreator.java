@@ -17,7 +17,15 @@ public class DeckCreator {
      */
     public Deck createDeck(String nameDeck) {
         // TODO implement here
-    	return null;
+    	Deck deck = null;
+    	if(nameDeck == "SectorDeck") {
+    		deck = new SectorDeck();
+    	} else if(nameDeck == "HatchDeck") {
+    		deck = new HatchDeck();
+    	} else if(nameDeck == "ObjectDeck") {
+    		deck = new ObjectDeck();
+    	}
+		return deck;
     }
 
 }

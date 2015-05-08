@@ -9,24 +9,36 @@ public class Alien extends Avatar {
     /**
      * 
      */
-    public Alien() {
+    public Alien(Name name) {
+    	this.setName(name);
     }
 
     /**
      * @param Sector sector 
-     * @return
+     * @return 
      */
-    public Boolean canMove(Sector sector) {
+    public Boolean canMove(Sector sector, Sector currentSector) {
         // TODO implement here
-    	return true;
-    }
-
-    /**
-     * @param String name
-     */
-    public Avatar createAlien(String name) {
-        // TODO implement here
-    	return null;
+    	/*se il settore è nei diretti adiacenti del currentSector*/
+    	if(currentSector.getNeighboringSectors().contains(sector)) {
+    		return true;
+    	}
+    	/*se il settore è nei DOPPI-diretti adiacenti del currentSector*/
+    	for(Sector sec: currentSector.getNeighboringSectors()){
+    		if(sec.equals(sector)) {
+    			return true;
+    		}
+    	}
+    	if(this.getIsPowered()) {
+    		for(Sector sec: currentSector.getNeighboringSectors()){
+        		for(Sector sec2: sec.getNeighboringSectors()) {
+        			if(sec2.equals(sector)) {
+        				return true;
+        			}
+        		}
+        	}
+    	}
+    	return false;
     }
 
 }

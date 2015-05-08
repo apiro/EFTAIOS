@@ -10,9 +10,14 @@ public class Fermi extends Map {
      * 
      */
     public Fermi() {
+    	
     }
 
-    /**
+    public int[][] getConfiguration() {
+		return configuration;
+	}
+
+	/**
      * 
      */
     private final String name = "Fermi";

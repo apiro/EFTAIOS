@@ -4,12 +4,13 @@ import java.util.*;
 /**
  * 
  */
-public class SectorDeck implements Deck {
+public class SectorDeck extends Deck {
 
     /**
      * 
      */
     public SectorDeck() {
+    	
     }
 
     /**
@@ -23,50 +24,44 @@ public class SectorDeck implements Deck {
     private ArrayList<SectorCard> rejectedSectorDeck;
 
     /**
-     * 
-     */
-    public void SectorDeck() {
-        // TODO implement here
-    }
-
-    /**
-     * @param Card card 
-     * @return
-     */
-    public void addCard(Card card) {
-        // TODO implement here
-    }
-
-    /**
-     * @param Card[] toAdd 
-     * @return
-     */
-    public void setSectorDeck(Card[] toAdd) {
-        // TODO implement here
-    }
-
-    /**
      * @return
      */
     public void shuffle() {
         // TODO implement here
+    	Collections.shuffle(this.getSectorDeck());
     }
 
-    /**
+    public ArrayList<SectorCard> getSectorDeck() {
+		return sectorDeck;
+	}
+
+	public void setSectorDeck(ArrayList<SectorCard> sectorDeck) {
+		this.sectorDeck = sectorDeck;
+	}
+
+	public ArrayList<SectorCard> getRejectedSectorDeck() {
+		return rejectedSectorDeck;
+	}
+
+	/**
      * @return
      */
     public Card draw() {
         // TODO implement here
-        return null;
+    	Card estracted = this.getSectorDeck().get(0);
+    	this.getSectorDeck().remove(estracted);
+    	this.shuffle();
+        return estracted;
     }
 
     /**
      * @param Card card 
      * @return
      */
-    public Card eliminateCard(Card card) {
+    public void eliminateCard(Card card) {
         // TODO implement here
-        return null;
+    	this.getSectorDeck().remove(card);
+    	this.getRejectedSectorDeck().add((SectorCard) card);
     }
 
 }

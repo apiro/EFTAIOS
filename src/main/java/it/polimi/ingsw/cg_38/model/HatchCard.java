@@ -6,21 +6,22 @@ import java.util.*;
  */
 public class HatchCard extends Card {
 
+	private HatchCardType color;
+	
     /**
      * 
      */
-    public HatchCard() {
+    public HatchCard(HatchCardType type) {
+    	this.setColor(type);
     }
 
+	public HatchCardType getColor() {
+		return color;
+	}
 
+	public void setColor(HatchCardType color) {
+		this.color = color;
+	}
 
-    /**
-     * @param HatchCardType type 
-     * @return
-     */
-    public HatchCard hatchCard(HatchCardType type) {
-        // TODO implement here
-        return null;
-    }
 
 }

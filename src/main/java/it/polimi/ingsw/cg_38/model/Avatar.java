@@ -101,7 +101,7 @@ public abstract class Avatar {
      * @param Sector sector 
      * @return
      */
-    public abstract Boolean canMove(Sector sector);
+    public abstract Boolean canMove(Sector sector, Sector currentSector);
 
     /**
      * @param Sector sector 

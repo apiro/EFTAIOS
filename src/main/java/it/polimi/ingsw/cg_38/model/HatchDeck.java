@@ -4,15 +4,23 @@ import java.util.*;
 /**
  * 
  */
-public class HatchDeck implements Deck {
+public class HatchDeck extends Deck {
 
     /**
      * 
      */
     public HatchDeck() {
+    	for(int i = 0; i<3; i++) {
+    		this.getHatchDeck().add(new HatchCard(Red));
+    		this.getHatchDeck().add(new HatchCard(Green));
+    	}
     }
 
-    /**
+    public void setHatchDeck(ArrayList<HatchCard> hatchDeck) {
+		this.hatchDeck = hatchDeck;
+	}
+
+	/**
      * 
      */
     private ArrayList<HatchCard> hatchDeck;
@@ -21,54 +29,44 @@ public class HatchDeck implements Deck {
      * 
      */
     private ArrayList<HatchCard> rejectedHatchDeck;
-
-
-
+    
     /**
      * 
      */
-    public void HatchDeck() {
-        // TODO implement here
-    }
+    public ArrayList<HatchCard> getHatchDeck() {
+		return hatchDeck;
+	}
 
-    /**
+	public ArrayList<HatchCard> getRejectedHatchDeck() {
+		return rejectedHatchDeck;
+	}
+
+	/**
      * @return
      */
     public void shuffle() {
         // TODO implement here
+    	Collections.shuffle(this.getHatchDeck());
     }
 
-    /**
+	/**
      * @return
      */
     public Card draw() {
         // TODO implement here
-        return null;
+    	Card estracted = this.getHatchDeck().get(0);
+    	this.getHatchDeck().remove(estracted);
+    	this.shuffle();
+        return estracted;
     }
 
     /**
      * @param Card card 
      * @return
      */
-    public Card eliminateCard(Card card) {
+    public void eliminateCard(Card card) {
         // TODO implement here
-        return null;
+    	this.getHatchDeck().remove(card);
+    	this.getRejectedHatchDeck().add((HatchCard) card);
     }
-
-    /**
-     * @param Card card 
-     * @return
-     */
-    public void addCard(Card card) {
-        // TODO implement here
-    }
-
-    /**
-     * @param Card[] toAdd 
-     * @return
-     */
-    public void setSectorDeck(Card[] toAdd) {
-        // TODO implement here
-    }
-
 }

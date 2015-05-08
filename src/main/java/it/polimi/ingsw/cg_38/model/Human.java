@@ -16,9 +16,18 @@ public class Human extends Avatar {
      * @param Sector sector 
      * @return
      */
-    public Boolean canMove(Sector sector) {
+    public Boolean canMove(Sector sector, Sector currentSector) {
         // TODO implement here
-        return null;
+    	if(currentSector.getNeighboringSectors().contains(sector)) {
+    		return true;
+    	} else if(this.getIsPowered()) {
+        	for(Sector sec: currentSector.getNeighboringSectors()){
+        		if(sec.equals(sector)) {
+        			return true;
+        		}
+        	}
+    	}
+        return false;
     }
 
     /**
