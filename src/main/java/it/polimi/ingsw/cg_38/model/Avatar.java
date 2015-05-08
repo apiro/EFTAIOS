@@ -41,7 +41,10 @@ public abstract class Avatar {
      */
     private EndState isWinner;
 
-
+    /**
+     * 
+     */
+    private ArrayList<Movement> myMovements;
 
 
 
