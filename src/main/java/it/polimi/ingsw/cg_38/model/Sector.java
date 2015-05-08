@@ -36,7 +36,7 @@ public class Sector {
      * @param String typeSector 
      * @return
      */
-    public Sector factoryMethod(String typeSector) {
+    public Sector factoryCreator(String typeSector) {
         // TODO implement here
         return null;
     }
