@@ -15,7 +15,7 @@ public class DeckCreator {
     /**
      * @param String nameDeck
      */
-    public Deck createDeck(String nameDeck) {
+    public static Deck createDeck(String nameDeck) {
         // TODO implement here
     	Deck deck = null;
     	if(nameDeck == "SectorDeck") {
@@ -26,6 +26,20 @@ public class DeckCreator {
     		deck = new ObjectDeck();
     	}
 		return deck;
+    }
+    
+    public static void main( String[] args )
+    {
+    	Deck gameDeck = DeckCreator.createDeck("HatchDeck");
+    	((HatchDeck)gameDeck).printDeck();
+    	System.out.println("\n");
+    	System.out.println(gameDeck.draw());
+    	gameDeck.shuffle();
+    	System.out.println("\n");
+    	((HatchDeck)gameDeck).printDeck();
+    	System.out.println("\n");
+    	System.out.println(gameDeck.draw());
+    	gameDeck.shuffle();
     }
 
 }

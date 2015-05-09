@@ -6,6 +6,11 @@ import java.util.*;
  */
 public class ObjectCard extends Card {
 
+	@Override
+	public String toString() {
+		return "ObjectCard [type=" + type + "]";
+	}
+
 	private ObjectCardType type;
 	
     /**

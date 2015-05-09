@@ -41,9 +41,9 @@ public class Sector {
      * @param String typeSector 
      * @return
      */
-    public Sector factoryCreator(String typeSector) {
+    public static Sector factoryCreator(String typeSector) {
         // TODO implement here
-    	Sector creatingSector = new Sector();
+    	Sector creatingSector;
     	if(typeSector == "Safe") {
     		creatingSector = new Safe();
     	} else if(typeSector == "Hatch") {
@@ -54,9 +54,26 @@ public class Sector {
     		creatingSector = new AlienStartingPoint();
     	} else if(typeSector == "Dangerous") {
     		creatingSector = new Dangerous();
+    	} else if(typeSector == "Empty") {
+    		creatingSector = new Empty();
+    	} else {
+    		creatingSector = null;
     	}
         return creatingSector;
     }
+    
+    public static void main( String[] args )
+    {
+    	Sector sec = Sector.factoryCreator("Safe");
+    	System.out.println(sec.toString());
+    	
+    }
+
+	@Override
+	public String toString() {
+		return "Sector [name=" + name + ", neighboringSectors="
+				+ neighboringSectors + ", row=" + row + ", col=" + col + "]";
+	}
 
 	public int getRow() {
 		return row;

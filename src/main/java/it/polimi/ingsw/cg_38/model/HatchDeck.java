@@ -6,13 +6,21 @@ import java.util.*;
  */
 public class HatchDeck extends Deck {
 
-    /**
+	
+	public void printDeck() {
+		for (Card card: this.getHatchDeck()) {
+			System.out.println(card.toString());
+		}
+	}
+
+	/**
      * 
      */
     public HatchDeck() {
+    	this.setHatchDeck(new ArrayList<HatchCard>());
     	for(int i = 0; i<3; i++) {
-    		this.getHatchDeck().add(new HatchCard(Red));
-    		this.getHatchDeck().add(new HatchCard(Green));
+    		this.getHatchDeck().add(new HatchCard(HatchCardType.Red));
+    		this.getHatchDeck().add(new HatchCard(HatchCardType.Green));
     	}
     }
 

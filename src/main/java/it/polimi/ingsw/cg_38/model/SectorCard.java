@@ -21,7 +21,13 @@ public class SectorCard extends Card {
     	} else this.setHasObjectIcon(false);
     }
     
-    /**
+    @Override
+	public String toString() {
+		return "SectorCard [hasObjectIcon=" + hasObjectIcon + ", type=" + type
+				+ "]";
+	}
+
+	/**
      * getter e setter 
      * **/
     public Boolean getHasObjectIcon() {

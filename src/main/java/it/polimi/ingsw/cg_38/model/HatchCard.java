@@ -6,6 +6,11 @@ import java.util.*;
  */
 public class HatchCard extends Card {
 
+	@Override
+	public String toString() {
+		return "HatchCard [color=" + color + "]";
+	}
+
 	private HatchCardType color;
 	
     /**

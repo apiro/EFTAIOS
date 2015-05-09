@@ -11,13 +11,5 @@ public abstract class Card {
      */
     public Card() {
     }
-
-    /**
-     * 
-     */
-    public String toString() {
-        // TODO implement here
-    	return null;
-    }
-
+    
 }
