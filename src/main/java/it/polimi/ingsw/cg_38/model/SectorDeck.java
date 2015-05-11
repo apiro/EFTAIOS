@@ -3,6 +3,10 @@ import java.util.*;
 
 /**
  * 
+ * 10 rosse -> 4 icona
+ * 10 verdi -> 4 icona
+ * 5 bianche -> 0 icona
+ * 
  */
 public class SectorDeck extends Deck {
 
@@ -10,10 +14,36 @@ public class SectorDeck extends Deck {
      * 
      */
     public SectorDeck() {
-    	
+    	this.setSectorDeck(new ArrayList<SectorCard>());
+    	this.setRejectedSectorDeck(new ArrayList<SectorCard>());
+    	for(int i = 0; i < 5; i++) {
+    		if(i<2){
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.RandomSectorNoise, true ));
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.RandomSectorNoise, true ));
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.MySectorNoise, true ));
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.MySectorNoise, true ));
+    		}
+    		else {
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.RandomSectorNoise, false ));
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.RandomSectorNoise, false ));
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.MySectorNoise, false ));
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.MySectorNoise, false ));
+    		}
+    		this.getSectorDeck().add(new SectorCard(SectorCardType.Silence, false ));
+    	}
     }
 
-    /**
+    public void printDeck() {
+		for (Card card: this.getSectorDeck()) {
+			System.out.println(card.toString());
+		}
+	}
+    
+    public void setRejectedSectorDeck(ArrayList<SectorCard> rejectedSectorDeck) {
+		this.rejectedSectorDeck = rejectedSectorDeck;
+	}
+
+	/**
      * 
      */
     private ArrayList<SectorCard> sectorDeck;
@@ -48,10 +78,11 @@ public class SectorDeck extends Deck {
      */
     public Card draw() {
         // TODO implement here
-    	Card estracted = this.getSectorDeck().get(0);
-    	this.getSectorDeck().remove(estracted);
+    	Card extracted = this.getSectorDeck().get(0);
+    	this.getSectorDeck().remove(extracted);
+    	this.getRejectedSectorDeck().add((SectorCard)extracted);
     	this.shuffle();
-        return estracted;
+        return extracted;
     }
 
     /**

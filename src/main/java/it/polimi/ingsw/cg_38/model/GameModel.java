@@ -9,10 +9,62 @@ public class GameModel {
     /**
      * 
      */
-    public GameModel() {
+    public GameModel(String map) {
+    	this.init(map);
     }
 
     /**
+     * 
+     */
+    public void init(String map){
+    	this.setGameMap(MapCreator.createMap(map));
+    	this.setDeckObject(DeckCreator.createDeck("ObjectDeck"));
+    	this.setDeckHatch(DeckCreator.createDeck("HatchDeck"));
+    	this.setDeckSector(DeckCreator.createDeck("SectorDeck"));
+    	this.setGamePlayers(new ArrayList<Player>());
+    }
+    
+    public ArrayList<Player> getGamePlayers() {
+		return gamePlayers;
+	}
+
+	public void setGamePlayers(ArrayList<Player> gamePlayers) {
+		this.gamePlayers = gamePlayers;
+	}
+
+	public Deck getDeckSector() {
+		return deckSector;
+	}
+
+	public void setDeckSector(Deck deckSector) {
+		this.deckSector = deckSector;
+	}
+
+	public Deck getDeckHatch() {
+		return deckHatch;
+	}
+
+	public void setDeckHatch(Deck deckHatch) {
+		this.deckHatch = deckHatch;
+	}
+
+	public Deck getDeckObject() {
+		return deckObject;
+	}
+
+	public void setDeckObject(Deck deckObject) {
+		this.deckObject = deckObject;
+	}
+
+	public Map getGameMap() {
+		return gameMap;
+	}
+
+	public void setGameMap(Map gameMap) {
+		this.gameMap = gameMap;
+	}
+
+	/**
      * 
      */
     private ArrayList<Player> gamePlayers;
@@ -25,29 +77,35 @@ public class GameModel {
     /**
      * 
      */
-    private SectorDeck deckSector;
+    private Deck deckSector;
 
     /**
      * 
      */
-    private HatchDeck deckHatch;
+    private Deck deckHatch;
 
     /**
      * 
      */
-    private ObjectDeck deckObject;
+    private Deck deckObject;
 
     /**
      * 
      */
-    private Turn actualTurn;
+    private Turn actualTurn = null;
 
     /**
      * @return
      */
     public Player getNextPlayer() {
         // TODO implement here
-        return null;
+    	int indexOfCurrent = 0;
+    	for(Player current: this.getGamePlayers()){
+	    	 if(current.equals(actualTurn.getCurrentPlayer())) {
+	    		  
+	    	 }
+    	}
+    	return null;
     }
 
     /**

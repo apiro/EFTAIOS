@@ -10,6 +10,7 @@ public class Safe extends Sector {
      * 
      */
     public Safe() {
+    	super();
     	super.setName("Safe");
     }
 

@@ -10,6 +10,7 @@ public class HumanStartingPoint extends Sector {
      * 
      */
     public HumanStartingPoint() {
+    	super();
     	this.name = "HumanStartingPoint";
     }
 }

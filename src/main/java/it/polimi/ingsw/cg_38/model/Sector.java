@@ -10,9 +10,14 @@ public class Sector {
      * 
      */
     public Sector() {
+    	this.setNeighboringSectors(new ArrayList<Sector>());
     }
 
-    public String name;
+    public void setNeighboringSectors(ArrayList<Sector> neighboringSectors) {
+		this.neighboringSectors = neighboringSectors;
+	}
+
+	public String name;
     
     public String getName() {
 		return name;
@@ -35,7 +40,7 @@ public class Sector {
     /**
      * 
      */
-    private String col;
+    private int col;
 
     /**
      * @param String typeSector 
@@ -71,8 +76,7 @@ public class Sector {
 
 	@Override
 	public String toString() {
-		return "Sector [name=" + name + ", neighboringSectors="
-				+ neighboringSectors + ", row=" + row + ", col=" + col + "]";
+		return "Sector [name=" + name + "]";
 	}
 
 	public int getRow() {
@@ -83,11 +87,11 @@ public class Sector {
 		this.row = row;
 	}
 
-	public String getCol() {
+	public int getCol() {
 		return col;
 	}
 
-	public void setCol(String col) {
+	public void setCol(int col) {
 		this.col = col;
 	}
 

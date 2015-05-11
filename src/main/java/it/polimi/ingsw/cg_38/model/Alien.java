@@ -17,23 +17,27 @@ public class Alien extends Avatar {
      * @param Sector sector 
      * @return 
      */
-    public Boolean canMove(Sector sector, Sector currentSector) {
+    public Boolean canMove(Sector sector) {
         // TODO implement here
     	/*se il settore è nei diretti adiacenti del currentSector*/
-    	if(currentSector.getNeighboringSectors().contains(sector)) {
+    	if(this.getCurrentSector().getNeighboringSectors().contains(sector)) {
     		return true;
     	}
     	/*se il settore è nei DOPPI-diretti adiacenti del currentSector*/
-    	for(Sector sec: currentSector.getNeighboringSectors()){
-    		if(sec.equals(sector)) {
-    			return true;
+    	for(Sector sec: this.getCurrentSector().getNeighboringSectors()){
+    		for(Sector sec2: sec.getNeighboringSectors()){
+        		if(sec2.equals(sector) && !(sec2.equals(this.getCurrentSector()))) {
+        			return true;
+        		}
     		}
     	}
     	if(this.getIsPowered()) {
-    		for(Sector sec: currentSector.getNeighboringSectors()){
+    		for(Sector sec: this.getCurrentSector().getNeighboringSectors()){
         		for(Sector sec2: sec.getNeighboringSectors()) {
-        			if(sec2.equals(sector)) {
-        				return true;
+        			for(Sector sec3: sec2.getNeighboringSectors()){
+    	        		if(sec3.equals(sector) && !(sec3.equals(this.getCurrentSector()))) {
+    	        			return true;
+    	        		}
         			}
         		}
         	}

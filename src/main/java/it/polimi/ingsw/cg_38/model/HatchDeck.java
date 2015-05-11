@@ -18,13 +18,18 @@ public class HatchDeck extends Deck {
      */
     public HatchDeck() {
     	this.setHatchDeck(new ArrayList<HatchCard>());
+    	this.setRejectedHatchDeck(new ArrayList<HatchCard>());
     	for(int i = 0; i<3; i++) {
     		this.getHatchDeck().add(new HatchCard(HatchCardType.Red));
     		this.getHatchDeck().add(new HatchCard(HatchCardType.Green));
     	}
     }
 
-    public void setHatchDeck(ArrayList<HatchCard> hatchDeck) {
+    public void setRejectedHatchDeck(ArrayList<HatchCard> rejectedHatchDeck) {
+		this.rejectedHatchDeck = rejectedHatchDeck;
+	}
+
+	public void setHatchDeck(ArrayList<HatchCard> hatchDeck) {
 		this.hatchDeck = hatchDeck;
 	}
 
@@ -62,10 +67,11 @@ public class HatchDeck extends Deck {
      */
     public Card draw() {
         // TODO implement here
-    	Card estracted = this.getHatchDeck().get(0);
-    	this.getHatchDeck().remove(estracted);
-    	this.shuffle();
-        return estracted;
+    	Card extracted = this.getHatchDeck().get(0);
+    	this.getHatchDeck().remove(extracted);
+    	this.getRejectedHatchDeck().add((HatchCard)extracted);
+    	/*this.shuffle();*/
+        return extracted;
     }
 
     /**

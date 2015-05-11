@@ -32,7 +32,7 @@ public class MapCreator {
 
     public static void main( String[] args )
     {
-    	Map gameMap = MapCreator.createMap("Fermi");
+    	Map gameMap = MapCreator.createMap("Galvani");
     	gameMap.printMap();
     }
     

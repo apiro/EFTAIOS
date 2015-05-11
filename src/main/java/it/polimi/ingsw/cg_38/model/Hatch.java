@@ -10,6 +10,7 @@ public class Hatch extends Sector {
      * 
      */
     public Hatch() {
+    	super();
     	this.name = "Hatch";
     }
     

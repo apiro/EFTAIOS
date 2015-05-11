@@ -51,30 +51,79 @@ public abstract class Map {
     	//riempio gli arraylist con settori in base alla codifica
     	for(int i = 0; i<this.height; i++) {
     		for(int j = 0; j<this.width; j++) {
+    			Sector mySector = null;
     			if(configuration[i*this.width+j]==-1) {
-    				Sector mySector = Sector.factoryCreator("Empty");
+    				mySector = Sector.factoryCreator("Empty");
     				((ArrayList <Sector>)(this.getTable().get(i))).add(j, mySector);
     			}if(configuration[i*this.width+j]==0) {
-    				Sector mySector = Sector.factoryCreator("Safe");
+    				mySector = Sector.factoryCreator("Safe");
     				((ArrayList <Sector>)(this.getTable().get(i))).add(j, mySector);
     			}if(configuration[i*this.width+j]==1) {
-    				Sector mySector = Sector.factoryCreator("Dangerous");
+    				mySector = Sector.factoryCreator("Dangerous");
     				((ArrayList <Sector>)(this.getTable().get(i))).add(j, mySector);
     			}if(configuration[i*this.width+j]==2) {
-    				Sector mySector = Sector.factoryCreator("HumanStartingPoint");
+    				mySector = Sector.factoryCreator("HumanStartingPoint");
     				((ArrayList <Sector>)(this.getTable().get(i))).add(j, mySector);
     			}if(configuration[i*this.width+j]==3) {
-    				Sector mySector = Sector.factoryCreator("AlienStartingPoint");
+    				mySector = Sector.factoryCreator("AlienStartingPoint");
     				((ArrayList <Sector>)(this.getTable().get(i))).add(j, mySector);
     			}if(configuration[i*this.width+j]==4) {
-    				Sector mySector = Sector.factoryCreator("Hatch");
+    				mySector = Sector.factoryCreator("Hatch");
     				((ArrayList <Sector>)(this.getTable().get(i))).add(j, mySector);
     			}
+    			mySector.setRow(i);
+				mySector.setCol(j);
+				Map.addNeighboringSectors(mySector, this.getTable());
     		}
     	}
     }
     
-    public void init() {
+    private static void addNeighboringSectors(Sector mySector, ArrayList<ArrayList<Sector>> table){
+    	ArrayList<Sector> toAdd = new ArrayList<Sector>();
+    	if(mySector.getName() != "Empty") {
+    		if(mySector.getRow()-1 !=-1) {
+    			//limite superiore
+    			if(table.get(mySector.getRow()-1).get(mySector.getCol()).getName() != "Empty"){
+    				toAdd.add(table.get(mySector.getRow()-1).get(mySector.getCol()));
+    			}
+    		}
+    		if(mySector.getCol()-1 !=-1) {
+    			//limite sx
+    			if(table.get(mySector.getRow()).get(mySector.getCol()-1).getName() != "Empty"){
+    				toAdd.add(table.get(mySector.getRow()).get(mySector.getCol()-1));
+    			}
+    		}
+    		if(mySector.getCol()%2 == 0 ) {
+        		//colonna dispari
+    			if(mySector.getRow()-1 != -1){
+    				if(mySector.getCol()+1 != 23) {
+    					if((table.get(mySector.getRow()-1)).get(mySector.getCol()+1).getName() != "Empty"){
+    						toAdd.add((table.get(mySector.getRow()-1)).get(mySector.getCol()+1));
+    					}
+    				}
+    				if (mySector.getCol()-1 != -1){
+    					if((table.get(mySector.getRow()-1)).get(mySector.getCol()-1).getName() != "Empty"){
+    						toAdd.add((table.get(mySector.getRow()-1)).get(mySector.getCol()-1));
+    					}
+    				}
+    			}
+    		}
+    	}
+    	mySector.setNeighboringSectors(toAdd);
+    	Map.addMySectorToNeighboringSectors(toAdd, mySector);
+    }
+    
+    private static void addMySectorToNeighboringSectors(ArrayList<Sector> toAdd, Sector mySector){
+    	for(Sector selected: toAdd){
+    		selected.getNeighboringSectors().add(mySector);
+    	}
+    }
+    
+    public int getWidth() {
+		return width;
+	}
+
+	public void init() {
     	
     	//inizializzo la mappa con arraylist vuoti
     	table = new ArrayList<ArrayList<Sector>>();

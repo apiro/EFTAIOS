@@ -9,33 +9,27 @@ public class Human extends Avatar {
     /**
      * 
      */
-    public Human() {
+    public Human(Name name) {
+    	this.setName(name);
     }
 
     /**
      * @param Sector sector 
      * @return
      */
-    public Boolean canMove(Sector sector, Sector currentSector) {
+    public Boolean canMove(Sector sector) {
         // TODO implement here
-    	if(currentSector.getNeighboringSectors().contains(sector)) {
+    	if(this.getCurrentSector().getNeighboringSectors().contains(sector)) {
     		return true;
     	} else if(this.getIsPowered()) {
-        	for(Sector sec: currentSector.getNeighboringSectors()){
-        		if(sec.equals(sector)) {
-        			return true;
+        	for(Sector sec: this.getCurrentSector().getNeighboringSectors()){
+        		for(Sector sec2: sec.getNeighboringSectors()){
+	        		if(sec2.equals(sector) && !(sec2.equals(this.getCurrentSector()))) {
+	        			return true;
+	        		}
         		}
         	}
     	}
         return false;
     }
-
-    /**
-     * @param String name
-     */
-    public Avatar createHuman(String name) {
-        // TODO implement here
-    	return null;
-    }
-
 }

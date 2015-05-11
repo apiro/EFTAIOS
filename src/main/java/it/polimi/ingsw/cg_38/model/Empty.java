@@ -10,6 +10,7 @@ public class Empty extends Sector {
      * 
      */
     public Empty() {
+    	super();
     	super.setName("Empty");
     }
 	

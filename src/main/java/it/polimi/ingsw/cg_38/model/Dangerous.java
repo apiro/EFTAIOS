@@ -10,7 +10,8 @@ public class Dangerous extends Sector {
      * 
      */
     public Dangerous() {
-    	this.name = "Dangerous";
+    	super();
+    	this.setName("Dangerous");
     }
     
 }

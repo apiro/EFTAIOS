@@ -17,29 +17,33 @@ public class DeckCreator {
      */
     public static Deck createDeck(String nameDeck) {
         // TODO implement here
-    	Deck deck = null;
+    	Deck deck;
     	if(nameDeck == "SectorDeck") {
     		deck = new SectorDeck();
     	} else if(nameDeck == "HatchDeck") {
     		deck = new HatchDeck();
     	} else if(nameDeck == "ObjectDeck") {
     		deck = new ObjectDeck();
+    	} else {
+    		deck = null;
     	}
 		return deck;
     }
     
     public static void main( String[] args )
     {
-    	Deck gameDeck = DeckCreator.createDeck("HatchDeck");
-    	((HatchDeck)gameDeck).printDeck();
+    	Deck gameDeck = DeckCreator.createDeck("ObjectDeck");
+    	((ObjectDeck)gameDeck).printDeck();
     	System.out.println("\n");
     	System.out.println(gameDeck.draw());
     	gameDeck.shuffle();
     	System.out.println("\n");
-    	((HatchDeck)gameDeck).printDeck();
+    	((ObjectDeck)gameDeck).printDeck();
     	System.out.println("\n");
     	System.out.println(gameDeck.draw());
     	gameDeck.shuffle();
+    	ArrayList<ObjectCard> my = ((ObjectDeck)gameDeck).getRejectedObjectDeck();
+    	System.out.println(my);
     }
 
 }

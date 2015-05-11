@@ -29,12 +29,12 @@ public abstract class Avatar {
     /**
      * 
      */
-    private LifeState isAlive;
+    private LifeState isAlive = LifeState.ALIVE;
 
     /**
      * 
      */
-    private EndState isWinner;
+    private EndState isWinner = EndState.PLAYING;
 
     /**
      * 
@@ -44,9 +44,8 @@ public abstract class Avatar {
 	/**
      * @param Name name
      */
-    public void Avatar(Name name) {
+    public Avatar() {
         // TODO implement here
-    	this.setName(name);
     }
 
     /**
@@ -63,9 +62,10 @@ public abstract class Avatar {
      * @param Sector sector 
      * @return
      */
-    public String move(Sector sector) {
+    public String move(Sector sector, int number) {
         // TODO implement here
     	this.setCurrentSector(sector);
+    	this.getMyMovements().add(new Movement(this.getCurrentSector(), number));
         return sector.getName();
     }
 
@@ -101,7 +101,7 @@ public abstract class Avatar {
      * @param Sector sector 
      * @return
      */
-    public abstract Boolean canMove(Sector sector, Sector currentSector);
+    public abstract Boolean canMove(Sector sector);
 
     /**
      * @param Sector sector 
@@ -110,6 +110,11 @@ public abstract class Avatar {
     public void attack(Sector sector) {
         // TODO implement here
     	
+    }
+    
+    public void attacked() {
+    	this.setIsAlive(LifeState.DEAD);
+    	this.setIsWinner(EndState.LOOSER);
     }
     
     /**
@@ -159,6 +164,4 @@ public abstract class Avatar {
 	public ArrayList<Movement> getMyMovements() {
 		return myMovements;
 	}
-
-
 }

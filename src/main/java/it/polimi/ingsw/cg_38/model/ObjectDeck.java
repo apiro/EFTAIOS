@@ -10,9 +10,32 @@ public class ObjectDeck extends Deck {
      * 
      */
     public ObjectDeck() {
+    	this.setObjectDeck(new ArrayList<ObjectCard>());
+    	this.setRejectedObjectDeck(new ArrayList<ObjectCard>());
+    	for(int i = 0; i < 2; i++) {
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.Adrenaline));
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.Teleport));
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.Attack));
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.SpotLight));
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.Sedatives));
+    	}
+    	this.getObjectDeck().add(new ObjectCard(ObjectCardType.Sedatives));
+    	this.getObjectDeck().add(new ObjectCard(ObjectCardType.Defense));
     }
 
-    /**
+
+    public void printDeck() {
+		for (Card card: this.getObjectDeck()) {
+			System.out.println(card.toString());
+		}
+	}
+    
+    
+    public void setRejectedObjectDeck(ArrayList<ObjectCard> rejectedObjectDeck) {
+		this.rejectedObjectDeck = rejectedObjectDeck;
+	}
+
+	/**
      * 
      */
     private ArrayList<ObjectCard> objectDeck;
@@ -21,13 +44,6 @@ public class ObjectDeck extends Deck {
      * 
      */
     private ArrayList<ObjectCard> rejectedObjectDeck;
-
-    /**
-     * 
-     */
-    public void ObjectDeck() {
-        // TODO implement here
-    }
 
     /**
      *
@@ -42,10 +58,11 @@ public class ObjectDeck extends Deck {
      */
     public Card draw() {
         // TODO implement here
-    	Card estracted = this.getObjectDeck().get(0);
-    	this.getObjectDeck().remove(estracted);
-    	this.shuffle();
-        return estracted;
+    	Card extracted = this.getObjectDeck().get(0);
+    	this.getObjectDeck().remove(extracted);
+    	this.getRejectedObjectDeck().add((ObjectCard)extracted);
+    	/*this.shuffle();*/
+        return extracted;
     }
 
     /**
@@ -67,6 +84,4 @@ public class ObjectDeck extends Deck {
 	public ArrayList<ObjectCard> getRejectedObjectDeck() {
 		return rejectedObjectDeck;
 	}
-	
-
 }
