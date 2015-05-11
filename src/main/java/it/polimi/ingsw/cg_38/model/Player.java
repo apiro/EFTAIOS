@@ -9,13 +9,14 @@ public class Player {
     /**
      * 
      */
-    public Player() {
+    public Player(String name) {
+    	this.setName(name);
     }
     
 	/**
      * 
      */
-    private int numTurniGiocati;
+    private int numTurniGiocati = 0;
     
     /**
      * 
@@ -58,6 +59,7 @@ public class Player {
      */
     public void setName(String name) {
         // TODO implement here
+    	this.name = name;
     }
 
     /**

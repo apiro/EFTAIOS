@@ -9,7 +9,7 @@ public abstract class Avatar {
     /**
      * 
      */
-    private ArrayList<ObjectCard> myCards;
+    private ArrayList<ObjectCard> myCards = new ArrayList<ObjectCard>();
 
     /**
      * 
@@ -24,7 +24,7 @@ public abstract class Avatar {
     /**
      * 
      */
-    private Boolean isPowered;
+    private Boolean isPowered = false;
 
     /**
      * 
@@ -39,7 +39,7 @@ public abstract class Avatar {
     /**
      * 
      */
-    private ArrayList<Movement> myMovements;
+    private ArrayList<Movement> myMovements = new ArrayList<Movement>();
 
 	/**
      * @param Name name

@@ -9,7 +9,8 @@ public class Turn {
     /**
      * 
      */
-    public Turn() {
+    public Turn(Player currentPlayer) {
+    	this.setCurrentPlayer(currentPlayer);
     }
 
     /**
@@ -20,75 +21,48 @@ public class Turn {
     /**
      * 
      */
-    private Boolean hasMoved;
+    private Boolean hasMoved = false;
 
     /**
      * 
      */
-    private Boolean hasUsedObjectCard;
+    private Boolean hasUsedObjectCard = false;
 
     /**
      * 
      */
-    private Boolean hasAttacked;
+    private Boolean hasAttacked = false;
 
     /**
      * 
      */
-    private Boolean hasDraw;
+    private Boolean hasDraw = false;
 
-
-
-
-    /**
-     * @param Boolean flag 
-     * @return
-     */
-    public void setHasMoved(Boolean flag) {
-        // TODO implement here
-    }
-
-    /**
-     * @param Boolean flag 
-     * @return
-     */
-    public void setHasUsedObjectCard(Boolean flag) {
-        // TODO implement here
-    }
-
-    /**
-     * @param Boolean flag 
-     * @return
-     */
-    public void setHasAttacked(Boolean flag) {
-        // TODO implement here
-    }
-
-    /**
-     * @param Boolean flag 
-     * @return
-     */
-    public void setHasDraw(Boolean flag) {
-        // TODO implement here
-    }
-
-    /**
-     * @return
-     */
     public Boolean getHasMoved() {
-        // TODO implement here
-        return null;
-    }
+		return hasMoved;
+	}
 
-    /**
-     * @return
-     */
-    public Boolean getHasUsedObjectCard() {
-        // TODO implement here
-        return null;
-    }
+	public void setHasMoved(Boolean hasMoved) {
+		this.hasMoved = hasMoved;
+	}
 
-    public Player getCurrentPlayer() {
+	public Boolean getHasUsedObjectCard() {
+		return hasUsedObjectCard;
+	}
+
+	public void setHasUsedObjectCard(Boolean hasUsedObjectCard) {
+		this.hasUsedObjectCard = hasUsedObjectCard;
+	}
+
+	public void setHasAttacked(Boolean hasAttacked) {
+		this.hasAttacked = hasAttacked;
+	}
+
+	public void setHasDraw(Boolean hasDraw) {
+		this.hasDraw = hasDraw;
+	}
+
+	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
 
