@@ -48,7 +48,7 @@ public class Sector {
      */
     public static Sector factoryCreator(String typeSector) {
         // TODO implement here
-    	Sector creatingSector;
+    	Sector creatingSector = null;
     	if(typeSector == "Safe") {
     		creatingSector = new Safe();
     	} else if(typeSector == "Hatch") {
@@ -61,19 +61,10 @@ public class Sector {
     		creatingSector = new Dangerous();
     	} else if(typeSector == "Empty") {
     		creatingSector = new Empty();
-    	} else {
-    		creatingSector = null;
-    	}
+    	} 
         return creatingSector;
     }
-    
-    public static void main( String[] args )
-    {
-    	Sector sec = Sector.factoryCreator("Safe");
-    	System.out.println(sec.toString());
-    	
-    }
-
+   
 	@Override
 	public String toString() {
 		return "Sector [name=" + name + "]";
