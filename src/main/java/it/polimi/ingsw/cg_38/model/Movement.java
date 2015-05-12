@@ -9,7 +9,7 @@ public class Movement {
 	@Override
 	public String toString() {
 		return "Movement [turnNumber=" + turnNumber + ", targetsector="
-				+ targetsector + "]";
+				+ targetsector + ", riga=" + targetsector.getRow() + ", colonna=" + targetsector.getCol() + "]";
 	}
 
 	/**
