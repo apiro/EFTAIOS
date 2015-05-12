@@ -29,11 +29,4 @@ public class MapCreator {
     	}
     	return creating;
     }
-
-    public static void main( String[] args )
-    {
-    	Map gameMap = MapCreator.createMap("Galvani");
-    	gameMap.printMap();
-    }
-    
 }

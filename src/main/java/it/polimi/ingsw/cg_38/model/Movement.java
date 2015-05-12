@@ -6,6 +6,12 @@ import java.util.*;
  */
 public class Movement {
 
+	@Override
+	public String toString() {
+		return "Movement [turnNumber=" + turnNumber + ", targetsector="
+				+ targetsector + "]";
+	}
+
 	/**
      * @param Sector sector  
      * @param int number

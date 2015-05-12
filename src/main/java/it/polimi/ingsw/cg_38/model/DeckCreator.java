@@ -29,21 +29,4 @@ public class DeckCreator {
     	}
 		return deck;
     }
-    
-    public static void main( String[] args )
-    {
-    	Deck gameDeck = DeckCreator.createDeck("ObjectDeck");
-    	((ObjectDeck)gameDeck).printDeck();
-    	System.out.println("\n");
-    	System.out.println(gameDeck.draw());
-    	gameDeck.shuffle();
-    	System.out.println("\n");
-    	((ObjectDeck)gameDeck).printDeck();
-    	System.out.println("\n");
-    	System.out.println(gameDeck.draw());
-    	gameDeck.shuffle();
-    	ArrayList<ObjectCard> my = ((ObjectDeck)gameDeck).getRejectedObjectDeck();
-    	System.out.println(my);
-    }
-
 }

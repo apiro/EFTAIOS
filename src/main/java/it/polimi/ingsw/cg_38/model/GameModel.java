@@ -13,33 +13,6 @@ public class GameModel {
     	this.init(map);
     }
 
-    public static void main( String[] args ) throws InterruptedException
-    {
-    	GameModel model = new GameModel("Galilei");
-    	Sector alienStartingPoint = model.getGameMap().searchSectorByName("AlienStartingPoint");
-    	model.getGamePlayers().add(new Player("Alberto"));
-    	Player player = model.getGamePlayers().get(0);
-    	Thread.sleep(3000);
-    	model.getGamePlayers().get(0).setAvatar(new Alien(Name.Alien1));
-    	Turn actualTurn = new Turn(player);
-    	model.setActualTurn(actualTurn);
-    	player.setNumTurniGiocati(player.getNumTurniGiocati()+1);
-    	Avatar avatar = model.getGamePlayers().get(0).getAvatar();
-    	avatar.setCurrentSector(alienStartingPoint);
-    	Card drown = avatar.draw(model.getDeckSector());
-    	
-    	Scanner in = new Scanner(System.in);
-		System.out.println("X OF MOVE");
-		int row = Integer.parseInt(in.nextLine());
-		System.out.println("Y OF MOVE");
-		int col = Integer.parseInt(in.nextLine());
-		
-		Sector sector = model.getGameMap().searchSectorByCoordinates(row, col);
-    	if(avatar.canMove(sector)) {
-    		avatar.move(sector, player.getNumTurniGiocati()+1);
-    	}
-    }
-    
     /**
      * 
      */
