@@ -10,5 +10,7 @@ import org.junit.Test;
 public class AvatarTest {
 	
 	private int i;
+	
+	private String s="run";
 
 }
