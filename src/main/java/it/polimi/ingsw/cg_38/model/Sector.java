@@ -67,7 +67,7 @@ public class Sector {
    
 	@Override
 	public String toString() {
-		return "Sector [name=" + name + "]";
+		return "Sector [name=" + name + "row:" + this.getRow() + "col" + this.getCol() + "]";
 	}
 
 	public int getRow() {
