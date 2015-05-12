@@ -11,10 +11,10 @@ public class Galvani extends Map {
      */
     public Galvani() {
 
-    	this.init();
-    	this.fillTable(configuration);
+    	super.init();
+    	super.fillTable(configuration);
     }
-
+ 
     /**
      * 
      */
