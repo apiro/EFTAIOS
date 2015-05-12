@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class GalvaniTest {
 
-	Map galvaniTestMap;
+	/*Map galvaniTestMap;
 	
 	@Before
 	public void init(){
@@ -19,6 +19,5 @@ public class GalvaniTest {
 	public void test() {
 		((Galvani) galvaniTestMap).createGalvani();
 		System.out.println("ciao");
-	}
-
+	}*/
 }
