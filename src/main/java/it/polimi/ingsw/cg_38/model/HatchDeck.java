@@ -4,71 +4,83 @@ import java.util.*;
 /**
  * 
  */
-public class HatchDeck implements Deck {
+public class HatchDeck extends Deck {
 
-    /**
+	
+	public void printDeck() {
+		for (Card card: this.getHatchDeck()) {
+			System.out.println(card.toString());
+		}
+	}
+
+	/**
      * 
      */
     public HatchDeck() {
+    	this.setHatchDeck(new ArrayList<HatchCard>());
+    	this.setRejectedHatchDeck(new ArrayList<HatchCard>());
+    	for(int i = 0; i<3; i++) {
+    		this.getHatchDeck().add(new HatchCard(HatchCardType.Red));
+    		this.getHatchDeck().add(new HatchCard(HatchCardType.Green));
+    	}
     }
 
+    public void setRejectedHatchDeck(ArrayList<HatchCard> rejectedHatchDeck) {
+		this.rejectedHatchDeck = rejectedHatchDeck;
+	}
+
+	public void setHatchDeck(ArrayList<HatchCard> hatchDeck) {
+		this.hatchDeck = hatchDeck;
+	}
+
+	/**
+     * 
+     */
+    private ArrayList<HatchCard> hatchDeck;
+
     /**
      * 
      */
-    private HatchCard[] hatchDeck;
-
+    private ArrayList<HatchCard> rejectedHatchDeck;
+    
     /**
      * 
      */
-    private HatchCard[] rejectedHatchDeck;
+    public ArrayList<HatchCard> getHatchDeck() {
+		return hatchDeck;
+	}
 
+	public ArrayList<HatchCard> getRejectedHatchDeck() {
+		return rejectedHatchDeck;
+	}
 
-
-    /**
-     * 
-     */
-    public void HatchDeck() {
-        // TODO implement here
-    }
-
-    /**
+	/**
      * @return
      */
     public void shuffle() {
         // TODO implement here
+    	Collections.shuffle(this.getHatchDeck());
     }
 
-    /**
+	/**
      * @return
      */
     public Card draw() {
         // TODO implement here
-        return null;
+    	Card extracted = this.getHatchDeck().get(0);
+    	this.getHatchDeck().remove(extracted);
+    	this.getRejectedHatchDeck().add((HatchCard)extracted);
+    	/*this.shuffle();*/
+        return extracted;
     }
 
     /**
      * @param Card card 
      * @return
      */
-    public Card eliminateCard(Card card) {
+    public void eliminateCard(Card card) {
         // TODO implement here
-        return null;
+    	this.getHatchDeck().remove(card);
+    	this.getRejectedHatchDeck().add((HatchCard) card);
     }
-
-    /**
-     * @param Card card 
-     * @return
-     */
-    public void addCard(Card card) {
-        // TODO implement here
-    }
-
-    /**
-     * @param Card[] toAdd 
-     * @return
-     */
-    public void setSectorDeck(Card[] toAdd) {
-        // TODO implement here
-    }
-
 }

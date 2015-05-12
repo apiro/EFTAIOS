@@ -4,14 +4,14 @@ import java.util.*;
 /**
  * 
  */
-public class Safe extends Sector {
+public class Empty extends Sector {
 
-    /**
+	/**
      * 
      */
-    public Safe() {
+    public Empty() {
     	super();
-    	super.setName("Safe");
+    	super.setName("Empty");
     }
-
+	
 }

@@ -15,9 +15,18 @@ public class DeckCreator {
     /**
      * @param String nameDeck
      */
-    public Deck createDeck(String nameDeck) {
+    public static Deck createDeck(String nameDeck) {
         // TODO implement here
-    	return null;
+    	Deck deck;
+    	if(nameDeck == "SectorDeck") {
+    		deck = new SectorDeck();
+    	} else if(nameDeck == "HatchDeck") {
+    		deck = new HatchDeck();
+    	} else if(nameDeck == "ObjectDeck") {
+    		deck = new ObjectDeck();
+    	} else {
+    		deck = null;
+    	}
+		return deck;
     }
-
 }

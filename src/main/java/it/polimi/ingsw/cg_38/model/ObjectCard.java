@@ -6,22 +6,27 @@ import java.util.*;
  */
 public class ObjectCard extends Card {
 
-    /**
-     * 
-     */
-    public ObjectCard() {
-    }
+	@Override
+	public String toString() {
+		return "ObjectCard [type=" + type + "]";
+	}
 
-
-
-
+	private ObjectCardType type;
+	
     /**
      * @param ObjectCardType type 
-     * @return
      */
-    public ObjectCard ObjectCard(ObjectCardType type) {
+    public ObjectCard(ObjectCardType type) {
         // TODO implement here
-        return null;
+        this.setColor(type);
     }
+
+	public ObjectCardType getColor() {
+		return type;
+	}
+
+	public void setColor(ObjectCardType color) {
+		this.type = color;
+	}
 
 }

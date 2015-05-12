@@ -4,47 +4,53 @@ import java.util.*;
 /**
  * 
  */
-public class ObjectDeck implements Deck {
+public class ObjectDeck extends Deck {
 
     /**
      * 
      */
     public ObjectDeck() {
+    	this.setObjectDeck(new ArrayList<ObjectCard>());
+    	this.setRejectedObjectDeck(new ArrayList<ObjectCard>());
+    	for(int i = 0; i < 2; i++) {
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.Adrenaline));
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.Teleport));
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.Attack));
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.SpotLight));
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.Sedatives));
+    	}
+    	this.getObjectDeck().add(new ObjectCard(ObjectCardType.Sedatives));
+    	this.getObjectDeck().add(new ObjectCard(ObjectCardType.Defense));
     }
+
+
+    public void printDeck() {
+		for (Card card: this.getObjectDeck()) {
+			System.out.println(card.toString());
+		}
+	}
+    
+    
+    public void setRejectedObjectDeck(ArrayList<ObjectCard> rejectedObjectDeck) {
+		this.rejectedObjectDeck = rejectedObjectDeck;
+	}
+
+	/**
+     * 
+     */
+    private ArrayList<ObjectCard> objectDeck;
 
     /**
      * 
      */
-    private ObjectCard[] objectDeck;
+    private ArrayList<ObjectCard> rejectedObjectDeck;
 
     /**
-     * 
-     */
-    private ObjectCard[] rejectedObjectDeck;
-
-
-
-
-    /**
-     * 
-     */
-    public void ObjectDeck() {
-        // TODO implement here
-    }
-
-    /**
-     * @param Card card 
-     * @return
-     */
-    public void addCard(Card card) {
-        // TODO implement here
-    }
-
-    /**
-     * @return
+     *
      */
     public void shuffle() {
         // TODO implement here
+    	Collections.shuffle(this.getObjectDeck());
     }
 
     /**
@@ -52,24 +58,30 @@ public class ObjectDeck implements Deck {
      */
     public Card draw() {
         // TODO implement here
-        return null;
+    	Card extracted = this.getObjectDeck().get(0);
+    	this.getObjectDeck().remove(extracted);
+    	this.getRejectedObjectDeck().add((ObjectCard)extracted);
+    	/*this.shuffle();*/
+        return extracted;
     }
 
     /**
      * @param Card card 
-     * @return
      */
-    public Card eliminateCard(Card card) {
-        // TODO implement here
-        return null;
+    public void eliminateCard(Card card) {
+    	this.getObjectDeck().remove(card);
+    	this.getRejectedObjectDeck().add((ObjectCard) card);
     }
 
-    /**
-     * @param Card[] toAdd 
-     * @return
-     */
-    public void setSectorDeck(Card[] toAdd) {
-        // TODO implement here
-    }
+    public ArrayList<ObjectCard> getObjectDeck() {
+		return objectDeck;
+	}
 
+	public void setObjectDeck(ArrayList<ObjectCard> objectDeck) {
+		this.objectDeck = objectDeck;
+	}
+
+	public ArrayList<ObjectCard> getRejectedObjectDeck() {
+		return rejectedObjectDeck;
+	}
 }

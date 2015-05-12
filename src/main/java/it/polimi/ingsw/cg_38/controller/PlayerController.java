@@ -10,7 +10,7 @@ public class PlayerController {
     /**
      * 
      */
-    public PlayerController() {
+    public PlayerController(String name) {
     }
 
     /**
@@ -39,14 +39,24 @@ public class PlayerController {
         return "";
     }
 
-    /**
-     * @param String name
-     */
-    public void PlayerController(String name) {
-        // TODO implement here
-    }
+    public Player getPlayer() {
+		return player;
+	}
 
-    /**
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public InterfaceForCommunication getInterfaceForCommunication() {
+		return interfaceForCommunication;
+	}
+
+	public void setInterfaceForCommunication(
+			InterfaceForCommunication interfaceForCommunication) {
+		this.interfaceForCommunication = interfaceForCommunication;
+	}
+
+	/**
      * @param String room 
      * @return
      */
