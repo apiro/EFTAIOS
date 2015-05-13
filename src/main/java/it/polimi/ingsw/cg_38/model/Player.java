@@ -65,12 +65,6 @@ public class Player {
     /**
      * @param String name
      */
-    public void Player(String name) {
-        // TODO implement here
-    }
-    /**
-     * @param String name
-     */
     public void finishTurn(){
     	this.setNumTurniGiocati(this.getNumTurniGiocati()+1);
     }

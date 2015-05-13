@@ -89,7 +89,7 @@ public abstract class Avatar {
      */
     public Boolean addCard(Card card) {
         // TODO implement here
-    	if(this.getMyCards().size()<=3) {
+    	if(this.getMyCards().size()<3) {
     		this.getMyCards().add((ObjectCard)card);
     		return true;
     	} else {
@@ -107,10 +107,13 @@ public abstract class Avatar {
      * @param Sector sector 
      * @return
      */
+    
+    /*
     public void attack(Sector sector) {
         // TODO implement here
     	
     }
+    */
     
     public void attacked() {
     	this.setIsAlive(LifeState.DEAD);

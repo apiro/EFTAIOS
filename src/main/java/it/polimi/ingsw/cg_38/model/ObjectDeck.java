@@ -24,11 +24,14 @@ public class ObjectDeck extends Deck {
     }
 
 
+    /*
     public void printDeck() {
 		for (Card card: this.getObjectDeck()) {
 			System.out.println(card.toString());
 		}
 	}
+	
+	*/
     
     
     public void setRejectedObjectDeck(ArrayList<ObjectCard> rejectedObjectDeck) {
@@ -59,9 +62,8 @@ public class ObjectDeck extends Deck {
     public Card draw() {
         // TODO implement here
     	Card extracted = this.getObjectDeck().get(0);
-    	this.getObjectDeck().remove(extracted);
-    	this.getRejectedObjectDeck().add((ObjectCard)extracted);
-    	/*this.shuffle();*/
+    	this.eliminateCard(extracted);
+    	this.shuffle();
         return extracted;
     }
 

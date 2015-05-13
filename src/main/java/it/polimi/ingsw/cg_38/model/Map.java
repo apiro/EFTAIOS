@@ -28,7 +28,7 @@ public abstract class Map {
      */
     public ArrayList<ArrayList<Sector>> table;
     
-    
+    /*
 	public void printMap() {
 		System.out.println("\n");
 		for(int i = 0; i < this.height ; i++) {
@@ -38,19 +38,17 @@ public abstract class Map {
 				}
 				 System.out.println("["+i+"]["+j+"] "+this.getTable().get(i).get(j).toString());
 			}
-		}
-		
-		
-		
+		}	
 	}
+	*/
 
 	public final int height = 14;
     public final int width = 23;
 
     public void fillTable(int[] configuration) {
     	//riempio gli arraylist con settori in base alla codifica
-    	for(int i = 0; i<this.height; i++) {
-    		for(int j = 0; j<this.width; j++) {
+    	for(int i = 0; i<this.getHeight(); i++) {
+    		for(int j = 0; j<this.getWidth(); j++) {
     			Sector mySector = null;
     			if(configuration[i*this.width+j]==-1) {
     				mySector = Sector.factoryCreator("Empty");
@@ -78,7 +76,11 @@ public abstract class Map {
     	}
     }
     
-    private static void addNeighboringSectors(Sector mySector, ArrayList<ArrayList<Sector>> table){
+    public int getHeight() {
+		return height;
+	}
+
+	private static void addNeighboringSectors(Sector mySector, ArrayList<ArrayList<Sector>> table){
     	ArrayList<Sector> toAdd = new ArrayList<Sector>();
     	if(mySector.getName() != "Empty") {
     		if(mySector.getRow()-1 !=-1) {

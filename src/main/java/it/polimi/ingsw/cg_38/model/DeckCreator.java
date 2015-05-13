@@ -7,12 +7,6 @@ import java.util.*;
 public class DeckCreator {
 
     /**
-     * 
-     */
-    public DeckCreator() {
-    }
-
-    /**
      * @param String nameDeck
      */
     public static Deck createDeck(String nameDeck) {

@@ -6,12 +6,14 @@ import java.util.*;
  */
 public class HatchDeck extends Deck {
 
-	
+	/*
 	public void printDeck() {
 		for (Card card: this.getHatchDeck()) {
 			System.out.println(card.toString());
 		}
 	}
+	
+	*/
 
 	/**
      * 
@@ -68,9 +70,8 @@ public class HatchDeck extends Deck {
     public Card draw() {
         // TODO implement here
     	Card extracted = this.getHatchDeck().get(0);
-    	this.getHatchDeck().remove(extracted);
-    	this.getRejectedHatchDeck().add((HatchCard)extracted);
-    	/*this.shuffle();*/
+    	this.eliminateCard(extracted);
+    	this.shuffle();
         return extracted;
     }
 
