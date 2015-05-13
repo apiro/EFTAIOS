@@ -16,6 +16,7 @@ public class AlienTest {
 	Avatar avatar;
 	Card drownSect; 
 	Card drownObj; 
+	Card drownHatch;
 	
 	@Before
 	public void init() throws InterruptedException {
@@ -33,6 +34,7 @@ public class AlienTest {
     	avatar.setCurrentSector(alienStartingPoint);
     	System.out.println(avatar.getCurrentSector().toString());
     	drownSect = avatar.draw(model.getDeckSector());
+    	drownHatch = avatar.draw(model.getDeckHatch());
 	}
 	
 	
@@ -87,7 +89,7 @@ public class AlienTest {
 			
 		}
 		
-		
+		assertTrue(((HatchCard) drownHatch).getColor() instanceof HatchCardType);
 				
 		
 		if(((SectorCard) drownSect).getHasObjectIcon() == true) {

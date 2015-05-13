@@ -28,7 +28,7 @@ public abstract class Map {
      */
     public ArrayList<ArrayList<Sector>> table;
     
-    
+    /*
 	public void printMap() {
 		System.out.println("\n");
 		for(int i = 0; i < this.height ; i++) {
@@ -42,7 +42,9 @@ public abstract class Map {
 		
 		
 		
+		
 	}
+	*/
 
 	public final int height = 14;
     public final int width = 23;
