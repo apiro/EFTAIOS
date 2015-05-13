@@ -39,6 +39,7 @@ public class AlienTest {
 	@Test
 	public void test() {
 		
+		Sector sector = model.getGameMap().searchSectorByCoordinates(5, 11);
 		Sector sector1 = model.getGameMap().searchSectorByCoordinates(4, 11);
 		Sector sector2 = model.getGameMap().searchSectorByCoordinates(3, 11);
 		Sector sector3 = model.getGameMap().searchSectorByCoordinates(2, 11);
@@ -59,13 +60,16 @@ public class AlienTest {
     		assertEquals(avatar.getMyMovements().size(), 2);
 			
 		}
+		
+		avatar.move(sector, player.getNumTurniGiocati()+1);
 		avatar.setIsPowered(true);
+		
 		if(avatar.canMove(sector3)){
     		assertEquals(avatar.canMove(sector3), true);
     		String nameOfSector = avatar.move(sector3, player.getNumTurniGiocati()+1);
     		assertTrue(nameOfSector instanceof String);
     		player.setNumTurniGiocati(player.getNumTurniGiocati()+1);
-    		assertEquals(avatar.getMyMovements().size(), 3);
+    		assertEquals(avatar.getMyMovements().size(), 4);
 			
 		}
 		
