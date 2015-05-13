@@ -14,7 +14,8 @@ public class AlienTest {
 	Player player;
 	Turn actualTurn;
 	Avatar avatar;
-	Card drown; 
+	Card drownSect; 
+	Card drownObj; 
 	
 	@Before
 	public void init() throws InterruptedException {
@@ -31,7 +32,7 @@ public class AlienTest {
     	avatar = model.getGamePlayers().get(0).getAvatar();
     	avatar.setCurrentSector(alienStartingPoint);
     	System.out.println(avatar.getCurrentSector().toString());
-    	drown = avatar.draw(model.getDeckSector());
+    	drownSect = avatar.draw(model.getDeckSector());
 	}
 	
 	
@@ -43,50 +44,39 @@ public class AlienTest {
 		Sector sector3 = model.getGameMap().searchSectorByCoordinates(2, 11);
 		
 		if(avatar.canMove(sector1)){
-			avatar.move(sector1, player.getNumTurniGiocati()+1);
-    		assertTrue(avatar.move(sector1, player.getNumTurniGiocati()+1) instanceof String);
+			assertEquals(avatar.canMove(sector1), true);
+			String nameOfSector = avatar.move(sector1, player.getNumTurniGiocati()+1);
+    		assertTrue(nameOfSector instanceof String);
     		player.setNumTurniGiocati(player.getNumTurniGiocati()+1);
-    		assertEquals(avatar.canMove(sector1), true);
     		assertEquals(avatar.getMyMovements().size(), 1);
 		}
 		
 		if(avatar.canMove(sector2)){
-			avatar.move(sector2, player.getNumTurniGiocati()+1);
-    		assertTrue(avatar.move(sector2, player.getNumTurniGiocati()+1) instanceof String);
+			assertEquals(avatar.canMove(sector2), true);
+			String nameOfSector = avatar.move(sector2, player.getNumTurniGiocati()+1);
+    		assertTrue(nameOfSector instanceof String);
     		player.setNumTurniGiocati(player.getNumTurniGiocati()+1);
-    		assertEquals(avatar.canMove(sector2), true);
     		assertEquals(avatar.getMyMovements().size(), 2);
 			
 		}
 		avatar.setIsPowered(true);
 		if(avatar.canMove(sector3)){
-			avatar.move(sector3, player.getNumTurniGiocati()+1);
-    		assertTrue(avatar.move(sector3, player.getNumTurniGiocati()+1) instanceof String);
-    		player.setNumTurniGiocati(player.getNumTurniGiocati()+1);
     		assertEquals(avatar.canMove(sector3), true);
+    		String nameOfSector = avatar.move(sector3, player.getNumTurniGiocati()+1);
+    		assertTrue(nameOfSector instanceof String);
+    		player.setNumTurniGiocati(player.getNumTurniGiocati()+1);
     		assertEquals(avatar.getMyMovements().size(), 3);
 			
 		}
 		
+		if(((SectorCard) drownSect).getHasObjectIcon() == true) {
+			drownObj = model.getDeckObject().draw();
+		}
 		
-		
-		Sector sector = model.getGameMap().searchSectorByCoordinates(3,9);
-		
-		if(avatar.canMove(sector)) {
-    		avatar.move(sector, player.getNumTurniGiocati()+1);
-    		assertTrue(avatar.move(sector, player.getNumTurniGiocati()+1) instanceof String);
-    		player.setNumTurniGiocati(player.getNumTurniGiocati()+1);
-    		
-    	}
-		
-		assertEquals(avatar.canMove(sector), false);
-		assertEquals(avatar.getMyMovements().size(), 0);
-		
-		
-		avatar.addCard(drown);
+		avatar.addCard(drownObj);
 		assertEquals(avatar.getMyCards().size(), 1);
 		
-		avatar.eliminateFromMyCards(drown);
+		avatar.eliminateFromMyCards(drownObj);
 		assertEquals(avatar.getMyCards().size(), 0);
 		
 		assertEquals(avatar.getName(), Name.Alien1);
