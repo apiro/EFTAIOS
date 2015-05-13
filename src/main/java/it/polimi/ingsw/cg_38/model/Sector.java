@@ -61,11 +61,7 @@ public class Sector {
     		creatingSector = new Dangerous();
     	} else if(typeSector == "Empty") {
     		creatingSector = new Empty();
-<<<<<<< HEAD
-    	} 
-=======
     	}
->>>>>>> refs/heads/master
         return creatingSector;
     }
    
