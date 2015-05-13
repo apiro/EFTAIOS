@@ -79,8 +79,7 @@ public class SectorDeck extends Deck {
     public Card draw() {
         // TODO implement here
     	Card extracted = this.getSectorDeck().get(0);
-    	this.getSectorDeck().remove(extracted);
-    	this.getRejectedSectorDeck().add((SectorCard)extracted);
+    	this.eliminateCard(extracted);
     	this.shuffle();
         return extracted;
     }
