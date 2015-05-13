@@ -107,10 +107,13 @@ public abstract class Avatar {
      * @param Sector sector 
      * @return
      */
+    
+    /*
     public void attack(Sector sector) {
         // TODO implement here
     	
     }
+    */
     
     public void attacked() {
     	this.setIsAlive(LifeState.DEAD);

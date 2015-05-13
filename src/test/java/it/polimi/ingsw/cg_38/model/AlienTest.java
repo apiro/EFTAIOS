@@ -60,18 +60,35 @@ public class AlienTest {
     		assertEquals(avatar.getMyMovements().size(), 2);
 			
 		}
+		avatar.setIsPowered(true);
+		
+		assertEquals(avatar.getIsPowered(), true);
 		
 		avatar.move(sector, player.getNumTurniGiocati()+1);
-		avatar.setIsPowered(true);
+		
+		
+		if(avatar.canMove(sector2)){
+    		assertEquals(avatar.canMove(sector2), true);
+    		String nameOfSector = avatar.move(sector2, player.getNumTurniGiocati()+1);
+    		assertTrue(nameOfSector instanceof String);
+    		player.setNumTurniGiocati(player.getNumTurniGiocati()+1);
+    		assertEquals(avatar.getMyMovements().size(), 4);
+			
+		}
+		
+		avatar.move(sector, player.getNumTurniGiocati()+1);
 		
 		if(avatar.canMove(sector3)){
     		assertEquals(avatar.canMove(sector3), true);
     		String nameOfSector = avatar.move(sector3, player.getNumTurniGiocati()+1);
     		assertTrue(nameOfSector instanceof String);
     		player.setNumTurniGiocati(player.getNumTurniGiocati()+1);
-    		assertEquals(avatar.getMyMovements().size(), 4);
+    		assertEquals(avatar.getMyMovements().size(), 6);
 			
 		}
+		
+		
+				
 		
 		if(((SectorCard) drownSect).getHasObjectIcon() == true) {
 			drownObj = model.getDeckObject().draw();
