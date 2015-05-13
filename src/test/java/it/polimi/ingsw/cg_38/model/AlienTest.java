@@ -37,12 +37,74 @@ public class AlienTest {
 	
 	@Test
 	public void test() {
+		
+		Sector sector1 = model.getGameMap().searchSectorByCoordinates(4, 11);
+		Sector sector2 = model.getGameMap().searchSectorByCoordinates(3, 11);
+		Sector sector3 = model.getGameMap().searchSectorByCoordinates(2, 11);
+		
+		if(avatar.canMove(sector1)){
+			avatar.move(sector1, player.getNumTurniGiocati()+1);
+    		assertTrue(avatar.move(sector1, player.getNumTurniGiocati()+1) instanceof String);
+    		player.setNumTurniGiocati(player.getNumTurniGiocati()+1);
+    		assertEquals(avatar.canMove(sector1), true);
+    		assertEquals(avatar.getMyMovements().size(), 1);
+		}
+		
+		if(avatar.canMove(sector2)){
+			avatar.move(sector2, player.getNumTurniGiocati()+1);
+    		assertTrue(avatar.move(sector2, player.getNumTurniGiocati()+1) instanceof String);
+    		player.setNumTurniGiocati(player.getNumTurniGiocati()+1);
+    		assertEquals(avatar.canMove(sector2), true);
+    		assertEquals(avatar.getMyMovements().size(), 2);
+			
+		}
+		avatar.setIsPowered(true);
+		if(avatar.canMove(sector3)){
+			avatar.move(sector3, player.getNumTurniGiocati()+1);
+    		assertTrue(avatar.move(sector3, player.getNumTurniGiocati()+1) instanceof String);
+    		player.setNumTurniGiocati(player.getNumTurniGiocati()+1);
+    		assertEquals(avatar.canMove(sector3), true);
+    		assertEquals(avatar.getMyMovements().size(), 3);
+			
+		}
+		
+		
+		
 		Sector sector = model.getGameMap().searchSectorByCoordinates(3,9);
+		
 		if(avatar.canMove(sector)) {
     		avatar.move(sector, player.getNumTurniGiocati()+1);
+    		assertTrue(avatar.move(sector, player.getNumTurniGiocati()+1) instanceof String);
     		player.setNumTurniGiocati(player.getNumTurniGiocati()+1);
+    		
     	}
+		
 		assertEquals(avatar.canMove(sector), false);
 		assertEquals(avatar.getMyMovements().size(), 0);
+		
+		
+		avatar.addCard(drown);
+		assertEquals(avatar.getMyCards().size(), 1);
+		
+		avatar.eliminateFromMyCards(drown);
+		assertEquals(avatar.getMyCards().size(), 0);
+		
+		assertEquals(avatar.getName(), Name.Alien1);
+		
+		avatar.setIsAlive(LifeState.ALIVE);
+		assertEquals(avatar.getIsAlive(), LifeState.ALIVE);
+		
+		avatar.setIsAlive(LifeState.DEAD);
+		assertEquals(avatar.getIsAlive(), LifeState.DEAD);
+		
+		avatar.setIsWinner(EndState.LOOSER);
+		assertEquals(avatar.getIsWinner(), EndState.LOOSER);
+		
+		avatar.setIsWinner(EndState.PLAYING);
+		assertEquals(avatar.getIsWinner(), EndState.PLAYING);
+		
+		avatar.setIsWinner(EndState.WINNER);
+		assertEquals(avatar.getIsWinner(), EndState.WINNER);
+		
 	}
 }
