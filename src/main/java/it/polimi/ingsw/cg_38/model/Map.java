@@ -38,11 +38,7 @@ public abstract class Map {
 				}
 				 System.out.println("["+i+"]["+j+"] "+this.getTable().get(i).get(j).toString());
 			}
-		}
-		
-		
-		
-		
+		}	
 	}
 	*/
 
