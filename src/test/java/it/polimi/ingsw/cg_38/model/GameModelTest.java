@@ -22,6 +22,7 @@ public class GameModelTest {
 	Turn turn2;
 	Turn turn3;
 	Turn turn8;
+	int i;
 	
 	/*Deck deckSector11;
 	Deck deckObject12;
@@ -68,14 +69,19 @@ public class GameModelTest {
 		model3.setActualTurn(turn3);
 	}
 	
+	
+	
 	@Test
 	public void test() {
 		
-		assertEquals(model4.getActualTurn(), null);
+		assertEquals(model4.getNextPlayer(), null);
 		
 		assertEquals(model1.getActualTurn(), turn1);
 		assertEquals(model2.getActualTurn(), turn2);
 		assertEquals(model3.getActualTurn(), turn3);
+		
+		
+		
 		assertEquals(model1.getNextPlayer(), player12);
 		assertEquals(model2.getNextPlayer(), player22);
 		assertEquals(model3.getNextPlayer(), player32);
@@ -83,6 +89,12 @@ public class GameModelTest {
 		model1.setActualTurn(turn8);
 		
 		assertEquals(model1.getNextPlayer(), player11);
+		
+		assertEquals(player11.getName(), "Anna");
+		
+		i = player11.getNumTurniGiocati();
+		player11.finishTurn();
+		assertEquals(player11.getNumTurniGiocati(), i+1);
 		
 	}
 

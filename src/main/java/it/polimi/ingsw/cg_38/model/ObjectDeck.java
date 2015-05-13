@@ -24,11 +24,14 @@ public class ObjectDeck extends Deck {
     }
 
 
+    /*
     public void printDeck() {
 		for (Card card: this.getObjectDeck()) {
 			System.out.println(card.toString());
 		}
 	}
+	
+	*/
     
     
     public void setRejectedObjectDeck(ArrayList<ObjectCard> rejectedObjectDeck) {

@@ -33,11 +33,14 @@ public class SectorDeck extends Deck {
     	}
     }
 
+    /*
     public void printDeck() {
 		for (Card card: this.getSectorDeck()) {
 			System.out.println(card.toString());
 		}
 	}
+	
+	*/
     
     public void setRejectedSectorDeck(ArrayList<SectorCard> rejectedSectorDeck) {
 		this.rejectedSectorDeck = rejectedSectorDeck;

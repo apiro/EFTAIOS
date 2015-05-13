@@ -6,12 +6,14 @@ import java.util.*;
  */
 public class HatchDeck extends Deck {
 
-	
+	/*
 	public void printDeck() {
 		for (Card card: this.getHatchDeck()) {
 			System.out.println(card.toString());
 		}
 	}
+	
+	*/
 
 	/**
      * 
