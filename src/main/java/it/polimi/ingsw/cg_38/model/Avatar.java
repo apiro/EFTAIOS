@@ -89,7 +89,7 @@ public abstract class Avatar {
      */
     public Boolean addCard(Card card) {
         // TODO implement here
-    	if(this.getMyCards().size()<=3) {
+    	if(this.getMyCards().size()<3) {
     		this.getMyCards().add((ObjectCard)card);
     		return true;
     	} else {

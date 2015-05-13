@@ -74,10 +74,15 @@ public class AlienTest {
 		}
 		
 		avatar.addCard(drownObj);
-		assertEquals(avatar.getMyCards().size(), 1);
+		avatar.addCard(new ObjectCard(ObjectCardType.Adrenaline));
+		avatar.addCard(new ObjectCard(ObjectCardType.Adrenaline));
+		Boolean result = avatar.addCard(new ObjectCard(ObjectCardType.Adrenaline));
+		
+		assertEquals(result, false);
+		assertEquals(avatar.getMyCards().size(), 3);
 		
 		avatar.eliminateFromMyCards(drownObj);
-		assertEquals(avatar.getMyCards().size(), 0);
+		assertEquals(avatar.getMyCards().size(), 2);
 		
 		assertEquals(avatar.getName(), Name.Alien1);
 		
@@ -95,6 +100,11 @@ public class AlienTest {
 		
 		avatar.setIsWinner(EndState.WINNER);
 		assertEquals(avatar.getIsWinner(), EndState.WINNER);
+		
+		avatar.attacked();
+		assertEquals(avatar.getIsWinner(), EndState.LOOSER);
+		assertEquals(avatar.getIsAlive(), LifeState.DEAD);
+		
 		
 	}
 }
