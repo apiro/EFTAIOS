@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.Scanner;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +21,7 @@ public class AlienTest {
 	Card drownHatch;
 	
 	@Before
-	public void init() throws InterruptedException {
+	public void init() throws ParserConfigurationException, Exception {
 		model = new GameModel("Galilei");
     	alienStartingPoint = model.getGameMap().searchSectorByName("AlienStartingPoint");
     	//asp 5,11

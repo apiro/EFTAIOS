@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +15,7 @@ public class GamesModelTest {
 	
 	@Before
 	
-	public void init(){
+	public void init() throws ParserConfigurationException, Exception{
 		gamesModel = new GamesModel();
 		models = new ArrayList<GameModel>();
 		models.add(new GameModel("Galvani"));

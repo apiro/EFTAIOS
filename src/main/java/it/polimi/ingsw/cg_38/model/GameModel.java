@@ -1,22 +1,28 @@
 package it.polimi.ingsw.cg_38.model;
 import java.util.*;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 /**
  * 
  */
 public class GameModel {
 
     /**
+     * @throws Exception 
+     * @throws ParserConfigurationException 
      * 
      */
-    public GameModel(String map) {
+    public GameModel(String map) throws ParserConfigurationException, Exception {
     	this.init(map);
     }
 
     /**
+     * @throws Exception 
+     * @throws ParserConfigurationException 
      * 
      */
-    public void init(String map){
+    public void init(String map) throws ParserConfigurationException, Exception{
     	this.setGameMap(MapCreator.createMap(map));
     	this.setDeckObject(DeckCreator.createDeck("ObjectDeck"));
     	this.setDeckHatch(DeckCreator.createDeck("HatchDeck"));

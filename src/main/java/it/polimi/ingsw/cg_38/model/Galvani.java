@@ -10,7 +10,11 @@ public class Galvani extends Map {
      * 
      */
     public Galvani() {
-
+    	
+    	/*
+    	 * rigurardare la configurazione della mappa che da 325 numeri quando dovrebbero essere 322
+    	 * */
+    	
     	super.init();
     	super.fillTable(configuration);
     }

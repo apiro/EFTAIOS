@@ -2,6 +2,8 @@ package it.polimi.ingsw.cg_38.model;
 
 import static org.junit.Assert.*;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,11 +38,11 @@ public class GameModelTest {
 	
 	
 	@Before
-	public void init() {
+	public void init() throws ParserConfigurationException, Exception {
 		model1 = new GameModel("Galilei");
 		model2 = new GameModel("Galvani");
 		model3 = new GameModel("Fermi");
-		model4 = new GameModel("Galilei");
+		model4 = new GameModel("myMap");
 		model1.getGamePlayers().add(new Player("Anna"));
 		model1.getGamePlayers().add(new Player("Alberto"));
 		model2.getGamePlayers().add(new Player("Anna"));

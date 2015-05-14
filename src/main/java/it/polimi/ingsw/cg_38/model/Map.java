@@ -1,5 +1,18 @@
 package it.polimi.ingsw.cg_38.model;
+import java.io.IOException;
 import java.util.*;
+import java.io.File;
+import java.io.IOException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * 
@@ -15,14 +28,67 @@ import java.util.*;
  *  [i-1,j] [i+1,j] [i, j+1] [i, j-1] [i+1,j+1] [i+1,j-1]
  * 
  */
-public abstract class Map {
+public class Map {
 
-    /**
+	
+	private int[] configuration;
+	/**
      * 
      */
     public Map() {
+  
+    };
+    	
+    public int[] getConfiguration() {
+		return configuration;
+	}
+	public void setConfiguration(int[] configuration) {
+		this.configuration = configuration;
+	}
+	/**
+	 * @throws Exception 
+	 * @throws ParserConfigurationException 
+     * 
+     */
+    public Map(String type) throws ParserConfigurationException, Exception {
+    	
+    	this.init();
+    	this.readMap(type);
+    	this.fillTable(this.getConfiguration());
+    	System.out.println("chehehde");
+    
     }
 
+    public void readMap(String type) throws ParserConfigurationException, SAXException{
+    	
+    	int [] conf = new int[323];
+    	
+    	try {
+    		
+    		File fXmlFile = new File("./res/"+ type +".xml");
+    		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+    		Document doc = dBuilder.parse(fXmlFile);
+    		
+    		doc.getDocumentElement().normalize();
+    		
+    		String rootNode = doc.getDocumentElement().getNodeName();
+    		
+    		NodeList mapNodeList = doc.getElementsByTagName(rootNode);
+    		
+    		Node mapNode = mapNodeList.item(0);
+    		String[] mapNumbers = mapNode.getTextContent().split("\\s+");
+    		System.out.println(mapNumbers.length);
+    		
+    		for(int i = 1; i<mapNumbers.length; i++){
+    			conf[i] = Integer.parseInt(mapNumbers[i]);
+    		}
+    	}  catch(Exception e) {
+			e.printStackTrace();
+		}
+    	this.setConfiguration(conf);
+    }
+    
     /**
      * 
      */
