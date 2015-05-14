@@ -55,7 +55,6 @@ public class Map {
     	this.init();
     	this.readMap(type);
     	this.fillTable(this.getConfiguration());
-    	System.out.println("chehehde");
     
     }
 
