@@ -16,7 +16,6 @@ public class MapCreatorTest {
 		assertTrue(MapCreator.createMap("Galvani") instanceof Galvani);
 		assertTrue(MapCreator.createMap("Fermi") instanceof Fermi);
 		assertTrue(MapCreator.createMap("myMap") instanceof Map);
-		System.out.println("chehehde");
 	}
 
 }
