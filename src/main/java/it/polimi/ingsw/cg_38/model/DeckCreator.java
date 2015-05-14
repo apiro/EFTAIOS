@@ -11,16 +11,14 @@ public class DeckCreator {
      */
     public static Deck createDeck(String nameDeck) {
         // TODO implement here
-    	Deck deck;
+    	Deck deck = null;
     	if(nameDeck == "SectorDeck") {
     		deck = new SectorDeck();
     	} else if(nameDeck == "HatchDeck") {
     		deck = new HatchDeck();
     	} else if(nameDeck == "ObjectDeck") {
     		deck = new ObjectDeck();
-    	} else {
-    		deck = null;
-    	}
+    	} 
 		return deck;
     }
 }

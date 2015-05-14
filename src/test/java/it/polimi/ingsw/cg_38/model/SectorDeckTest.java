@@ -19,11 +19,12 @@ public class SectorDeckTest {
 	}
 	@Test
 	public void test() {
-		Card SectorCardDraw = deck.draw();
-		if(deck.getSectorDeck().contains(SectorCardDraw)){
+		Card sectorCardDrown = deck.draw();
+		if(deck.getSectorDeck().contains(sectorCardDrown)){
 			contain = true;
 		}
 		
 		assertEquals(contain, false);
+		assertTrue(((SectorCard)sectorCardDrown).getType() instanceof SectorCardType);
 	}
 }

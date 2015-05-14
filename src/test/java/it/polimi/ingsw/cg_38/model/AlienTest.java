@@ -91,6 +91,10 @@ public class AlienTest {
 			
 		}
 		
+		assertTrue(avatar.getMyMovements().get(0).toString() instanceof String);
+		assertTrue(new Integer(avatar.getMyMovements().get(0).getTurnNumber()) instanceof Integer);
+		assertTrue(avatar.getMyMovements().get(0).getTargetsector() instanceof Sector);
+		
 		assertTrue(((HatchCard) drownHatch).getColor() instanceof HatchCardType);
 				
 		

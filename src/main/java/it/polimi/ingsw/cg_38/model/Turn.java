@@ -70,20 +70,13 @@ public class Turn {
 		this.currentPlayer = currentPlayer;
 	}
 
-	/**
-     * @return
-     */
-    public Boolean getHasAttacked() {
-        // TODO implement here
-        return null;
-    }
+	public Boolean getHasAttacked() {
+		return hasAttacked;
+	}
 
-    /**
-     * @return
-     */
-    public Boolean getHasDraw() {
-        // TODO implement here
-        return null;
-    }
+	public Boolean getHasDraw() {
+		return hasDraw;
+	}
+
 
 }
