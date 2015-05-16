@@ -13,7 +13,17 @@ public class Human extends Avatar {
     	this.setName(name);
     }
 
-    /**
+    private Boolean canAttack;
+    
+    public Boolean getCanAttack() {
+		return canAttack;
+	}
+
+	public void setCanAttack(Boolean canAttack) {
+		this.canAttack = canAttack;
+	}
+
+	/**
      * @param Sector sector 
      * @return
      */

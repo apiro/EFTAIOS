@@ -21,14 +21,14 @@ public class ObjectCard extends Card {
      */
     public ObjectCard(ObjectCardType type) {
         // TODO implement here
-        this.setColor(type);
+        this.setType(type);
     }
 
-	public ObjectCardType getColor() {
+	public ObjectCardType getType() {
 		return type;
 	}
 
-	public void setColor(ObjectCardType color) {
+	public void setType(ObjectCardType color) {
 		this.type = color;
 	}
 

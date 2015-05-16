@@ -21,19 +21,18 @@ public abstract class Action {
     /**
      * @return
      */
-    public abstract void perform();
+    public abstract Object perform();
 
     /**
      * @return
      */
     public abstract Boolean isPossible();
 
-    /**
-     * @param GameModel gameModel 
-     * @return
-     */
-    public void setGameModel(GameModel gameModel) {
-        // TODO implement here
-    }
+	public GameModel getGameModel() {
+		return gameModel;
+	}
 
+	public void setGameModel(GameModel gameModel) {
+		this.gameModel = gameModel;
+	}
 }

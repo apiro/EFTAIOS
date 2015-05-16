@@ -6,13 +6,7 @@ import java.util.*;
  * 
  */
 public class Attack extends Action {
-
-    /**
-     * 
-     */
-    public Attack() {
-    }
-
+	
     /**
      * 
      */
@@ -21,23 +15,38 @@ public class Attack extends Action {
     /**
      * @return
      */
-    public void perform() {
-        // TODO implement here
+    public Boolean perform() { 	
+        	for(Player pl:this.getGameModel().getDesiredPlayers(this.getSectorToAttack())) {
+        		if(!pl.getAvatar().hasDefenseCard()) {
+        			return pl.getAvatar().attacked();
+        		}
+        	}
+        return false;
     }
 
     /**
      * @param Sector sector
      */
     public Attack(Sector sector) {
-        // TODO implement here
+    	this.setSectorToAttack(sector);
     }
 
-    /**
+    public Sector getSectorToAttack() {
+		return sectorToAttack;
+	}
+
+	public void setSectorToAttack(Sector sectorToAttack) {
+		this.sectorToAttack = sectorToAttack;
+	}
+
+	/**
      * @return
      */
     public Boolean isPossible() {
-        // TODO implement here
-        return null;
+        if(this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar() instanceof Alien || !this.getGameModel().getActualTurn().getHasAttacked()) {
+        	return true;
+        }
+        return false;
     }
 
 }

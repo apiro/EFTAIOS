@@ -10,10 +10,19 @@ public class Move extends Action {
     /**
      * 
      */
-    public Move() {
+    public Move(Sector sectorToMove) {
+    	this.setSectorToMove(sectorToMove);
     }
 
-    /**
+    public Sector getSectorToMove() {
+		return sectorToMove;
+	}
+
+	public void setSectorToMove(Sector sectorToMove) {
+		this.sectorToMove = sectorToMove;
+	}
+
+	/**
      * 
      */
     public Sector sectorToMove;
@@ -21,24 +30,19 @@ public class Move extends Action {
     /**
      * @return
      */
-    public void perform() {
+    public Boolean perform() {
         // TODO implement here
-    	
+    	this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().setCurrentSector(this.getSectorToMove());
+    	return true;
     }
 
     /**
      * @return
      */
     public Boolean isPossible() {
-        // TODO implement here
-        return null;
+        if(!this.getGameModel().getActualTurn().getHasMoved()) {
+        	return true;
+        }
+        return false;
     }
-
-    /**
-     * @param Sector sectorToMove
-     */
-    public void Move(Sector sectorToMove) {
-        // TODO implement here
-    }
-
 }

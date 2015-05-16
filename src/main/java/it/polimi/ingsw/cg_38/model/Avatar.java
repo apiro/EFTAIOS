@@ -48,6 +48,15 @@ public abstract class Avatar {
         // TODO implement here
     }
 
+    public Boolean hasDefenseCard(){
+    	for(int i = 0; i<myCards.size(); i++){
+    		if((myCards.get(i).getType()).equals(ObjectCardType.Defense)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
     /**
      * @param Deck deck 
      * @return
@@ -115,9 +124,17 @@ public abstract class Avatar {
     }
     */
     
-    public void attacked() {
-    	this.setIsAlive(LifeState.DEAD);
-    	this.setIsWinner(EndState.LOOSER);
+    
+    /**
+     * return true se l'attacco va a buon fine false se non va a buon fine
+     * */
+    public Boolean attacked() {
+    	if(!this.hasDefenseCard()){
+    		this.setIsAlive(LifeState.DEAD);
+    		this.setIsWinner(EndState.LOOSER);
+    		return true;
+    	}
+    	return false;
     }
     
     /**

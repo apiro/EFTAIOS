@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_38.model;
 import java.io.IOException;
+
 import java.util.*;
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class Map {
      */
     public Map() {
   
-    };
+    }
     	
     public int[] getConfiguration() {
 		return configuration;
@@ -93,19 +94,23 @@ public class Map {
      */
     public ArrayList<ArrayList<Sector>> table;
     
-    /*
 	public void printMap() {
 		System.out.println("\n");
+		System.out.println("\n|_|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|");
 		for(int i = 0; i < this.height ; i++) {
+			System.out.print("|" + i + "|");
 			for(int j = 0; j < this.width ; j++) {
-				if(j == this.width){
-					System.out.println("\n");
+				if(this.getTable().get(i).get(j).getName().substring(0, 1).equals("E")) {
+					System.out.print(this.getTable().get(i).get(j).getName().substring(0, 1) + "|");
+				} else {
+				System.err.print(this.getTable().get(i).get(j).getName().substring(0, 1) + "|");
+				 /*System.out.println("["+i+"]["+j+"] "+this.getTable().get(i).get(j).toString());*/
 				}
-				 System.out.println("["+i+"]["+j+"] "+this.getTable().get(i).get(j).toString());
 			}
-		}	
+			System.out.println("\n|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|");
+		}
 	}
-	*/
+	
 
 	public final int height = 14;
     public final int width = 23;

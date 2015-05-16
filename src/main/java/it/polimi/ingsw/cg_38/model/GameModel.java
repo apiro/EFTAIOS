@@ -30,6 +30,16 @@ public class GameModel {
     	this.setGamePlayers(new ArrayList<Player>());
     }
     
+    public ArrayList<Player> getDesiredPlayers(Sector sectorToSearch){
+    	ArrayList<Player> selected = new ArrayList<Player>();
+    	for(Player pl:this.getGamePlayers()) {
+    		if(pl.getAvatar().getCurrentSector().equals(sectorToSearch)) {
+    			selected.add(pl);
+    		}
+    	}
+    	return selected;
+    }
+    
     public ArrayList<Player> getGamePlayers() {
 		return gamePlayers;
 	}
