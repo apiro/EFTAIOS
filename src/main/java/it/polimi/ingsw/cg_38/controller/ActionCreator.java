@@ -17,7 +17,7 @@ public class ActionCreator {
     /**
      * @param String type
      */
-    public Action createAction(String type, Sector sector) {
+    public Action createAction(String type, Sector sector, Card card) {
     	// TODO implement here
     	Action action = null;
     	if(type == "Attack") {
@@ -27,13 +27,19 @@ public class ActionCreator {
     	} else if (type == "Move") {
     		action = new Move(sector);
     	}  else if (type == "UseAdrenalineCard") {
-    		action = new UseAdrenalineCard();
+    		action = new UseAdrenalineCard(card);
     	} else if (type == "UseAttackCard") {
-    		action = new UseAttackCard(sector);
+    		action = new UseAttackCard(card);
     	} else if (type == "UseLightsCard") {
-    		action = new UseLightsCard();
+    		action = new UseLightsCard(card, sector);
     	} else if (type == "UseSedativesCard") {
-    		action = new UseSedativesCard();
+    		action = new UseSedativesCard(card);
+    	} else if (type == "UseRandomSectorNoise") {
+    		action = new UseRandomSectorNoise(sector);
+    	} else if (type == "UseMySectorNoise") {
+    		action = new UseMySectorNoise();
+    	} else if (type == "UseSilenceCard") {
+    		action = new UseSilenceCard();
     	}
 		return action;
     }
