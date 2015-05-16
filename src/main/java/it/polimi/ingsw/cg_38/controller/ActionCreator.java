@@ -27,13 +27,13 @@ public class ActionCreator {
     	} else if (type == "Move") {
     		action = new Move(sector);
     	}  else if (type == "UseAdrenalineCard") {
-    		action = new Attack(sector);
+    		action = new UseAdrenalineCard();
     	} else if (type == "UseAttackCard") {
-    		action = new Attack(sector);
+    		action = new UseAttackCard(sector);
     	} else if (type == "UseLightsCard") {
-    		action = new Attack(sector);
+    		action = new UseLightsCard();
     	} else if (type == "UseSedativesCard") {
-    		action = new Attack(sector);
+    		action = new UseSedativesCard();
     	}
 		return action;
     }
