@@ -35,6 +35,7 @@ public class UseSedativesCard extends GameAction {
         // TODO implement here
     	this.getGameModel().getActualTurn().setHasDraw(true);
     	this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    	this.getGameModel().getActualTurn().setHasUsedObjectCard(true);
     	return true;
     }
 

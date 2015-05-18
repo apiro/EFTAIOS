@@ -31,11 +31,12 @@ public class Move extends GameAction {
     /**
      * @return
      */
-    public Boolean perform() {
+    public String perform() {
         // TODO implement here
-    	//invece che setCurrentSector uso .move() !!!! remember
-    	this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().setCurrentSector(this.getSectorToMove());
-    	return true;
+    	String toReturn = this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().move(getSectorToMove(), this.getGameModel().getActualTurn().getCurrentPlayer().getNumTurniGiocati()+1);
+    	this.getGameModel().getActualTurn().getCurrentPlayer().setNumTurniGiocati(this.getGameModel().getActualTurn().getCurrentPlayer().getNumTurniGiocati()+1);
+    	this.getGameModel().getActualTurn().setHasMoved(true);
+    	return toReturn;
     }
 
     /**

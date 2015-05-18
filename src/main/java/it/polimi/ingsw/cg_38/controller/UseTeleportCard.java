@@ -33,9 +33,12 @@ public class UseTeleportCard extends GameAction {
      */
     public Boolean perform() {
         // TODO implement here
-    	this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().setCurrentSector(
-    			this.getGameModel().getGameMap().searchSectorByName("HumanStartingPoint"));
+    	this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().move(
+    			this.getGameModel().getGameMap().searchSectorByName("HumanStartingPoint"), 
+    			this.getGameModel().getActualTurn().getCurrentPlayer().getNumTurniGiocati()+1);
+    	this.getGameModel().getActualTurn().getCurrentPlayer().setNumTurniGiocati(this.getGameModel().getActualTurn().getCurrentPlayer().getNumTurniGiocati()+1);
     	this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    	this.getGameModel().getActualTurn().setHasUsedObjectCard(true);
     	return true;
     }
 

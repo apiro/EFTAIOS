@@ -47,6 +47,7 @@ public class UseAttackCard extends GameAction {
     		if(humanAttackAction.isPossible()) {
     			humanAttackAction.perform();
     		}
+    		this.getGameModel().getActualTurn().setHasUsedObjectCard(true);
     		return true;
     }
 

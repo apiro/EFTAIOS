@@ -19,18 +19,23 @@ public class GameController {
     	
     	this.initGame(type, room);
     }
+    
+    private Boolean finishGame = false;
 
 	public static void main(String[] args) throws ParserConfigurationException, Exception {
     	
 		Scanner in = new Scanner(System.in);
     	
     	GameController generalController = new GameController("Galilei", "myArena");
+    	
+    	generalController.setState(GameState.STARTING);
+    	
     	generalController.getGameModel().getGameMap().printMap();
     
     	generalController.listenForIncomingConnections(in);
     	
     	for(Player pl:generalController.getMyPlayers()) {
-    		generalController.getPc().add(new PlayerController(pl));
+    		generalController.getPcs().add(new PlayerController(pl));
     	}
     	
     	generalController.assignAvatars();
@@ -39,64 +44,143 @@ public class GameController {
     	
     	generalController.setState(GameState.RUNNING);
 
-    	while(true) {
-    		System.out.println("Inizia il turno del: \n -->");
+    	
+    	while(!generalController.getFinishGame()) {
+    		System.out.println("Inizia il turno del: \n");
     		System.out.println(generalController.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().toString());
-    		generalController.askForMoveAction(in);
-    		System.out.println(generalController.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().toString());
-    		if(generalController.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector().getName().equals("Safe")) {
-    			System.out.println("Ti sei mosso in un settore Safe, dunque passi il turno, vuoi attaccare? Per attaccare digita ATTACCARE");
-    			if(in.nextLine().equals("ATTACCARE")) {
-       			 generalController.askForAttackAction(in);
-       			 break;
-       		} else { break; }
+    		System.out.println("Inserisci il tipo di azione da compiere: \n");
+    		System.out.println("\t 1) MOVE - M\n");
+    		System.out.println("\t 2) DRAW - D\n");
+    		System.out.println("\t 3) ATTACK - A\n");
+    		System.out.println("\t 4) USE CARD - U\n");
+    		System.out.println("\t 5) FINISH TURN - F\n");
+    		
+    		GameAction action = null;
+    		System.out.println("Devi muovere obbligatoriamente !\n");
+    		String command = in.nextLine();
+    		
+    		if(command.equals("M")) {
+    			Sector toMove = generalController.askForMoveCoordinates(in);
+    			action = ActionCreator.createAction("Move", toMove, null, generalController.getGameModel());
+    			generalController.handleMoveAction(action, in);
+    		} else if (command.equals("D")) {
+    			action = ActionCreator.createAction("Draw", null, null, generalController.getGameModel());
+    			generalController.handleDrawAction(action, in);
+    		} else if (command.equals("A")) {
+    			
+    		} else if (command.equals("U")) {
+    			
+    			/*generalController.handleUseCardAction(action, in, card, sector);*/
+    		} else if (command.equals("F") && generalController.getGameModel().getActualTurn().getHasMoved()) {
+    			generalController.getGameModel().getActualTurn().getCurrentPlayer().finishTurn();
+        		generalController.changeTurn();/******/
+        		System.out.println("Turno terminato !\n");
     		} else {
-    			System.out.println("Vuoi pescare una carta o attaccare? Per attaccare digita ATTACCARE ");
-        		if(in.nextLine().equals("ATTACCARE")) {
-        			 generalController.askForAttackAction(in);
-        			 System.out.println(generalController.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().toString());
-        		} else {
-        			generalController.askForDrawAction(in);
-        			System.out.println(generalController.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().toString());
-        		}
+    			System.out.println("ERROR\n");
     		}
-    		generalController.changeTurn();
-    	}    	
+    		/*
+    		if(action.isPossible().equals(false)) {
+    			System.out.println("Azione non permessa !\n");
+    		} else {
+    			System.out.println("Azione effettuata !\n");
+    		}
+    		*/
+    	} 	
     }
     
-    private void askForDrawAction(Scanner in) {
+    private void handleUseCardAction(GameAction action, Scanner in, Card card, Sector sector) {
 		// TODO Auto-generated method stub
-    	GameAction action2 = ActionCreator.createAction("Draw", null, null, this.getGameModel());
+    	System.out.println("Inserire il tipo di carta che si vuole utilizzare: \n");
+		System.out.println("\t 1) ATTACK-CARD | AC\n");
+		System.out.println("\t 2) LIGHTS-CARD | LC\n");
+		System.out.println("\t 3) SEDATIVES-CARD | SC\n");
+		System.out.println("\t 4) TELEPORT-CARD | TC\n");
+		System.out.println("\t 5) ADRENALINE-CARD | DC\n");
+    	String type = in.nextLine();
+    	if(type.equals("AC")) {
+    		action = ActionCreator.createAction("UseAttackCard",
+    				this.getCurrentPlayerController().getPlayer().getAvatar().getCurrentSector(),
+    				card, this.getGameModel());
+    		this.getCurrentPlayerController().performUserCommands(action);
+    	} else if(type.equals("LC")) {
+    		action = ActionCreator.createAction("UseLightsCard",
+    				sector,
+    				card, this.getGameModel());
+    		this.getCurrentPlayerController().performUserCommands(action);
+    		System.out.println("Player: " + this.getCurrentPlayerController().getPlayer().getName() + 
+    				",Sector: " + this.getCurrentPlayerController().getPlayer().getAvatar().getCurrentSector().toString());
+    			
+    	} else if(type.equals("SC")) {
+    		action = ActionCreator.createAction("UseSedativesCard",
+    				null,
+    				card, this.getGameModel());
+    		this.getCurrentPlayerController().performUserCommands(action);
+    	} else if(type.equals("TC")) {
+    		action = ActionCreator.createAction("UseTeleportCard",
+    				null,
+    				card, this.getGameModel());
+    		this.getCurrentPlayerController().performUserCommands(action);
+    	} else if(type.equals("DC")) {
+    		action = ActionCreator.createAction("UseAdrenalineCard",
+    				null,
+    				card, this.getGameModel());
+    		this.getCurrentPlayerController().performUserCommands(action);
+    	}
+	}
+
+	public Boolean getFinishGame() {
+		return finishGame;
+	}
+
+	public void setFinishGame(Boolean finishGame) {
+		this.finishGame = finishGame;
+	}
+
+	public void handleDrawAction(GameAction action, Scanner in) {
+		// TODO Auto-generated method stub
     	
-    	Card returned2 = (Card)this.getCurrentPlayerController().performUserCommands(action2);
+    	Object returned1 = this.getCurrentPlayerController().performUserCommands(action);
+    	Object returned2; 
+    	if(returned1 instanceof Card) {
+    		returned2 = (Card)returned1;
+    	} else {
+    		returned2 = returned1;
+    		return;
+    	}
+    	
     	if(returned2 instanceof SectorCard) {
     		if(((SectorCard) returned2).getType().equals(SectorCardType.Silence)) {
     			//genero azione corrispondente e la invio al playercontroller
-    			GameAction action21 = ActionCreator.createAction("UseSilenceCard", null, null, this.getGameModel());
+    			GameAction action1 = ActionCreator.createAction("UseSilenceCard", null, null, this.getGameModel());
     			//playercontroller performa l'azione
-    			this.getCurrentPlayerController().performUserCommands(action21);
+    			this.getCurrentPlayerController().performUserCommands(action1);
     			//adesso il playercontroller riceve i settori in c
     		} else if(((SectorCard) returned2).getType().equals(SectorCardType.MySectorNoise)) {
     			//genero azione corrispondente e la invio al playercontroller
-    			GameAction action22 = ActionCreator.createAction("UseMySectorNoise", null, null, this.getGameModel());
+    			GameAction action2 = ActionCreator.createAction("UseMySectorNoise", null, null, this.getGameModel());
     			//playercontroller performa l'azione
-    			this.getCurrentPlayerController().performUserCommands(action22);
+    			this.getCurrentPlayerController().performUserCommands(action2);
     			//passo al gameController il settore dichiarato e il giocatore
     		} else if(((SectorCard) returned2).getType().equals(SectorCardType.RandomSectorNoise)) {
     			//genero azione corrispondente e la invio al playercontroller
-    			Sector toNoise = this.getGameModel().getGameMap().searchSectorByCoordinates(3, 10);
-    			toNoise.setCol(3);
-    			toNoise.setRow(10);
-    			GameAction action23 = ActionCreator.createAction("UseRandomSectorNoise", toNoise, null, this.getGameModel());
+    			Sector toNoise = askForMoveCoordinates(in);
+    			GameAction action3 = ActionCreator.createAction("UseRandomSectorNoise", toNoise, null, this.getGameModel());
     			//playercontroller performa l'azione
-    			this.getCurrentPlayerController().performUserCommands(action23);
+    			this.getCurrentPlayerController().performUserCommands(action3);
     			//passo al gameController il settore dichiarato e il giocatore
+    		}
+    	} else {
+    		if(((HatchCard) returned2).getColor().equals(HatchCardType.Red)) {
+    			((Hatch)this.getCurrentPlayerController().getPlayer().getAvatar().getCurrentSector()).setIsOpen(false);
+    		} else if (((HatchCard) returned2).getColor().equals(HatchCardType.Green)) {
+    			this.getCurrentPlayerController().getPlayer().getAvatar().setIsWinner(EndState.WINNER);
+    			((Hatch)this.getCurrentPlayerController().getPlayer().getAvatar().getCurrentSector()).setIsOpen(false);
     		}
     	}
 		
 	}
 
-	private void askForAttackAction(Scanner in) {
+	public void askForAttackAction(Scanner in) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -104,29 +188,30 @@ public class GameController {
 	private void startTurn() {
 		// TODO Auto-generated method stub
 	}
-
-	private void askForMoveAction(Scanner in) {
-		// TODO Auto-generated method stub
-		System.out.println("Devi muovere obbligatoriamente !");
-    	System.out.println("Inserire la riga della mossa che si vuole effettuare:");
+	
+	public Sector askForMoveCoordinates(Scanner in) {
+		System.out.println("Inserire la riga :");
     	int userRow = Integer.parseInt(in.nextLine());
-    	System.out.println("Inserire la colonna della mossa che si vuole effettuare:");
+    	System.out.println("Inserire la colonna :");
     	int userCol = Integer.parseInt(in.nextLine());
     	Sector toMove = this.getGameModel().getGameMap().searchSectorByCoordinates(userRow, userCol);
-    	GameAction action1 = ActionCreator.createAction("Move", toMove, null, this.getGameModel());
+    	return toMove;
+	}
+	
+	public Object handleMoveAction(GameAction action, Scanner in) {
+		// TODO Auto-generated method stub
+    	return this.getCurrentPlayerController().performUserCommands(action);
     	
-    	Boolean returned1 = (Boolean)this.getCurrentPlayerController().performUserCommands(action1);
-    	System.out.println(this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector());
 	}
 
-	private ArrayList<PlayerController> pc = new ArrayList<PlayerController>();
+	private ArrayList<PlayerController> pcs = new ArrayList<PlayerController>();
     
-    public ArrayList<PlayerController> getPc() {
-		return pc;
+    public ArrayList<PlayerController> getPcs() {
+		return pcs;
 	}
 
     public PlayerController getCurrentPlayerController() {
-    	for(PlayerController myPc: this.getPc()) {
+    	for(PlayerController myPc: this.getPcs()) {
     		if(myPc.getPlayer().equals(this.getGameModel().getActualTurn().getCurrentPlayer())) {
     			return myPc;
     		}
@@ -134,8 +219,8 @@ public class GameController {
     	return null;
     }
     
-	public void setPc(ArrayList<PlayerController> pc) {
-		this.pc = pc;
+	public void setPcs(ArrayList<PlayerController> pcs) {
+		this.pcs = pcs;
 	}
 
 	/**
@@ -219,11 +304,13 @@ public class GameController {
         // TODO implement here
     	Collections.shuffle(this.getMyPlayers());
    		for(int i =0; i<this.getMyPlayers().size(); i++) {
-   			if(i<((int)this.getMyPlayers().size())/2) {
+   			int floor = this.getMyPlayers().size()/2;
+   			if(i<floor) {
    				this.getMyPlayers().get(i).setAvatar(new Human(Name.valueOf("Human"+(i+1)), this.getGameModel().getGameMap().searchSectorByName("HumanStartingPoint")));
     		} else {
-    			this.getMyPlayers().get(i).setAvatar(new Human(Name.valueOf("Alien"+(i+1)), this.getGameModel().getGameMap().searchSectorByName("AlienStartingPoint")));
+    			this.getMyPlayers().get(i).setAvatar(new Human(Name.valueOf("Alien"+(i-floor+1)), this.getGameModel().getGameMap().searchSectorByName("AlienStartingPoint")));
     		}
+   			System.out.println(this.getMyPlayers().get(i).getAvatar().getName());
     	}
     }
     
@@ -251,6 +338,7 @@ public class GameController {
     public void closeGame() {
         // TODO implement here
     	this.setState(GameState.FINISHED);
+    	this.setFinishGame(true);
     }
 
     /**

@@ -9,7 +9,18 @@ public class Hatch extends Sector {
     /**
      * 
      */
-    public Hatch() {
+	
+	private Boolean isOpen = true;
+	
+    public Boolean getIsOpen() {
+		return isOpen;
+	}
+
+	public void setIsOpen(Boolean isOpen) {
+		this.isOpen = isOpen;
+	}
+
+	public Hatch() {
     	super();
     	this.name = "Hatch";
     }

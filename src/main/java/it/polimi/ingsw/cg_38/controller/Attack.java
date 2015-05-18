@@ -37,6 +37,7 @@ public class Attack extends GameAction {
         			}
         		}
         	}
+        	this.getGameModel().getActualTurn().setHasAttacked(true);
         return false;
     }
 
@@ -61,11 +62,13 @@ public class Attack extends GameAction {
      */
     public Boolean isPossible() {
         if(this.currentAvatarType().equals("Alien") &&
+        		this.getGameModel().getActualTurn().getHasMoved() &&
         		!this.getGameModel().getActualTurn().getHasAttacked() && 
         		!this.getGameModel().getActualTurn().getHasDraw()) {
         	return true;
         } else if (this.currentAvatarType().equals("Human") && 
         		((Human)this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar()).getCanAttack() && 
+        		this.getGameModel().getActualTurn().getHasMoved() &&
         		!this.getGameModel().getActualTurn().getHasAttacked() && 
         		!this.getGameModel().getActualTurn().getHasDraw()) {
         	return true;

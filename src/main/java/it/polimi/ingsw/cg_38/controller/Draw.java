@@ -36,9 +36,10 @@ public class Draw extends GameAction {
     		if(drown.getHasObjectIcon()) {
     			this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().addCard(this.getGameModel().getDeckObject().draw());
     		}
-    		
+    		this.getGameModel().getActualTurn().setHasDraw(true);
    			return drown;
    		} else if (this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector() instanceof Hatch ) {
+   			this.getGameModel().getActualTurn().setHasDraw(true);
    			return this.getGameModel().getDeckHatch().draw();
    		} else {
     		return null;
@@ -51,7 +52,8 @@ public class Draw extends GameAction {
     public Boolean isPossible() {
        
     	// TODO implement here
-    	if(!this.getGameModel().getActualTurn().getHasAttacked() &&
+    	if( this.getGameModel().getActualTurn().getHasMoved() &&
+    		!this.getGameModel().getActualTurn().getHasAttacked() &&
     		!this.getGameModel().getActualTurn().getHasDraw() && 
     		!(this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector() instanceof Safe)) {
     		return true;

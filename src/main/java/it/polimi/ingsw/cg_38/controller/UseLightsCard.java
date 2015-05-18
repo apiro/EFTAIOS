@@ -55,6 +55,7 @@ public class UseLightsCard extends GameAction {
         	}
     	}
     	this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    	this.getGameModel().getActualTurn().setHasUsedObjectCard(true);
     	return players;
     }
 

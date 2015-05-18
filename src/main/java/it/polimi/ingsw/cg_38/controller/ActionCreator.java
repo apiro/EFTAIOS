@@ -40,6 +40,8 @@ public class ActionCreator {
     		action = new UseMySectorNoise(gameModel);
     	} else if (type == "UseSilenceCard") {
     		action = new UseSilenceCard(gameModel);
+    	} else if (type == "UseTeleportCard") {
+    		action = new UseTeleportCard(card, gameModel);
     	}
 		return action;
     }

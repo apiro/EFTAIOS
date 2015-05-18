@@ -37,6 +37,7 @@ public class UseAdrenalineCard extends GameAction {
     	} else {
     		this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
     		this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    		this.getGameModel().getActualTurn().setHasUsedObjectCard(true);
     		return true;	
     	}
     }
