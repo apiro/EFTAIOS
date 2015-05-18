@@ -5,12 +5,13 @@ import java.util.*;
 /**
  * 
  */
-public class UseMySectorNoise extends Action {
+public class UseMySectorNoise extends GameAction {
 
     /**
      * 
      */
-    public UseMySectorNoise() {
+    public UseMySectorNoise(GameModel gameModel) {
+    	super(gameModel);
     }
 
     /**

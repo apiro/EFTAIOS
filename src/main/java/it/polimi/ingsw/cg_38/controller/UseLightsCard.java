@@ -5,13 +5,17 @@ import java.util.*;
 
 /**
  * 
+ * la perform ritorna l'arraylist dei giocatori che devono dichiarare la loro posizione(nel player che ritorna 
+ * c'è il currentSector che deve essere mandato a tutti i giocatori)
+ * 
  */
-public class UseLightsCard extends Action {
+public class UseLightsCard extends GameAction {
 
     /**
      * 
      */
-    public UseLightsCard(Card card, Sector sector) {
+    public UseLightsCard(Card card, Sector sector, GameModel gameModel) {
+    	super(gameModel);
     	this.setCard(card);
     	this.setTargetSector(sector);
     }
@@ -50,6 +54,7 @@ public class UseLightsCard extends Action {
         		players.add(pl);
         	}
     	}
+    	this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     	return players;
     }
 
@@ -58,7 +63,8 @@ public class UseLightsCard extends Action {
      */
     public Boolean isPossible() {
         // TODO implement here
-    	if(!(this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar() instanceof Alien) || this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard())) {
+    	if(!this.currentAvatarType().equals("Alien") && 
+    			this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard())) {
         	return true;
         }
         return false;

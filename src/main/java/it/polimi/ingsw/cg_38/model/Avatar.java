@@ -16,7 +16,22 @@ public abstract class Avatar {
      */
     private Sector currentSector;
 
-    /**
+    @Override
+	public String toString() {
+    	String code =  "Avatar [currentSector=" + currentSector + ", name=" + name
+				+ ", isPowered=" + isPowered + ", isAlive=" + isAlive
+				+ ", isWinner=" + isWinner + "\n \t ->Movements= ";
+    	
+    	for(Movement mv:this.getMyMovements()) {
+    		code = code + (mv.toString());
+    	}
+		code = code + ("]");
+		return code;
+	}
+
+    
+    
+	/**
      * 
      */
     private Name name;

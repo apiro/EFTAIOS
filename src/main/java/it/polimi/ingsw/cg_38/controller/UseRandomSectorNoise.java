@@ -1,16 +1,18 @@
 package it.polimi.ingsw.cg_38.controller;
 
+import it.polimi.ingsw.cg_38.model.GameModel;
 import it.polimi.ingsw.cg_38.model.Sector;
 
 /**
  * 
  */
-public class UseRandomSectorNoise extends Action {
+public class UseRandomSectorNoise extends GameAction {
 
     /**
      * 
      */
-    public UseRandomSectorNoise(Sector sector) {
+    public UseRandomSectorNoise(Sector sector, GameModel gameModel) {
+    	super(gameModel);
     	this.setToDeclare(sector);
     }
 

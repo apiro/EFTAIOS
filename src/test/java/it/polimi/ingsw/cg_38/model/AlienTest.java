@@ -28,12 +28,11 @@ public class AlienTest {
     	model.getGamePlayers().add(new Player("Alberto"));
     	player = model.getGamePlayers().get(0);
     	Thread.sleep(3000);
-    	model.getGamePlayers().get(0).setAvatar(new Alien(Name.Alien1));
+    	model.getGamePlayers().get(0).setAvatar(new Alien(Name.Alien1, alienStartingPoint));
     	actualTurn = new Turn(player);
     	model.setActualTurn(actualTurn);
     	player.setNumTurniGiocati(player.getNumTurniGiocati());
     	avatar = model.getGamePlayers().get(0).getAvatar();
-    	avatar.setCurrentSector(alienStartingPoint);
     	System.out.println(avatar.getCurrentSector().toString());
     	drownSect = avatar.draw(model.getDeckSector());
     	drownHatch = avatar.draw(model.getDeckHatch());

@@ -9,11 +9,12 @@ public class Human extends Avatar {
     /**
      * 
      */
-    public Human(Name name) {
+    public Human(Name name, Sector sector) {
     	this.setName(name);
+    	this.setCurrentSector(sector);
     }
 
-    private Boolean canAttack;
+    private Boolean canAttack = false;
     
     public Boolean getCanAttack() {
 		return canAttack;

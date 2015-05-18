@@ -9,7 +9,8 @@ public class Alien extends Avatar {
     /**
      * 
      */
-    public Alien(Name name) {
+    public Alien(Name name, Sector sector) {
+    	this.setCurrentSector(sector);
     	this.setName(name);
     }
 

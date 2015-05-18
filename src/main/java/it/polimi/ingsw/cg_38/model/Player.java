@@ -6,7 +6,13 @@ import java.util.*;
  */
 public class Player {
 
-    /**
+    @Override
+	public String toString() {
+		return "Player [ Name=" + name + "numTurniGiocati=" + numTurniGiocati + ", avatar="
+				+ avatar + "]";
+	}
+
+	/**
      * 
      */
     public Player(String name) {

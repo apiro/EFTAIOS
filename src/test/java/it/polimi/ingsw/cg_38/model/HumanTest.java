@@ -10,7 +10,7 @@ import org.junit.Test;
 public class HumanTest {
 
 	GameModel model;
-	Sector alienStartingPoint;
+	Sector humanStartingPoint;
 	Player player;
 	Turn actualTurn;
 	Avatar avatar;
@@ -18,20 +18,24 @@ public class HumanTest {
 	Card drownObj; 
 	Card drownHatch;
 	
+	/**
+	 * setCurrentSector(sector) su avatar non setta il settore!
+	 * */
+	
 	@Before
 	public void init() throws ParserConfigurationException, Exception {
 		model = new GameModel("Galilei");
-    	alienStartingPoint = model.getGameMap().searchSectorByName("AlienStartingPoint");
+    	humanStartingPoint = model.getGameMap().searchSectorByName("HumanStartingPoint");
+    	
     	//asp 5,11
     	model.getGamePlayers().add(new Player("Alberto"));
     	player = model.getGamePlayers().get(0);
     	Thread.sleep(3000);
-    	model.getGamePlayers().get(0).setAvatar(new Human(Name.Human1));
+    	model.getGamePlayers().get(0).setAvatar(new Human(Name.Human1, humanStartingPoint));
     	actualTurn = new Turn(player);
     	model.setActualTurn(actualTurn);
     	player.setNumTurniGiocati(player.getNumTurniGiocati());
     	avatar = model.getGamePlayers().get(0).getAvatar();
-    	avatar.setCurrentSector(alienStartingPoint);
     	System.out.println(avatar.getCurrentSector().toString());
     	drownSect = avatar.draw(model.getDeckSector());
     	drownHatch = avatar.draw(model.getDeckHatch());
@@ -41,10 +45,10 @@ public class HumanTest {
 	@Test
 	public void test() {
 		
-		Sector sector = model.getGameMap().searchSectorByCoordinates(5, 11);
-		Sector sector1 = model.getGameMap().searchSectorByCoordinates(4, 11);
-		Sector sector2 = model.getGameMap().searchSectorByCoordinates(3, 11);
-		Sector sector3 = model.getGameMap().searchSectorByCoordinates(2, 11);
+		Sector sector = model.getGameMap().searchSectorByCoordinates(7, 11);
+		Sector sector1 = model.getGameMap().searchSectorByCoordinates(8, 11);
+		Sector sector2 = model.getGameMap().searchSectorByCoordinates(9, 11);
+		Sector sector3 = model.getGameMap().searchSectorByCoordinates(10, 11);
 		
 		if(avatar.canMove(sector1)){
 			assertEquals(avatar.canMove(sector1), true);

@@ -116,7 +116,7 @@ public class GameModel {
     public Player getNextPlayer() {
         // TODO implement here
     	for(int i = 0; i < this.getGamePlayers().size(); i++){
-	    	 if(this.getGamePlayers().get(i).equals(actualTurn.getCurrentPlayer())) {
+	    	 if(this.getGamePlayers().get(i).equals(this.getActualTurn().getCurrentPlayer())) {
 	    		  if(i+1<=7) {
 	    			  return this.getGamePlayers().get(i+1);
 	    		  } else return this.getGamePlayers().get(0);

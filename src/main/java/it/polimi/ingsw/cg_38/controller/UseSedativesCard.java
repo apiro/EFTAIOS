@@ -5,13 +5,16 @@ import java.util.*;
 
 /**
  * 
+ * anche questa perform è void in realta
+ * 
  */
-public class UseSedativesCard extends Action {
+public class UseSedativesCard extends GameAction {
 
     /**
      * 
      */
-    public UseSedativesCard(Card card) {
+    public UseSedativesCard(Card card, GameModel gameModel) {
+    	super(gameModel);
     	this.setCard(card);
     }
 
@@ -31,6 +34,7 @@ public class UseSedativesCard extends Action {
     public Boolean perform() {
         // TODO implement here
     	this.getGameModel().getActualTurn().setHasDraw(true);
+    	this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     	return true;
     }
 
@@ -39,7 +43,8 @@ public class UseSedativesCard extends Action {
      */
     public Boolean isPossible() {
         // TODO implement here
-    	if(!(this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar() instanceof Alien) || this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard())) {
+    	if(!this.currentAvatarType().equals("Alien") && 
+    			this.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard())) {
         	return true;
         }
         return false;

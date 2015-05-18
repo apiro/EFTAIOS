@@ -28,8 +28,8 @@ public class ObjectCard extends Card {
 		return type;
 	}
 
-	public void setType(ObjectCardType color) {
-		this.type = color;
+	public void setType(ObjectCardType type) {
+		this.type = type;
 	}
 
 }

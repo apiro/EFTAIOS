@@ -21,10 +21,10 @@ public class InterfaceForCommunication {
 
 
     /**
-     * @param Action action 
+     * @param GameAction action 
      * @return
      */
-    public void performUserCommands(Action action) {
+    public void performUserCommands(GameAction action) {
         // TODO implement here
     }
 

@@ -95,7 +95,7 @@ public class Map {
     public ArrayList<ArrayList<Sector>> table;
     
 	public void printMap() {
-		System.out.println("\n");
+		System.out.println("MAPPA DEL GIOCO:\n");
 		System.out.println("\n|_|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|");
 		for(int i = 0; i < this.height ; i++) {
 			System.out.print("|" + i + "|");
