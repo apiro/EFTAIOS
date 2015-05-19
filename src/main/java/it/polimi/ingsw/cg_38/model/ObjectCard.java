@@ -32,4 +32,9 @@ public class ObjectCard extends Card {
 		this.type = type;
 	}
 
+	@Override
+	public String toString() {
+		return "ObjectCard [type=" + type + "]";
+	}
+
 }

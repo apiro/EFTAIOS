@@ -6,7 +6,13 @@ import java.util.*;
  */
 public class SectorCard extends Card {
 
-    private Boolean hasObjectIcon;
+    @Override
+	public String toString() {
+		return "SectorCard [hasObjectIcon=" + hasObjectIcon + ", type=" + type
+				+ "]";
+	}
+
+	private Boolean hasObjectIcon;
     private SectorCardType type;
 
     /**

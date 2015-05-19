@@ -18,14 +18,20 @@ public abstract class Avatar {
 
     @Override
 	public String toString() {
-    	String code =  "Avatar [currentSector=" + currentSector + ", name=" + name
+    	String code = "name=" + name + "currentSector=" + currentSector
 				+ ", isPowered=" + isPowered + ", isAlive=" + isAlive
-				+ ", isWinner=" + isWinner + "\n \t ->Movements= ";
+				+ ", isWinner=" + isWinner + "\n \t ->MyMovements= ";
     	
     	for(Movement mv:this.getMyMovements()) {
-    		code = code + (mv.toString());
+    		code = code + (mv.getTurnNumber() + " " + mv.getTargetsector() + " ");
     	}
-		code = code + ("]");
+    	
+    	code = code + "\n \t ->MyCards= ";
+    	
+    	for(Card cd:this.getMyCards()) {
+    		code = code + (cd.toString() + " ");
+    	}
+    	
 		return code;
 	}
 

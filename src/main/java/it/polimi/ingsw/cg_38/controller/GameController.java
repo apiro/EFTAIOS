@@ -34,7 +34,7 @@ public class GameController {
     
     	generalController.listenForIncomingConnections(in);
     	
-    	for(Player pl:generalController.getMyPlayers()) {
+    	for(Player pl:generalController.getGameModel().getGamePlayers()) {
     		generalController.getPcs().add(new PlayerController(pl));
     	}
     	
@@ -46,7 +46,7 @@ public class GameController {
 
     	
     	while(!generalController.getFinishGame()) {
-    		System.out.println("Inizia il turno del: \n");
+    		System.out.println("Turno player:" + generalController.getCurrentPlayerController().getPlayer().getName() + " :\n");
     		System.out.println(generalController.getGameModel().getActualTurn().getCurrentPlayer().getAvatar().toString());
     		System.out.println("Inserisci il tipo di azione da compiere: \n");
     		System.out.println("\t 1) MOVE - M\n");
@@ -259,7 +259,7 @@ public class GameController {
 	public void setTimer(Timer timer) {
 		this.timer = timer;
 	}
-
+/*
 	public ArrayList<Player> getMyPlayers() {
 		return myPlayers;
 	}
@@ -267,7 +267,7 @@ public class GameController {
 	public void setMyPlayers(ArrayList<Player> myPlayers) {
 		this.myPlayers = myPlayers;
 	}
-
+*/
 	public void setGameModel(GameModel gameModel) {
 		this.gameModel = gameModel;
 	}
@@ -295,23 +295,24 @@ public class GameController {
     /**
      * 
      */
-    public ArrayList<Player> myPlayers = new ArrayList<Player>();
+    /*public ArrayList<Player> myPlayers = new ArrayList<Player>();*/
 
     /**
      * @return
      */
     public void assignAvatars() {
         // TODO implement here
-    	Collections.shuffle(this.getMyPlayers());
-   		for(int i =0; i<this.getMyPlayers().size(); i++) {
-   			int floor = this.getMyPlayers().size()/2;
+    	Collections.shuffle(getGameModel().getGamePlayers());
+   		for(int i =0; i<this.getGameModel().getGamePlayers().size(); i++) {
+   			int floor = this.getGameModel().getGamePlayers().size()/2;
    			if(i<floor) {
-   				this.getMyPlayers().get(i).setAvatar(new Human(Name.valueOf("Human"+(i+1)), this.getGameModel().getGameMap().searchSectorByName("HumanStartingPoint")));
+   				this.getGameModel().getGamePlayers().get(i).setAvatar(new Human(Name.valueOf("Human"+(i+1)), this.getGameModel().getGameMap().searchSectorByName("HumanStartingPoint")));
     		} else {
-    			this.getMyPlayers().get(i).setAvatar(new Human(Name.valueOf("Alien"+(i-floor+1)), this.getGameModel().getGameMap().searchSectorByName("AlienStartingPoint")));
+    			this.getGameModel().getGamePlayers().get(i).setAvatar(new Alien(Name.valueOf("Alien"+(i-floor+1)), this.getGameModel().getGameMap().searchSectorByName("AlienStartingPoint")));
     		}
-   			System.out.println(this.getMyPlayers().get(i).getAvatar().getName());
+   			System.out.println(this.getGameModel().getGamePlayers().get(i).getAvatar().getName());
     	}
+   		Collections.shuffle(getGameModel().getGamePlayers());
     }
     
     /**
@@ -320,7 +321,7 @@ public class GameController {
      */
     public void pushPlayerToGame(Player player) {
         // TODO implement here
-    	this.getMyPlayers().add(player);
+    	/*this.getMyPlayers().add(player);*/
     	this.getGameModel().getGamePlayers().add(player);
     }
 
@@ -357,8 +358,8 @@ public class GameController {
     	while(controllMyLoop[0]) {
     		System.out.println("Inserire nome nuovo Player:");
     		String name = in.nextLine();
-    		this.getMyPlayers().add(new Player(name));
-    		if(this.getMyPlayers().size()==8) {
+    		this.getGameModel().getGamePlayers().add(new Player(name));
+    		if(this.getGameModel().getGamePlayers().size()==8) {
     			this.getTimer().cancel();
     			this.getTimer().purge();
     			controllMyLoop[0] = false;
@@ -368,7 +369,7 @@ public class GameController {
     }
 
     public void setFirstTurn() {
-    	Turn actualTurn = new Turn(this.getMyPlayers().get(0));
+    	Turn actualTurn = new Turn(this.getGameModel().getGamePlayers().get(0));
     	this.getGameModel().setActualTurn(actualTurn);
     }
     
