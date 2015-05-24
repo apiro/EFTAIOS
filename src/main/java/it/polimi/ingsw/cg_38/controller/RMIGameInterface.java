@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  * interfaccia che dichiara i metodi che possono essere invocati dal client 
@@ -16,8 +17,8 @@ import java.rmi.Remote;
 
 public interface RMIGameInterface extends Remote {
 	
-	public void handleEvent(GameEvent evt);
+	public void handleEvent(GameEvent evt) throws RemoteException;
 
-	public void trasmitEvent(Event evt);
+	public void trasmitEvent(Event evt) throws RemoteException;
 		
 }

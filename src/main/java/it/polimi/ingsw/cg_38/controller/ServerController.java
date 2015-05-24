@@ -2,32 +2,31 @@ package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.GameController;
 import it.polimi.ingsw.cg_38.controller.GameState;
-import it.polimi.ingsw.cg_38.controller.PlayerController;
+import it.polimi.ingsw.cg_38.controller.action.Action;
+import it.polimi.ingsw.cg_38.controller.action.ActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.model.Player;
+import it.polimi.ingsw.cg_38.controller.action.InitGameAction;
+import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Observable;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import javax.xml.parsers.ParserConfigurationException;
 
-public class ServerController {
+public class ServerController extends Observable {
 	
 	private static final String name = "CENTRALSERVER";
-	private int socketPortNumber = 33344;
-	private int rmiRegistryPortNumber = 2344;
+	private int socketPortNumber = 4322;
+	private int rmiRegistryPortNumber = 1233;
 	private String IPAdress = "localhost";
 	private ServerSocket serverSocket;
 	//mappa che segna il nome del player con il corrispondente gamecontroller per poter trovare il topic di un player facilmente
@@ -36,17 +35,13 @@ public class ServerController {
 	public HashMap<String, GameController> getTopics() {
 		return topics;
 	}
-
-	/**
-	 * il seguente è un oggetto che gestisce la logica di creazione dei thread, questo oggetto per esempio gestisce la logica di creazione 
-	 * di un thread quando una sua creazione è richiesta
-	 **/
-	private ExecutorService executor;
+	
+	private Scanner in;
 	private ConcurrentLinkedQueue<NotifyEvent> toDistribute;
 	private ConcurrentLinkedQueue<GameEvent> toDispatch;
 	
 	private final Registry registry;
-	private Boolean serverAlive;
+	private Boolean serverAlive = true;
 	
 	/**
 	 * è il buffer nel quale vengono inseriti i messaggi provenienti da ogni client, quindi generati da chiamate a metodi RMI
@@ -56,26 +51,35 @@ public class ServerController {
 	 * client->Rmi->passa messaggi ad un metodo di un oggetto Rmi del server-> questo aggiunge il messaggio al buffer del server
 	 * */
 	
-	public ServerController(int socketPortNumber, int rmiRegistryPortNumber) throws RemoteException {
-		this.registry = LocateRegistry.createRegistry(rmiRegistryPortNumber);
-		this.socketPortNumber = socketPortNumber;
-		this.executor = Executors.newCachedThreadPool();
+	public ServerController(/*int socketPortNumber, int rmiRegistryPortNumber*/) throws RemoteException {
+		this.registry = LocateRegistry.createRegistry(/*rmiRegistryPortNumber*/this.rmiRegistryPortNumber);
+		/*this.socketPortNumber = socketPortNumber;*/
 		this.toDispatch = new ConcurrentLinkedQueue<GameEvent>();
 		this.toDistribute = new ConcurrentLinkedQueue<NotifyEvent>();
 	}
+	
+	public void closeServer() {
+		this.serverAlive = false;
+		this.setChanged();
+		this.notifyObservers();
+	}
 
-	public void startServer() throws IOException {
+	public void startServer() throws ParserConfigurationException, Exception {
+		
 		this.startRMIEnvironment();
-		System.out.println("Rmi registry ready on " + rmiRegistryPortNumber);
+		
 		this.startSocketEnvironment();
-		System.out.println("Server socket ready on " + socketPortNumber);
-		System.out.println("Server ready");
 		
 		while(serverAlive) {
 			Event msg = toDispatch.poll();
 			if(msg != null) {
 				//cerca il topic del giocatore contenuto negli attributi dell'evento e dispaccia l'evento al gamecontroller
 				//corrispondente
+				if(msg instanceof EventSubscribe) {
+					Action generatedAction = ActionCreator.createAction((GameEvent)msg);
+		    		NotifyEvent callbackEvent = ((InitGameAction)generatedAction).perform(this);
+		    		this.getToDistribute().add(callbackEvent);
+				}
 				(topics.get(msg.getGenerator().getName())).addEventToTheQueue((GameEvent)msg);
 			} else {
 				try {
@@ -85,6 +89,10 @@ public class ServerController {
 				} catch (InterruptedException e) {
 					System.err.println("Cannot wait on the queue!");
 				}
+			}
+			System.out.println("Do you wanna stop the server? Y for yes");
+			if(in.nextLine().equals("Y")) {
+				this.closeServer();
 			}
 		}
 	}
@@ -96,10 +104,12 @@ public class ServerController {
 		RMIRegistrationInterface registration = new RegistrationView(this.getToDispatch());
 		
 		//creo lo stub dell'oggetto remotizzabile creato prima
-		RMIRegistrationInterface stub = (RMIRegistrationInterface) UnicastRemoteObject.exportObject(registration, 0);
+		RMIRegistrationInterface stub = (RMIRegistrationInterface) UnicastRemoteObject.exportObject(registration, 1233);
 		
 		//registra lo stub sul registry con un nome tramite il quale potrà essere cercato
 		registry.rebind(name, stub);
+		
+		System.out.println("Rmi registry ready on " + rmiRegistryPortNumber);
 	}
 
 	public GameController initAndStartANewGame(String map, String room) throws ParserConfigurationException, Exception {
@@ -128,19 +138,19 @@ public class ServerController {
 
 	private void startSocketEnvironment() throws IOException {
 		serverSocket = new ServerSocket(socketPortNumber);
-	    while(serverAlive) {
-			Socket socket = serverSocket.accept();
-			//la riga dopo crea un thread per la gestione del socket arrivato
-			PlayerController view = new PlayerController(new SocketCommunicator(socket, toDispatch, toDistribute));
-			//fa partire il thread con la logia del ExecutorService
-			executor.submit(view);			
-		}
-	    executor.shutdown();
-	    serverSocket.close();
+		
+	    new SocketConnectionsHandler(this.serverSocket, this.getToDispatch(), this.getToDistribute()).start();
+	    
+	    System.out.println("Server socket ready on " + socketPortNumber);
+		System.out.println("Server ready");
 	}
 
-	public static void main(String[] args) throws IOException {
-		ServerController server = new ServerController(33435, 5788);
+	public ConcurrentLinkedQueue<NotifyEvent> getToDistribute() {
+		return toDistribute;
+	}
+
+	public static void main(String[] args) throws ParserConfigurationException, Exception {
+		ServerController server = new ServerController();
 		server.startServer();
 	}
 }

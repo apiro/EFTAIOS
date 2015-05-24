@@ -12,6 +12,7 @@ import it.polimi.ingsw.cg_38.model.Human;
 import it.polimi.ingsw.cg_38.model.Name;
 import it.polimi.ingsw.cg_38.model.Turn;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -82,7 +83,7 @@ public class GameController implements Observer {
 		return subscribers;
 	}
 
-	public void publish(NotifyEvent evt) {
+	public void publish(NotifyEvent evt) throws RemoteException {
 		if(evt.isBroadcast()) {
 			for(Communicator comm: this.getSubscribers().values()) {
 				comm.send(evt);
@@ -102,7 +103,7 @@ public class GameController implements Observer {
 		}
 	}
 	
-	public NotifyEvent performUserCommands(GameAction action) {
+	public NotifyEvent performUserCommands(GameAction action) throws RemoteException {
 		NotifyEvent notifyEvent = null;
 		if(action.isPossible(this.getGameModel())) {
 			notifyEvent = action.perform(this.getGameModel());
@@ -142,7 +143,7 @@ public class GameController implements Observer {
 	    this.setTimer(new Timer());
 	}
 	
-	public void startGame() {
+	public void startGame() throws RemoteException {
     	
     	while(!this.getFinishGame()) {
     		Action generatedAction = this.processGameEvent();

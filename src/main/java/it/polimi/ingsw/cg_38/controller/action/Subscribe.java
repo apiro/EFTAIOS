@@ -47,6 +47,7 @@ public class Subscribe extends InitGameAction {
 				return new EventAddedToGame(super.getPlayer(), false, false);
 			}
 		}
+		
 		GameController newGc = server.initAndStartANewGame(this.getTypeMap(), this.getRoom());
 		server.getTopics().put(super.getPlayer().getName(), newGc);
 		return new EventAddedToGame(super.getPlayer(), true, true);

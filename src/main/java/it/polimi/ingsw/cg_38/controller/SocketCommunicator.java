@@ -1,23 +1,19 @@
 package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
-import it.polimi.ingsw.cg_38.controller.event.GameEvent;
-import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.model.Player;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class SocketCommunicator implements Communicator {
 
 	private Socket socket;
 	private Scanner socketIn;
 	private PrintWriter socketOut;
-	private ConcurrentLinkedQueue<GameEvent> eventsToProcess;
-	private ConcurrentLinkedQueue<NotifyEvent> eventsToSend;
-
+	
 	public Socket getSocket() {
 		return socket;
 	}
@@ -42,34 +38,16 @@ public class SocketCommunicator implements Communicator {
 		this.socketOut = socketOut;
 	}
 
-	public ConcurrentLinkedQueue<GameEvent> getEventsToProcess() {
-		return eventsToProcess;
-	}
-
-	public void setEventsToProcess(ConcurrentLinkedQueue<GameEvent> eventsToProcess) {
-		this.eventsToProcess = eventsToProcess;
-	}
-
-	public ConcurrentLinkedQueue<NotifyEvent> getEventsToSend() {
-		return eventsToSend;
-	}
-
-	public void setEventsToSend(ConcurrentLinkedQueue<NotifyEvent> eventsToSend) {
-		this.eventsToSend = eventsToSend;
-	}
-
 	public void send(Event evt) {
 		//SERVER INVIA UN NOTIFYEVENT AL CLIENT
 		socketOut.println(evt.toString());
 		socketOut.flush();
 	}
 		
-	public SocketCommunicator(Socket socket, ConcurrentLinkedQueue<GameEvent> toDispatch, ConcurrentLinkedQueue<NotifyEvent> toDistribute) throws IOException {
+	public SocketCommunicator(Socket socket) throws IOException {
 		this.setSocket(socket);;
 		this.setSocketIn(new Scanner(socket.getInputStream()));
 		this.setSocketOut(new PrintWriter(socket.getOutputStream()));
-		this.setEventsToProcess(toDispatch);
-		this.setEventsToSend(toDistribute);
 	}
 	
 	public Event addSubscriber() {
@@ -79,8 +57,9 @@ public class SocketCommunicator implements Communicator {
 
 	public Event recieveEvent() {
 		//SERVER SI METTE IN RICEZIONE DI UN GAMEEVENT DAL CLIENT
-		Event evt = null;
+		Event evt = new Event(new Player("test"));
 		String toDecode = this.getSocketIn().next();
+		System.out.println(toDecode);
 		return evt;
 	}
 }

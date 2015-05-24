@@ -13,6 +13,11 @@ public class EventSubscribe extends GameEvent {
 		this.setMap(map);
 	}
 	
+	@Override
+	public String toString() {
+		return "EventSubscribe [map=" + map + ", room=" + room + "]";
+	}
+
 	public String getMap() {
 		return map;
 	}

@@ -1,11 +1,10 @@
 package it.polimi.ingsw.cg_38.controller;
-import it.polimi.ingsw.cg_38.controller.action.GameAction;
+import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
+import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import  it.polimi.ingsw.cg_38.model.*;
 
-import java.util.*;
-import java.io.PrintWriter;
-import java.util.Observable;
+import java.rmi.RemoteException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class PlayerController implements Runnable {
@@ -19,9 +18,12 @@ public class PlayerController implements Runnable {
 	 * send(String msg), che a seconda del Communicator che ho istanziato nel momento della creazione del PlayerController
 	 * invierà il messaggio con le modalita prevista dal Communicator che ho scelto.
 	 * */
-	private ConcurrentLinkedQueue<GameEvent> buffer;
 
 	private Player player;
+
+	private ConcurrentLinkedQueue<GameEvent> eventsToProcess;
+	private ConcurrentLinkedQueue<NotifyEvent> eventsToSend;
+
 	
 	public Player getPlayer() {
 		return player;
@@ -31,13 +33,37 @@ public class PlayerController implements Runnable {
 		this.player = player;
 	}
 
-	public PlayerController(Communicator communicator) {
+	public ConcurrentLinkedQueue<GameEvent> getEventsToProcess() {
+		return eventsToProcess;
+	}
+
+	public void setEventsToProcess(ConcurrentLinkedQueue<GameEvent> eventsToProcess) {
+		this.eventsToProcess = eventsToProcess;
+	}
+
+	public ConcurrentLinkedQueue<NotifyEvent> getEventsToSend() {
+		return eventsToSend;
+	}
+
+	public void setEventsToSend(ConcurrentLinkedQueue<NotifyEvent> eventsToSend) {
+		this.eventsToSend = eventsToSend;
+	}
+	
+	public PlayerController(Communicator communicator, ConcurrentLinkedQueue<GameEvent> toDispatch, ConcurrentLinkedQueue<NotifyEvent> toDistribute) {
 		this.communicator = communicator;
+		this.setEventsToProcess(toDispatch);
+		this.setEventsToSend(toDistribute);
 	}
 
 	public void run() {
-		// TODO Auto-generated method stub
-		
+		while(true) {
+			try {
+				Event evt = this.communicator.recieveEvent();
+				this.getEventsToProcess().add((GameEvent) evt);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
