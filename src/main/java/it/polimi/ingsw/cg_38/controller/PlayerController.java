@@ -1,58 +1,29 @@
 package it.polimi.ingsw.cg_38.controller;
+import it.polimi.ingsw.cg_38.controller.action.GameAction;
+import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import  it.polimi.ingsw.cg_38.model.*;
 
 import java.util.*;
+import java.io.PrintWriter;
+import java.util.Observable;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
-/**
- * 
- */
-public class PlayerController {
+public class PlayerController implements Runnable {
 
-    /**
-     * 
-     */
-    public PlayerController(Player player) {
-    	this.setPlayer(player);
-    }
+	private Communicator communicator;
+	
+	/**
+	 * è un buffer sul PlayerController nel quale il Server mette in una coda i messaggi che il ServerController invia 
+	 * al PlayerHandler. 
+	 * Il PlayerController dopodichè si preoccuperà di inviare i messaggi al suo client usando il metodo
+	 * send(String msg), che a seconda del Communicator che ho istanziato nel momento della creazione del PlayerController
+	 * invierà il messaggio con le modalita prevista dal Communicator che ho scelto.
+	 * */
+	private ConcurrentLinkedQueue<GameEvent> buffer;
 
-    /**
-     * 
-     */
-    public Player player;
-
-    /**
-     * @return
-     */
-    public void run() {
-        // TODO implement here
-    	/**
-    	 * il metodo run viene chiamato quando la partita è iniziata e il giocatore inizia a giocare ed è passata la fase 
-    	 * di init della partita
-    	 * 
-    	 * riceve le azioni dal client corrispondente e le performa con performusercomands che gia dentro di se fa il 
-    	 * controllo sulla effettiva eseguibilita della azione
-    	 * 
-    	 * */
-    	
-    	
-    }
-
-    public void init() {
-    	//richiede al client la modalita di comunicazione
-    	//richiede al client se vuole iniziare partita nuova o accedere ad una esistente
-    	//manda un messaggio al client per farlo rimanere in attesa
-    }
-    
-    /**
-     * @param String room 
-     * @return
-     */
-    public String accessToGame(String room) {
-        // TODO implement here
-        return "";
-    }
-
-    public Player getPlayer() {
+	private Player player;
+	
+	public Player getPlayer() {
 		return player;
 	}
 
@@ -60,29 +31,21 @@ public class PlayerController {
 		this.player = player;
 	}
 
+	public PlayerController(Communicator communicator) {
+		this.communicator = communicator;
+	}
+
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	/**
-     * @param String room 
-     * @return
-     */
-    public void createNewGame(String room) {
-        // TODO implement here
-    	
-    }
-
-    /**
-     * @param GameAction action 
-     * @return
-     */
-    public Object performUserCommands(GameAction action) {
-        // TODO implement here
-    	//se questo metodo ritorna null vuol dire che non è stato possibile performare l'azione passata
-    	Object toReturn;
-    	if(action.isPossible()) {
-    		toReturn = action.perform();
-    		return toReturn;
-    	} else {
-    		return false;
-    	}
-    }
-
+	 * StringTokenizer tokenizer = new StringTokenizer(String s);
+	 * 
+	 * tokenizer.nextToken(); ---> questo oggetto crea un oggetto wrapper alla stringa che gli passo e legge fino al primo 
+	 * 							   spazio. La prima stringa(il primo token) verra restituito con nextToken() poi se gfaccio
+	 * 							   ancora nextToken() mi rida la seconda parola della stringa.
+	 **/
+	
 }
