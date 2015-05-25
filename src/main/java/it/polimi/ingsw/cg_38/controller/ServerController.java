@@ -12,6 +12,7 @@ import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -20,13 +21,14 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
 import javax.xml.parsers.ParserConfigurationException;
 
 public class ServerController extends Observable {
 	
-	private static final String name = "CENTRALSERVER";
+	/*private static final String name = "CENTRALSERVER";*/
 	private int socketPortNumber = 4322;
-	private int rmiRegistryPortNumber = 1233;
+	/*private int rmiRegistryPortNumber = 1233;*/
 	private String IPAdress = "localhost";
 	private ServerSocket serverSocket;
 	//mappa che segna il nome del player con il corrispondente gamecontroller per poter trovare il topic di un player facilmente
@@ -36,11 +38,11 @@ public class ServerController extends Observable {
 		return topics;
 	}
 	
-	private Scanner in;
+	private Scanner in = new Scanner(System.in);
 	private ConcurrentLinkedQueue<NotifyEvent> toDistribute;
 	private ConcurrentLinkedQueue<GameEvent> toDispatch;
 	
-	private final Registry registry;
+	private Registry registry;
 	private Boolean serverAlive = true;
 	
 	/**
@@ -52,7 +54,6 @@ public class ServerController extends Observable {
 	 * */
 	
 	public ServerController(/*int socketPortNumber, int rmiRegistryPortNumber*/) throws RemoteException {
-		this.registry = LocateRegistry.createRegistry(/*rmiRegistryPortNumber*/this.rmiRegistryPortNumber);
 		/*this.socketPortNumber = socketPortNumber;*/
 		this.toDispatch = new ConcurrentLinkedQueue<GameEvent>();
 		this.toDistribute = new ConcurrentLinkedQueue<NotifyEvent>();
@@ -97,19 +98,18 @@ public class ServerController extends Observable {
 		}
 	}
 	
-	private void startRMIEnvironment() throws RemoteException {
+	private void startRMIEnvironment() throws RemoteException, AlreadyBoundException {
+		
+		this.registry = LocateRegistry.createRegistry(RMIRemoteObjectDetails.RMI_PORT);
 		
 		//creo un oggetto i quali metodi potranno essere chiamati remotamente perche estende Remote
 		//gli passo il buffer cosi può aggiungere eventi al buffers
 		RMIRegistrationInterface registration = new RegistrationView(this.getToDispatch());
 		
-		//creo lo stub dell'oggetto remotizzabile creato prima
-		RMIRegistrationInterface stub = (RMIRegistrationInterface) UnicastRemoteObject.exportObject(registration, 1233);
-		
 		//registra lo stub sul registry con un nome tramite il quale potrà essere cercato
-		registry.rebind(name, stub);
+		registry.bind(RMIRemoteObjectDetails.RMI_ID, registration);
 		
-		System.out.println("Rmi registry ready on " + rmiRegistryPortNumber);
+		System.out.println("Rmi registry ready on " + RMIRemoteObjectDetails.RMI_PORT);
 	}
 
 	public GameController initAndStartANewGame(String map, String room) throws ParserConfigurationException, Exception {

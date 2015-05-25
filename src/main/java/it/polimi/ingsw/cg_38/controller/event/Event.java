@@ -1,8 +1,10 @@
 package it.polimi.ingsw.cg_38.controller.event;
 
+import java.io.Serializable;
+
 import it.polimi.ingsw.cg_38.model.Player;
 
-public class Event {
+public class Event implements Serializable {
 
 	private Player generator;
 	

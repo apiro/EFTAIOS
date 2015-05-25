@@ -1,10 +1,11 @@
 package it.polimi.ingsw.cg_38.model;
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * 
  */
-public class Player {
+public class Player implements Serializable {
 
     @Override
 	public String toString() {

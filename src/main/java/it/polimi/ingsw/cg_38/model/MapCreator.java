@@ -16,11 +16,11 @@ public class MapCreator {
     public static Map createMap(String type) throws ParserConfigurationException, Exception {
         // TODO implement here
     	Map creating;
-    	if(type == "Galilei") {
+    	if(type.equals("Galilei")) {
     		creating = new Galilei();
-    	} else if (type == "Galvani") {
+    	} else if (type.equals("Galvani")) {
     		creating = new Galvani();
-    	} else if (type == "Fermi") {
+    	} else if (type.equals("Fermi")) {
     		creating = new Fermi();
     	} else {
     		creating = new Map(type);

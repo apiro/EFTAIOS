@@ -10,5 +10,7 @@ import java.rmi.RemoteException;
  * */
 public interface RMIRegistrationInterface extends Remote {
 
-	public GameView register(EventSubscribe evt) throws RemoteException;
+	public RMIGameInterface register(EventSubscribe evt) throws RemoteException;
+
+	public boolean isLoginValid(String username) throws RemoteException;
 }

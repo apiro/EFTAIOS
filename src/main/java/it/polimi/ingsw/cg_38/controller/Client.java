@@ -22,22 +22,27 @@ public class Client {
 	private String host = "127.0.0.1";
 	private Communicator communicator;
 	private Registry registry;
-	private String name = "CENTRALSERVER";
+	private Player player;
+	private String name;
+	private String room;
+	private String map;
 	private Scanner in = new Scanner(System.in);
 	private ConcurrentLinkedQueue<NotifyEvent> toProcess = new ConcurrentLinkedQueue<NotifyEvent>();
 	private ConcurrentLinkedQueue<GameEvent> toSend = new ConcurrentLinkedQueue<GameEvent>();
 
 	public Client(String s) throws NotBoundException, UnknownHostException, IOException {
 		System.out.println("NOME ROOM | TUO NOME NEL GIOCO | NOME MAPPA: ");
-		String name = in.nextLine();
-		String room = in.nextLine();
-		String map = in.nextLine();
+		name = in.nextLine();
+		room = in.nextLine();
+		map = in.nextLine();
+		this.player = new Player(name);
 		EventSubscribe evt = new EventSubscribe(new Player(name), room, map);
 		if(s.equals("RMI")) {
-			registry = LocateRegistry.getRegistry(host, port);
-			RMIRegistrationInterface game = (RMIRegistrationInterface) registry.lookup(name);
-			
-			GameView view = game.register(evt);
+			registry = LocateRegistry.getRegistry("localhost", RMIRemoteObjectDetails.RMI_PORT);
+			RMIRegistrationInterface game = (RMIRegistrationInterface) registry.lookup(RMIRemoteObjectDetails.RMI_ID);
+			System.out.println(game.isLoginValid("albi"));
+			System.out.println(game.isLoginValid("test"));
+			RMIGameInterface view = game.register(evt);
 			this.communicator = new RMICommunicator(view);
 		} else if (s.equals("Socket")) {
 			Socket socket = new Socket(host, port );
@@ -54,7 +59,7 @@ public class Client {
 		}
 	}
 	
-	public void handleFiredGameEvent(Event evt) throws RemoteException {
+	public void trasmitGameEvent(Event evt) throws RemoteException {
 		communicator.send(evt);
 		Event responseEvent = communicator.recieveEvent();
 		this.handleSentNotifyEvent(responseEvent);
@@ -65,8 +70,10 @@ public class Client {
 	}
 	
 	public static void main(String[] args) throws UnknownHostException, NotBoundException, IOException{
+		Scanner in = new Scanner(System.in);
 		System.out.println("MAKE YOUR CHOOSE");
-		Client client = new Client("RMI");
+		String choose = in.nextLine();
+		Client client = new Client(choose);
 		//invio l'evento di subscribe al server
 		/*Event evt = null;
 		//costruzione evento da inviare EventCreator.createEvent(client.in.nextLine())

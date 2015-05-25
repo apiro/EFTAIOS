@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
+import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 
 
 /**
@@ -24,7 +25,7 @@ public class RMICommunicator implements Communicator {
 	
 	public void send(Event evt) throws RemoteException {
 		//CHI CHIAMA QUESTO METODO TRASMETTE UN EVENTO ALL'OGGETTO REMOTO
-		remoteView.trasmitEvent((Event)evt);
+		remoteView.trasmitEvent((GameEvent)evt);
 	}
 
 	public Event addSubscriber() {
@@ -34,9 +35,8 @@ public class RMICommunicator implements Communicator {
 
 	public Event recieveEvent() throws RemoteException {
 		//CHI CHIAMA QUESTO METODO SI PONE IN ATTESA DI RICEVERE UN EVENTO DALL'OGGETTO REMOTO E LO METTE IN evt
-		Event evt = null;
-		remoteView.handleEvent((GameEvent)evt);
-		return null;
+		NotifyEvent evt = remoteView.grabEvent();
+		return evt;
 	}
 
 }
