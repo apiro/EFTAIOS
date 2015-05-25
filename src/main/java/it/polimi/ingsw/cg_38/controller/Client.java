@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Client {
 
-	private int port = 1233;
+	private int port = 4322;
 	private String host = "127.0.0.1";
 	private Communicator communicator;
 	private Registry registry;

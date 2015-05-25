@@ -42,15 +42,17 @@ public class Subscribe extends InitGameAction {
 		for(GameController gc:server.getTopics().values()) {
 			if(this.isPossible(gc)) {
 				gc.getGameModel().getGamePlayers().add(super.getPlayer());
-				return new EventAddedToGame(super.getPlayer(), true, true);
+				server.getTopics().put(super.getPlayer().getName(), gc);
+				return new EventAddedToGame(super.getPlayer(), true);
 			} else {
-				return new EventAddedToGame(super.getPlayer(), false, false);
+				return new EventAddedToGame(super.getPlayer(), false);
 			}
 		}
 		
 		GameController newGc = server.initAndStartANewGame(this.getTypeMap(), this.getRoom());
+		server.addObserver(newGc);
 		server.getTopics().put(super.getPlayer().getName(), newGc);
-		return new EventAddedToGame(super.getPlayer(), true, true);
+		return new EventAddedToGame(super.getPlayer(), true);
 	}
 
 	@Override

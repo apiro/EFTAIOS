@@ -4,10 +4,10 @@ import it.polimi.ingsw.cg_38.controller.GameController;
 import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.action.Action;
 import it.polimi.ingsw.cg_38.controller.action.ActionCreator;
-import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.action.InitGameAction;
+import it.polimi.ingsw.cg_38.controller.action.GameAction;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 
 import java.io.IOException;
@@ -16,7 +16,6 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Scanner;
@@ -39,7 +38,7 @@ public class ServerController extends Observable {
 	}
 	
 	private Scanner in = new Scanner(System.in);
-	private ConcurrentLinkedQueue<NotifyEvent> toDistribute;
+	/*private ConcurrentLinkedQueue<NotifyEvent> toDistribute;*/
 	private ConcurrentLinkedQueue<GameEvent> toDispatch;
 	
 	private Registry registry;
@@ -56,7 +55,7 @@ public class ServerController extends Observable {
 	public ServerController(/*int socketPortNumber, int rmiRegistryPortNumber*/) throws RemoteException {
 		/*this.socketPortNumber = socketPortNumber;*/
 		this.toDispatch = new ConcurrentLinkedQueue<GameEvent>();
-		this.toDistribute = new ConcurrentLinkedQueue<NotifyEvent>();
+		/*this.toDistribute = new ConcurrentLinkedQueue<NotifyEvent>();*/
 	}
 	
 	public void closeServer() {
@@ -72,16 +71,22 @@ public class ServerController extends Observable {
 		this.startSocketEnvironment();
 		
 		while(serverAlive) {
-			Event msg = toDispatch.poll();
+			GameEvent msg = toDispatch.poll();
+			NotifyEvent callbackEvent = null;
 			if(msg != null) {
-				//cerca il topic del giocatore contenuto negli attributi dell'evento e dispaccia l'evento al gamecontroller
-				//corrispondente
+				GameController gcFound = null;
+				Action generatedAction = ActionCreator.createAction(msg);
+				
 				if(msg instanceof EventSubscribe) {
-					Action generatedAction = ActionCreator.createAction((GameEvent)msg);
-		    		NotifyEvent callbackEvent = ((InitGameAction)generatedAction).perform(this);
-		    		this.getToDistribute().add(callbackEvent);
+		    		callbackEvent = ((InitGameAction)generatedAction).perform(this);
+		    		gcFound = topics.get(msg.getGenerator().getName());
+				} else {
+					gcFound = topics.get(msg.getGenerator().getName());
+		    		callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 				}
-				(topics.get(msg.getGenerator().getName())).addEventToTheQueue((GameEvent)msg);
+				gcFound.addEventToTheQueue(callbackEvent);
+				this.setChanged();
+				this.notifyObservers(gcFound.getRoom());
 			} else {
 				try {
 					synchronized(toDispatch) {
@@ -139,15 +144,15 @@ public class ServerController extends Observable {
 	private void startSocketEnvironment() throws IOException {
 		serverSocket = new ServerSocket(socketPortNumber);
 		
-	    new SocketConnectionsHandler(this.serverSocket, this.getToDispatch(), this.getToDistribute()).start();
+	    new SocketConnectionsHandler(this.serverSocket, this.getToDispatch()/*, this.getToDistribute()*/).start();
 	    
 	    System.out.println("Server socket ready on " + socketPortNumber);
 		System.out.println("Server ready");
 	}
 
-	public ConcurrentLinkedQueue<NotifyEvent> getToDistribute() {
+	/*public ConcurrentLinkedQueue<NotifyEvent> getToDistribute() {
 		return toDistribute;
-	}
+	}*/
 
 	public static void main(String[] args) throws ParserConfigurationException, Exception {
 		ServerController server = new ServerController();

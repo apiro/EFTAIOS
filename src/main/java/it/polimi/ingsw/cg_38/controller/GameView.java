@@ -35,7 +35,7 @@ public class GameView extends UnicastRemoteObject implements RMIGameInterface {
 		//now i return a test event, but here i should return the notifyevent 
 		//directed to this client, searching it in all the notifyevent that the
 		//server produces.
-		return new EventAddedToGame(new Player("albi"),false, false);
+		return new EventAddedToGame(new Player("albi"), false);
 	}
 
 	@Override

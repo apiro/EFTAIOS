@@ -1,14 +1,24 @@
 package it.polimi.ingsw.cg_38.notifyEvent;
 
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.model.Map;
 import it.polimi.ingsw.cg_38.model.Player;
 
 public class EventAddedToGame extends NotifyEvent {
 
 	private Boolean added;
+	/*private Map map;
 	
-	public EventAddedToGame(Player generator, Boolean broadcast, Boolean added) {
-		super(generator, broadcast);
+	public Map getMap() {
+		return map;
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
+	}*/
+
+	public EventAddedToGame(Player generator, Boolean added) {
+		super(generator, true);
 		this.setAdded(added);
 	}
 

@@ -24,11 +24,11 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 	private ConcurrentLinkedQueue<GameEvent> toDispatch;
 	private ConcurrentLinkedQueue<NotifyEvent> toDistribute;
 	
-	public SocketConnectionsHandler(ServerSocket serverSocket, ConcurrentLinkedQueue<GameEvent> toDispatch, ConcurrentLinkedQueue<NotifyEvent> toDistribute) {
+	public SocketConnectionsHandler(ServerSocket serverSocket, ConcurrentLinkedQueue<GameEvent> toDispatch/*, ConcurrentLinkedQueue<NotifyEvent> toDistribute*/) {
 		this.executor = Executors.newCachedThreadPool();
 		this.serverSocket = serverSocket;
 		this.toDispatch = toDispatch;
-		this.toDistribute = toDistribute;
+		/*this.toDistribute = toDistribute;*/
 	}
 	
 	public void run() {

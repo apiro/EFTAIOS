@@ -1,10 +1,7 @@
 package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.GameState;
-import it.polimi.ingsw.cg_38.controller.action.Action;
-import it.polimi.ingsw.cg_38.controller.action.ActionCreator;
 import it.polimi.ingsw.cg_38.controller.action.GameAction;
-import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.model.Alien;
 import it.polimi.ingsw.cg_38.model.GameModel;
@@ -13,7 +10,6 @@ import it.polimi.ingsw.cg_38.model.Name;
 import it.polimi.ingsw.cg_38.model.Turn;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Observable;
@@ -42,9 +38,7 @@ public class GameController implements Observer {
 	/**
 	 * arraylist dove il server pone gli eventi provenienti dal buffer coordinato relativi a questo topic(a questa partita) 
 	 * */
-	private ConcurrentLinkedQueue<GameEvent> buffer;
-
-	private String topic;
+	private ConcurrentLinkedQueue<NotifyEvent> buffer;
 
 	private GameModel gameModel;
 
@@ -73,10 +67,16 @@ public class GameController implements Observer {
     }
 	
 	/**
-	 * put an event in the queue of the events that this game has to handle
+	 * quando viene aggiungo un evento alla coda di questo topic viene fired questo metodo che invia il messaggio.
 	 **/
 	public void update(Observable o, Object arg) {
-		this.addEventToTheQueue((GameEvent)arg);
+		if(((String)arg).equals(this.getRoom())) {
+			try {
+				this.sendNotifyEvent();
+			} catch (RemoteException e) {
+				System.err.println("Error in sending the message !");
+			}
+		}
 	}
 	
 	public HashMap<String, Communicator> getSubscribers() {
@@ -96,7 +96,7 @@ public class GameController implements Observer {
 	/**
 	 * method to add a message to the buffer of this game. added by playerController and ServerController.
 	 * */
-	public void addEventToTheQueue(GameEvent msg) {
+	public void addEventToTheQueue(NotifyEvent msg) {
 		buffer.add(msg);
 		synchronized(buffer) {
 			buffer.notify();
@@ -112,11 +112,10 @@ public class GameController implements Observer {
 		return notifyEvent; 
 	}
 
-	public Action processGameEvent() {
-		GameEvent msg = this.getBuffer().poll();
-		Action action = null;
+	public void sendNotifyEvent() throws RemoteException {
+		NotifyEvent msg = this.getBuffer().poll();
 		if(msg != null) {
-			action = ActionCreator.createAction(msg);
+			this.publish(msg);
 		} else {
 			try {
 				synchronized(this.getBuffer()) {
@@ -126,14 +125,13 @@ public class GameController implements Observer {
 				System.err.println("Cannot wait on the queue!");
 			}
 		}
-		return action;
 	}
 
-	public ConcurrentLinkedQueue<GameEvent> getBuffer() {
+	public ConcurrentLinkedQueue<NotifyEvent> getBuffer() {
 		return buffer;
 	}
 
-	public void setBuffer(ConcurrentLinkedQueue<GameEvent> buffer) {
+	public void setBuffer(ConcurrentLinkedQueue<NotifyEvent> buffer) {
 		this.buffer = buffer;
 	}
 
@@ -142,14 +140,18 @@ public class GameController implements Observer {
 	    this.setGameModel(new GameModel(type));
 	    this.setTimer(new Timer());
 	}
-	
+
+	public void setRoom(String room) {
+		this.room = room;
+	}
+
 	public void startGame() throws RemoteException {
     	
-    	while(!this.getFinishGame()) {
+    	/*while(!this.getFinishGame()) {
     		Action generatedAction = this.processGameEvent();
     		NotifyEvent callbackEvent = this.performUserCommands((GameAction)generatedAction);
     		this.publish(callbackEvent);
-    	} 	
+    	} 	*/
     }
 	
 	public void closeGame() {
@@ -217,9 +219,5 @@ public class GameController implements Observer {
 
 	public void setGameModel(GameModel gameModel) {
 		this.gameModel = gameModel;
-	}
-
-	public void setRoom(String topic) {
-		this.topic = topic;
 	}
 }
