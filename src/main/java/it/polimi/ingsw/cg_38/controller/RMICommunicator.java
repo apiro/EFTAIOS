@@ -17,15 +17,15 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
  * */
 public class RMICommunicator implements Communicator {
 
-	private RMIGameInterface remoteView;
+	private RMIRemoteObjectInterface remoteView;
 	
-	public RMICommunicator(RMIGameInterface remoteView) {
+	public RMICommunicator(RMIRemoteObjectInterface remoteView) {
 		this.remoteView = remoteView;
 	}
 	
 	public void send(Event evt) throws RemoteException {
 		//CHI CHIAMA QUESTO METODO TRASMETTE UN EVENTO ALL'OGGETTO REMOTO
-		remoteView.trasmitEvent((GameEvent)evt);
+		remoteView.trasmitEvent(evt);
 	}
 
 	public Event addSubscriber() {
@@ -35,7 +35,7 @@ public class RMICommunicator implements Communicator {
 
 	public Event recieveEvent() throws RemoteException {
 		//CHI CHIAMA QUESTO METODO SI PONE IN ATTESA DI RICEVERE UN EVENTO DALL'OGGETTO REMOTO E LO METTE IN evt
-		NotifyEvent evt = remoteView.grabEvent();
+		NotifyEvent evt = null;/*remoteView.grabEvent();*/
 		return evt;
 	}
 

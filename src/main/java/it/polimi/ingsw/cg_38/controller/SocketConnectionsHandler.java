@@ -22,13 +22,12 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 	private Boolean serverAlive = true;
 	private ServerSocket serverSocket;
 	private ConcurrentLinkedQueue<GameEvent> toDispatch;
-	private ConcurrentLinkedQueue<NotifyEvent> toDistribute;
 	
-	public SocketConnectionsHandler(ServerSocket serverSocket, ConcurrentLinkedQueue<GameEvent> toDispatch/*, ConcurrentLinkedQueue<NotifyEvent> toDistribute*/) {
+	public SocketConnectionsHandler(ServerSocket serverSocket, ConcurrentLinkedQueue<GameEvent> toDispatch) {
 		this.executor = Executors.newCachedThreadPool();
 		this.serverSocket = serverSocket;
 		this.toDispatch = toDispatch;
-		/*this.toDistribute = toDistribute;*/
+		
 	}
 	
 	public void run() {
@@ -41,14 +40,14 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 				e.printStackTrace();
 			}
 			//la riga dopo crea un thread per la gestione del socket arrivato
-			PlayerController view = null;
+			PlayerController playerHandler = null;
 			try {
-				view = new PlayerController(new SocketCommunicator(socket), toDispatch, toDistribute);
+				playerHandler = new PlayerController(new SocketCommunicator(socket), toDispatch);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			//fa partire il thread con la logia del ExecutorService
-			executor.submit(view);			
+			executor.submit(playerHandler);			
 		}
 	    executor.shutdown();
 	    try {

@@ -2,8 +2,11 @@ package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.model.Player;
+import it.polimi.ingsw.cg_38.model.Turn;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -11,9 +14,25 @@ import java.util.Scanner;
 public class SocketCommunicator implements Communicator {
 
 	private Socket socket;
-	private Scanner socketIn;
-	private PrintWriter socketOut;
+	private ObjectInputStream inputStream;
+	private ObjectOutputStream outputStream;
 	
+	public ObjectInputStream getInputStream() {
+		return inputStream;
+	}
+
+	public void setInputStream(ObjectInputStream inputStream) {
+		this.inputStream = inputStream;
+	}
+
+	public ObjectOutputStream getOutputStream() {
+		return outputStream;
+	}
+
+	public void setOutputStream(ObjectOutputStream outputStream) {
+		this.outputStream = outputStream;
+	}
+
 	public Socket getSocket() {
 		return socket;
 	}
@@ -22,32 +41,22 @@ public class SocketCommunicator implements Communicator {
 		this.socket = socket;
 	}
 
-	public Scanner getSocketIn() {
-		return socketIn;
-	}
-
-	public void setSocketIn(Scanner socketIn) {
-		this.socketIn = socketIn;
-	}
-
-	public PrintWriter getSocketOut() {
-		return socketOut;
-	}
-
-	public void setSocketOut(PrintWriter socketOut) {
-		this.socketOut = socketOut;
-	}
-
 	public void send(Event evt) {
 		//SERVER INVIA UN NOTIFYEVENT AL CLIENT
-		socketOut.println(evt.toString());
-		socketOut.flush();
+		try {
+			this.getOutputStream().writeObject(evt);
+			this.getOutputStream().flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 		
 	public SocketCommunicator(Socket socket) throws IOException {
-		this.setSocket(socket);;
-		this.setSocketIn(new Scanner(socket.getInputStream()));
-		this.setSocketOut(new PrintWriter(socket.getOutputStream()));
+		this.setSocket(socket);
+		this.setInputStream( new ObjectInputStream(this.getSocket().getInputStream()));
+		this.setOutputStream( new ObjectOutputStream(this.getSocket().getOutputStream()));
+		
 	}
 	
 	public Event addSubscriber() {
@@ -57,9 +66,25 @@ public class SocketCommunicator implements Communicator {
 
 	public Event recieveEvent() {
 		//SERVER SI METTE IN RICEZIONE DI UN GAMEEVENT DAL CLIENT
-		Event evt = new Event(new Player("test"));
-		String toDecode = this.getSocketIn().next();
-		System.out.println(toDecode);
+		Event evt = null;
+		try {
+			evt = (Event)this.getInputStream().readObject();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return evt;
+	}
+	
+	public void closeSocket(){
+		try {
+			this.getOutputStream().close();
+			this.getInputStream().close();
+			this.getSocket().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

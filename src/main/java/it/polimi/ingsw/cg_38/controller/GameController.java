@@ -21,10 +21,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class GameController implements Observer {
-	
-	/**
-	 * arraylist delle interfacce per comunicare con i giocatori sottoscritti alla partita
-	 * */
+
 	private HashMap<String, Communicator> subscribers = new HashMap<String, Communicator>();
 	
 	public GameState getState() {
@@ -34,43 +31,34 @@ public class GameController implements Observer {
 	public void setState(GameState state) {
 		this.state = state;
 	}
-
-	/**
-	 * arraylist dove il server pone gli eventi provenienti dal buffer coordinato relativi a questo topic(a questa partita) 
-	 * */
+	
 	private ConcurrentLinkedQueue<NotifyEvent> buffer;
 
 	private GameModel gameModel;
 
 	private Timer timer;
 
-	private Boolean finishGame = false;
-	
 	private GameState state = GameState.STARTING;
 	
-    public void setFinishGame(Boolean finishGame) {
-		this.finishGame = finishGame;
-	}
-
-    private String room;
+    private String topic;
     
-	public String getRoom() {
-		return room;
+	public String getTopic() {
+		return topic;
 	}
 
 	private Boolean canAcceptOtherPlayers = true;
 
-	public GameController(String type, String room) throws ParserConfigurationException, Exception {
+	public GameController(String type, String topic) throws ParserConfigurationException, Exception {
 		
-    	this.initGame(type, room);
-    	this.startGame();
+    	this.initGame(type, topic);
+    	
     }
 	
 	/**
 	 * quando viene aggiungo un evento alla coda di questo topic viene fired questo metodo che invia il messaggio.
 	 **/
 	public void update(Observable o, Object arg) {
-		if(((String)arg).equals(this.getRoom())) {
+		if(((String)arg).equals(this.getTopic())) {
 			try {
 				this.sendNotifyEvent();
 			} catch (RemoteException e) {
@@ -135,28 +123,18 @@ public class GameController implements Observer {
 		this.buffer = buffer;
 	}
 
-	public void initGame(String type, String room) throws ParserConfigurationException, Exception {
-		this.setRoom(room);
+	public void initGame(String type, String topic) throws ParserConfigurationException, Exception {
+		this.setTopic(topic);
 	    this.setGameModel(new GameModel(type));
 	    this.setTimer(new Timer());
 	}
 
-	public void setRoom(String room) {
-		this.room = room;
+	public void setTopic(String topic) {
+		this.topic = topic;
 	}
-
-	public void startGame() throws RemoteException {
-    	
-    	/*while(!this.getFinishGame()) {
-    		Action generatedAction = this.processGameEvent();
-    		NotifyEvent callbackEvent = this.performUserCommands((GameAction)generatedAction);
-    		this.publish(callbackEvent);
-    	} 	*/
-    }
 	
 	public void closeGame() {
 	    this.setState(GameState.FINISHED);
-	    this.setFinishGame(true);
 	}
 	
 	public void setFirstTurn() {
@@ -207,10 +185,6 @@ public class GameController implements Observer {
 
 	public void setCanAcceptOtherPlayers(Boolean canAcceptOtherPlayers) {
 		this.canAcceptOtherPlayers = canAcceptOtherPlayers;
-	}
-
-	public boolean getFinishGame() {
-		return this.finishGame;
 	}
 
 	public void setTimer(Timer timer) {

@@ -22,7 +22,6 @@ public class PlayerController implements Runnable {
 	private Player player;
 
 	private ConcurrentLinkedQueue<GameEvent> eventsToProcess;
-	private ConcurrentLinkedQueue<NotifyEvent> eventsToSend;
 
 	
 	public Player getPlayer() {
@@ -40,19 +39,10 @@ public class PlayerController implements Runnable {
 	public void setEventsToProcess(ConcurrentLinkedQueue<GameEvent> eventsToProcess) {
 		this.eventsToProcess = eventsToProcess;
 	}
-
-	public ConcurrentLinkedQueue<NotifyEvent> getEventsToSend() {
-		return eventsToSend;
-	}
-
-	public void setEventsToSend(ConcurrentLinkedQueue<NotifyEvent> eventsToSend) {
-		this.eventsToSend = eventsToSend;
-	}
 	
-	public PlayerController(Communicator communicator, ConcurrentLinkedQueue<GameEvent> toDispatch, ConcurrentLinkedQueue<NotifyEvent> toDistribute) {
+	public PlayerController(Communicator communicator, ConcurrentLinkedQueue<GameEvent> toDispatch) {
 		this.communicator = communicator;
 		this.setEventsToProcess(toDispatch);
-		this.setEventsToSend(toDistribute);
 	}
 
 	public void run() {

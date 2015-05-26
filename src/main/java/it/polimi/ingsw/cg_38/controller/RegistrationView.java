@@ -20,11 +20,11 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 		this.queue = queue;
 	}
 	
-	public GameView register(EventSubscribe evt) throws RemoteException {
+	public ServerView register(/*EventSubscribe evt*/) throws RemoteException {
 		
-		queue.add(evt);
-		GameView view = null;
-		view = new GameView(queue);
+		/*queue.add(evt);*/
+		ServerView view = null;
+		view = new ServerView(queue);
 		return view;
 	}
 	

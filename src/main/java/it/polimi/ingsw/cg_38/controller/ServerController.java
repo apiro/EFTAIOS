@@ -76,17 +76,17 @@ public class ServerController extends Observable {
 			if(msg != null) {
 				GameController gcFound = null;
 				Action generatedAction = ActionCreator.createAction(msg);
+				gcFound = topics.get(msg.getGenerator().getName());
 				
 				if(msg instanceof EventSubscribe) {
 		    		callbackEvent = ((InitGameAction)generatedAction).perform(this);
-		    		gcFound = topics.get(msg.getGenerator().getName());
+		    		
 				} else {
-					gcFound = topics.get(msg.getGenerator().getName());
 		    		callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 				}
 				gcFound.addEventToTheQueue(callbackEvent);
 				this.setChanged();
-				this.notifyObservers(gcFound.getRoom());
+				this.notifyObservers(gcFound.getTopic());
 			} else {
 				try {
 					synchronized(toDispatch) {
@@ -105,21 +105,23 @@ public class ServerController extends Observable {
 	
 	private void startRMIEnvironment() throws RemoteException, AlreadyBoundException {
 		
-		this.registry = LocateRegistry.createRegistry(RMIRemoteObjectDetails.RMI_PORT);
+		RMIRemoteObjectDetails serverView = new RMIRemoteObjectDetails("REGISTRATIONVIEW");
+		
+		this.registry = LocateRegistry.createRegistry(RMIRemoteObjectDetails.getRMI_PORT());
 		
 		//creo un oggetto i quali metodi potranno essere chiamati remotamente perche estende Remote
 		//gli passo il buffer cosi può aggiungere eventi al buffers
 		RMIRegistrationInterface registration = new RegistrationView(this.getToDispatch());
 		
 		//registra lo stub sul registry con un nome tramite il quale potrà essere cercato
-		registry.bind(RMIRemoteObjectDetails.RMI_ID, registration);
+		registry.bind(serverView.getRMI_ID(), registration);
 		
-		System.out.println("Rmi registry ready on " + RMIRemoteObjectDetails.RMI_PORT);
+		System.out.println("Rmi registry ready on " + RMIRemoteObjectDetails.getRMI_PORT());
 	}
 
-	public GameController initAndStartANewGame(String map, String room) throws ParserConfigurationException, Exception {
+	public GameController initAndStartANewGame(String map, String topic) throws ParserConfigurationException, Exception {
 
-    	GameController generalController = new GameController(map, room);
+    	GameController generalController = new GameController(map, topic);
     	
     	generalController.setState(GameState.STARTING);
     	generalController.waitingForPlayerConnection();
@@ -129,7 +131,6 @@ public class ServerController extends Observable {
     	generalController.assignAvatars();
     	generalController.setFirstTurn();
     	generalController.setState(GameState.RUNNING);
-    	generalController.startGame();
     	return generalController;
     }
 	
@@ -144,7 +145,7 @@ public class ServerController extends Observable {
 	private void startSocketEnvironment() throws IOException {
 		serverSocket = new ServerSocket(socketPortNumber);
 		
-	    new SocketConnectionsHandler(this.serverSocket, this.getToDispatch()/*, this.getToDistribute()*/).start();
+	    new SocketConnectionsHandler(this.serverSocket, this.getToDispatch()).start();
 	    
 	    System.out.println("Server socket ready on " + socketPortNumber);
 		System.out.println("Server ready");

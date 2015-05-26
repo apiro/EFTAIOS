@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_38.controller;
 
+import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.model.Player;
@@ -14,14 +15,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 // -> TRASMITEVENT(GAMEEVENT EVT) aggiunge alla coda di eventi da dispacciare del server
 //		un evento di GIOCO.
 // -> HANDLEEVENT
-public class GameView extends UnicastRemoteObject implements RMIGameInterface {
+public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectInterface {
 
 	private static final long serialVersionUID = 1L;
 	//coda di eventi di gioco esportata in questa vista limitata del server
 	//aggiungendo un evento di gioco qui si aggiunge un evento da risolvere al server
 	private ConcurrentLinkedQueue<GameEvent> queue;
 
-	public GameView(ConcurrentLinkedQueue<GameEvent> queue) throws RemoteException {
+	public ServerView(ConcurrentLinkedQueue<GameEvent> queue) throws RemoteException {
 		super();
 		/*try {
 			UnicastRemoteObject.exportObject(this, 2344);
@@ -39,8 +40,8 @@ public class GameView extends UnicastRemoteObject implements RMIGameInterface {
 	}
 
 	@Override
-	public void trasmitEvent(GameEvent evt) {
-		queue.add(evt);
+	public void trasmitEvent(Event evt) {
+		queue.add((GameEvent)evt);
 		synchronized(queue) {
 			queue.notify();
 		}

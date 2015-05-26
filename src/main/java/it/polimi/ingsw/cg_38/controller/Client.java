@@ -4,15 +4,19 @@ import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
+import it.polimi.ingsw.cg_38.gameEvent.EventSubscribeRMI;
+import it.polimi.ingsw.cg_38.gameEvent.EventSubscribeSocket;
 import it.polimi.ingsw.cg_38.model.Player;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -28,30 +32,50 @@ public class Client {
 	private String map;
 	private Scanner in = new Scanner(System.in);
 	private ConcurrentLinkedQueue<NotifyEvent> toProcess = new ConcurrentLinkedQueue<NotifyEvent>();
-	private ConcurrentLinkedQueue<GameEvent> toSend = new ConcurrentLinkedQueue<GameEvent>();
+	private ArrayList<GameEvent> toSend = new ArrayList<GameEvent>();
 
-	public Client(String s) throws NotBoundException, UnknownHostException, IOException {
+	public Client(String s) throws NotBoundException, UnknownHostException, IOException, AlreadyBoundException {
 		System.out.println("NOME ROOM | TUO NOME NEL GIOCO | NOME MAPPA: ");
 		name = in.nextLine();
 		room = in.nextLine();
 		map = in.nextLine();
 		this.player = new Player(name);
-		EventSubscribe evt = new EventSubscribe(new Player(name), room, map);
+		EventSubscribe evt = null;
+		
 		if(s.equals("RMI")) {
 			registry = LocateRegistry.getRegistry("localhost", RMIRemoteObjectDetails.RMI_PORT);
-			RMIRegistrationInterface game = (RMIRegistrationInterface) registry.lookup(RMIRemoteObjectDetails.RMI_ID);
+			
+			RMIRegistrationInterface game = (RMIRegistrationInterface) registry.lookup("REGISTRATIONVIEW");
 			System.out.println(game.isLoginValid("albi"));
 			System.out.println(game.isLoginValid("test"));
-			RMIGameInterface view = game.register(evt);
-			this.communicator = new RMICommunicator(view);
+			
+			RMIRemoteObjectInterface serverView = game.register();
+			RMIRemoteObjectInterface clientView = new ClientView(this.getToProcess());
+			
+			registry.bind("CLIENTVIEW1", clientView);
+			
+			this.communicator = new RMICommunicator(serverView);
+			
+			evt = new EventSubscribeRMI(new Player(name), room, map, "CLIENTVIEW1");
+			
 		} else if (s.equals("Socket")) {
 			Socket socket = new Socket(host, port );
 			System.out.println("Connection Established");
 			this.communicator = new SocketCommunicator(socket);
+			evt = new EventSubscribeSocket(new Player(name), room, map, socket);
 		}
+		
 		this.communicator.send(evt);
 	}
 	
+	public ConcurrentLinkedQueue<NotifyEvent> getToProcess() {
+		return toProcess;
+	}
+
+	public ArrayList<GameEvent> getToSend() {
+		return toSend;
+	}
+
 	public void startClient() throws RemoteException {
 		while(true) {
 			Event serverEvent = communicator.recieveEvent();

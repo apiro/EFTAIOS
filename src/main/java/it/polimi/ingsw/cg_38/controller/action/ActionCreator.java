@@ -39,7 +39,7 @@ public class ActionCreator {
     		action = new UseMySectorNoise(evt);
     	} else if (type.equals(GameEventType.Teleport)) {
     		action = new UseTeleportCard(evt);
-    	} else if (type.equals(GameEventType.subscribe)) {
+    	} else if (type.equals(GameEventType.subscribeRMI)) {
     		InitGameAction action2 = new Subscribe(evt);
     		return action2;
     	}

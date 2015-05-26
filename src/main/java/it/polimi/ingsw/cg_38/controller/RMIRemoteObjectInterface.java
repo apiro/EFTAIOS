@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_38.controller;
 
+import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 
@@ -15,10 +16,9 @@ import java.rmi.RemoteException;
  * 
  * */
 
-public interface RMIGameInterface extends Remote {
+public interface RMIRemoteObjectInterface extends Remote {
 	
-	public NotifyEvent grabEvent() throws RemoteException;
 
-	public void trasmitEvent(GameEvent evt) throws RemoteException;
+	public void trasmitEvent(Event evt) throws RemoteException;
 		
 }
