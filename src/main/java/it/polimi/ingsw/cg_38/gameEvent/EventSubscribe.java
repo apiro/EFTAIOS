@@ -15,7 +15,6 @@ public class EventSubscribe extends GameEvent implements Serializable{
 
 	public EventSubscribe(Player generator, String room, String map) {
 		super(generator);
-		super.setType(GameEventType.subscribe);
 		this.setRoom(room);
 		this.setMap(map);
 	}

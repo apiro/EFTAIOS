@@ -26,11 +26,7 @@ public class RMICommunicator implements Communicator {
 	public void send(Event evt) throws RemoteException {
 		//CHI CHIAMA QUESTO METODO TRASMETTE UN EVENTO ALL'OGGETTO REMOTO
 		remoteView.trasmitEvent(evt);
-	}
-
-	public Event addSubscriber() {
-		//SERVER SI METTE IN RICEZIONE DI UN EVENTSUBSCRIBE DAL CLIENT
-		return null;
+		System.out.println("Sending ... : " + evt.toString());
 	}
 
 	public Event recieveEvent() throws RemoteException {

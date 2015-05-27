@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
  * */
 public interface RMIRegistrationInterface extends Remote {
 
-	public RMIRemoteObjectInterface register(/*EventSubscribe evt*/) throws RemoteException;
+	public RMIRemoteObjectInterface register() throws RemoteException;
 
 	public boolean isLoginValid(String username) throws RemoteException;
 }

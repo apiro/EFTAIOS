@@ -1,10 +1,11 @@
 package it.polimi.ingsw.cg_38.model;
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * 
  */
-public class Alien extends Avatar {
+public class Alien extends Avatar implements Serializable {
 
     /**
      * 

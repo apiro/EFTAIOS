@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * 
  */
-public abstract class Avatar {
+public abstract class Avatar implements Serializable{
 
     /**
      * 

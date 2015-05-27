@@ -44,8 +44,11 @@ public class SocketCommunicator implements Communicator {
 	public void send(Event evt) {
 		//SERVER INVIA UN NOTIFYEVENT AL CLIENT
 		try {
+			System.out.println(this.getOutputStream().toString());
 			this.getOutputStream().writeObject(evt);
 			this.getOutputStream().flush();
+			
+			System.out.println("Sending ... : " + evt.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -54,16 +57,8 @@ public class SocketCommunicator implements Communicator {
 		
 	public SocketCommunicator(Socket socket) throws IOException {
 		this.setSocket(socket);
-		this.setInputStream( new ObjectInputStream(this.getSocket().getInputStream()));
-		this.setOutputStream( new ObjectOutputStream(this.getSocket().getOutputStream()));
-		
 	}
 	
-	public Event addSubscriber() {
-		//SERVER SI METTE IN RICEZIONE DI UN EVENTSUBSCRIBE DAL CLIENT
-		return this.recieveEvent();
-	}
-
 	public Event recieveEvent() {
 		//SERVER SI METTE IN RICEZIONE DI UN GAMEEVENT DAL CLIENT
 		Event evt = null;

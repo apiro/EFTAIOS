@@ -51,7 +51,7 @@ public class GameController implements Observer {
 	public GameController(String type, String topic) throws ParserConfigurationException, Exception {
 		
     	this.initGame(type, topic);
-    	
+    	this.setBuffer(new ConcurrentLinkedQueue<NotifyEvent>());
     }
 	
 	/**
@@ -62,7 +62,7 @@ public class GameController implements Observer {
 			try {
 				this.sendNotifyEvent();
 			} catch (RemoteException e) {
-				System.err.println("Error in sending the message !");
+				e.printStackTrace();
 			}
 		}
 	}
@@ -81,9 +81,6 @@ public class GameController implements Observer {
 		}
 	}
 
-	/**
-	 * method to add a message to the buffer of this game. added by playerController and ServerController.
-	 * */
 	public void addEventToTheQueue(NotifyEvent msg) {
 		buffer.add(msg);
 		synchronized(buffer) {
@@ -156,7 +153,6 @@ public class GameController implements Observer {
 	    	} else {
 	    		this.getGameModel().getGamePlayers().get(i).setAvatar(new Alien(Name.valueOf("Alien"+(i-floor+1)), this.getGameModel().getGameMap().searchSectorByName("AlienStartingPoint")));
 	    	}
-	   		System.out.println(this.getGameModel().getGamePlayers().get(i).getAvatar().getName());
 	    }
 	   	Collections.shuffle(getGameModel().getGamePlayers());
 	 }

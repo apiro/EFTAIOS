@@ -4,6 +4,8 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Observable;
@@ -42,6 +44,7 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 			//la riga dopo crea un thread per la gestione del socket arrivato
 			PlayerController playerHandler = null;
 			try {
+				System.out.println("New Client Connected Using Socket ! ");
 				playerHandler = new PlayerController(new SocketCommunicator(socket), toDispatch);
 			} catch (IOException e) {
 				e.printStackTrace();

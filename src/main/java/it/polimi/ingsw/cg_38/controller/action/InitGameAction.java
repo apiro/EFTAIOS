@@ -15,5 +15,5 @@ public abstract class InitGameAction extends Action {
 	
 	public abstract NotifyEvent perform(ServerController serverc) throws ParserConfigurationException, Exception;
 	
-	public abstract Boolean isPossible(GameController gc);
+	public abstract Boolean isPossible(ServerController server);
 }

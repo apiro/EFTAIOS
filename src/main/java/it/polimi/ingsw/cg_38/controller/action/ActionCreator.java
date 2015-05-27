@@ -19,6 +19,7 @@ public class ActionCreator {
     public static Action createAction(GameEvent evt) {
     	GameEventType type = evt.getType();
     	GameAction action = null;
+    	InitGameAction action2 = null;
     	if(type.equals(GameEventType.Attack)) {
     		action = new Attack(evt);
     	} else if (type.equals(GameEventType.Draw)) {
@@ -40,7 +41,10 @@ public class ActionCreator {
     	} else if (type.equals(GameEventType.Teleport)) {
     		action = new UseTeleportCard(evt);
     	} else if (type.equals(GameEventType.subscribeRMI)) {
-    		InitGameAction action2 = new Subscribe(evt);
+    		action2 = new SubscribeRMI(evt);
+    		return action2;
+    	} else if (type.equals(GameEventType.subscribeSocket)) {
+    		action2 = new SubscribeSocket(evt);
     		return action2;
     	}
 		return action;

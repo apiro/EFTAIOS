@@ -31,13 +31,13 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 		}*/
 		this.queue = queue;
 	}
-	
+	/*
 	public NotifyEvent grabEvent() {
 		//now i return a test event, but here i should return the notifyevent 
 		//directed to this client, searching it in all the notifyevent that the
 		//server produces.
 		return new EventAddedToGame(new Player("albi"), false);
-	}
+	}*/
 
 	@Override
 	public void trasmitEvent(Event evt) {

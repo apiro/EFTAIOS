@@ -9,6 +9,8 @@ import it.polimi.ingsw.cg_38.gameEvent.EventSubscribeSocket;
 import it.polimi.ingsw.cg_38.model.Player;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
@@ -46,22 +48,30 @@ public class Client {
 			registry = LocateRegistry.getRegistry("localhost", RMIRemoteObjectDetails.RMI_PORT);
 			
 			RMIRegistrationInterface game = (RMIRegistrationInterface) registry.lookup("REGISTRATIONVIEW");
-			System.out.println(game.isLoginValid("albi"));
-			System.out.println(game.isLoginValid("test"));
+			System.out.println("RMI Connection Established !");
+			/*System.out.println(game.isLoginValid("albi"));
+			System.out.println(game.isLoginValid("test"));*/
 			
 			RMIRemoteObjectInterface serverView = game.register();
 			RMIRemoteObjectInterface clientView = new ClientView(this.getToProcess());
 			
-			registry.bind("CLIENTVIEW1", clientView);
+			RMIRemoteObjectDetails clientPersonalView = new RMIRemoteObjectDetails("CLIENTVIEW" + name);
+			
+			registry.bind(clientPersonalView.getRMI_ID(), clientView);
 			
 			this.communicator = new RMICommunicator(serverView);
 			
-			evt = new EventSubscribeRMI(new Player(name), room, map, "CLIENTVIEW1");
+			evt = new EventSubscribeRMI(new Player(name), room, map, clientPersonalView.getRMI_ID());
 			
 		} else if (s.equals("Socket")) {
 			Socket socket = new Socket(host, port );
-			System.out.println("Connection Established");
+			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+			out.flush();
+			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+			System.out.println("SOCKET Connection Established !");
 			this.communicator = new SocketCommunicator(socket);
+			((SocketCommunicator)this.communicator).setOutputStream(out);
+			((SocketCommunicator)this.communicator).setInputStream(in);
 			evt = new EventSubscribeSocket(new Player(name), room, map, socket);
 		}
 		
@@ -78,12 +88,23 @@ public class Client {
 
 	public void startClient() throws RemoteException {
 		while(true) {
-			Event serverEvent = communicator.recieveEvent();
-			this.handleSentNotifyEvent(serverEvent);
+			NotifyEvent msg = toProcess.poll();
+			if(msg != null) {
+				System.out.println("Parsing S->C Event... : " + msg.toString());
+				System.out.println("Callback event arrived !");
+			} else {
+				try {
+					synchronized(toProcess) {
+						toProcess.wait();
+					}
+				} catch (InterruptedException e) {
+					System.err.println("Cannot wait on the queue!");
+				}
+			}
 		}
 	}
 	
-	public void trasmitGameEvent(Event evt) throws RemoteException {
+	/*public void trasmitGameEvent(Event evt) throws RemoteException {
 		communicator.send(evt);
 		Event responseEvent = communicator.recieveEvent();
 		this.handleSentNotifyEvent(responseEvent);
@@ -91,17 +112,16 @@ public class Client {
 	
 	public void handleSentNotifyEvent(Event event) {
 		//costruisco l'azione S->C corrispondente e la performo.
-	}
+		System.out.println("Parsing S->C Event... : " + event.toString());
+	}*/
 	
-	public static void main(String[] args) throws UnknownHostException, NotBoundException, IOException{
+	public static void main(String[] args) throws UnknownHostException, NotBoundException, IOException, AlreadyBoundException{
 		Scanner in = new Scanner(System.in);
-		System.out.println("MAKE YOUR CHOOSE");
+		System.err.println("WELCOME TO THE GAME !\n");
+		System.out.println("MAKE YOUR CHOICE! [RMI] [SOCKET]");
 		String choose = in.nextLine();
 		Client client = new Client(choose);
-		//invio l'evento di subscribe al server
-		/*Event evt = null;
 		//costruzione evento da inviare EventCreator.createEvent(client.in.nextLine())
-		client.handleFiredGameEvent(evt);*/
 		client.startClient();
 	}
 }

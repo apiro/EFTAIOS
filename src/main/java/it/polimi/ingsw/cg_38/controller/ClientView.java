@@ -26,10 +26,7 @@ public class ClientView extends UnicastRemoteObject implements RMIRemoteObjectIn
 	public void setQueue(ConcurrentLinkedQueue<NotifyEvent> queue) {
 		this.queue = queue;
 	}
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	@Override

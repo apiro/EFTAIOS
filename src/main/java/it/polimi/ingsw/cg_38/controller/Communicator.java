@@ -19,7 +19,5 @@ public interface Communicator {
 	
 	void send(Event evt) throws RemoteException;
 	
-	public Event addSubscriber();
-	
 	Event recieveEvent() throws RemoteException;
 }

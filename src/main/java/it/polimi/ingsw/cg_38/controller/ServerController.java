@@ -11,6 +11,8 @@ import it.polimi.ingsw.cg_38.controller.action.GameAction;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -66,6 +68,8 @@ public class ServerController extends Observable {
 
 	public void startServer() throws ParserConfigurationException, Exception {
 		
+		System.err.println("Starting the Server !");
+		
 		this.startRMIEnvironment();
 		
 		this.startSocketEnvironment();
@@ -74,20 +78,27 @@ public class ServerController extends Observable {
 			GameEvent msg = toDispatch.poll();
 			NotifyEvent callbackEvent = null;
 			if(msg != null) {
+				System.err.println("Game Event arrived !");
+				System.out.println("Parsing Event... : " + msg.toString());
 				GameController gcFound = null;
 				Action generatedAction = ActionCreator.createAction(msg);
-				gcFound = topics.get(msg.getGenerator().getName());
-				
 				if(msg instanceof EventSubscribe) {
+					System.out.println("New subscribe event !");
 		    		callbackEvent = ((InitGameAction)generatedAction).perform(this);
+		    		gcFound = topics.get(msg.getGenerator().getName());
 		    		
 				} else {
+					gcFound = topics.get(msg.getGenerator().getName());
 		    		callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 				}
 				gcFound.addEventToTheQueue(callbackEvent);
 				this.setChanged();
 				this.notifyObservers(gcFound.getTopic());
-			} else {
+				System.err.println("Event parsed !");
+				System.out.println("---------------------------------------------------------------------\n");
+			} 
+			
+			/*else {
 				try {
 					synchronized(toDispatch) {
 						toDispatch.wait();
@@ -95,11 +106,7 @@ public class ServerController extends Observable {
 				} catch (InterruptedException e) {
 					System.err.println("Cannot wait on the queue!");
 				}
-			}
-			System.out.println("Do you wanna stop the server? Y for yes");
-			if(in.nextLine().equals("Y")) {
-				this.closeServer();
-			}
+			}*/
 		}
 	}
 	
@@ -122,14 +129,11 @@ public class ServerController extends Observable {
 	public GameController initAndStartANewGame(String map, String topic) throws ParserConfigurationException, Exception {
 
     	GameController generalController = new GameController(map, topic);
-    	
     	generalController.setState(GameState.STARTING);
-    	generalController.waitingForPlayerConnection();
+    	/*generalController.waitingForPlayerConnection();*/
     	/*for(Player pl:generalController.getGameModel().getGamePlayers()) {
     		generalController.getPcs().add(new PlayerController(pl));
     	}*/
-    	generalController.assignAvatars();
-    	generalController.setFirstTurn();
     	generalController.setState(GameState.RUNNING);
     	return generalController;
     }
@@ -144,7 +148,7 @@ public class ServerController extends Observable {
 
 	private void startSocketEnvironment() throws IOException {
 		serverSocket = new ServerSocket(socketPortNumber);
-		
+	
 	    new SocketConnectionsHandler(this.serverSocket, this.getToDispatch()).start();
 	    
 	    System.out.println("Server socket ready on " + socketPortNumber);
