@@ -14,10 +14,9 @@ public class EventSubscribeSocket extends EventSubscribe implements Serializable
 	private static final long serialVersionUID = 1L;
 	public Socket socket;
 	
-	public EventSubscribeSocket(Player generator,  String room, String map, Socket socket){
+	public EventSubscribeSocket(Player generator,  String room, String map){
 		super(generator, room, map);
 		super.setType(GameEventType.subscribeSocket);
-		this.setSocket(socket);
 	}
 
 	@Override

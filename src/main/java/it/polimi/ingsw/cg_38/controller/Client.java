@@ -72,7 +72,7 @@ public class Client {
 			this.communicator = new SocketCommunicator(socket);
 			((SocketCommunicator)this.communicator).setOutputStream(out);
 			((SocketCommunicator)this.communicator).setInputStream(in);
-			evt = new EventSubscribeSocket(new Player(name), room, map, socket);
+			evt = new EventSubscribe(new Player(name), room, map);
 		}
 		
 		this.communicator.send(evt);

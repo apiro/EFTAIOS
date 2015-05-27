@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg_38.controller.action;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -32,6 +34,13 @@ public class SubscribeSocket extends Subscribe {
 	public NotifyEvent perform(ServerController server) throws ParserConfigurationException, Exception {
 
 		Communicator c = new SocketCommunicator(this.getSocket());
+		
+		ObjectOutputStream out = new ObjectOutputStream(this.getSocket().getOutputStream());
+		out.flush();
+		ObjectInputStream in = new ObjectInputStream(this.getSocket().getInputStream());
+		
+		((SocketCommunicator) c).setOutputStream(out);
+		((SocketCommunicator) c).setInputStream(in);
 		
 		return super.generalEventGenerator(c, server);
 	}

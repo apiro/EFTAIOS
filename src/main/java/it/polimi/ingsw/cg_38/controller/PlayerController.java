@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.controller;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
+import it.polimi.ingsw.cg_38.controller.event.GameEventType;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribeSocket;
 import it.polimi.ingsw.cg_38.model.*;
@@ -63,6 +64,11 @@ public class PlayerController implements Runnable {
 			try {
 				Event evt = this.communicator.recieveEvent();
 				System.out.println("Recieving Event... : " + evt.toString());
+				
+				if((((GameEvent)evt).getType()).equals(GameEventType.subscribeSocket)){
+					((EventSubscribeSocket) evt).setSocket(((SocketCommunicator) communicator).getSocket()); 
+				}
+				
 				this.getEventsToProcess().add((GameEvent) evt);
 				try {
 					synchronized(this.getEventsToProcess()) {
