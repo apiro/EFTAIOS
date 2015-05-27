@@ -4,32 +4,29 @@ import it.polimi.ingsw.cg_38.controller.event.GameEventType;
 import it.polimi.ingsw.cg_38.model.Player;
 
 import java.io.Serializable;
-import java.net.Socket;
 
 public class EventSubscribeSocket extends EventSubscribe implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	public Socket socket;
+	private int PORT;
+	private String HOST = "localhost";
 	
-	public EventSubscribeSocket(Player generator,  String room, String map){
+	public EventSubscribeSocket(Player generator,  String room, String map, int PORT){
 		super(generator, room, map);
 		super.setType(GameEventType.subscribeSocket);
+		this.setPORT(PORT);
+	}
+	
+	public int getPORT() {
+		return this.PORT;
 	}
 
-	@Override
-	public String toString() {
-		return "EventSubscribeSocket [socket=" + socket + "]";
+	public void setPORT(int PORT) {
+		this.PORT = PORT;
 	}
 
-	public Socket getSocket() {
-		return socket;
-	}
-
-	public void setSocket(Socket socket) {
-		this.socket = socket;
+	public String getHOST() {
+		return this.HOST;
 	}
 
 }

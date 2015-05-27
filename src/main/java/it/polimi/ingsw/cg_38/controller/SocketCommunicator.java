@@ -44,7 +44,6 @@ public class SocketCommunicator implements Communicator {
 	public void send(Event evt) {
 		//SERVER INVIA UN NOTIFYEVENT AL CLIENT
 		try {
-			System.out.println(this.getOutputStream().toString());
 			this.getOutputStream().writeObject(evt);
 			this.getOutputStream().flush();
 			

@@ -20,9 +20,9 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 	private static final long serialVersionUID = 1L;
 	//coda di eventi di gioco esportata in questa vista limitata del server
 	//aggiungendo un evento di gioco qui si aggiunge un evento da risolvere al server
-	private ConcurrentLinkedQueue<GameEvent> queue;
+	private ConcurrentLinkedQueue<Event> queue;
 
-	public ServerView(ConcurrentLinkedQueue<GameEvent> queue) throws RemoteException {
+	public ServerView(ConcurrentLinkedQueue<Event> queue) throws RemoteException {
 		super();
 		/*try {
 			UnicastRemoteObject.exportObject(this, 2344);

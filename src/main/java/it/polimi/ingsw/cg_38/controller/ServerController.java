@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg_38.controller.GameController;
 import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.action.Action;
 import it.polimi.ingsw.cg_38.controller.action.ActionCreator;
+import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.action.InitGameAction;
@@ -41,7 +42,7 @@ public class ServerController extends Observable {
 	
 	private Scanner in = new Scanner(System.in);
 	/*private ConcurrentLinkedQueue<NotifyEvent> toDistribute;*/
-	private ConcurrentLinkedQueue<GameEvent> toDispatch;
+	private ConcurrentLinkedQueue<Event> toDispatch;
 	
 	private Registry registry;
 	private Boolean serverAlive = true;
@@ -56,7 +57,7 @@ public class ServerController extends Observable {
 	
 	public ServerController(/*int socketPortNumber, int rmiRegistryPortNumber*/) throws RemoteException {
 		/*this.socketPortNumber = socketPortNumber;*/
-		this.toDispatch = new ConcurrentLinkedQueue<GameEvent>();
+		this.toDispatch = new ConcurrentLinkedQueue<Event>();
 		/*this.toDistribute = new ConcurrentLinkedQueue<NotifyEvent>();*/
 	}
 	
@@ -75,10 +76,10 @@ public class ServerController extends Observable {
 		this.startSocketEnvironment();
 		
 		while(serverAlive) {
-			GameEvent msg = toDispatch.poll();
+			Event msg = toDispatch.poll();
 			NotifyEvent callbackEvent = null;
 			if(msg != null) {
-				System.err.println("Game Event arrived !");
+				System.err.println("Game Event arrived !\n");
 				System.out.println("Parsing Event... : " + msg.toString());
 				GameController gcFound = null;
 				Action generatedAction = ActionCreator.createAction(msg);
@@ -138,11 +139,11 @@ public class ServerController extends Observable {
     	return generalController;
     }
 	
-	public ConcurrentLinkedQueue<GameEvent> getToDispatch() {
+	public ConcurrentLinkedQueue<Event> getToDispatch() {
 		return toDispatch;
 	}
 
-	public void setToDispatch(ConcurrentLinkedQueue<GameEvent> toDispatch) {
+	public void setToDispatch(ConcurrentLinkedQueue<Event> toDispatch) {
 		this.toDispatch = toDispatch;
 	}
 

@@ -1,9 +1,6 @@
 package it.polimi.ingsw.cg_38.controller;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
-import it.polimi.ingsw.cg_38.controller.event.GameEventType;
-import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.gameEvent.EventSubscribeSocket;
 import it.polimi.ingsw.cg_38.model.*;
 
 import java.io.IOException;
@@ -12,7 +9,7 @@ import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class PlayerController implements Runnable {
+public class PlayerController extends Thread  {
 
 	private Communicator communicator;
 	
@@ -26,7 +23,7 @@ public class PlayerController implements Runnable {
 
 	private Player player;
 
-	private ConcurrentLinkedQueue<GameEvent> eventsToProcess;
+	private ConcurrentLinkedQueue<Event> eventsToProcess;
 
 	
 	public Player getPlayer() {
@@ -37,15 +34,15 @@ public class PlayerController implements Runnable {
 		this.player = player;
 	}
 
-	public ConcurrentLinkedQueue<GameEvent> getEventsToProcess() {
+	public ConcurrentLinkedQueue<Event> getEventsToProcess() {
 		return eventsToProcess;
 	}
 
-	public void setEventsToProcess(ConcurrentLinkedQueue<GameEvent> eventsToProcess) {
+	public void setEventsToProcess(ConcurrentLinkedQueue<Event> eventsToProcess) {
 		this.eventsToProcess = eventsToProcess;
 	}
 	
-	public PlayerController(Communicator communicator, ConcurrentLinkedQueue<GameEvent> toDispatch) throws IOException {
+	public PlayerController(Communicator communicator, ConcurrentLinkedQueue<Event> toDispatch) throws IOException {
 		this.communicator = communicator;
 		this.initCommunicator();
 		this.setEventsToProcess(toDispatch);
@@ -65,17 +62,14 @@ public class PlayerController implements Runnable {
 				Event evt = this.communicator.recieveEvent();
 				System.out.println("Recieving Event... : " + evt.toString());
 				
-				if((((GameEvent)evt).getType()).equals(GameEventType.subscribeSocket)){
-					((EventSubscribeSocket) evt).setSocket(((SocketCommunicator) communicator).getSocket()); 
-				}
-				
-				this.getEventsToProcess().add((GameEvent) evt);
+				this.getEventsToProcess().add((Event) evt);
+				Thread.currentThread().interrupt();
 				try {
 					synchronized(this.getEventsToProcess()) {
 						this.getEventsToProcess().wait();
 					}
 				} catch (InterruptedException e) {
-					System.err.println("Cannot wait on the queue!");
+					return;
 				}
 			} catch (RemoteException e) {
 				e.printStackTrace();

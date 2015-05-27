@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_38.controller;
 
+import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 
@@ -13,9 +14,9 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ConcurrentLinkedQueue<GameEvent> queue;
+	private ConcurrentLinkedQueue<Event> queue;
 
-	public RegistrationView(ConcurrentLinkedQueue<GameEvent> queue) throws RemoteException {
+	public RegistrationView(ConcurrentLinkedQueue<Event> queue) throws RemoteException {
 		super();
 		this.queue = queue;
 	}

@@ -2,7 +2,6 @@ package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
-import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribeRMI;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribeSocket;
@@ -11,6 +10,7 @@ import it.polimi.ingsw.cg_38.model.Player;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
@@ -25,6 +25,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Client {
 
 	private int port = 4322;
+	private static int clientServerSocketPort;
+	
+	public static int getClientServerSocketPort() {
+		return clientServerSocketPort;
+	}
+
+	public static void setClientServerSocketPort(int clientServerSocketPort) {
+		Client.clientServerSocketPort = clientServerSocketPort;
+	}
+
 	private String host = "127.0.0.1";
 	private Communicator communicator;
 	private Registry registry;
@@ -33,8 +43,9 @@ public class Client {
 	private String room;
 	private String map;
 	private Scanner in = new Scanner(System.in);
-	private ConcurrentLinkedQueue<NotifyEvent> toProcess = new ConcurrentLinkedQueue<NotifyEvent>();
+	private ConcurrentLinkedQueue<Event> toProcess = new ConcurrentLinkedQueue<Event>();
 	private ArrayList<GameEvent> toSend = new ArrayList<GameEvent>();
+	private ServerSocket clientSocket;
 
 	public Client(String s) throws NotBoundException, UnknownHostException, IOException, AlreadyBoundException {
 		System.out.println("NOME ROOM | TUO NOME NEL GIOCO | NOME MAPPA: ");
@@ -61,10 +72,13 @@ public class Client {
 			
 			this.communicator = new RMICommunicator(serverView);
 			
-			evt = new EventSubscribeRMI(new Player(name), room, map, clientPersonalView.getRMI_ID());
+			evt = new EventSubscribeRMI(this.player, room, map, clientPersonalView.getRMI_ID());
 			
 		} else if (s.equals("Socket")) {
-			Socket socket = new Socket(host, port );
+			
+			this.startSocketEnvironment();
+			System.out.println("Creating a socket with the server !");
+			Socket socket = new Socket(host, port);
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 			out.flush();
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
@@ -72,13 +86,22 @@ public class Client {
 			this.communicator = new SocketCommunicator(socket);
 			((SocketCommunicator)this.communicator).setOutputStream(out);
 			((SocketCommunicator)this.communicator).setInputStream(in);
-			evt = new EventSubscribe(new Player(name), room, map);
+			evt = new EventSubscribeSocket(new Player(name), room, map, Client.getClientServerSocketPort());
 		}
 		
 		this.communicator.send(evt);
 	}
 	
-	public ConcurrentLinkedQueue<NotifyEvent> getToProcess() {
+	private void startSocketEnvironment() throws IOException {
+		clientSocket = new ServerSocket(Client.getClientServerSocketPort());
+	
+	    new SocketConnectionsHandler(this.clientSocket, this.toProcess).start();
+	    
+	    System.out.println("Server socket ready on " + Client.getClientServerSocketPort());
+		System.out.println("Server ready");
+	}
+	
+	public ConcurrentLinkedQueue<Event> getToProcess() {
 		return toProcess;
 	}
 
@@ -88,7 +111,7 @@ public class Client {
 
 	public void startClient() throws RemoteException {
 		while(true) {
-			NotifyEvent msg = toProcess.poll();
+			Event msg = toProcess.poll();
 			if(msg != null) {
 				System.out.println("Parsing S->C Event... : " + msg.toString());
 				System.out.println("Callback event arrived !");
@@ -120,6 +143,9 @@ public class Client {
 		System.err.println("WELCOME TO THE GAME !\n");
 		System.out.println("MAKE YOUR CHOICE! [RMI] [SOCKET]");
 		String choose = in.nextLine();
+		if(choose.equals("Socket")) {
+			 Client.setClientServerSocketPort(Integer.parseInt(in.nextLine()));
+		}
 		Client client = new Client(choose);
 		//costruzione evento da inviare EventCreator.createEvent(client.in.nextLine())
 		client.startClient();

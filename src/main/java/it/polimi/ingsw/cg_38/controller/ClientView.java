@@ -10,20 +10,20 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 
 public class ClientView extends UnicastRemoteObject implements RMIRemoteObjectInterface {
 	
-	private ConcurrentLinkedQueue<NotifyEvent> queue;
+	private ConcurrentLinkedQueue<Event> queue;
 
-	public ClientView(ConcurrentLinkedQueue<NotifyEvent> queue) throws RemoteException {
+	public ClientView(ConcurrentLinkedQueue<Event> queue) throws RemoteException {
 		
 		super();
 		this.setQueue(queue);
 		
 	}
 
-	public ConcurrentLinkedQueue<NotifyEvent> getQueue() {
+	public ConcurrentLinkedQueue<Event> getQueue() {
 		return queue;
 	}
 
-	public void setQueue(ConcurrentLinkedQueue<NotifyEvent> queue) {
+	public void setQueue(ConcurrentLinkedQueue<Event> queue) {
 		this.queue = queue;
 	}
 	
@@ -32,7 +32,7 @@ public class ClientView extends UnicastRemoteObject implements RMIRemoteObjectIn
 	@Override
 	public void trasmitEvent(Event evt) throws RemoteException {
 		
-		this.getQueue().add((NotifyEvent)evt);
+		this.getQueue().add((Event)evt);
 		synchronized(queue) {
 			queue.notify();
 		}

@@ -15,29 +15,37 @@ import it.polimi.ingsw.cg_38.gameEvent.EventSubscribeSocket;
 
 public class SubscribeSocket extends Subscribe {
 
-	private Socket socket;
+	private String HOST = "localhost";
+	private int PORT;
 	
-	public Socket getSocket() {
-		return socket;
+	public int getPORT() {
+		return PORT;
 	}
 
-	public void setSocket(Socket socket) {
-		this.socket = socket;
+	public void setPORT(int PORT) {
+		this.PORT = PORT;
 	}
 
 	public SubscribeSocket(GameEvent evt){
 		super((EventSubscribeSocket)evt);
-		this.setSocket(((EventSubscribeSocket)evt).getSocket());
+		this.setPORT(((EventSubscribeSocket)evt).getPORT());
+	}
+
+	public String getHOST() {
+		return HOST;
 	}
 
 	@Override
 	public NotifyEvent perform(ServerController server) throws ParserConfigurationException, Exception {
 
-		Communicator c = new SocketCommunicator(this.getSocket());
+		System.out.println("Creating a socket with the client !");
+		Socket socket = new Socket(this.getHOST(), this.getPORT());
 		
-		ObjectOutputStream out = new ObjectOutputStream(this.getSocket().getOutputStream());
+		System.out.println("SOCKET Connection Established !");
+		Communicator c = new SocketCommunicator(socket);
+		ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 		out.flush();
-		ObjectInputStream in = new ObjectInputStream(this.getSocket().getInputStream());
+		ObjectInputStream in = new ObjectInputStream(socket.getInputStream());;
 		
 		((SocketCommunicator) c).setOutputStream(out);
 		((SocketCommunicator) c).setInputStream(in);
