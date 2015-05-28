@@ -1,15 +1,11 @@
 package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
-import it.polimi.ingsw.cg_38.model.Player;
-import it.polimi.ingsw.cg_38.model.Turn;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class SocketCommunicator implements Communicator {
 

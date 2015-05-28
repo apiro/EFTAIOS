@@ -4,9 +4,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
-import it.polimi.ingsw.cg_38.controller.event.GameEvent;
-import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-
 
 public class ClientView extends UnicastRemoteObject implements RMIRemoteObjectInterface {
 	

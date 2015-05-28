@@ -5,15 +5,13 @@ import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.action.Action;
 import it.polimi.ingsw.cg_38.controller.action.ActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
-import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.action.InitGameAction;
 import it.polimi.ingsw.cg_38.controller.action.GameAction;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
+import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -62,9 +60,12 @@ public class ServerController extends Observable {
 	}
 	
 	public void closeServer() {
+		//closing the server and deallocate all the objects
 		this.serverAlive = false;
-		this.setChanged();
-		this.notifyObservers();
+		this.setToDispatch(null);
+		this.serverSocket = null;
+		this.registry = null;
+		this.topics = null;
 	}
 
 	public void startServer() throws ParserConfigurationException, Exception {
@@ -95,6 +96,10 @@ public class ServerController extends Observable {
 				gcFound.addEventToTheQueue(callbackEvent);
 				this.setChanged();
 				this.notifyObservers(gcFound.getTopic());
+				if(((EventAddedToGame)callbackEvent).getAdded() == false ) {
+					gcFound.getSubscribers().remove(msg.getGenerator().getName());
+					this.getTopics().remove(msg.getGenerator().getName());
+				}
 				System.err.println("Event parsed !");
 				System.out.println("---------------------------------------------------------------------\n");
 			} 
@@ -150,7 +155,7 @@ public class ServerController extends Observable {
 	private void startSocketEnvironment() throws IOException {
 		serverSocket = new ServerSocket(socketPortNumber);
 	
-	    new SocketConnectionsHandler(this.serverSocket, this.getToDispatch()).start();
+	    new SocketConnectionsHandler(this.serverSocket, this.getToDispatch(), this.serverAlive).start();
 	    
 	    System.out.println("Server socket ready on " + socketPortNumber);
 		System.out.println("Server ready");

@@ -4,6 +4,8 @@ import it.polimi.ingsw.cg_38.model.Player;
 
 public class NotifyEvent extends Event {
 
+	private static final long serialVersionUID = 1L;
+
 	public NotifyEvent(Player generator, Boolean broadcast) {
 		super(generator);
 		this.setBroadcast(broadcast);

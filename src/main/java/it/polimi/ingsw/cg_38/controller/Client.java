@@ -42,13 +42,23 @@ public class Client {
 	private String name;
 	private String room;
 	private String map;
+	private Boolean clientAlive;
+	
+	public Boolean getClientAlive() {
+		return clientAlive;
+	}
+
+	public void setClientAlive(Boolean clientAlive) {
+		this.clientAlive = clientAlive;
+	}
+
 	private Scanner in = new Scanner(System.in);
 	private ConcurrentLinkedQueue<Event> toProcess = new ConcurrentLinkedQueue<Event>();
 	private ArrayList<GameEvent> toSend = new ArrayList<GameEvent>();
 	private ServerSocket clientSocket;
 
-	public Client(String s) throws NotBoundException, UnknownHostException, IOException, AlreadyBoundException {
-		System.out.println("NOME ROOM | TUO NOME NEL GIOCO | NOME MAPPA: ");
+	public Client(String s) throws IOException, NotBoundException {
+		System.out.println("INSERT  : \n\t1) YOUR USERNAME: \n\t2) THE ROOM YOU WANT TO ACCESS : \n\t3) THE MAP NAME: ");
 		name = in.nextLine();
 		room = in.nextLine();
 		map = in.nextLine();
@@ -58,7 +68,9 @@ public class Client {
 		if(s.equals("RMI")) {
 			registry = LocateRegistry.getRegistry("localhost", RMIRemoteObjectDetails.RMI_PORT);
 			
-			RMIRegistrationInterface game = (RMIRegistrationInterface) registry.lookup("REGISTRATIONVIEW");
+			RMIRegistrationInterface game = null;
+			game = (RMIRegistrationInterface) registry.lookup("REGISTRATIONVIEW");
+			
 			System.out.println("RMI Connection Established !");
 			/*System.out.println(game.isLoginValid("albi"));
 			System.out.println(game.isLoginValid("test"));*/
@@ -68,7 +80,13 @@ public class Client {
 			
 			RMIRemoteObjectDetails clientPersonalView = new RMIRemoteObjectDetails("CLIENTVIEW" + name);
 			
-			registry.bind(clientPersonalView.getRMI_ID(), clientView);
+			try {
+				registry.bind(clientPersonalView.getRMI_ID(), clientView);
+			} catch (AlreadyBoundException e) {
+				System.err.println("The username you choose is already in use. Please change it.");
+				Client client = new Client("RMI");
+				client.startClient();
+			}
 			
 			this.communicator = new RMICommunicator(serverView);
 			
@@ -81,6 +99,18 @@ public class Client {
 			this.communicator = new SocketCommunicator(this.port);
 			
 			evt = new EventSubscribeSocket(new Player(name), room, map, Client.getClientServerSocketPort());
+		} else {
+			System.err.println("Communication Protocol not supported. Please choose [RMI] or [Socket], to quit game write [QUIT] !");
+			String choose = in.nextLine();
+			if(choose.equals("Socket")) {
+				 Client.setClientServerSocketPort(Integer.parseInt(in.nextLine()));
+			}
+			if(choose.equals("QUIT")) {
+				System.out.println("Hello !");
+			}
+			Client client = new Client(choose);
+			//costruzione evento da inviare EventCreator.createEvent(client.in.nextLine())
+			client.startClient();
 		}
 		
 		this.communicator.send(evt);
@@ -89,7 +119,7 @@ public class Client {
 	private void startSocketEnvironment() throws IOException {
 		clientSocket = new ServerSocket(Client.getClientServerSocketPort());
 	
-	    new SocketConnectionsHandler(this.clientSocket, this.toProcess).start();
+	    new SocketConnectionsHandler(this.clientSocket, this.toProcess, this.getClientAlive()).start();
 	    
 	    System.out.println("Server socket ready on " + Client.getClientServerSocketPort());
 		System.out.println("Server ready");
@@ -134,7 +164,7 @@ public class Client {
 	public static void main(String[] args) throws UnknownHostException, NotBoundException, IOException, AlreadyBoundException{
 		Scanner in = new Scanner(System.in);
 		System.err.println("WELCOME TO THE GAME !\n");
-		System.out.println("MAKE YOUR CHOICE! [RMI] [SOCKET]");
+		System.out.println("CHOOSE THE CONNECTION PROTOCOL: write [RMI] or [SOCKET] : ");
 		String choose = in.nextLine();
 		if(choose.equals("Socket")) {
 			 Client.setClientServerSocketPort(Integer.parseInt(in.nextLine()));

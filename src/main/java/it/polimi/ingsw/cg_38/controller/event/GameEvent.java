@@ -2,8 +2,9 @@ package it.polimi.ingsw.cg_38.controller.event;
 
 import it.polimi.ingsw.cg_38.model.Player;
 
-public class GameEvent extends Event{
+public class GameEvent extends Event {
 
+	private static final long serialVersionUID = 1L;
 	public GameEvent(Player generator) {
 		super(generator);
 	}

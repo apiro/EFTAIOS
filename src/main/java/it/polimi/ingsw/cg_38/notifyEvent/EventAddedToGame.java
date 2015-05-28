@@ -17,9 +17,14 @@ public class EventAddedToGame extends NotifyEvent {
 		this.map = map;
 	}*/
 
-	public EventAddedToGame(Player generator, Boolean added) {
-		super(generator, true);
+	public EventAddedToGame(Player generator, Boolean added, Boolean broadcast) {
+		super(generator, broadcast);
 		this.setAdded(added);
+	}
+
+	@Override
+	public String toString() {
+		return "EventAddedToGame [added=" + added + "]";
 	}
 
 	private void setAdded(Boolean added) {

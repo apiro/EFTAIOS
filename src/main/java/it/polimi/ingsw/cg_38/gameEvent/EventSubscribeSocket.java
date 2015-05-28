@@ -7,6 +7,11 @@ import java.io.Serializable;
 
 public class EventSubscribeSocket extends EventSubscribe implements Serializable{
 	
+	@Override
+	public String toString() {
+		return "EventSubscribeSocket [ TO CONNECT ME USE PORT=" + PORT + ", TO CONNECT ME USE HOST=" + HOST + "]";
+	}
+
 	private static final long serialVersionUID = 1L;
 	private int PORT;
 	private String HOST = "localhost";

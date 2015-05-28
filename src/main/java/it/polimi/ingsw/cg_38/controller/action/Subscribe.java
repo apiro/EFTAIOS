@@ -41,34 +41,40 @@ public abstract class Subscribe extends InitGameAction {
 		
 		for(GameController gc:server.getTopics().values()) {
 			if(gc.getGameModel().getGamePlayers().contains(super.getPlayer())) {
-				return new EventAddedToGame(super.getPlayer(), false);
+				gc.getSubscribers().put(super.getPlayer().getName(), c);
+				server.getTopics().put(super.getPlayer().getName(), gc);
+				return new EventAddedToGame(super.getPlayer(), false, false);
 			}
 		}
 		if(this.isPossible(server)) {
 			//il topic proposto è tra le topic già presenti
 			for(GameController gc:server.getTopics().values()) {
-				if(gc.getTopic().equals(this.getTopic()) && gc.getGameModel().getGamePlayers().size()<8 &&
-						gc.getCanAcceptOtherPlayers()) {
-					gc.getSubscribers().put(super.getPlayer().getName(), c);
-					gc.getGameModel().getGamePlayers().add(super.getPlayer());
-					gc.setFirstTurn();
-					gc.assignAvatars();
-					server.getTopics().put(super.getPlayer().getName(), gc);
-					return new EventAddedToGame(super.getPlayer(), true);
+				if(gc.getTopic().equals(this.getTopic())) {
+					if(gc.getGameModel().getGamePlayers().size()<8 &&
+							gc.getCanAcceptOtherPlayers()) {
+						gc.getSubscribers().put(super.getPlayer().getName(), c);
+						gc.getGameModel().getGamePlayers().add(super.getPlayer());
+						gc.setFirstTurn();
+						gc.assignAvatars();
+						server.getTopics().put(super.getPlayer().getName(), gc);
+						return new EventAddedToGame(super.getPlayer(), true, true);
+					}  else {
+						gc.getSubscribers().put(super.getPlayer().getName(), c);
+						server.getTopics().put(super.getPlayer().getName(), gc);
+						return new EventAddedToGame(super.getPlayer(), false, false);	
+					}
 				}
 			}
-			return new EventAddedToGame(super.getPlayer(), false);	
-		} else {
-			//il topic proposto NON è tra le topic già presenti
-			GameController newGc = server.initAndStartANewGame(this.getTypeMap(), this.getTopic());
-			server.addObserver(newGc);
-			newGc.getSubscribers().put(super.getPlayer().getName(), c);
-			newGc.getGameModel().getGamePlayers().add(super.getPlayer());
-			newGc.setFirstTurn();
-			newGc.assignAvatars();
-			server.getTopics().put(super.getPlayer().getName(), newGc);
-			return new EventAddedToGame(super.getPlayer(), true);
 		}
+		//il topic proposto NON è tra le topic già presenti
+		GameController newGc = server.initAndStartANewGame(this.getTypeMap(), this.getTopic());
+		server.addObserver(newGc);
+		newGc.getSubscribers().put(super.getPlayer().getName(), c);
+		newGc.getGameModel().getGamePlayers().add(super.getPlayer());
+		newGc.setFirstTurn();
+		newGc.assignAvatars();
+		server.getTopics().put(super.getPlayer().getName(), newGc);
+		return new EventAddedToGame(super.getPlayer(), true, true);
 	}
 	
 	public Boolean isPossible(ServerController server) {

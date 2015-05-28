@@ -1,19 +1,13 @@
 package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
-import it.polimi.ingsw.cg_38.controller.event.GameEvent;
-import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class SocketConnectionsHandler extends Thread implements Observer {
 	
@@ -22,12 +16,13 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 	 * di un thread quando una sua creazione è richiesta
 	 **/
 	/*private ExecutorService executor;*/
-	private Boolean serverAlive = true;
+	private Boolean alive;
 	private ServerSocket serverSocket;
 	private ConcurrentLinkedQueue<Event> queue;
 	
-	public SocketConnectionsHandler(ServerSocket serverSocket, ConcurrentLinkedQueue<Event> queue) {
+	public SocketConnectionsHandler(ServerSocket serverSocket, ConcurrentLinkedQueue<Event> queue, Boolean alive) {
 		/*this.executor = Executors.newCachedThreadPool();*/
+		this.alive = alive;
 		this.serverSocket = serverSocket;
 		this.queue = queue;
 		
@@ -35,7 +30,7 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 	
 	public void run() {
 		
-		while(serverAlive) {
+		while(alive) {
 			Socket socket = null;
 			try {
 				socket = serverSocket.accept();
@@ -65,6 +60,6 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 	//TODO !!!!
 	@Override
 	public void update(Observable o, Object arg) {
-		this.serverAlive = false;
+		this.alive = false;
 	}
 }

@@ -2,9 +2,6 @@ package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
-import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.model.Player;
-import it.polimi.ingsw.cg_38.notifyEvent.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

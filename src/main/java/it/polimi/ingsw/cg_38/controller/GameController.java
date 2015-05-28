@@ -64,7 +64,7 @@ public class GameController implements Observer {
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
-		}
+		} 
 	}
 	
 	public HashMap<String, Communicator> getSubscribers() {

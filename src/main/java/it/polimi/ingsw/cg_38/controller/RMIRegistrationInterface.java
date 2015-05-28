@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg_38.controller;
 
-import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
