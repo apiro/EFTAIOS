@@ -6,8 +6,12 @@ import it.polimi.ingsw.cg_38.model.Player;
 
 public class EventAddedToGame extends NotifyEvent {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Boolean added;
-	/*private Map map;
+	private Map map;
 	
 	public Map getMap() {
 		return map;
@@ -15,10 +19,11 @@ public class EventAddedToGame extends NotifyEvent {
 
 	public void setMap(Map map) {
 		this.map = map;
-	}*/
+	}
 
-	public EventAddedToGame(Player generator, Boolean added, Boolean broadcast) {
+	public EventAddedToGame(Player generator, Boolean added, Boolean broadcast, Map map) {
 		super(generator, broadcast);
+		this.setMap(map);
 		this.setAdded(added);
 	}
 

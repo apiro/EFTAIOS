@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg_38.model;
 import java.io.IOException;
-
 import java.util.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,13 +29,10 @@ import org.xml.sax.SAXException;
  *  [i-1,j] [i+1,j] [i, j+1] [i, j-1] [i+1,j+1] [i+1,j-1]
  * 
  */
-public class Map {
+public class Map implements Serializable {
 
-	
+	private static final long serialVersionUID = 1L;
 	private int[] configuration;
-	/**
-     * 
-     */
     public Map() {
   
     }
@@ -46,11 +43,7 @@ public class Map {
 	public void setConfiguration(int[] configuration) {
 		this.configuration = configuration;
 	}
-	/**
-	 * @throws Exception 
-	 * @throws ParserConfigurationException 
-     * 
-     */
+	
     public Map(String type) throws ParserConfigurationException, Exception {
     	
     	this.init();

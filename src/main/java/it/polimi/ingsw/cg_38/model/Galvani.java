@@ -5,9 +5,8 @@ package it.polimi.ingsw.cg_38.model;
  */
 public class Galvani extends Map {
 
-    /**
-     * 
-     */
+	private static final long serialVersionUID = 1L;
+
     public Galvani() {
     	
     	/*
@@ -18,14 +17,8 @@ public class Galvani extends Map {
     	super.fillTable(configuration);
     }
  
-    /**
-     * 
-     */
     private final String name = "Galvani";
 
-    /**
-     * 
-     */
     private final int[] configuration = {-1,-1,-1,1,1,4,-1,-1,-1,1,1,1,1,1,-1,4,1,1,1,1,1,0,-1
     									,-1,1,1,-1,-1,1,0,1,1,-1,-1,-1,1,0,1,1,0,-1,1,1,-1,1,-1
     									,1,-1,-1,1,1,-1,-1,1,1,1,0,0,-1,-1,0,1,1,1,-1,-1,1,1,1

@@ -19,6 +19,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -54,7 +55,7 @@ public class Client {
 
 	private Scanner in = new Scanner(System.in);
 	private ConcurrentLinkedQueue<Event> toProcess = new ConcurrentLinkedQueue<Event>();
-	private ArrayList<GameEvent> toSend = new ArrayList<GameEvent>();
+	private LinkedList<Event> toSend = new LinkedList<Event>();
 	private ServerSocket clientSocket;
 
 	public Client(String s) throws IOException, NotBoundException {
@@ -129,7 +130,7 @@ public class Client {
 		return toProcess;
 	}
 
-	public ArrayList<GameEvent> getToSend() {
+	public LinkedList<Event> getToSend() {
 		return toSend;
 	}
 
@@ -150,11 +151,10 @@ public class Client {
 		}
 	}
 	
-	/*public void trasmitGameEvent(Event evt) throws RemoteException {
+	public void trasmitGameEvent() throws RemoteException {
+		Event evt = this.getToSend().poll();
 		communicator.send(evt);
-		Event responseEvent = communicator.recieveEvent();
-		this.handleSentNotifyEvent(responseEvent);
-	}*/
+	}
 	
 	public void handleSentNotifyEvent(Event event) {
 		System.out.println("Parsing S->C Event... : " + event.toString());
@@ -163,7 +163,7 @@ public class Client {
 	
 	public static void main(String[] args) throws UnknownHostException, NotBoundException, IOException, AlreadyBoundException{
 		Scanner in = new Scanner(System.in);
-		System.err.println("WELCOME TO THE GAME !\n");
+		System.err.println("WELCOME TO THE GAME !");
 		System.out.println("CHOOSE THE CONNECTION PROTOCOL: write [RMI] or [SOCKET] : ");
 		String choose = in.nextLine();
 		if(choose.equals("Socket")) {

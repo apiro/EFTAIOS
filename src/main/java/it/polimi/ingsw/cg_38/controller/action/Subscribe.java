@@ -43,7 +43,7 @@ public abstract class Subscribe extends InitGameAction {
 			if(gc.getGameModel().getGamePlayers().contains(super.getPlayer())) {
 				gc.getSubscribers().put(super.getPlayer().getName(), c);
 				server.getTopics().put(super.getPlayer().getName(), gc);
-				return new EventAddedToGame(super.getPlayer(), false, false);
+				return new EventAddedToGame(super.getPlayer(), false, false, null);
 			}
 		}
 		if(this.isPossible(server)) {
@@ -57,11 +57,11 @@ public abstract class Subscribe extends InitGameAction {
 						gc.setFirstTurn();
 						gc.assignAvatars();
 						server.getTopics().put(super.getPlayer().getName(), gc);
-						return new EventAddedToGame(super.getPlayer(), true, true);
+						return new EventAddedToGame(super.getPlayer(), true, true, gc.getGameModel().getGameMap());
 					}  else {
 						gc.getSubscribers().put(super.getPlayer().getName(), c);
 						server.getTopics().put(super.getPlayer().getName(), gc);
-						return new EventAddedToGame(super.getPlayer(), false, false);	
+						return new EventAddedToGame(super.getPlayer(), false, false, null);	
 					}
 				}
 			}
@@ -74,7 +74,7 @@ public abstract class Subscribe extends InitGameAction {
 		newGc.setFirstTurn();
 		newGc.assignAvatars();
 		server.getTopics().put(super.getPlayer().getName(), newGc);
-		return new EventAddedToGame(super.getPlayer(), true, true);
+		return new EventAddedToGame(super.getPlayer(), true, true, newGc.getGameModel().getGameMap());
 	}
 	
 	public Boolean isPossible(ServerController server) {
