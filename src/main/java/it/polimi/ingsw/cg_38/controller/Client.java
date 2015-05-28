@@ -78,14 +78,8 @@ public class Client {
 			
 			this.startSocketEnvironment();
 			System.out.println("Creating a socket with the server !");
-			Socket socket = new Socket(host, port);
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-			out.flush();
-			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-			System.out.println("SOCKET Connection Established !");
-			this.communicator = new SocketCommunicator(socket);
-			((SocketCommunicator)this.communicator).setOutputStream(out);
-			((SocketCommunicator)this.communicator).setInputStream(in);
+			this.communicator = new SocketCommunicator(this.port);
+			
 			evt = new EventSubscribeSocket(new Player(name), room, map, Client.getClientServerSocketPort());
 		}
 		
@@ -113,8 +107,7 @@ public class Client {
 		while(true) {
 			Event msg = toProcess.poll();
 			if(msg != null) {
-				System.out.println("Parsing S->C Event... : " + msg.toString());
-				System.out.println("Callback event arrived !");
+				this.handleSentNotifyEvent(msg);
 			} else {
 				try {
 					synchronized(toProcess) {
@@ -131,12 +124,12 @@ public class Client {
 		communicator.send(evt);
 		Event responseEvent = communicator.recieveEvent();
 		this.handleSentNotifyEvent(responseEvent);
-	}
+	}*/
 	
 	public void handleSentNotifyEvent(Event event) {
-		//costruisco l'azione S->C corrispondente e la performo.
 		System.out.println("Parsing S->C Event... : " + event.toString());
-	}*/
+		System.out.println("Callback event arrived !");
+	}
 	
 	public static void main(String[] args) throws UnknownHostException, NotBoundException, IOException, AlreadyBoundException{
 		Scanner in = new Scanner(System.in);

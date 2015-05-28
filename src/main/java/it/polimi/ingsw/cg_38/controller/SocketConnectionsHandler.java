@@ -61,7 +61,8 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 			e.printStackTrace();
 		}
 	}
-
+	
+	//TODO !!!!
 	@Override
 	public void update(Observable o, Object arg) {
 		this.serverAlive = false;

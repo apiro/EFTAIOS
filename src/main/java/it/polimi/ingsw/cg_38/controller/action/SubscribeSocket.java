@@ -38,7 +38,9 @@ public class SubscribeSocket extends Subscribe {
 	@Override
 	public NotifyEvent perform(ServerController server) throws ParserConfigurationException, Exception {
 
-		System.out.println("Creating a socket with the client !");
+		Communicator c = new SocketCommunicator(this.getPORT());
+		
+		/*System.out.println("Creating a socket with the client !");
 		Socket socket = new Socket(this.getHOST(), this.getPORT());
 		
 		System.out.println("SOCKET Connection Established !");
@@ -48,7 +50,7 @@ public class SubscribeSocket extends Subscribe {
 		ObjectInputStream in = new ObjectInputStream(socket.getInputStream());;
 		
 		((SocketCommunicator) c).setOutputStream(out);
-		((SocketCommunicator) c).setInputStream(in);
+		((SocketCommunicator) c).setInputStream(in);*/
 		
 		return super.generalEventGenerator(c, server);
 	}
