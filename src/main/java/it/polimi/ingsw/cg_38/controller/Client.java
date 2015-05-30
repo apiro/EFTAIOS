@@ -186,7 +186,6 @@ public class Client {
 			Event msg = client.toProcess.poll();
 			if(msg != null) {
 				client.handleSentNotifyEvent(msg);
-				client.communicator.send(new EventMove(client.player, this.);
 			} /*else {
 				try {
 					synchronized(client.toProcess) {
