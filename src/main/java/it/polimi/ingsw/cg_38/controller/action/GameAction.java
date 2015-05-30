@@ -1,4 +1,5 @@
 package it.polimi.ingsw.cg_38.controller.action;
+import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import  it.polimi.ingsw.cg_38.model.*;
 
@@ -18,7 +19,11 @@ public abstract class GameAction extends Action {
     
     public abstract NotifyEvent perform(GameModel model);
 
-    public abstract Boolean isPossible(GameModel model);
+    public Boolean isPossible(GameModel model) {
+    	if(model.getGameState().equals(GameState.RUNNING)) {
+    		return true;
+    	} else return false;
+    }
 
 	public String currentAvatarType(GameModel model){
 		if(model.getActualTurn().getCurrentPlayer().getAvatar() instanceof Alien) {

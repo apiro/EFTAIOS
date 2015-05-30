@@ -6,6 +6,8 @@ import it.polimi.ingsw.cg_38.model.Player;
 
 public class EventMoved extends NotifyEvent {
 
+	private static final long serialVersionUID = 1L;
+	
 	private String moved;
 	
 	public String getMoved() {

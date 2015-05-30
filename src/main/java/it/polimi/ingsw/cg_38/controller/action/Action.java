@@ -2,7 +2,7 @@ package it.polimi.ingsw.cg_38.controller.action;
 
 import it.polimi.ingsw.cg_38.model.Player;
 
-public class Action {
+public abstract class Action {
 	
 	public Action(Player player) {
     	this.setPlayer(player);

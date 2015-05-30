@@ -50,7 +50,7 @@ public class UseRandomSectorNoise extends GameAction {
      * @return
      */
     public Boolean isPossible(GameModel model) {
-        return true;
+        return super.isPossible(model);
     }
 
 }

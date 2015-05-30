@@ -1,15 +1,15 @@
 package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.GameController;
-import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.action.Action;
-import it.polimi.ingsw.cg_38.controller.action.ActionCreator;
+import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.action.InitGameAction;
 import it.polimi.ingsw.cg_38.controller.action.GameAction;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotYourTurn;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -83,15 +83,23 @@ public class ServerController extends Observable {
 				System.err.println("Game Event arrived !\n");
 				System.out.println("Parsing Event... : " + msg.toString());
 				GameController gcFound = null;
-				Action generatedAction = ActionCreator.createAction(msg);
+				Action generatedAction = GameActionCreator.createGameAction(msg);
 				if(msg instanceof EventSubscribe) {
+					//se l'evento è di sottoscrizione ad un game, iniziato o no questo lo gestisce la perform dell'azione corrisp
 					System.out.println("New subscribe event !");
 		    		callbackEvent = ((InitGameAction)generatedAction).perform(this);
 		    		gcFound = topics.get(msg.getGenerator().getName());
 		    		
 				} else {
+					//se l'evento è di gioco
 					gcFound = topics.get(msg.getGenerator().getName());
-		    		callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
+					if( msg.getGenerator().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer())) {
+						//se l'evento viene dal giocatore del turno corrente
+						callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
+					} else {
+						//se l'evento non viene dal gicatore del turno (qualcuno ha inviato un evento fuori turno)
+						callbackEvent = new EventNotYourTurn(msg.getGenerator());
+					}
 				}
 				gcFound.addEventToTheQueue(callbackEvent);
 				this.setChanged();
@@ -103,16 +111,6 @@ public class ServerController extends Observable {
 				System.err.println("Event parsed !");
 				System.out.println("---------------------------------------------------------------------\n");
 			} 
-			
-			/*else {
-				try {
-					synchronized(toDispatch) {
-						toDispatch.wait();
-					}
-				} catch (InterruptedException e) {
-					System.err.println("Cannot wait on the queue!");
-				}
-			}*/
 		}
 	}
 	
@@ -135,12 +133,6 @@ public class ServerController extends Observable {
 	public GameController initAndStartANewGame(String map, String topic) throws ParserConfigurationException, Exception {
 
     	GameController generalController = new GameController(map, topic);
-    	generalController.setState(GameState.STARTING);
-    	/*generalController.waitingForPlayerConnection();*/
-    	/*for(Player pl:generalController.getGameModel().getGamePlayers()) {
-    		generalController.getPcs().add(new PlayerController(pl));
-    	}*/
-    	generalController.setState(GameState.RUNNING);
     	return generalController;
     }
 	

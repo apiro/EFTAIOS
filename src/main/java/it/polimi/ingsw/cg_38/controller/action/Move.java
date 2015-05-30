@@ -47,7 +47,8 @@ public class Move extends GameAction {
      */
     public Boolean isPossible(GameModel model) {
         if(!model.getActualTurn().getHasMoved() &&
-        		model.getActualTurn().getCurrentPlayer().getAvatar().canMove(getSectorToMove())) {
+        		model.getActualTurn().getCurrentPlayer().getAvatar().canMove(getSectorToMove()) && 
+        		super.isPossible(model)) {
         	return true;
         }
         return false;

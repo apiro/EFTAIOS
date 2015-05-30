@@ -25,7 +25,7 @@ public class UseSilenceCard extends GameAction {
      * @return
      */
     public Boolean isPossible(GameModel model) {
-         return true;
+         return super.isPossible(model);
     }
 
 }

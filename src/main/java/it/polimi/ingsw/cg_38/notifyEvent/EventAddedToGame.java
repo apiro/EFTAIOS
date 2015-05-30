@@ -1,30 +1,28 @@
 package it.polimi.ingsw.cg_38.notifyEvent;
 
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.model.Map;
+import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
 import it.polimi.ingsw.cg_38.model.Player;
 
 public class EventAddedToGame extends NotifyEvent {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private Boolean added;
-	private Map map;
 	
-	public Map getMap() {
-		return map;
+	private Boolean added;
+	private NotifyEventType type;
+	
+	public NotifyEventType getType() {
+		return type;
 	}
 
-	public void setMap(Map map) {
-		this.map = map;
+	public void setType(NotifyEventType type) {
+		this.type = type;
 	}
-
-	public EventAddedToGame(Player generator, Boolean added, Boolean broadcast, Map map) {
+	
+	public EventAddedToGame(Player generator, Boolean added, Boolean broadcast) {
 		super(generator, broadcast);
-		this.setMap(map);
 		this.setAdded(added);
+		this.setType(NotifyEventType.Added);
 	}
 
 	@Override

@@ -58,7 +58,8 @@ public class Draw extends GameAction {
     	if( model.getActualTurn().getHasMoved() &&
     		!model.getActualTurn().getHasAttacked() &&
     		!model.getActualTurn().getHasDraw() && 
-    		!(model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector() instanceof Safe)) {
+    		!(model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector() instanceof Safe) && 
+    		super.isPossible(model)) {
     		return true;
     	}
     	return false;

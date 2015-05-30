@@ -8,6 +8,8 @@ import it.polimi.ingsw.cg_38.model.Player;
 
 public class EventDrown extends NotifyEvent {
 
+	private static final long serialVersionUID = 1L;
+	
 	private ObjectCard added;
 	private Card drown;
 	

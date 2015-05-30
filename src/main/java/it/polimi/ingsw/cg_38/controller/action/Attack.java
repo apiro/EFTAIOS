@@ -67,7 +67,7 @@ public class Attack extends GameAction {
         if(this.currentAvatarType(model).equals("Alien") &&
         		model.getActualTurn().getHasMoved() &&
         		!model.getActualTurn().getHasAttacked() && 
-        		!model.getActualTurn().getHasDraw()) {
+        		!model.getActualTurn().getHasDraw() && super.isPossible(model)) {
         	return true;
         } else if (this.currentAvatarType(model).equals("Human") && 
         		((Human)model.getActualTurn().getCurrentPlayer().getAvatar()).getCanAttack() && 

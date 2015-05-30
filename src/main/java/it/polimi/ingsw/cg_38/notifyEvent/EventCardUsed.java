@@ -6,6 +6,8 @@ import it.polimi.ingsw.cg_38.model.Player;
 
 public class EventCardUsed extends NotifyEvent {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Boolean performed;
 	
 	public EventCardUsed(Player generator, Boolean performed) {

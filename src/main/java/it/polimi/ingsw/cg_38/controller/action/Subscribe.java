@@ -5,7 +5,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import it.polimi.ingsw.cg_38.controller.Communicator;
 import it.polimi.ingsw.cg_38.controller.GameController;
+import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.ServerController;
+import it.polimi.ingsw.cg_38.controller.WaitingRoomController;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
@@ -43,41 +45,44 @@ public abstract class Subscribe extends InitGameAction {
 			if(gc.getGameModel().getGamePlayers().contains(super.getPlayer())) {
 				gc.getSubscribers().put(super.getPlayer().getName(), c);
 				server.getTopics().put(super.getPlayer().getName(), gc);
-				return new EventAddedToGame(super.getPlayer(), false, false, null);
+				return new EventAddedToGame(super.getPlayer(), false, false);
 			}
 		}
 		if(this.isPossible(server)) {
-			//il topic proposto è tra le topic già presenti
+			//il topic proposto è tra i topic già presenti
+			//E' LA FASE DI ACCEPTING
 			for(GameController gc:server.getTopics().values()) {
 				if(gc.getTopic().equals(this.getTopic())) {
-					if(gc.getGameModel().getGamePlayers().size()<8 &&
-							gc.getCanAcceptOtherPlayers()) {
+					if(/*gc.getGameModel().getGamePlayers().size()<8 &&
+							gc.getCanAcceptOtherPlayers()*/ gc.getGameModel().getGameState().equals(GameState.ACCEPTING) ) {
 						gc.getSubscribers().put(super.getPlayer().getName(), c);
 						gc.getGameModel().getGamePlayers().add(super.getPlayer());
-						gc.setFirstTurn();
-						gc.assignAvatars();
 						server.getTopics().put(super.getPlayer().getName(), gc);
-						return new EventAddedToGame(super.getPlayer(), true, true, gc.getGameModel().getGameMap());
+						return new EventAddedToGame(super.getPlayer(), true, true);
 					}  else {
 						gc.getSubscribers().put(super.getPlayer().getName(), c);
 						server.getTopics().put(super.getPlayer().getName(), gc);
-						return new EventAddedToGame(super.getPlayer(), false, false, null);	
+						return new EventAddedToGame(super.getPlayer(), false, false);	
 					}
 				}
 			}
 		}
 		//il topic proposto NON è tra le topic già presenti
+		//E' LA FASE DI INIT DEL GIOCO ! STATO 0 DEL GIOCO, QUANDO UN GIOCATORE RICHIEDE DI GIOCARE IN UNA ROOM NON PRESENTE
 		GameController newGc = server.initAndStartANewGame(this.getTypeMap(), this.getTopic());
 		server.addObserver(newGc);
 		newGc.getSubscribers().put(super.getPlayer().getName(), c);
 		newGc.getGameModel().getGamePlayers().add(super.getPlayer());
-		newGc.setFirstTurn();
-		newGc.assignAvatars();
 		server.getTopics().put(super.getPlayer().getName(), newGc);
-		return new EventAddedToGame(super.getPlayer(), true, true, newGc.getGameModel().getGameMap());
+		newGc.getGameModel().setGameState(GameState.ACCEPTING);
+		
+		new WaitingRoomController(server.getToDispatch(), newGc).start();
+		
+		return new EventAddedToGame(super.getPlayer(), true, true);
 	}
 	
 	public Boolean isPossible(ServerController server) {
+		//true -> giocatore chiede room gia presente false->giocatore chiede room da istanziare
 		Boolean found = false;
 		
 		for(GameController gc:server.getTopics().values()) {

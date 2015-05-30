@@ -24,21 +24,9 @@ public class GameController implements Observer {
 
 	private HashMap<String, Communicator> subscribers = new HashMap<String, Communicator>();
 	
-	public GameState getState() {
-		return state;
-	}
-
-	public void setState(GameState state) {
-		this.state = state;
-	}
-	
 	private ConcurrentLinkedQueue<NotifyEvent> buffer;
 
 	private GameModel gameModel;
-
-	private Timer timer;
-
-	private GameState state = GameState.STARTING;
 	
     private String topic;
     
@@ -123,7 +111,6 @@ public class GameController implements Observer {
 	public void initGame(String type, String topic) throws ParserConfigurationException, Exception {
 		this.setTopic(topic);
 	    this.setGameModel(new GameModel(type));
-	    this.setTimer(new Timer());
 	}
 
 	public void setTopic(String topic) {
@@ -131,7 +118,7 @@ public class GameController implements Observer {
 	}
 	
 	public void closeGame() {
-	    this.setState(GameState.FINISHED);
+	    this.getGameModel().setGameState(GameState.CLOSING);
 	}
 	
 	public void setFirstTurn() {
@@ -157,20 +144,6 @@ public class GameController implements Observer {
 	   	Collections.shuffle(getGameModel().getGamePlayers());
 	 }
 	
-	public void waitingForPlayerConnection() {
-    	final Boolean[] controllMyLoop = {true};
-    	timer.schedule(new TimerTask() {
-    		@Override
-    	    public void run() {
-    			controllMyLoop[0] = false;
-    	    }
-    	} , 10000);
-    	
-    	while(controllMyLoop[0]) {
-    	}
-    	setCanAcceptOtherPlayers(false);
-    }
-	
 	public GameModel getGameModel() {
 		return this.gameModel;
 	}
@@ -182,11 +155,7 @@ public class GameController implements Observer {
 	public void setCanAcceptOtherPlayers(Boolean canAcceptOtherPlayers) {
 		this.canAcceptOtherPlayers = canAcceptOtherPlayers;
 	}
-
-	public void setTimer(Timer timer) {
-		this.timer = timer;
-	}
-
+	
 	public void setGameModel(GameModel gameModel) {
 		this.gameModel = gameModel;
 	}

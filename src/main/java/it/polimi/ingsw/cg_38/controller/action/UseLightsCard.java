@@ -67,7 +67,8 @@ public class UseLightsCard extends GameAction {
      */
     public Boolean isPossible(GameModel model) {
     	if(!this.currentAvatarType(model).equals("Alien") && 
-    			model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard())) {
+    			model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
+    			super.isPossible(model)) {
         	return true;
         }
         return false;

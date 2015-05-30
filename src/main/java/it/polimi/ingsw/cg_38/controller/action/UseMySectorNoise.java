@@ -32,7 +32,7 @@ public class UseMySectorNoise extends GameAction {
      */
     public Boolean isPossible(GameModel model) {
         // TODO implement here
-        return true;
+    	return super.isPossible(model);
     }
 
 }

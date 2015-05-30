@@ -1,24 +1,21 @@
 package it.polimi.ingsw.cg_38.controller;
 
+import it.polimi.ingsw.cg_38.controller.action.NotifyAction;
+import it.polimi.ingsw.cg_38.controller.action.NotifyActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
-import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribeRMI;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribeSocket;
 import it.polimi.ingsw.cg_38.model.Player;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -57,8 +54,11 @@ public class Client {
 	private ConcurrentLinkedQueue<Event> toProcess = new ConcurrentLinkedQueue<Event>();
 	private LinkedList<Event> toSend = new LinkedList<Event>();
 	private ServerSocket clientSocket;
+	private ClientInterface userInterface;
 
 	public Client(String s) throws IOException, NotBoundException {
+		System.err.println("WELCOME TO THE GAME !\n");
+		userInterface = new CLIView(this);
 		System.out.println("INSERT  : \n\t1) YOUR USERNAME: \n\t2) THE ROOM YOU WANT TO ACCESS : \n\t3) THE MAP NAME: ");
 		name = in.nextLine();
 		room = in.nextLine();
@@ -139,7 +139,7 @@ public class Client {
 			Event msg = toProcess.poll();
 			if(msg != null) {
 				this.handleSentNotifyEvent(msg);
-			} else {
+			} /*else {
 				try {
 					synchronized(toProcess) {
 						toProcess.wait();
@@ -147,7 +147,7 @@ public class Client {
 				} catch (InterruptedException e) {
 					System.err.println("Cannot wait on the queue!");
 				}
-			}
+			}*/
 		}
 	}
 	
@@ -157,8 +157,9 @@ public class Client {
 	}
 	
 	public void handleSentNotifyEvent(Event event) {
-		System.out.println("Parsing S->C Event... : " + event.toString());
-		System.out.println("Callback event arrived !");
+		System.out.println(event.toString());
+		/*NotifyAction generated = (NotifyAction) NotifyActionCreator.createNotifyAction(event);
+		generated.render(userInterface);*/
 	}
 	
 	public static void main(String[] args) throws UnknownHostException, NotBoundException, IOException, AlreadyBoundException{
@@ -171,6 +172,19 @@ public class Client {
 		}
 		Client client = new Client(choose);
 		//costruzione evento da inviare EventCreator.createEvent(client.in.nextLine())
-		client.startClient();
+		while(true) {
+			Event msg = client.toProcess.poll();
+			if(msg != null) {
+				client.handleSentNotifyEvent(msg);
+			} /*else {
+				try {
+					synchronized(client.toProcess) {
+						client.toProcess.wait();
+					}
+				} catch (InterruptedException e) {
+					System.err.println("Cannot wait on the queue!");
+				}
+			}*/
+		}
 	}
 }

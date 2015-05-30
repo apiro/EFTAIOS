@@ -2,22 +2,24 @@ package it.polimi.ingsw.cg_38.controller.action;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.GameEventType;
+import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
+import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 
 /**
  * 
  */
-public class ActionCreator {
+public class GameActionCreator {
 
     /**
      * 
      */
-    public ActionCreator() {
+    public GameActionCreator() {
     }
 
     /**
      * @param String type
      */
-    public static Action createAction(Event evt) {
+    public static Action createGameAction(Event evt) {
     	GameEventType type = ((GameEvent)evt).getType();
     	Action action = null;
     	InitGameAction action2 = null;

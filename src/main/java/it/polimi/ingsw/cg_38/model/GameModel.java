@@ -1,4 +1,6 @@
 package it.polimi.ingsw.cg_38.model;
+import it.polimi.ingsw.cg_38.controller.GameState;
+
 import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -39,6 +41,16 @@ public class GameModel {
     	}
     	return selected;
     }
+    
+    public GameState getGameState() {
+		return gameState;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
+	}
+
+	private GameState gameState = GameState.INIT;
     
     public ArrayList<Player> getGamePlayers() {
 		return gamePlayers;

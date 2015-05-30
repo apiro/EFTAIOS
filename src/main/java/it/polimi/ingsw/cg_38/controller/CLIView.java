@@ -6,6 +6,10 @@ import java.util.Scanner;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.SplashEvent;
+import it.polimi.ingsw.cg_38.model.Map;
+import it.polimi.ingsw.cg_38.model.Movement;
+import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyEnvironment;
 
 public class CLIView implements ClientInterface {
 
@@ -66,16 +70,23 @@ public class CLIView implements ClientInterface {
 	}
 
 	@Override
-	public void renderSplashView() {
-		this.getStrongOut().println("WELCOME TO THE GAME !\n");
-	}
-
-	@Override
-	public void renderEvent(Event evt) {
-		this.getOut().println("-----------------------------------------------------------");
-		this.getStrongOut().println("Recieved notify event ... " + evt.toString() + "\n");
-		this.getStrongOut().println("Callback event arrived !");
-		this.getOut().println("-----------------------------------------------------------");
+	public void renderSplashView(EventNotifyEnvironment evt) {
+		this.getOut().println("Loading the map...");
+		this.getOut().println("MAPPA DEL GIOCO:\n");
+		this.getOut().println("\n|_|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|");
+		for(int i = 0; i < evt.getMap().getHeight() ; i++) {
+			this.getOut().print("|" + i + "|");
+			for(int j = 0; j < evt.getMap().getWidth() ; j++) {
+				this.getOut().print(evt.getMap().getTable().get(i).get(j).getName().substring(0, 1) + "|");
+			}
+			this.getOut().println("\n|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|");
+		}
+		this.getStrongOut().println("\nHere are your movements : \n");
+		int i = 0;
+		for(Movement mv:evt.getGenerator().getAvatar().getMyMovements()) {
+			this.getOut().println(i + ")" );
+			this.getOut().println(mv.toString() + "   ");
+		}
 	}
 
 	@Override
@@ -93,5 +104,10 @@ public class CLIView implements ClientInterface {
 	@Override
 	public int askForPort() {
 		return Integer.parseInt(this.getIn().nextLine());
+	}
+
+	@Override
+	public void renderErrorMessage() {
+		this.getOut().println("--> ERROR !");
 	}
 }

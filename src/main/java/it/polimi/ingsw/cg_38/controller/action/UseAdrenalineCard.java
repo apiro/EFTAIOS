@@ -51,7 +51,8 @@ public class UseAdrenalineCard extends GameAction {
     public Boolean isPossible(GameModel model) {
         // TODO implement here
         if(!!this.currentAvatarType(model).equals("Alien") && 
-        		model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard())) {
+        		model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
+        		super.isPossible(model)) {
         	return true;
         }
         return false;
