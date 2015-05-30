@@ -59,7 +59,6 @@ public class PlayerController extends Thread  {
 		while(true) {
 			try {
 				Event evt = this.communicator.recieveEvent();
-				System.out.println("Recieving Event... : " + evt.toString());
 				
 				this.getEventsToProcess().add((Event) evt);
 				Thread.currentThread().interrupt();

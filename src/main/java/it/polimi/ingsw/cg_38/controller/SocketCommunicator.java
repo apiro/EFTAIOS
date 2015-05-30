@@ -57,7 +57,7 @@ public class SocketCommunicator implements Communicator {
 			this.setOutputStream(out);
 			this.setInputStream(in);
 			
-			System.out.println("SOCKET Connection Established !");
+			/*System.out.println("SOCKET Connection Established !");*/
 			
 			this.getOutputStream().writeObject(evt);
 			this.getOutputStream().flush();

@@ -22,7 +22,7 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 	public ServerView register(/*EventSubscribe evt*/) throws RemoteException {
 		
 		System.out.println("---------------------------------------------------------------------");
-		System.out.println("New Client Connected Using RMI ! ");
+		/*System.out.println("New Client Connected Using RMI ! ");*/
 		ServerView view = null;
 		view = new ServerView(queue);
 		return view;

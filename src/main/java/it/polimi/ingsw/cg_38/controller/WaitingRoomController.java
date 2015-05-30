@@ -11,7 +11,7 @@ public class WaitingRoomController extends Observable implements Runnable {
 	
 	private GameController gc;
 	private Timer timer;
-	private final static Boolean[] controllMyLoop = {true};
+	private final Boolean[] controllMyLoop = {true};
 	
 	public Timer getTimer() {
 		return timer;
@@ -40,17 +40,11 @@ public class WaitingRoomController extends Observable implements Runnable {
     	timer.schedule(new TimerTask() {
     		@Override
     	    public void run() {
-    			WaitingRoomController.controllMyLoop[0] = false;
+    			controllMyLoop[0] = false;
     	    }
-    	} , 15000);
+    	} , 60000);
     	
 		while(true) {
-			try {
-				Thread.sleep(1500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			System.out.println("Waiting for players in " + gc.getTopic() + " ...");
 			if(controllMyLoop[0] == false || gc.getGameModel().getGamePlayers().size() == 3) {
 				break;
 			}
@@ -69,7 +63,10 @@ public class WaitingRoomController extends Observable implements Runnable {
 		this.notifyObservers(gc.getTopic());
 		gc.getGameModel().setGameState(GameState.RUNNING);
 		
+		System.err.println("Topic: " + gc.getTopic() + " is starting ! ");
+		
 		Thread.currentThread().interrupt();
+		timer.cancel();
 		try {
 			synchronized(gc.getBuffer()) {
 				gc.getBuffer().wait();

@@ -40,8 +40,6 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 			//la riga dopo crea un thread per la gestione del socket arrivato
 			PlayerController playerHandler = null;
 			try {
-				System.out.println("----------------------------------------------------------------");
-				System.out.println("New Client Connected Using Socket ! ");
 				playerHandler = new PlayerController(new SocketCommunicator(socket), queue);
 				playerHandler.start();
 			} catch (IOException e) {
