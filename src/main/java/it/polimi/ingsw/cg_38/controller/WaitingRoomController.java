@@ -1,16 +1,14 @@
 package it.polimi.ingsw.cg_38.controller;
 
-import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyEnvironment;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTurn;
 
+import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class WaitingRoomController extends Thread {
+public class WaitingRoomController extends Observable implements Runnable {
 	
-	private ConcurrentLinkedQueue<Event> toDispatch;
 	private GameController gc;
 	private Timer timer;
 	private final static Boolean[] controllMyLoop = {true};
@@ -22,15 +20,7 @@ public class WaitingRoomController extends Thread {
 	public void setTimer(Timer timer) {
 		this.timer = timer;
 	}
-
-	public ConcurrentLinkedQueue<Event> getToDispatch() {
-		return toDispatch;
-	}
-
-	public void setToDispatch(ConcurrentLinkedQueue<Event> toDispatch) {
-		this.toDispatch = toDispatch;
-	}
-
+	
 	public GameController getGc() {
 		return gc;
 	}
@@ -39,10 +29,9 @@ public class WaitingRoomController extends Thread {
 		this.gc = gc;
 	}
 
-	public WaitingRoomController(ConcurrentLinkedQueue<Event> toDispatch, GameController gc) {
+	public WaitingRoomController(GameController gc) {
+		this.addObserver(gc);
 		this.setGc(gc);
-		this.setName(gc.getTopic() + " waiting area handler");
-		this.setToDispatch(toDispatch);
 		this.setTimer(new Timer());
 	}
 	
@@ -52,7 +41,6 @@ public class WaitingRoomController extends Thread {
     		@Override
     	    public void run() {
     			WaitingRoomController.controllMyLoop[0] = false;
-    			System.out.println("DDDDIIIIIDDD");
     	    }
     	} , 15000);
     	
@@ -62,8 +50,8 @@ public class WaitingRoomController extends Thread {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			System.out.println(controllMyLoop[0]);
-			if(controllMyLoop[0] == false || gc.getGameModel().getGamePlayers().size() < 3) {
+			System.out.println("Waiting for players in " + gc.getTopic() + " ...");
+			if(controllMyLoop[0] == false || gc.getGameModel().getGamePlayers().size() == 3) {
 				break;
 			}
 		}
@@ -71,15 +59,20 @@ public class WaitingRoomController extends Thread {
 		
 		//E' LA FASE DI SETTAGGIO A RUNNING DEL GIOCO
 		gc.setFirstTurn();
-		this.getToDispatch().add(new EventNotifyTurn(gc.getGameModel().getActualTurn().getCurrentPlayer()));
+		gc.getBuffer().add(new EventNotifyTurn(gc.getGameModel().getActualTurn().getCurrentPlayer()));
+		this.setChanged();
+		this.notifyObservers(gc.getTopic());
+		
 		gc.assignAvatars();
-		this.getToDispatch().add(new EventNotifyEnvironment(gc.getGameModel().getGamePlayers(), gc.getGameModel().getGameMap()));
+		gc.getBuffer().add(new EventNotifyEnvironment(gc.getGameModel().getGamePlayers(), gc.getGameModel().getGameMap()));
+		this.setChanged();
+		this.notifyObservers(gc.getTopic());
 		gc.getGameModel().setGameState(GameState.RUNNING);
 		
 		Thread.currentThread().interrupt();
 		try {
-			synchronized(this.getToDispatch()) {
-				this.getToDispatch().wait();
+			synchronized(gc.getBuffer()) {
+				gc.getBuffer().wait();
 			}
 		} catch (InterruptedException e) {
 			return;

@@ -157,7 +157,7 @@ public class Client {
 	}
 	
 	public void handleSentNotifyEvent(Event event) {
-		System.out.println(event.toString());
+		System.out.println("Recieving " + event.toString() + " ...");
 		/*NotifyAction generated = (NotifyAction) NotifyActionCreator.createNotifyAction(event);
 		generated.render(userInterface);*/
 	}

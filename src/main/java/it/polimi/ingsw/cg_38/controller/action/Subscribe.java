@@ -76,7 +76,7 @@ public abstract class Subscribe extends InitGameAction {
 		server.getTopics().put(super.getPlayer().getName(), newGc);
 		newGc.getGameModel().setGameState(GameState.ACCEPTING);
 		
-		new WaitingRoomController(server.getToDispatch(), newGc).start();
+		new WaitingRoomController(newGc).run();
 		
 		return new EventAddedToGame(super.getPlayer(), true, true);
 	}

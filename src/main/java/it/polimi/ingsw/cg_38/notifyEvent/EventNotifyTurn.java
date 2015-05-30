@@ -12,6 +12,11 @@ public class EventNotifyTurn extends NotifyEvent {
 		this.setPlayerOfTurn(playerOfTurn);
 	}
 	
+	@Override
+	public String toString() {
+		return "EventNotifyTurn [playerOfTurn=" + playerOfTurn + "]";
+	}
+
 	private Player playerOfTurn;
 	
 	public Player getPlayerOfTurn() {

@@ -8,6 +8,10 @@ import it.polimi.ingsw.cg_38.model.Player;
 
 public class EventNotifyEnvironment extends NotifyEvent {
 
+	@Override
+	public String toString() {
+		return "EventNotifyEnvironment [ ]";
+	}
 	public EventNotifyEnvironment(ArrayList<Player> mapping, Map map) {
 		super(null, true);
 		this.setMappingPlayerAvatar(mapping);
