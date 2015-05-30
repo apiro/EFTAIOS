@@ -1,10 +1,12 @@
 package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
+import it.polimi.ingsw.cg_38.gameEvent.EventMove;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribeRMI;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribeSocket;
 import it.polimi.ingsw.cg_38.model.Player;
+import it.polimi.ingsw.cg_38.model.Sector;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -39,7 +41,16 @@ public class Client {
 	private String room;
 	private String map;
 	private Boolean clientAlive;
+	private ClientSendingInterface userCommands;
 	
+	public ClientSendingInterface getUserCommands() {
+		return userCommands;
+	}
+
+	public void setUserCommands(ClientSendingInterface userCommands) {
+		this.userCommands = userCommands;
+	}
+
 	public Boolean getClientAlive() {
 		return clientAlive;
 	}
@@ -169,11 +180,13 @@ public class Client {
 			 Client.setClientServerSocketPort(Integer.parseInt(in.nextLine()));
 		}
 		Client client = new Client(choose);
+		client.setUserCommands(new ClientSendingInterface(client.communicator));
 		//costruzione evento da inviare EventCreator.createEvent(client.in.nextLine())
 		while(true) {
 			Event msg = client.toProcess.poll();
 			if(msg != null) {
 				client.handleSentNotifyEvent(msg);
+				client.communicator.send(new EventMove(client.player, this.);
 			} /*else {
 				try {
 					synchronized(client.toProcess) {
