@@ -27,7 +27,7 @@ public class EventAddedToGame extends NotifyEvent {
 
 	@Override
 	public String toString() {
-		return "EventAddedToGame [added=" + added + "]";
+		return "EventAddedToGame [added=" + added + " player= " + super.getGenerator().getName() + "]";
 	}
 
 	private void setAdded(Boolean added) {

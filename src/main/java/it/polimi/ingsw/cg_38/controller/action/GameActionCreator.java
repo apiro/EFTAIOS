@@ -2,8 +2,6 @@ package it.polimi.ingsw.cg_38.controller.action;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.GameEventType;
-import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
-import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 
 /**
  * 

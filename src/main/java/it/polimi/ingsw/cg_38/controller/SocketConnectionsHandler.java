@@ -22,6 +22,7 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 	
 	public SocketConnectionsHandler(ServerSocket serverSocket, ConcurrentLinkedQueue<Event> queue, Boolean alive) {
 		/*this.executor = Executors.newCachedThreadPool();*/
+		this.setName("SocketConnectionsHandlerThread");
 		this.alive = alive;
 		this.serverSocket = serverSocket;
 		this.queue = queue;
