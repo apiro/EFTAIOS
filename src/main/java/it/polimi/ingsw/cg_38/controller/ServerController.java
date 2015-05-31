@@ -158,6 +158,7 @@ public class ServerController extends Observable {
 	}*/
 
 	public static void main(String[] args) throws ParserConfigurationException, Exception {
+		Thread.currentThread().setName("ApplicationMainThread");
 		ServerController server = new ServerController();
 		server.startServer();
 	}

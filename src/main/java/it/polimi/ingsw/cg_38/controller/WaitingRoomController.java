@@ -37,20 +37,35 @@ public class WaitingRoomController extends Observable implements Runnable {
 	
 	public void run() {
 		
+		System.out.println("WAITING FOR OTHER PLAYERS IN ROOM: " + gc.getTopic() + " ...");
+		try {
+			Thread.sleep(60000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		/*
+		System.out.println("PRIMA DELLA TIMERTASK");
     	timer.schedule(new TimerTask() {
     		@Override
     	    public void run() {
     			controllMyLoop[0] = false;
+    			System.out.println("SETTATO A FALSE");
     	    }
-    	} , 30000);
-    	
+    	} , 3000);
+    	System.out.println("DOPO LA TIMERTASK");
 		while(true) {
-			if(controllMyLoop[0] == false || gc.getGameModel().getGamePlayers().size() == 3) {
+			
+			if(controllMyLoop[0] == false) {
+				System.out.println("PRIMA DEL BREAK");
 				break;
 			}
 		}
 		
+		System.out.println("PRIMA DI INVIARE EVENTI");
+		*/
 		
+		System.out.println("RUNNING: " + gc.getTopic() + " ...");
 		//E' LA FASE DI SETTAGGIO A RUNNING DEL GIOCO
 		gc.setFirstTurn();
 		gc.getBuffer().add(new EventNotifyTurn(gc.getGameModel().getActualTurn().getCurrentPlayer()));
@@ -62,8 +77,6 @@ public class WaitingRoomController extends Observable implements Runnable {
 		this.setChanged();
 		this.notifyObservers(gc.getTopic());
 		gc.getGameModel().setGameState(GameState.RUNNING);
-		
-		System.err.println("Topic: " + gc.getTopic() + " is starting ! ");
 		
 		Thread.currentThread().interrupt();
 		timer.cancel();
