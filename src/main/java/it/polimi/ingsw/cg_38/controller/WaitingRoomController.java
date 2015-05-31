@@ -42,7 +42,7 @@ public class WaitingRoomController extends Observable implements Runnable {
     	    public void run() {
     			controllMyLoop[0] = false;
     	    }
-    	} , 60000);
+    	} , 30000);
     	
 		while(true) {
 			if(controllMyLoop[0] == false || gc.getGameModel().getGamePlayers().size() == 3) {
