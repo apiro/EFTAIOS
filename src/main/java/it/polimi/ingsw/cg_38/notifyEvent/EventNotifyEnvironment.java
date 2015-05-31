@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_38.notifyEvent;
 import java.util.ArrayList;
 
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
 import it.polimi.ingsw.cg_38.model.Map;
 import it.polimi.ingsw.cg_38.model.Player;
 
@@ -16,6 +17,7 @@ public class EventNotifyEnvironment extends NotifyEvent {
 		super(null, true);
 		this.setMappingPlayerAvatar(mapping);
 		this.setMap(map);
+		this.setType(NotifyEventType.environment);
 	}
 	
 	private static final long serialVersionUID = 1L;

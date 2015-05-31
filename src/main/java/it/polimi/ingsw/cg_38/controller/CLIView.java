@@ -64,12 +64,6 @@ public class CLIView implements ClientInterface {
 	}
 
 	@Override
-	public Event askUserCommands() {
-		
-		return null;
-	}
-
-	@Override
 	public void renderSplashView(EventNotifyEnvironment evt) {
 		this.getOut().println("Loading the map...");
 		this.getOut().println("MAPPA DEL GIOCO:\n");
@@ -90,24 +84,15 @@ public class CLIView implements ClientInterface {
 	}
 
 	@Override
-	public String askForProtocol() {
-		this.getOut().println("CHOOSE THE CONNECTION PROTOCOL: write [RMI] or [SOCKET] : ");
-		return this.getIn().nextLine();
-	}
-
-	@Override
-	public SplashEvent askForSplashEvent() {
-		
+	public Event askForCoordinates() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int askForPort() {
-		return Integer.parseInt(this.getIn().nextLine());
+	public void renderEvent() {
+		// TODO Auto-generated method stub
+		
 	}
 
-	@Override
-	public void renderErrorMessage() {
-		this.getOut().println("--> ERROR !");
-	}
 }
