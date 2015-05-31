@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg_38.model.GameModel;
 import it.polimi.ingsw.cg_38.model.Human;
 import it.polimi.ingsw.cg_38.model.Name;
 import it.polimi.ingsw.cg_38.model.Turn;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyError;
 
 import java.rmi.RemoteException;
 import java.util.Collections;
@@ -81,6 +82,8 @@ public class GameController implements Observer {
 		if(action.isPossible(this.getGameModel())) {
 			notifyEvent = action.perform(this.getGameModel());
     		this.publish(notifyEvent);
+    	} else {
+    		notifyEvent = new EventNotifyError(action.getPlayer());
     	}
 		return notifyEvent; 
 	}
@@ -124,11 +127,6 @@ public class GameController implements Observer {
 	public void setFirstTurn() {
     	Turn actualTurn = new Turn(this.getGameModel().getGamePlayers().get(0));
     	this.getGameModel().setActualTurn(actualTurn);
-    }
-	
-	public void changeTurn() {
-    	Turn newTurn = new Turn(this.getGameModel().getNextPlayer());
-    	this.getGameModel().setActualTurn(newTurn);
     }
 	
 	 public void assignAvatars() {

@@ -21,7 +21,9 @@ public class GameActionCreator {
     	GameEventType type = ((GameEvent)evt).getType();
     	Action action = null;
     	InitGameAction action2 = null;
-    	if(type.equals(GameEventType.Attack)) {
+    	if(type.equals(GameEventType.AttackCard)) {
+    		action = new Attack(((GameEvent)evt));
+    	} else if(type.equals(GameEventType.Attack)) {
     		action = new Attack(((GameEvent)evt));
     	} else if (type.equals(GameEventType.Draw)) {
     		action = new Draw(((GameEvent)evt));
@@ -47,6 +49,9 @@ public class GameActionCreator {
     	} else if (type.equals(GameEventType.subscribeSocket)) {
     		action2 = new SubscribeSocket(((GameEvent)evt));
     		return action2;
+    	} else if (type.equals(GameEventType.finishTurn)) {
+    		action = new FinishTurn((GameEvent)evt);
+    		return action;
     	}
 		return action;
     }

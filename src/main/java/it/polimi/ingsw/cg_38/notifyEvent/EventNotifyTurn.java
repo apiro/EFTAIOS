@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.notifyEvent;
 
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
 import it.polimi.ingsw.cg_38.model.Player;
 
 public class EventNotifyTurn extends NotifyEvent {
@@ -10,6 +11,7 @@ public class EventNotifyTurn extends NotifyEvent {
 	public EventNotifyTurn(Player playerOfTurn) {
 		super(null, true);
 		this.setPlayerOfTurn(playerOfTurn);
+		this.setType(NotifyEventType.notifyTurn);
 	}
 	
 	@Override
