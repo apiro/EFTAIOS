@@ -28,6 +28,8 @@ public class GameController implements Observer {
 
 	private GameModel gameModel;
 	
+	int i = 0;
+	
     private String topic;
     
 	public String getTopic() {
