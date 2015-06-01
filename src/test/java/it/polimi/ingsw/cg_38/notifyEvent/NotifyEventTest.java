@@ -28,10 +28,13 @@ public class NotifyEventTest {
 	EventAddedToGame addedToGame;
 	EventAttacked attacked;
 	EventCardUsed cardUsed;
+	EventClosingGame closingGame;
 	EventDeclarePosition declarePosition;
 	EventDrown drown;
+	EventFinishedTurn finishedTurn;
 	EventMoved moved;
 	EventNotifyEnvironment notifyEnvironment;
+	EventNotifyError notifyError;
 	EventNotifyPlayerState notifyPlayerState;
 	EventNotifyTurn notifyTurn;
 	EventNotYourTurn notYourTurn;
@@ -62,6 +65,7 @@ public class NotifyEventTest {
 	boolean broadcast;
 	boolean performed;
 	boolean winner;
+	boolean finished;
 	
 	@Before
 	public void init() throws ParserConfigurationException, Exception{
@@ -86,6 +90,7 @@ public class NotifyEventTest {
 		broadcast = true;
 		performed = true;
 		winner = true;
+		finished = true;
 		
 		toDeclare2 = new HashMap<String, Sector>();
 		
@@ -95,11 +100,14 @@ public class NotifyEventTest {
 		addedToGame =  new EventAddedToGame(player1 , added , broadcast);
 		attacked = new EventAttacked(player2);
 		cardUsed = new EventCardUsed(player1 , performed);
+		closingGame = new EventClosingGame(player1 , broadcast);
 		declarePosition = new EventDeclarePosition(player1 , toDeclare);
 		declarePosition.setToDeclare(toDeclare2);
 		drown = new EventDrown(player1 , card2 , card1);
+		finishedTurn = new EventFinishedTurn(player1 , finished);
 		moved = new EventMoved(player1 , moved1);
 		notifyEnvironment = new EventNotifyEnvironment(toDeclare, map);
+		notifyError = new EventNotifyError(player1);
 		notifyPlayerState = new EventNotifyPlayerState(player1, winner);
 		notifyTurn = new EventNotifyTurn(player1);
 		notYourTurn = new EventNotYourTurn(player1);
@@ -125,6 +133,8 @@ public class NotifyEventTest {
 		
 		assertEquals(drown.getDrown() , card1);
 		assertEquals(drown.getAdded() , card2);
+		
+		assertEquals(finishedTurn.getFinished() , finished);
 		
 		assertEquals(moved.getMoved() , moved1);
 		

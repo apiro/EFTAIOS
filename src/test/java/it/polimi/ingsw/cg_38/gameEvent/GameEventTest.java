@@ -28,6 +28,9 @@ public class GameEventTest {
 	EventSubscribeRMI subscribeRMI;
 	EventSubscribeSocket subscribeSocket;
 	EventTeleport teleport;
+	EventDraw draw;
+	EventNoiseMySect noiseMySect;
+	EventFinishTurn finishTurn;
 	
 	Player player1;
 	
@@ -68,6 +71,9 @@ public class GameEventTest {
 		subscribeRMI = new EventSubscribeRMI(player1 , room , map , RMI_ID);
 		subscribeSocket = new EventSubscribeSocket(player1 , room , map , PORT);
 		teleport = new EventTeleport(player1 , card1);
+		draw = new EventDraw(player1);
+		noiseMySect = new EventNoiseMySect(player1);
+		finishTurn = new EventFinishTurn(player1);
 		
 				
 	}
@@ -107,7 +113,5 @@ public class GameEventTest {
 		
 		assertEquals(teleport.getToUse() , card1);
 	}
-
-
 	
 }
