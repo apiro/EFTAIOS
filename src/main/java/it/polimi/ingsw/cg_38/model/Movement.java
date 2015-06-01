@@ -1,15 +1,17 @@
 package it.polimi.ingsw.cg_38.model;
-import java.util.*;
+
+import java.io.Serializable;
 
 /**
  * 
  */
-public class Movement {
+public class Movement implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public String toString() {
-		return "Movement [turnNumber=" + turnNumber + ", targetsector="
-				+ targetsector + ", riga=" + targetsector.getRow() + ", colonna=" + targetsector.getCol() + "]";
+		return "Movement [turnNumber=" + turnNumber + ", riga=" + targetsector.getRow() + ", colonna=" + targetsector.getCol() + "]";
 	}
 
 	/**

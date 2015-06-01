@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg_38.controller.action.Action;
 import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
 import it.polimi.ingsw.cg_38.controller.action.InitGameAction;
 import it.polimi.ingsw.cg_38.controller.action.GameAction;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
@@ -26,9 +27,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class ServerController extends Observable {
 	
-	/*private static final String name = "CENTRALSERVER";*/
 	private int socketPortNumber = 4322;
-	/*private int rmiRegistryPortNumber = 1233;*/
 	private String IPAdress = "localhost";
 	private ServerSocket serverSocket;
 	//mappa che segna il nome del player con il corrispondente gamecontroller per poter trovare il topic di un player facilmente
@@ -39,7 +38,6 @@ public class ServerController extends Observable {
 	}
 	
 	private Scanner in = new Scanner(System.in);
-	/*private ConcurrentLinkedQueue<NotifyEvent> toDistribute;*/
 	private ConcurrentLinkedQueue<Event> toDispatch;
 	
 	private Registry registry;
@@ -93,7 +91,7 @@ public class ServerController extends Observable {
 				} else {
 					//se l'evento è di gioco
 					gcFound = topics.get(msg.getGenerator().getName());
-					if( msg.getGenerator().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer())) {
+					if( msg.getGenerator().getName().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer().getName())) {
 						//se l'evento viene dal giocatore del turno corrente
 						callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 					} else {
@@ -104,9 +102,11 @@ public class ServerController extends Observable {
 				gcFound.addEventToTheQueue(callbackEvent);
 				this.setChanged();
 				this.notifyObservers(gcFound.getTopic());
-				if(((EventAddedToGame)callbackEvent).getAdded() == false ) {
-					gcFound.getSubscribers().remove(msg.getGenerator().getName());
-					this.getTopics().remove(msg.getGenerator().getName());
+				if(callbackEvent.getType().equals(NotifyEventType.Added)) {
+					if(((EventAddedToGame)callbackEvent).getAdded() == false ) {
+						gcFound.getSubscribers().remove(msg.getGenerator().getName());
+						this.getTopics().remove(msg.getGenerator().getName());
+					}
 				}
 				System.err.println("Event parsed !");
 				System.out.println("---------------------------------------------------------------------\n");
@@ -117,6 +117,8 @@ public class ServerController extends Observable {
 	private void startRMIEnvironment() throws RemoteException, AlreadyBoundException {
 		
 		RMIRemoteObjectDetails serverView = new RMIRemoteObjectDetails("REGISTRATIONVIEW");
+		
+		System.setProperty("java.rmi.server.hostname",this.IPAdress);
 		
 		this.registry = LocateRegistry.createRegistry(RMIRemoteObjectDetails.getRMI_PORT());
 		

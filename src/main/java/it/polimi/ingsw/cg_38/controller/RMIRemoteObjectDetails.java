@@ -2,7 +2,7 @@ package it.polimi.ingsw.cg_38.controller;
 
 public class RMIRemoteObjectDetails {
 	public String RMI_ID;
-	public static int RMI_PORT = 44332;
+	public static int RMI_PORT = 34555;
 	
 
 public RMIRemoteObjectDetails(String RMI_ID){

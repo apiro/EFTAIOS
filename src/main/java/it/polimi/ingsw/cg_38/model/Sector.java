@@ -7,7 +7,32 @@ import java.util.*;
  */
 public class Sector implements Serializable{
 
-    /**
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Sector other = (Sector) obj;
+		if (col != other.col)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (neighboringSectors == null) {
+			if (other.neighboringSectors != null)
+				return false;
+		} 
+		if (row != other.row)
+			return false;
+		return true;
+	}
+
+	/**
      * 
      */
     public Sector() {

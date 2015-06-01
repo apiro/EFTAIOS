@@ -34,10 +34,12 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.LinkedList;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class Client {
+public class Client implements Observer {
 
 	private int port = 4322;
 	private static int clientServerSocketPort;
@@ -67,7 +69,7 @@ public class Client {
 	private String room;
 	private Boolean clientAlive = false;
 	private ClientSendingInterface userCommands;
-	private Boolean isMyTurn;
+	private Boolean isMyTurn = false;
 	
 	public Boolean getIsMyTurn() {
 		return isMyTurn;
@@ -105,11 +107,13 @@ public class Client {
 		String name = in.nextLine();
 		room = in.nextLine();
 		String map = in.nextLine();
-		this.player = new Player(name);
+		this.setPlayer(new Player(name));
 		EventSubscribe evt = null;
 		System.out.println("----------------------------------------------------------------------");
 		System.out.println("Connecting with the server... ");
 		if(s.equals("RMI")) {
+			
+			System.setProperty("java.rmi.server.hostname",this.host);
 			registry = LocateRegistry.getRegistry("localhost", RMIRemoteObjectDetails.RMI_PORT);
 			
 			RMIRegistrationInterface game = null;
@@ -128,13 +132,13 @@ public class Client {
 				registry.bind(clientPersonalView.getRMI_ID(), clientView);
 			} catch (AlreadyBoundException e) {
 				System.err.println("The username you choose is already in use. Please change it.");
-				Client client = new Client("RMI");
-				client.startClient();
+				Client client = new Client("RMI"); 
+				
 			}
 			
 			this.communicator = new RMICommunicator(serverView);
 			
-			evt = new EventSubscribeRMI(this.player, room, map, clientPersonalView.getRMI_ID());
+			evt = new EventSubscribeRMI(this.getPlayer(), room, map, clientPersonalView.getRMI_ID());
 			
 		} else if (s.equals("Socket")) {
 			
@@ -142,19 +146,10 @@ public class Client {
 			System.out.println("Creating a socket with the server !");
 			this.communicator = new SocketCommunicator(this.port);
 			
-			evt = new EventSubscribeSocket(new Player(name), room, map, Client.getClientServerSocketPort());
+			evt = new EventSubscribeSocket(this.getPlayer(), room, map, Client.getClientServerSocketPort());
 		} else {
 			System.err.println("Communication Protocol not supported. Please choose [RMI] or [Socket], to quit game write [QUIT] !");
-			String choose = in.nextLine();
-			if(choose.equals("Socket")) {
-				 Client.setClientServerSocketPort(Integer.parseInt(in.nextLine()));
-			}
-			if(choose.equals("QUIT")) {
-				System.out.println("Hello !");
-			}
-			Client client = new Client(choose);
-			//costruzione evento da inviare EventCreator.createEvent(client.in.nextLine())
-			client.startClient();
+			Client client = Client.initClient();
 		}
 		
 		this.communicator.send(evt);
@@ -176,46 +171,16 @@ public class Client {
 	public LinkedList<Event> getToSend() {
 		return toSend;
 	}
-
-	public void startClient() throws RemoteException {
-		while(true) {
-			Event msg = toProcess.poll();
-			if(msg != null) {
-				this.handleSentNotifyEvent(msg);
-				return;
-			} /*else {
-				try {
-					synchronized(toProcess) {
-						toProcess.wait();
-					}
-				} catch (InterruptedException e) {
-					System.err.println("Cannot wait on the queue!");
-				}
-			}*/
-		}
-	}
 	
 	public void trasmitGameEvent() throws RemoteException {
 		Event evt = this.getToSend().poll();
 		communicator.send(evt);
 	}
 	
-	public void handleSentNotifyEvent(Event event) {
-		System.err.println("Recieving " + event.toString() + " ...\n");
-		if(((NotifyEvent)event).getType().equals(NotifyEventType.notifyTurn)) {
-			this.setIsMyTurn(true);
-		} else if(((NotifyEvent)event).getType().equals(NotifyEventType.environment)) {
-			this.setClientAlive(true);
-			this.setMap(((EventNotifyEnvironment)event).getMap());
-		}
-		/*NotifyAction generated = (NotifyAction) NotifyActionCreator.createNotifyAction(event);
-		generated.render(userInterface);*/
-	}
-	
-	public static void main(String[] args) throws UnknownHostException, NotBoundException, IOException, AlreadyBoundException{
+	public static Client initClient() throws IOException, NotBoundException {
 		Scanner in = new Scanner(System.in);
 		System.err.println("WELCOME TO THE GAME !\n");
-		System.out.println("CHOOSE THE CONNECTION PROTOCOL: write [RMI] or [SOCKET] : ");
+		System.out.println("CHOOSE THE CONNECTION PROTOCOL: write [RMI] or [Socket] : ");
 		String choose = in.nextLine();
 		if(choose.equals("Socket")) {
 			 Client.setClientServerSocketPort(Integer.parseInt(in.nextLine()));
@@ -224,104 +189,19 @@ public class Client {
 		client.setUserCommands(new ClientSendingInterface(client.communicator));
 		
 		ClientServerListener serverEventsAccepter = new ClientServerListener(client);
-		serverEventsAccepter.start();
-		//qui chiamo lo startClient che propone al giocatore gli eventi che può generare, una volta generato l'evento lo invia al server e si pone in attesa di una risposta
-		//quando questa arriva ripropone le scelte cosi via.
+		Thread t = new Thread(serverEventsAccepter, "ServerEventsAccepterThread");
+		t.start();
 		
-		while(!client.clientAlive) {
-			
-		}
-		System.out.println("----------------------------------------------------------------------");
-		System.out.println("Starting Game : Loading the map...");
-		System.out.println("GAME MAP:\n");
-		System.out.println("\n|_|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|");
-		for(int i = 0; i < client.getMap().getHeight() ; i++) {
-			System.out.print("|" + i + "|");
-			for(int j = 0; j < client.getMap().getWidth() ; j++) {
-				System.out.print(client.getMap().getTable().get(i).get(j).getName().substring(0, 1) + "|");
-			}
-			System.out.println("\n|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|");
-		}
-		
-		while(client.getIsMyTurn()) {
+		return client;
+	}
+	
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 
-			System.out.println("\nHere are your movements : \n");
-			int i = 0;
-			for(Movement mv:client.getPlayer().getAvatar().getMyMovements()) {
-				System.out.println(i + ")" );
-				System.out.println(mv.toString() + "   ");
-			}
-			System.out.println("----------------------------------------------------------------------");
-			System.out.println("Inserisci il tipo di azione da compiere: \n");
-    		System.out.println("\t 1) MOVE - M\n");
-    		System.out.println("\t 2) DRAW - D\n");
-    		System.out.println("\t 3) ATTACK - A\n");
-    		System.out.println("\t 4) USE CARD - U\n");
-    		System.out.println("\t 5) FINISH TURN - F\n");
-    		System.out.println("----------------------------------------------------------------------");
-    		String command = in.nextLine();
-    		
-    		if(command.equals("M")) {
-    			
-    			Sector toMove = client.askForMoveCoordinates(in);
-    			client.communicator.send(new EventMove(client.getPlayer(), toMove));
-    			
-    		} else if (command.equals("D")) {
-    			
-    			client.communicator.send(new EventDraw(client.getPlayer()));
-    			
-    		} else if (command.equals("A")) {
-    			
-    			Sector toMove = client.askForMoveCoordinates(in);
-    			client.communicator.send(new EventAttack(client.getPlayer(), toMove));
-    			
-    		} else if (command.equals("U")) {
-    			
-    			System.out.println("----------------------------------------------------------------------");
-    			System.out.println("Which one ? type the number ... ");
-    			int j = 1;
-    			for(ObjectCard card:client.getPlayer().getAvatar().getMyCards()) {
-    				System.out.println(j + ")" + card.getType() + "\n");
-    				j++;
-    			}
-    			int cardSelected = Integer.parseInt(in.nextLine());
-    			
-    			if(client.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Adrenaline)) {
-    				
-    				client.communicator.send(new EventAdren(client.getPlayer(), client.getPlayer().getAvatar().getMyCards().get(cardSelected)));
-    				
-    			} else if(client.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Attack)) {
-    				
-    				Sector toMove = client.askForMoveCoordinates(in);
-    				client.communicator.send(new EventAttackCard(client.getPlayer(), client.getPlayer().getAvatar().getMyCards().get(cardSelected), toMove));
-    				
-    			} else if(client.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Defense)) {
-    				
-    				System.out.println("---> You can't use defense card !");
-    				
-    			} else if(client.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Sedatives)) {
-    				
-    				client.communicator.send(new EventSedat(client.getPlayer(), client.getPlayer().getAvatar().getMyCards().get(cardSelected)));
-    				
-    			} else if(client.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SpotLight)) {
-    				
-    				Sector toMove = client.askForMoveCoordinates(in);
-    				client.communicator.send(new EventLights(client.getPlayer(), toMove, client.getPlayer().getAvatar().getMyCards().get(cardSelected)));
-    				
-    			} else if (client.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Teleport)) {
-    				
-    				client.communicator.send(new EventTeleport(client.getPlayer(), client.getPlayer().getAvatar().getMyCards().get(cardSelected)));
-    				
-    			}
-				
-			} else if (command.equals("F")) {
-    			client.communicator.send(new EventFinishTurn(client.getPlayer()));
-        		System.out.println("Turno terminato !\n");
-    		} else {
-    			System.out.println("ERROR IN TYPING ... RETRY !\n");
-    		}
-		}
-		
+	public static void main(String[] args) throws UnknownHostException, NotBoundException, IOException, AlreadyBoundException{
+		Client client = Client.initClient();
+		Thread.currentThread().setName("Client-" + client.getPlayer().getName() + "-MainThread");
 	}
 
 	public Sector askForMoveCoordinates(Scanner in) {
@@ -337,5 +217,109 @@ public class Client {
 	
 	public Player getPlayer() {
 		return player;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		//è arrivato l'evento di inizio turno ! 
+		System.out.println("Starting Game : Loading the map ...");
+		System.out.println("GAME MAP:\n");
+		System.out.println("\n|_|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|");
+		for(int i = 0; i < this.getMap().getHeight() ; i++) {
+			System.out.print("|" + i + "|");
+			for(int j = 0; j < this.getMap().getWidth() ; j++) {
+				System.out.print(this.getMap().getTable().get(i).get(j).getName().substring(0, 1) + "|");
+			}
+			System.out.println("\n|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|");
+		}
+		System.out.println("\nHere are your movements : \n");
+		int i = 0;
+		for(Movement mv:this.getPlayer().getAvatar().getMyMovements()) {
+			System.out.println(i + ")" );
+			i++;
+			System.out.println(mv.toString() + "   ");
+		}
+		System.out.println("----------------------------------------------------------------------");
+		System.out.println("Inserisci il tipo di azione da compiere: \n");
+		System.out.println("\t 1) MOVE - M\n");
+		System.out.println("\t 2) DRAW - D\n");
+		System.out.println("\t 3) ATTACK - A\n");
+		System.out.println("\t 4) USE CARD - U\n");
+		System.out.println("\t 5) FINISH TURN - F\n");
+		System.out.println("----------------------------------------------------------------------");
+		String command = in.nextLine();
+		
+		try {
+			if(command.equals("M")) {
+				
+				Sector toMove = this.askForMoveCoordinates(in);
+				this.communicator.send(new EventMove(this.getPlayer(), toMove));
+				
+			} else if (command.equals("D")) {
+				
+				this.communicator.send(new EventDraw(this.getPlayer()));
+				
+			} else if (command.equals("A")) {
+				
+				Sector toMove = this.askForMoveCoordinates(in);
+				this.communicator.send(new EventAttack(this.getPlayer(), toMove));
+				
+			} else if (command.equals("U")) {
+				
+				System.out.println("----------------------------------------------------------------------");
+				System.out.println("Which one ? type the number ... ");
+				int j = 1;
+				for(ObjectCard card:this.getPlayer().getAvatar().getMyCards()) {
+					System.out.println(j + ")" + card.getType() + "\n");
+					j++;
+				}
+				int cardSelected = Integer.parseInt(in.nextLine());
+				
+				try {
+					
+					if(this.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Adrenaline)) {
+						
+						this.communicator.send(new EventAdren(this.getPlayer(), this.getPlayer().getAvatar().getMyCards().get(cardSelected)));
+						
+					} else if(this.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Attack)) {
+						
+						Sector toMove = this.askForMoveCoordinates(in);
+						this.communicator.send(new EventAttackCard(this.getPlayer(), this.getPlayer().getAvatar().getMyCards().get(cardSelected), toMove));
+						
+					} else if(this.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Defense)) {
+						
+						System.out.println("---> You can't use defense card !");
+						
+					} else if(this.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Sedatives)) {
+						
+						this.communicator.send(new EventSedat(this.getPlayer(), this.getPlayer().getAvatar().getMyCards().get(cardSelected)));
+						
+					} else if(this.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SpotLight)) {
+						
+						Sector toMove = this.askForMoveCoordinates(in);
+						this.communicator.send(new EventLights(this.getPlayer(), toMove, this.getPlayer().getAvatar().getMyCards().get(cardSelected)));
+						
+					} else if (this.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Teleport)) {
+						
+						this.communicator.send(new EventTeleport(this.getPlayer(), this.getPlayer().getAvatar().getMyCards().get(cardSelected)));
+						
+					}
+					
+				} catch(IndexOutOfBoundsException e) {
+					System.out.println("NO CARDS, RETRY !");
+				}
+				
+				
+			} else if (command.equals("F")) {
+				this.communicator.send(new EventFinishTurn(this.getPlayer()));
+				this.setIsMyTurn(false);
+				System.out.println("TURNO TERMINATO !\n");
+			} else {
+				System.out.println("ERROR IN TYPING ... RETRY !\n");
+				this.update(o, arg);
+			} 
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 }

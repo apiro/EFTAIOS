@@ -43,6 +43,7 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 			try {
 				playerHandler = new PlayerController(new SocketCommunicator(socket), queue);
 				playerHandler.start();
+				playerHandler.setName("PlayerControllerThread");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

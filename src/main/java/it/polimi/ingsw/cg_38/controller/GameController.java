@@ -81,7 +81,6 @@ public class GameController implements Observer {
 		NotifyEvent notifyEvent = null;
 		if(action.isPossible(this.getGameModel())) {
 			notifyEvent = action.perform(this.getGameModel());
-    		this.publish(notifyEvent);
     	} else {
     		notifyEvent = new EventNotifyError(action.getPlayer());
     	}

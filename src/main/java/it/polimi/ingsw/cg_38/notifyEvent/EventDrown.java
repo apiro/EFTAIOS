@@ -8,6 +8,11 @@ import it.polimi.ingsw.cg_38.model.Player;
 
 public class EventDrown extends NotifyEvent {
 
+	@Override
+	public String toString() {
+		return "EventDrown [added=" + added + ", drown=" + drown + "]";
+	}
+
 	private static final long serialVersionUID = 1L;
 	
 	private ObjectCard added;
