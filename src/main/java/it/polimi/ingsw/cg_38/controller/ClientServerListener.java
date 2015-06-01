@@ -54,13 +54,14 @@ public class ClientServerListener extends Observable implements Runnable {
 				this.notifyObservers();
 			} else {
 				System.out.println("NOT MY TURN !");
+				client.setIsMyTurn(false);
 			}
 			
 		}  else if(client.getIsMyTurn()){
 			this.setChanged();
 			this.notifyObservers();
 		} else if(((NotifyEvent)event).getType().equals(NotifyEventType.Error)) {
-			System.out.println("YOU HAVE NOT MOVE ! YOU CAN'T TERMINATE YOUR TURN !");
+			System.out.println("There was an error in processing your previous GameEvent ... RETRY !");
 			this.setChanged();
 			this.notifyObservers();
 		}

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.GameState;
+import it.polimi.ingsw.cg_38.controller.action.FinishTurn;
 import it.polimi.ingsw.cg_38.controller.action.GameAction;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.model.Alien;
@@ -79,6 +80,12 @@ public class GameController implements Observer {
 	
 	public NotifyEvent performUserCommands(GameAction action) throws RemoteException {
 		NotifyEvent notifyEvent = null;
+		if(action instanceof FinishTurn) {
+			//l'oggetto action viene gestito diversamente dalle altre action. ritorno l'evento di 
+			//callback in ogni caso !
+			notifyEvent = action.perform(this.getGameModel());
+			return notifyEvent; 
+		}
 		if(action.isPossible(this.getGameModel())) {
 			notifyEvent = action.perform(this.getGameModel());
     	} else {

@@ -312,8 +312,6 @@ public class Client implements Observer {
 				
 			} else if (command.equals("F")) {
 				this.communicator.send(new EventFinishTurn(this.getPlayer()));
-				this.setIsMyTurn(false);
-				System.out.println("TURNO TERMINATO !\n");
 			} else {
 				System.out.println("ERROR IN TYPING ... RETRY !\n");
 				this.update(o, arg);
