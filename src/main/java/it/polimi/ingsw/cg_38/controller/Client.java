@@ -188,13 +188,17 @@ public class Client implements Observer {
 		Client client = new Client(choose);
 		client.setUserCommands(new ClientSendingInterface(client.communicator));
 		
-		ClientServerListener serverEventsAccepter = new ClientServerListener(client);
+		ClientServerListener serverEventsAccepter = new ClientServerListener(client, in);
 		Thread t = new Thread(serverEventsAccepter, "ServerEventsAccepterThread");
 		t.start();
 		
 		return client;
 	}
 	
+	public Communicator getCommunicator() {
+		return communicator;
+	}
+
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
@@ -221,103 +225,5 @@ public class Client implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		//è arrivato l'evento di inizio turno ! 
-		System.out.println("Starting Game : Loading the map ...");
-		System.out.println("GAME MAP:\n");
-		System.out.println("\n|_|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|");
-		for(int i = 0; i < this.getMap().getHeight() ; i++) {
-			System.out.print("|" + i + "|");
-			for(int j = 0; j < this.getMap().getWidth() ; j++) {
-				System.out.print(this.getMap().getTable().get(i).get(j).getName().substring(0, 1) + "|");
-			}
-			System.out.println("\n|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|");
-		}
-		System.out.println("\nHere are your movements : \n");
-		int i = 0;
-		for(Movement mv:this.getPlayer().getAvatar().getMyMovements()) {
-			System.out.println(i + ")" );
-			i++;
-			System.out.println(mv.toString() + "   ");
-		}
-		System.out.println("----------------------------------------------------------------------");
-		System.out.println("Inserisci il tipo di azione da compiere: \n");
-		System.out.println("\t 1) MOVE - M\n");
-		System.out.println("\t 2) DRAW - D\n");
-		System.out.println("\t 3) ATTACK - A\n");
-		System.out.println("\t 4) USE CARD - U\n");
-		System.out.println("\t 5) FINISH TURN - F\n");
-		System.out.println("----------------------------------------------------------------------");
-		String command = in.nextLine();
-		
-		try {
-			if(command.equals("M")) {
-				
-				Sector toMove = this.askForMoveCoordinates(in);
-				this.communicator.send(new EventMove(this.getPlayer(), toMove));
-				
-			} else if (command.equals("D")) {
-				
-				this.communicator.send(new EventDraw(this.getPlayer()));
-				
-			} else if (command.equals("A")) {
-				
-				Sector toMove = this.askForMoveCoordinates(in);
-				this.communicator.send(new EventAttack(this.getPlayer(), toMove));
-				
-			} else if (command.equals("U")) {
-				
-				System.out.println("----------------------------------------------------------------------");
-				System.out.println("Which one ? type the number ... ");
-				int j = 1;
-				for(ObjectCard card:this.getPlayer().getAvatar().getMyCards()) {
-					System.out.println(j + ")" + card.getType() + "\n");
-					j++;
-				}
-				int cardSelected = Integer.parseInt(in.nextLine());
-				
-				try {
-					
-					if(this.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Adrenaline)) {
-						
-						this.communicator.send(new EventAdren(this.getPlayer(), this.getPlayer().getAvatar().getMyCards().get(cardSelected)));
-						
-					} else if(this.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Attack)) {
-						
-						Sector toMove = this.askForMoveCoordinates(in);
-						this.communicator.send(new EventAttackCard(this.getPlayer(), this.getPlayer().getAvatar().getMyCards().get(cardSelected), toMove));
-						
-					} else if(this.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Defense)) {
-						
-						System.out.println("---> You can't use defense card !");
-						
-					} else if(this.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Sedatives)) {
-						
-						this.communicator.send(new EventSedat(this.getPlayer(), this.getPlayer().getAvatar().getMyCards().get(cardSelected)));
-						
-					} else if(this.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SpotLight)) {
-						
-						Sector toMove = this.askForMoveCoordinates(in);
-						this.communicator.send(new EventLights(this.getPlayer(), toMove, this.getPlayer().getAvatar().getMyCards().get(cardSelected)));
-						
-					} else if (this.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Teleport)) {
-						
-						this.communicator.send(new EventTeleport(this.getPlayer(), this.getPlayer().getAvatar().getMyCards().get(cardSelected)));
-						
-					}
-					
-				} catch(IndexOutOfBoundsException e) {
-					System.out.println("NO CARDS, RETRY !");
-				}
-				
-				
-			} else if (command.equals("F")) {
-				this.communicator.send(new EventFinishTurn(this.getPlayer()));
-			} else {
-				System.out.println("ERROR IN TYPING ... RETRY !\n");
-				this.update(o, arg);
-			} 
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
 	}
 }

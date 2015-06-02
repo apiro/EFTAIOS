@@ -21,6 +21,9 @@ public class Alien extends Avatar implements Serializable {
      */
     public Boolean canMove(Sector sector) {
         // TODO implement here
+    	if(sector.getName().equals("AlienStartingPoint")) {
+    		return false;
+    	}
     	/*se il settore è nei diretti adiacenti del currentSector*/
     	if(this.getCurrentSector().getNeighboringSectors().contains(sector)) {
     		return true;

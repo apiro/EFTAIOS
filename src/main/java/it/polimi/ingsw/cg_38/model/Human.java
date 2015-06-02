@@ -31,6 +31,9 @@ public class Human extends Avatar implements Serializable {
      */
     public Boolean canMove(Sector sector) {
         // TODO implement here
+    	if(sector.getName().equals("HumanStartingPoint")) {
+    		return false;
+    	}
     	if(this.getCurrentSector().getNeighboringSectors().contains(sector)) {
     		return true;
     	} else if(this.getIsPowered()) {

@@ -7,6 +7,11 @@ import java.util.*;
 public class AlienStartingPoint extends Sector {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * 
      */
     public AlienStartingPoint() {
