@@ -142,7 +142,7 @@ public class GameController implements Observer {
 	   		if(i<floor) {
 	   			this.getGameModel().getGamePlayers().get(i).setAvatar(new Human(Name.valueOf("Human"+(i+1)), this.getGameModel().getGameMap().searchSectorByName("HumanStartingPoint")));
 	    	} else {
-	    		this.getGameModel().getGamePlayers().get(i).setAvatar(new Alien(Name.valueOf("Alien"+(i-floor+1)), this.getGameModel().getGameMap().searchSectorByName("AlienStartingPoint")));
+	    		this.getGameModel().getGamePlayers().get(i).setAvatar(new Alien(Name.valueOf("Alien"+(i-floor+1)), this.getGameModel().getGameMap().searchSectorByName("HumanStartingPoint"))/*this.getGameModel().getGameMap().searchSectorByName("AlienStartingPoint"))*/);
 	    	}
 	    }
 	   	Collections.shuffle(getGameModel().getGamePlayers());

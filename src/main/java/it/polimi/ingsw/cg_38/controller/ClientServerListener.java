@@ -17,6 +17,7 @@ import it.polimi.ingsw.cg_38.model.HatchCardType;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.SectorCard;
 import it.polimi.ingsw.cg_38.model.SectorCardType;
+import it.polimi.ingsw.cg_38.notifyEvent.EventAttacked;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDrown;
 import it.polimi.ingsw.cg_38.notifyEvent.EventMoved;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyEnvironment;
@@ -94,9 +95,16 @@ public class ClientServerListener extends Observable implements Runnable {
 				this.notifyObservers();
 			} else if(((EventMoved)event).getMoved().equals("Dangerous")) {
 				System.out.println("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?");
-				if(in.nextLine().equals("D")) {
+				String com = in.nextLine();
+				while(!com.equals("D") && !com.equals("A")) {
+					System.out.println("Command not valid retry !");
+					System.out.println("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?");
+					com = in.nextLine();
+				}
+				
+				if(com.equals("D")) {
 					client.getCommunicator().send(new EventDraw(client.getPlayer()));
-				} else if (in.nextLine().equals("A")) {
+				} else if (com.equals("A")) {
 					client.getCommunicator().send(new EventAttack(client.getPlayer(), client.getPlayer().getAvatar().getCurrentSector()));
 				}
 			} else if(((EventMoved)event).getMoved().equals("Hatch")) {
@@ -135,7 +143,19 @@ public class ClientServerListener extends Observable implements Runnable {
 					this.notifyObservers();
 				}
 			}
-		} 
+		}
+		/*NOTIFYACTION RELATED TO ALL OTHER EVENTATTACKED*/
+		else if (((NotifyEvent)event).getType().equals(NotifyEventType.Attacked) && client.getIsMyTurn()) {
+			for(Player pl:((EventAttacked)event).getKilled()){
+				if(pl.getName().equals(client.getPlayer().getName())) {
+					System.out.println("AN ALIEN KILLED YOU ! YOU LOOSE !");
+					return;
+				}
+			}
+			if(((EventAttacked)event).getGenerator().getName().equals(client.getPlayer().getName())) {
+				System.out.println("You killed an Human ! You are powered!");
+			}
+		}
 		/*NOTIFYACTION RELATED TO ALL OTHER NOTIFYEVENT*/
 		else if(client.getIsMyTurn() && !((NotifyEvent)event).getType().equals(NotifyEventType.notifyTurn)){
 			client.setPlayer(event.getGenerator());

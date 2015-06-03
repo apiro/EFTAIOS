@@ -98,7 +98,7 @@ public class NotifyEventTest {
 		topics = new ArrayList<String>();
 		
 		addedToGame =  new EventAddedToGame(player1 , added , broadcast);
-		attacked = new EventAttacked(player2);
+		attacked = new EventAttacked(player2, new ArrayList<Player>());
 		cardUsed = new EventCardUsed(player1 , performed);
 		closingGame = new EventClosingGame(player1 , broadcast);
 		declarePosition = new EventDeclarePosition(player1 , toDeclare);

@@ -1,4 +1,6 @@
 package it.polimi.ingsw.cg_38.controller.action;
+import java.util.ArrayList;
+
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
@@ -25,23 +27,25 @@ public class Attack extends GameAction {
     /**
      * @return
      */
-    public NotifyEvent perform(GameModel model) { 	
-        	for(Player pl:model.getDesiredPlayers(this.getSectorToAttack())) {
-        		//nella condizione di if oltre a verificare se l'attacco è andato a buon fine modifico anche il modello
-        		//del gicatore attaccato
-        		if(pl.getAvatar().attacked()) {
-        		//se l'attacco è andato a buon fine sul giocatore i che si trovava nel settore che hai attaccato
-        			if(this.currentAvatarType(model).equals("Alien")) {
-        				model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
-        			} else {
-        				//se il giocatore che attacca è umano non so cosa succede all'umano che uccide qualcuno,
-        				//se diventa potenziato allora non serve questo ultimo ramo if-else e il setIsPowered è 
-        				//sia per umani che per alieni
-        			}
-        		}
-        	}
-        	model.getActualTurn().setHasAttacked(true);
-        return new EventAttacked(model.getActualTurn().getCurrentPlayer());
+    public NotifyEvent perform(GameModel model) { 
+    	ArrayList<Player> killed = model.getDesiredPlayers(this.getSectorToAttack());
+    	killed.remove(super.getPlayer());
+       	for(Player pl:model.getDesiredPlayers(this.getSectorToAttack())) {
+       		//nella condizione di if oltre a verificare se l'attacco è andato a buon fine modifico anche il modello
+       		//del gicatore attaccato
+       		if(pl.getAvatar().attacked()) {
+       		//se l'attacco è andato a buon fine sul giocatore i che si trovava nel settore che hai attaccato
+       			if(this.currentAvatarType(model).equals("Alien")) {
+       				model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
+       			} else {
+       				//se il giocatore che attacca è umano non so cosa succede all'umano che uccide qualcuno,
+       				//se diventa potenziato allora non serve questo ultimo ramo if-else e il setIsPowered è 
+       				//sia per umani che per alieni
+       			}
+       		}
+        }
+        model.getActualTurn().setHasAttacked(true);
+        return new EventAttacked(model.getActualTurn().getCurrentPlayer(), killed);
     }
 
     /**
