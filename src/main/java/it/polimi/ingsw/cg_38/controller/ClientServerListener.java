@@ -48,6 +48,7 @@ public class ClientServerListener extends Observable implements Runnable {
 
 	public void handleSentNotifyEvent(Event event) throws RemoteException {
 		System.err.println("Recieving " + event.toString() + " ...\n");
+		/*NOTIFYACTION RELATED TO EVENTNOTIFYENVIRONMENT*/
 		if(((NotifyEvent)event).getType().equals(NotifyEventType.environment)) {
 			for(Player pl:((EventNotifyEnvironment)event).getMappingPlayerAvatar()) {
 				if(pl.getName().equals(client.getPlayer().getName())) {
@@ -59,12 +60,18 @@ public class ClientServerListener extends Observable implements Runnable {
 			System.out.println("----------------------------------------------------------------------");
 			System.out.println("Starting Game : Waiting for the first turn message ...");
 			return;
-		} else if(((NotifyEvent)event).getType().equals(NotifyEventType.Added)) {
+		} 
+		/*NOTIFYACTION RELATED TO EVENTADDEDTOGAME*/
+		else if(((NotifyEvent)event).getType().equals(NotifyEventType.Added)) {
 			return;
-		} else if(((NotifyEvent)event).getType().equals(NotifyEventType.notifyTurn)) {
+		} 
+		/*NOTIFYACTION RELATED TO EVENTNOTIFYTURN*/
+		else if(((NotifyEvent)event).getType().equals(NotifyEventType.notifyTurn)) {
 			
 			if(((EventNotifyTurn)event).getPlayerOfTurn().getName().equals(client.getPlayer().getName())) {
 				client.setIsMyTurn(true);
+				this.setChanged();
+				this.notifyObservers();
 			} else {
 				System.out.println("NOT YOUR TURN !");
 				client.setIsMyTurn(false);
@@ -72,9 +79,14 @@ public class ClientServerListener extends Observable implements Runnable {
 			}
 			
 		}
+		/*NOTIFYACTION RELATED TO EVENTNOTIFYERROR*/
 		if(((NotifyEvent)event).getType().equals(NotifyEventType.Error)) {
 			System.out.println("There was an error in processing your previous GameEvent ... RETRY !");
-		} else if (((NotifyEvent)event).getType().equals(NotifyEventType.Moved) && client.getIsMyTurn()) {
+			this.setChanged();
+			this.notifyObservers();
+		} 
+		/*NOTIFYACTION RELATED TO EVENTMOVED*/
+		else if (((NotifyEvent)event).getType().equals(NotifyEventType.Moved) && client.getIsMyTurn()) {
 			client.setPlayer(event.getGenerator());
 			if(((EventMoved)event).getMoved().equals("Safe")) {
 				System.out.println("You are in a SAFE sector !");
@@ -93,7 +105,9 @@ public class ClientServerListener extends Observable implements Runnable {
 				client.getCommunicator().send(new EventDraw(client.getPlayer()));
 			}
 			return;
-		} else if (((NotifyEvent) event).getType().equals(NotifyEventType.Drown) && client.getIsMyTurn()) {
+		} 
+		/*NOTIFYACTION RELATED TO EVENTDROWN*/
+		else if (((NotifyEvent) event).getType().equals(NotifyEventType.Drown) && client.getIsMyTurn()) {
 			
 			client.setPlayer(event.getGenerator());
 			if(((EventDrown)event).getDrown() instanceof SectorCard) {
@@ -105,6 +119,8 @@ public class ClientServerListener extends Observable implements Runnable {
 					client.getCommunicator().send(new EventNoiseRandSect(client.getPlayer(), client.askForMoveCoordinates(in)));
 					return;
 				} else if (card.getType().equals(SectorCardType.Silence)) {
+					this.setChanged();
+					this.notifyObservers();
 				}
 			} else if (((EventDrown)event).getDrown() instanceof HatchCard) {
 				HatchCard card = ((HatchCard)((EventDrown)event).getDrown());
@@ -115,16 +131,18 @@ public class ClientServerListener extends Observable implements Runnable {
 					//se sono alieno niente
 				} else if(card.getColor().equals(HatchCardType.Red)) {
 					//niente
+					this.setChanged();
+					this.notifyObservers();
 				}
 			}
-		} else if(client.getIsMyTurn() && !((NotifyEvent)event).getType().equals(NotifyEventType.notifyTurn)){
+		} 
+		/*NOTIFYACTION RELATED TO ALL OTHER NOTIFYEVENT*/
+		else if(client.getIsMyTurn() && !((NotifyEvent)event).getType().equals(NotifyEventType.notifyTurn)){
 			client.setPlayer(event.getGenerator());
 			this.setChanged();
 			this.notifyObservers();
 			return;
 		}
-		this.setChanged();
-		this.notifyObservers();
 		/*NotifyAction generated = (NotifyAction) NotifyActionCreator.createNotifyAction(event);
 		generated.render(userInterface);*/
 	}

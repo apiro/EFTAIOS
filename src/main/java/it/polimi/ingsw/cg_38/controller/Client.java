@@ -232,7 +232,12 @@ public class Client implements Observer {
 		for(int i = 0; i < this.getMap().getHeight() ; i++) {
 			System.out.print("|" + i + "|");
 			for(int j = 0; j < this.getMap().getWidth() ; j++) {
-				System.out.print(this.getMap().getTable().get(i).get(j).getName().substring(0, 1) + "|");
+				if((this.getMap().getTable().get(i).get(j).getCol() == this.getPlayer().getAvatar().getCurrentSector().getCol()) &&
+						((this.getMap().getTable().get(i).get(j).getRow() == this.getPlayer().getAvatar().getCurrentSector().getRow()))) {
+					System.err.print(this.getMap().getTable().get(i).get(j).getName().substring(0, 1) + "|");
+				} else {
+					System.out.print(this.getMap().getTable().get(i).get(j).getName().substring(0, 1) + "|");
+				}
 			}
 			System.out.println("\n|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|");
 		}

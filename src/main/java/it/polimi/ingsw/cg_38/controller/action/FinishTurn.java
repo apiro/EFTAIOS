@@ -27,7 +27,6 @@ public class FinishTurn extends GameAction {
 		model.getActualTurn().getCurrentPlayer().finishTurn();
 		Turn newTurn = new Turn(model.getNextPlayer());
     	model.setActualTurn(newTurn);
-		return new EventNotifyTurn(super.getPlayer());
+		return new EventNotifyTurn(newTurn.getCurrentPlayer());
 	}
-
 }
