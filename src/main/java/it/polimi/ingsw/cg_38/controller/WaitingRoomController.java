@@ -10,7 +10,7 @@ import java.util.TimerTask;
 public class WaitingRoomController extends Observable implements Runnable {
 	
 	private GameController gc;
-	private final Boolean[] controllMyLoop = {true};
+	/*private final Boolean[] controllMyLoop = {true};*/
 	
 	
 	public GameController getGc() {
@@ -30,9 +30,8 @@ public class WaitingRoomController extends Observable implements Runnable {
 		
 		System.out.println("WAITING FOR OTHER PLAYERS IN ROOM: " + gc.getTopic() + " ...");
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(40000);
 		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		/*
@@ -55,8 +54,9 @@ public class WaitingRoomController extends Observable implements Runnable {
 		
 		System.out.println("PRIMA DI INVIARE EVENTI");
 		*/
-		
+		System.out.println("---------------------------------------------------------------------\n");
 		System.out.println("RUNNING: " + gc.getTopic() + " ...");
+		System.out.println("---------------------------------------------------------------------\n");
 		//E' LA FASE DI SETTAGGIO A RUNNING DEL GIOCO
 		gc.assignAvatars();
 		gc.getBuffer().add(new EventNotifyEnvironment(gc.getGameModel().getGamePlayers(), gc.getGameModel().getGameMap()));

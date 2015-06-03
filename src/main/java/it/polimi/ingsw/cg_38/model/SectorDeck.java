@@ -31,6 +31,7 @@ public class SectorDeck extends Deck {
     		}
     		this.getSectorDeck().add(new SectorCard(SectorCardType.Silence, false ));
     	}
+    	this.shuffle();
     }
 
     /*

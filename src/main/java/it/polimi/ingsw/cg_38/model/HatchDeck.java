@@ -6,18 +6,6 @@ import java.util.*;
  */
 public class HatchDeck extends Deck {
 
-	/*
-	public void printDeck() {
-		for (Card card: this.getHatchDeck()) {
-			System.out.println(card.toString());
-		}
-	}
-	
-	*/
-
-	/**
-     * 
-     */
     public HatchDeck() {
     	this.setHatchDeck(new ArrayList<HatchCard>());
     	this.setRejectedHatchDeck(new ArrayList<HatchCard>());
@@ -25,6 +13,7 @@ public class HatchDeck extends Deck {
     		this.getHatchDeck().add(new HatchCard(HatchCardType.Red));
     		this.getHatchDeck().add(new HatchCard(HatchCardType.Green));
     	}
+    	this.shuffle();
     }
 
     public void setRejectedHatchDeck(ArrayList<HatchCard> rejectedHatchDeck) {
@@ -35,19 +24,10 @@ public class HatchDeck extends Deck {
 		this.hatchDeck = hatchDeck;
 	}
 
-	/**
-     * 
-     */
     private ArrayList<HatchCard> hatchDeck;
 
-    /**
-     * 
-     */
     private ArrayList<HatchCard> rejectedHatchDeck;
     
-    /**
-     * 
-     */
     public ArrayList<HatchCard> getHatchDeck() {
 		return hatchDeck;
 	}
@@ -56,31 +36,18 @@ public class HatchDeck extends Deck {
 		return rejectedHatchDeck;
 	}
 
-	/**
-     * @return
-     */
     public void shuffle() {
-        // TODO implement here
     	Collections.shuffle(this.getHatchDeck());
     }
-
-	/**
-     * @return
-     */
+    
     public Card draw() {
-        // TODO implement here
     	Card extracted = this.getHatchDeck().get(0);
     	this.eliminateCard(extracted);
     	this.shuffle();
         return extracted;
     }
 
-    /**
-     * @param Card card 
-     * @return
-     */
     public void eliminateCard(Card card) {
-        // TODO implement here
     	this.getHatchDeck().remove(card);
     	this.getRejectedHatchDeck().add((HatchCard) card);
     }

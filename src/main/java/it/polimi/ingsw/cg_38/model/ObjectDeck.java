@@ -21,6 +21,7 @@ public class ObjectDeck extends Deck {
     	}
     	this.getObjectDeck().add(new ObjectCard(ObjectCardType.Sedatives));
     	this.getObjectDeck().add(new ObjectCard(ObjectCardType.Defense));
+    	this.shuffle();
     }
 
 

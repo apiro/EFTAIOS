@@ -78,6 +78,8 @@ public class ClientServerListener extends Observable implements Runnable {
 			client.setPlayer(event.getGenerator());
 			if(((EventMoved)event).getMoved().equals("Safe")) {
 				System.out.println("You are in a SAFE sector !");
+				this.setChanged();
+				this.notifyObservers();
 			} else if(((EventMoved)event).getMoved().equals("Dangerous")) {
 				System.out.println("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?");
 				if(in.nextLine().equals("D")) {
@@ -90,6 +92,7 @@ public class ClientServerListener extends Observable implements Runnable {
 				while(!in.nextLine().equals("D")){}
 				client.getCommunicator().send(new EventDraw(client.getPlayer()));
 			}
+			return;
 		} else if (((NotifyEvent) event).getType().equals(NotifyEventType.Drown) && client.getIsMyTurn()) {
 			
 			client.setPlayer(event.getGenerator());
@@ -97,8 +100,10 @@ public class ClientServerListener extends Observable implements Runnable {
 				SectorCard card = ((SectorCard)((EventDrown)event).getDrown());
 				if(card.getType().equals(SectorCardType.MySectorNoise)) {
 					client.getCommunicator().send(new EventNoiseMySect(client.getPlayer()));
+					return;
 				} else if (card.getType().equals(SectorCardType.RandomSectorNoise)) {
 					client.getCommunicator().send(new EventNoiseRandSect(client.getPlayer(), client.askForMoveCoordinates(in)));
+					return;
 				} else if (card.getType().equals(SectorCardType.Silence)) {
 				}
 			} else if (((EventDrown)event).getDrown() instanceof HatchCard) {
