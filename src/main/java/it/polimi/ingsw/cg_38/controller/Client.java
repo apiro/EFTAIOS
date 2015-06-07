@@ -113,6 +113,8 @@ public class Client implements Observer {
 		System.out.println("Connecting with the server... ");
 		if(s.equals("RMI")) {
 			
+			//NON INVIERO' PIU EVENTI DI SUBSCRIBE !
+			
 			System.setProperty("java.rmi.server.hostname",this.host);
 			registry = LocateRegistry.getRegistry("localhost", RMIRemoteObjectDetails.RMI_PORT);
 			
@@ -123,8 +125,12 @@ public class Client implements Observer {
 			/*System.out.println(game.isLoginValid("albi"));
 			System.out.println(game.isLoginValid("test"));*/
 			
-			RMIRemoteObjectInterface serverView = game.register();
+			System.out.println("Trying to REGISTER to the choosen Topic ! Wait ...");
+			//prima che la partita parta sul server tutti i client che si vogliono connetter sono fermi qui 
+			
+			evt = new EventSubscribe(this.getPlayer(), room, map);
 			RMIRemoteObjectInterface clientView = new ClientView(this.getToProcess());
+			RMIRemoteObjectInterface serverView = game.register(clientView, evt);
 			
 			RMIRemoteObjectDetails clientPersonalView = new RMIRemoteObjectDetails("CLIENTVIEW" + name);
 			
@@ -138,21 +144,20 @@ public class Client implements Observer {
 			
 			this.communicator = new RMICommunicator(serverView);
 			
-			evt = new EventSubscribeRMI(this.getPlayer(), room, map, clientPersonalView.getRMI_ID());
 			
 		} else if (s.equals("Socket")) {
 			
-			this.startSocketEnvironment();
+			/*this.startSocketEnvironment();*/
 			System.out.println("Creating a socket with the server !");
 			this.communicator = new SocketCommunicator(this.port);
 			
-			evt = new EventSubscribeSocket(this.getPlayer(), room, map, Client.getClientServerSocketPort());
+			/*evt = new EventSubscribeSocket(this.getPlayer(), room, map, Client.getClientServerSocketPort());*/
 		} else {
 			System.err.println("Communication Protocol not supported. Please choose [RMI] or [Socket], to quit game write [QUIT] !");
 			Client client = Client.initClient();
 		}
 		
-		this.communicator.send(evt);
+		/*this.communicator.send(evt);*/
 	}
 	
 	private void startSocketEnvironment() throws IOException {

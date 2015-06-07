@@ -7,40 +7,37 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-//l'oggetto SERVERVIEW che il server mette remotamente a disposizione dei client 
-//i metodi di SERVERVIEW possono essere chiamati dai client quando esportano l'oggetto
-// -> TRASMITEVENT(GAMEEVENT EVT) aggiunge alla coda di eventi da dispacciare del server
-//		un evento di GIOCO.
-// -> HANDLEEVENT
 public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectInterface {
 
+	/**
+	 * OGGETTO REMOTO CHE OFFRE IL SERVER AI CLIENT E CHE PERMETTE AL CLIENT DI INVIARE EVENTI AL SERVER
+	 * --> SE L'EVENTO DI NOTIFICA GENERATO DAL PROCESSING DEL SERVER HA IL BOOLEANO BROADCAST A TRUE ALLORA 
+	 * 	   VERRA AGGIUNTO AL TOPIC RELATIVO, SE NON CE L'HA A TRUE MA E' UN MESSAGGIO DI RISPOSTA PERSONALE ALLORA
+	 *	   L'EVENTO VERRA' PROCESSATO DIRETTAMENTE QUI NELLA SERVERVIEW E VERRA' INVIATO L'EVENTO DI NOTIFICA AL CLIENT
+	 *     COME PARAMETRO DI RITORNO DEL METODO: public NotifyEvent trasmitEvent(Event evt){}   
+	 * */
+	
 	private static final long serialVersionUID = 1L;
 	//coda di eventi di gioco esportata in questa vista limitata del server
 	//aggiungendo un evento di gioco qui si aggiunge un evento da risolvere al server
 	private ConcurrentLinkedQueue<Event> queue;
 
-	public ServerView(ConcurrentLinkedQueue<Event> queue) throws RemoteException {
+	public ServerView(ConcurrentLinkedQueue<Event> queue/*,ArrayList<GameModel> gm*/) throws RemoteException {
 		super();
-		/*try {
-			UnicastRemoteObject.exportObject(this, 2344);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}*/
+		
 		this.queue = queue;
 	}
-	/*
-	public NotifyEvent grabEvent() {
-		//now i return a test event, but here i should return the notifyevent 
-		//directed to this client, searching it in all the notifyevent that the
-		//server produces.
-		return new EventAddedToGame(new Player("albi"), false);
-	}*/
-
+	
 	@Override
-	public void trasmitEvent(Event evt) {
+	public void trasmitEvent(Event evt/*, RMIRemoteObjectInterface ClientView*/) {
+		//Se l'evento genera un evento di notifica broadcast allora lo aggiungo alla queue se no lo processo qui 
+		//infatti questo metodo dovrà ritornare un evento di tipo notify( che potrà essere null nel caso evt sia broadcast,
+		//che potrà essere un evento realmente costruito nel caso il notifyevent sia personale.
+		
 		queue.add((GameEvent)evt);
 		synchronized(queue) {
 			queue.notify();
 		}
 	}
+	
 }

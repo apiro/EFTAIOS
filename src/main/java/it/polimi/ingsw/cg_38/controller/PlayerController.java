@@ -60,7 +60,14 @@ public class PlayerController extends Thread  {
 			try {
 				Event evt = this.communicator.recieveEvent();
 				
+				/**
+				 * se il NOTIFYEVENT di callback non è di tipo broadcast l'evento lo trasformo in azione direttamente qui nel 
+				 * player controller così ho il riferimento al client a cui devo inviare l'evento di risposta sincrona.
+				 * se no aggiungo il GAMEEVENT alla coda del server che lo gestirà.
+				 * In ogni caso dopo questo if chiudo questo thread
+				 * */
 				this.getEventsToProcess().add((Event) evt);
+				
 				Thread.currentThread().interrupt();
 				try {
 					synchronized(this.getEventsToProcess()) {

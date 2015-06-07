@@ -7,37 +7,33 @@ import java.util.*;
  */
 public class Player implements Serializable {
 
-    @Override
+	private static final long serialVersionUID = 1L;
+
+	@Override
 	public String toString() {
 		return "Player [ Name=" + name + "numTurniGiocati=" + numTurniGiocati + ", avatar="
 				+ avatar + "]";
 	}
 
-	/**
-     * 
-     */
+	private UUID id = UUID.randomUUID();;
+	
     public Player(String name) {
     	this.setName(name);
     }
     
-	/**
-     * 
-     */
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+	
     private int numTurniGiocati = 0;
     
-    /**
-     * 
-     */
     private Avatar avatar;
 
-    /**
-     * 
-     */
     private String name;
-
-    /**
-     * getter e setter
-     * **/
 
     public int getNumTurniGiocati() {
 		return numTurniGiocati;

@@ -124,7 +124,7 @@ public class ServerController extends Observable {
 		
 		//creo un oggetto i quali metodi potranno essere chiamati remotamente perche estende Remote
 		//gli passo il buffer cosi può aggiungere eventi al buffers
-		RMIRegistrationInterface registration = new RegistrationView(this.getToDispatch());
+		RMIRegistrationInterface registration = new RegistrationView(this.getToDispatch(), this.topics);
 		
 		//registra lo stub sul registry con un nome tramite il quale potrà essere cercato
 		registry.bind(serverView.getRMI_ID(), registration);
