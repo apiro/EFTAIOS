@@ -13,7 +13,7 @@ public class EventSubscribe extends GameEvent implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	public EventSubscribe(Player generator, String room, String map) {
-		super(generator);
+		super(generator, true);
 		this.setRoom(room);
 		this.setMap(map);
 	}

@@ -48,7 +48,7 @@ public class SocketCommunicator implements Communicator {
 
 	public void send(Event evt) {
 		//client o server inviano un evento
-		Socket socket;
+		/*Socket socket;
 		try {
 			socket = new Socket("localhost", port);
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
@@ -59,13 +59,17 @@ public class SocketCommunicator implements Communicator {
 			
 			/*System.out.println("SOCKET Connection Established !");*/
 			
-			this.getOutputStream().writeObject(evt);
-			this.getOutputStream().flush();
+			try {
+				this.getOutputStream().writeObject(evt);
+				this.getOutputStream().flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			
 			System.out.println("Sending ... : " + evt.toString());
-		} catch (IOException e1) {
+		/*} catch (IOException e1) {
 			e1.printStackTrace();
-		}
+		}*/
 	}
 		
 	public SocketCommunicator(int port) {

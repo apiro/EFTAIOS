@@ -17,7 +17,7 @@ public class EventNewGame extends GameEvent {
 	}
 
 	public EventNewGame(Player generator, String room) {
-		super(generator);
+		super(generator, true);
 		super.setType(GameEventType.NewGame);
 		this.setCreatingRoomName(room);
 	}

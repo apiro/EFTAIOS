@@ -7,7 +7,7 @@ import it.polimi.ingsw.cg_38.model.Player;
 public class EventFinishTurn extends GameEvent {
 
 	public EventFinishTurn(Player generator) {
-		super(generator);
+		super(generator, false);
 		super.setType(GameEventType.finishTurn);
 	}
 	

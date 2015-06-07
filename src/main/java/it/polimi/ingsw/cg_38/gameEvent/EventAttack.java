@@ -18,7 +18,7 @@ public class EventAttack extends GameEvent {
 	}
 
 	public EventAttack(Player generator, Sector toAttack) {
-		super(generator);
+		super(generator, true);
 		super.setType(GameEventType.Attack);
 		this.setTarget(toAttack);
 	}

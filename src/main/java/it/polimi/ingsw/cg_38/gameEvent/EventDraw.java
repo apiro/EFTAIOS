@@ -9,7 +9,7 @@ public class EventDraw extends GameEvent {
 	private static final long serialVersionUID = 1L;
 
 	public EventDraw(Player generator) {
-		super(generator);
+		super(generator, false);
 		super.setType(GameEventType.Draw);
 	}
 

@@ -99,10 +99,8 @@ public class Client implements Observer {
 	private ConcurrentLinkedQueue<Event> toProcess = new ConcurrentLinkedQueue<Event>();
 	private LinkedList<Event> toSend = new LinkedList<Event>();
 	private ServerSocket clientSocket;
-	private ClientInterface userInterface;
 
 	public Client(String s) throws IOException, NotBoundException {
-		userInterface = new CLIView(this);
 		System.out.println("INSERT  : \n\t1) YOUR USERNAME: \n\t2) THE ROOM YOU WANT TO ACCESS : \n\t3) THE MAP NAME: ");
 		String name = in.nextLine();
 		room = in.nextLine();

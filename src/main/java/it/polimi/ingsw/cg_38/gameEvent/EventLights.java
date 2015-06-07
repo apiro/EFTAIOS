@@ -20,7 +20,7 @@ public class EventLights extends GameEvent{
 	}
 
 	public EventLights(Player generator, Sector target, Card card) {
-		super(generator);
+		super(generator, true);
 		super.setType(GameEventType.Lights);
 		this.setTarget(target);
 		this.setCard(card);

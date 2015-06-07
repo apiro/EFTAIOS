@@ -18,7 +18,7 @@ public class EventSedat extends GameEvent {
 	}
 
 	public EventSedat(Player generator, Card card) {
-		super(generator);
+		super(generator, false);
 		super.setType(GameEventType.Sedatives);
 		this.setToUse(card);
 	}

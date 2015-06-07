@@ -7,7 +7,7 @@ import it.polimi.ingsw.cg_38.model.Player;
 public class EventNoiseMySect extends GameEvent {
 
 	public EventNoiseMySect(Player generator) {
-		super(generator);
+		super(generator, true);
 		super.setType(GameEventType.NoiseMySect);
 	}
 
