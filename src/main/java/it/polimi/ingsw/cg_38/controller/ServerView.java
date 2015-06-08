@@ -42,5 +42,8 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 		synchronized(queue) {
 			queue.notify();
 		}
+		if(!((GameEvent)evt).getNotifyEventIsBroadcast()) {
+			
+		}
 	}
 }

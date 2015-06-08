@@ -149,7 +149,7 @@ public class ServerController extends Observable {
 	private void startSocketEnvironment() throws IOException {
 		serverSocket = new ServerSocket(socketPortNumber);
 	
-	    new SocketConnectionsHandler(this.serverSocket, this.getToDispatch(), this.serverAlive).start();
+	    new SocketConnectionsHandler(this.serverSocket, this.getToDispatch(), this.serverAlive, this.getTopics()).start();
 	    
 	    System.out.println("Server socket ready on " + socketPortNumber);
 		System.out.println("Server ready");

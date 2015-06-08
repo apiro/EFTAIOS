@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_38.controller;
 import java.rmi.RemoteException;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
+import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 
 

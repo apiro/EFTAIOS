@@ -1,11 +1,19 @@
 package it.polimi.ingsw.cg_38.controller;
+import it.polimi.ingsw.cg_38.controller.action.Action;
+import it.polimi.ingsw.cg_38.controller.action.GameAction;
+import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
+import it.polimi.ingsw.cg_38.controller.event.GameEvent;
+import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.model.*;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotYourTurn;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class PlayerController extends Thread  {
@@ -24,6 +32,8 @@ public class PlayerController extends Thread  {
 
 	private ConcurrentLinkedQueue<Event> eventsToProcess;
 
+	private HashMap<String, GameController> topics;
+
 	
 	public Player getPlayer() {
 		return player;
@@ -41,26 +51,36 @@ public class PlayerController extends Thread  {
 		this.eventsToProcess = eventsToProcess;
 	}
 	
-	public PlayerController(Communicator communicator, ConcurrentLinkedQueue<Event> toDispatch) throws IOException {
+	public PlayerController(Communicator communicator, ConcurrentLinkedQueue<Event> toDispatch, HashMap<String, GameController> topics) throws IOException {
+		//a questo passo la lista di topic(arraylist di gamecontroller)
+		this.topics = topics;
 		this.communicator = communicator;
-		this.initCommunicator();
 		this.setEventsToProcess(toDispatch);
-	}
-
-	public void initCommunicator() throws IOException{
-		ObjectOutputStream out = new ObjectOutputStream(((SocketCommunicator)this.communicator).getSocket().getOutputStream());
-		out.flush();
-		ObjectInputStream in = new ObjectInputStream(((SocketCommunicator)this.communicator).getSocket().getInputStream());
-		((SocketCommunicator)this.communicator).setOutputStream(out);
-		((SocketCommunicator)this.communicator).setInputStream(in);
 	}
 	
 	public void run() {
 		while(true) {
 			try {
+				//quando il thread handler riceve un evento verifica se l'evento di risposta 
+				//è broadcast o no se è broadcast lo aggiunge alla coda del server mentre se 
+				//è personale lo processa direttmente qui e invia l'evento di risposta !
 				Event evt = this.communicator.recieveEvent();
-				
-				this.getEventsToProcess().add((Event) evt);
+				if(!((GameEvent)evt).getNotifyEventIsBroadcast()){
+					NotifyEvent callbackEvent = null;
+					GameController gcFound = null;
+					Action generatedAction = GameActionCreator.createGameAction(evt);
+					gcFound = topics.get(evt.getGenerator().getName());
+					if( evt.getGenerator().getName().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer().getName())) {
+						//se l'evento viene dal giocatore del turno corrente
+						callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
+					} else {
+						//se l'evento non viene dal gicatore del turno (qualcuno ha inviato un evento fuori turno)
+						callbackEvent = new EventNotYourTurn(evt.getGenerator());
+					}
+					this.communicator.send(evt);
+				} else {
+					this.getEventsToProcess().add((Event) evt);
+				}
 				Thread.currentThread().interrupt();
 				try {
 					synchronized(this.getEventsToProcess()) {

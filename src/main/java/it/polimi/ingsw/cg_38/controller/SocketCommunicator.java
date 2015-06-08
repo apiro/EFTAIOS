@@ -1,6 +1,8 @@
 package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
+import it.polimi.ingsw.cg_38.controller.event.GameEvent;
+import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,15 +11,8 @@ import java.net.Socket;
 
 public class SocketCommunicator implements Communicator {
 
-	private int port;
-	public int getPort() {
-		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
-	}
-
+	//OGNI VOLTA CHE UN CLIENT VUOLE INVIARE EVENTI DI GIOCO DEVE CREARE UN COMMUNICATOR NUOVO
+	//CREO IL SOCKET PRIMA, POI CREO UN COMMUNICATOR E INVIO
 	private Socket socket;
 	private ObjectInputStream inputStream;
 	private ObjectOutputStream outputStream;
@@ -48,38 +43,22 @@ public class SocketCommunicator implements Communicator {
 
 	public void send(Event evt) {
 		//client o server inviano un evento
-		/*Socket socket;
 		try {
-			socket = new Socket("localhost", port);
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-			out.flush();
-			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-			this.setOutputStream(out);
-			this.setInputStream(in);
-			
-			/*System.out.println("SOCKET Connection Established !");*/
-			
-			try {
-				this.getOutputStream().writeObject(evt);
-				this.getOutputStream().flush();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
+			this.getOutputStream().writeObject(evt);
+			this.getOutputStream().flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
 			System.out.println("Sending ... : " + evt.toString());
-		/*} catch (IOException e1) {
-			e1.printStackTrace();
-		}*/
+		}
 	}
 		
-	public SocketCommunicator(int port) {
-		/**
-		 * è il costruttore per chi deve inviare un evento creando un socket alla porta passata
-		 * */
-		//creo il communicator con una porta: se la porta che passo è quella del server allora
-		//il communicator sarà utilizzato dal client, se la porta che passo è di un client allora
-		//il communicator sarà utilizzato dal server per inviare eventi di notifica.
-		this.setPort(port);
+	public void initCommunicator() throws IOException{
+		ObjectOutputStream out = new ObjectOutputStream(this.getSocket().getOutputStream());
+		out.flush();
+		ObjectInputStream in = new ObjectInputStream(this.getSocket().getInputStream());
+		this.setOutputStream(out);
+		this.setInputStream(in);
 	}
 	
 	public SocketCommunicator(Socket socket) {
@@ -87,6 +66,12 @@ public class SocketCommunicator implements Communicator {
 		 * è il costruttore per chi deve ricevere un evento SUL socket passato
 		 * */
 		this.setSocket(socket);
+		try {
+			this.initCommunicator();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("SOCKET Connection Established !");
 	}
 	
 	public Event recieveEvent() {

@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg_38.controller.event.Event;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -19,9 +20,11 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 	private Boolean alive;
 	private ServerSocket serverSocket;
 	private ConcurrentLinkedQueue<Event> queue;
+	private HashMap<String, GameController> topics;
 	
-	public SocketConnectionsHandler(ServerSocket serverSocket, ConcurrentLinkedQueue<Event> queue, Boolean alive) {
+	public SocketConnectionsHandler(ServerSocket serverSocket, ConcurrentLinkedQueue<Event> queue, Boolean alive, HashMap<String, GameController> topics) {
 		/*this.executor = Executors.newCachedThreadPool();*/
+		this.topics = topics;
 		this.setName("SocketConnectionsHandlerThread");
 		this.alive = alive;
 		this.serverSocket = serverSocket;
@@ -41,7 +44,7 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 			//la riga dopo crea un thread per la gestione del socket arrivato
 			PlayerController playerHandler = null;
 			try {
-				playerHandler = new PlayerController(new SocketCommunicator(socket), queue);
+				playerHandler = new PlayerController(new SocketCommunicator(socket), queue, topics);
 				playerHandler.start();
 				playerHandler.setName("PlayerControllerThread");
 			} catch (IOException e) {
