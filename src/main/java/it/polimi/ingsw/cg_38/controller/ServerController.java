@@ -28,8 +28,10 @@ import javax.xml.parsers.ParserConfigurationException;
 public class ServerController extends Observable {
 	
 	private int socketPortNumber = 4322;
+	private int portPublisherSubscriber = 3342;
 	private String IPAdress = "localhost";
-	private ServerSocket serverSocket;
+	private ServerSocket serverSocketPubSub;
+	private ServerSocket serverSocketClientServer;
 	//mappa che segna il nome del player con il corrispondente gamecontroller per poter trovare il topic di un player facilmente
 	private HashMap<String, GameController> topics = new HashMap<String, GameController>();
 	
@@ -51,17 +53,16 @@ public class ServerController extends Observable {
 	 * client->Rmi->passa messaggi ad un metodo di un oggetto Rmi del server-> questo aggiunge il messaggio al buffer del server
 	 * */
 	
-	public ServerController(/*int socketPortNumber, int rmiRegistryPortNumber*/) throws RemoteException {
-		/*this.socketPortNumber = socketPortNumber;*/
+	public ServerController() throws RemoteException {
 		this.toDispatch = new ConcurrentLinkedQueue<Event>();
-		/*this.toDistribute = new ConcurrentLinkedQueue<NotifyEvent>();*/
 	}
 	
 	public void closeServer() {
 		//closing the server and deallocate all the objects
 		this.serverAlive = false;
 		this.setToDispatch(null);
-		this.serverSocket = null;
+		this.serverSocketClientServer = null;
+		this.serverSocketPubSub = null;
 		this.registry = null;
 		this.topics = null;
 	}
@@ -124,7 +125,7 @@ public class ServerController extends Observable {
 		
 		//creo un oggetto i quali metodi potranno essere chiamati remotamente perche estende Remote
 		//gli passo il buffer cosi può aggiungere eventi al buffers
-		RMIRegistrationInterface registration = new RegistrationView(this.getToDispatch());
+		RMIRegistrationInterface registration = new RegistrationView(this);
 		
 		//registra lo stub sul registry con un nome tramite il quale potrà essere cercato
 		registry.bind(serverView.getRMI_ID(), registration);
@@ -147,17 +148,21 @@ public class ServerController extends Observable {
 	}
 
 	private void startSocketEnvironment() throws IOException {
-		serverSocket = new ServerSocket(socketPortNumber);
+		
+		this.serverSocketClientServer = new ServerSocket(socketPortNumber);
+		this.serverSocketPubSub = new ServerSocket(portPublisherSubscriber);
 	
-	    new SocketConnectionsHandler(this.serverSocket, this.getToDispatch(), this.serverAlive, this.getTopics()).start();
-	    
-	    System.out.println("Server socket ready on " + socketPortNumber);
+	    Thread t1 = new SocketConnectionsHandler(this.serverSocketClientServer, this.getToDispatch(), this.serverAlive, this.getTopics());
+	    Thread t2 = new PubSubConnectionsHandler(this.serverSocketPubSub, this.serverAlive, this.getTopics());
+	    t1.setName("ServerSocketClientServer");
+	    t2.setName("ServerSocketPubSub");
+	    t1.start();
+	    System.out.println("ServerSocket Client/Server ready on " + socketPortNumber);
+	    t2.start();
+	    System.out.println("ServerSocket Pub/Sub ready on " + socketPortNumber);
+	   
 		System.out.println("Server ready");
 	}
-
-	/*public ConcurrentLinkedQueue<NotifyEvent> getToDistribute() {
-		return toDistribute;
-	}*/
 
 	public static void main(String[] args) throws ParserConfigurationException, Exception {
 		Thread.currentThread().setName("ApplicationMainThread");

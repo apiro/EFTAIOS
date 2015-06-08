@@ -18,32 +18,27 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 	//coda di eventi di gioco esportata in questa vista limitata del server
 	//aggiungendo un evento di gioco qui si aggiunge un evento da risolvere al server
 	private ConcurrentLinkedQueue<Event> queue;
+	private ServerController server;
 
-	public ServerView(ConcurrentLinkedQueue<Event> queue) throws RemoteException {
+	public ServerView(ServerController server) throws RemoteException {
 		super();
 		/*try {
 			UnicastRemoteObject.exportObject(this, 2344);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}*/
-		this.queue = queue;
+		this.server = server;
+		this.queue = server.getToDispatch();
 	}
-	/*
-	public NotifyEvent grabEvent() {
-		//now i return a test event, but here i should return the notifyevent 
-		//directed to this client, searching it in all the notifyevent that the
-		//server produces.
-		return new EventAddedToGame(new Player("albi"), false);
-	}*/
-
 	@Override
 	public void trasmitEvent(Event evt) {
-		queue.add((GameEvent)evt);
-		synchronized(queue) {
-			queue.notify();
-		}
-		if(!((GameEvent)evt).getNotifyEventIsBroadcast()) {
-			
+		if(((GameEvent)evt).getNotifyEventIsBroadcast()) {
+			queue.add((GameEvent)evt);
+			synchronized(queue) {
+				queue.notify();
+			}
+		} else {
+			//come nel theradHandler performo l'evento all'interno di questo ramo di else se l'evento di ritorno non è broadcast
 		}
 	}
 }

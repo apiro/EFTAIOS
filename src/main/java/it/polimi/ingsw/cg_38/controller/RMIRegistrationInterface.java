@@ -1,6 +1,9 @@
 package it.polimi.ingsw.cg_38.controller;
 
 
+import it.polimi.ingsw.cg_38.controller.event.Event;
+import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -9,7 +12,9 @@ import java.rmi.RemoteException;
  * */
 public interface RMIRegistrationInterface extends Remote {
 
-	public RMIRemoteObjectInterface register() throws RemoteException;
+	public RMIRemoteObjectInterface register(RMIRemoteObjectInterface clientView, EventSubscribe subEvent) throws RemoteException;
 
 	public boolean isLoginValid(String username) throws RemoteException;
+	
+	public void trasmitEvent(Event evt) throws RemoteException;
 }

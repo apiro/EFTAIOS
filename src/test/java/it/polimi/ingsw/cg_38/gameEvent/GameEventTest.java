@@ -25,8 +25,6 @@ public class GameEventTest {
 	EventNoiseRandSect noiseRandSect;
 	EventSedat sedat;
 	EventSubscribe subscribe;
-	EventSubscribeRMI subscribeRMI;
-	EventSubscribeSocket subscribeSocket;
 	EventTeleport teleport;
 	EventDraw draw;
 	EventNoiseMySect noiseMySect;
@@ -68,8 +66,6 @@ public class GameEventTest {
 		noiseRandSect = new EventNoiseRandSect(player1 , sector1);
 		sedat = new EventSedat(player1 , card1);
 		subscribe = new EventSubscribe(player1 , room , map);
-		subscribeRMI = new EventSubscribeRMI(player1 , room , map , RMI_ID);
-		subscribeSocket = new EventSubscribeSocket(player1 , room , map , PORT);
 		teleport = new EventTeleport(player1 , card1);
 		draw = new EventDraw(player1);
 		noiseMySect = new EventNoiseMySect(player1);
@@ -104,12 +100,6 @@ public class GameEventTest {
 		assertEquals(subscribe.getMap() , map);
 		assertEquals(subscribe.getRoom() , room);
 		assertEquals(subscribe.toString() , "EventSubscribe [map=" + map + ", room=" + room + "]");
-		
-		assertEquals(subscribeRMI.getRMI_ID() , RMI_ID);
-		assertEquals(subscribeRMI.toString() , "EventSubscribeRMI [RMI_ID=" + RMI_ID + "]");
-		
-		assertEquals(subscribeSocket.getPORT() , PORT);
-		assertEquals(subscribeSocket.toString() , "EventSubscribeSocket [ TO CONNECT ME USE PORT=" + PORT + ", TO CONNECT ME USE HOST=" + subscribeSocket.getHOST()+ "]");
 		
 		assertEquals(teleport.getToUse() , card1);
 	}

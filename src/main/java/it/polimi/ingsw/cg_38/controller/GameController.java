@@ -58,17 +58,13 @@ public class GameController implements Observer {
 		} 
 	}
 	
-	public HashMap<String, Communicator> getSubscribers() {
+	public ArrayList<Communicator> getSubscribers() {
 		return subscribers;
 	}
 
 	public void publish(NotifyEvent evt) throws RemoteException {
-		if(evt.isBroadcast()) {
-			for(Communicator comm: this.getSubscribers().values()) {
-				comm.send(evt);
-			}
-		} else if (!evt.isBroadcast()) {
-			(this.getSubscribers().get(evt.getGenerator().getName())).send(evt);
+		for(Communicator comm: this.getSubscribers()) {
+			comm.send(evt);
 		}
 	}
 
