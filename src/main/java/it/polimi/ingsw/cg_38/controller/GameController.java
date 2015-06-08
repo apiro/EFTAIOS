@@ -12,6 +12,7 @@ import it.polimi.ingsw.cg_38.model.Turn;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyError;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Observable;
@@ -24,7 +25,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class GameController implements Observer {
 
-	private HashMap<String, Communicator> subscribers = new HashMap<String, Communicator>();
+	private ArrayList<Communicator> subscribers = new ArrayList<Communicator>();
 	
 	private ConcurrentLinkedQueue<NotifyEvent> buffer;
 
