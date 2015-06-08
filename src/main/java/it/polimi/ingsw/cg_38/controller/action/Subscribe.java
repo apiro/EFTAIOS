@@ -48,6 +48,7 @@ public abstract class Subscribe extends InitGameAction {
 				return new EventAddedToGame(super.getPlayer(), false, false);
 			}
 		}
+		
 		if(this.isPossible(server)) {
 			//il topic proposto è tra i topic già presenti
 			//E' LA FASE DI ACCEPTING
