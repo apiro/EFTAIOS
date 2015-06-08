@@ -22,11 +22,12 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 	private ConcurrentLinkedQueue<Event> queue;
 	private ServerController server;
 	private EventSubscribe evt;
+	private HashMap<String, GameController> topics;
 
-	public RegistrationView(ConcurrentLinkedQueue<Event> queue, ServerController server) throws RemoteException {
+	public RegistrationView(ConcurrentLinkedQueue<Event> queue, HashMap<String, GameController> topics) throws RemoteException {
 		
 		super();
-		this.server = server;
+		this.topics = topics;
 		this.queue = queue;
 	}
 	
@@ -47,7 +48,7 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 		 * */
 		/*System.out.println("New Client Connected Using RMI ! ");*/
 		Communicator c = new RMICommunicator(clientView);
-		for(GameController gc:server.getTopics().values()) {
+		for(GameController gc:topics.values()) {
 			if(gc.getTopic().equals(subEvent.getRoom()) && gc.canAccept(subEvent.getGenerator())) {
 				ServerView view = null;
 				view = new ServerView(queue);
