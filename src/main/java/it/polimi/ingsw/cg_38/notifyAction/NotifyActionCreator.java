@@ -16,6 +16,18 @@ public class NotifyActionCreator {
     	if(type.equals(NotifyEventType.Added)) {
     		action = new AddedToGame((NotifyEvent) evt);
     	} /*else if (type.equals(NotifyEventType.))*/
+    	if(type.equals(NotifyEventType.environment))
+    		action = new RenderEnvironment((NotifyEvent) evt);
+    	if(type.equals(NotifyEventType.Attacked))
+    		action = new RenderAttacked((NotifyEvent) evt);
+    	if(type.equals(NotifyEventType.notifyTurn))
+    		action = new RenderNotifyTurn((NotifyEvent) evt);
+    	if(type.equals(NotifyEventType.Error))
+    		action = new RenderError((NotifyEvent) evt);
+    	if(type.equals(NotifyEventType.Moved))
+    		action = new RenderMoved((NotifyEvent) evt);
+    	if(type.equals(NotifyEventType.Drown))
+    			action = new RenderDrown((NotifyEvent) evt);
 		return action;
 		
 	}
