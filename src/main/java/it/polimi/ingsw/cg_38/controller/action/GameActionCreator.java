@@ -43,12 +43,6 @@ public class GameActionCreator {
     		action = new UseMySectorNoise(((GameEvent)evt));
     	} else if (type.equals(GameEventType.Teleport)) {
     		action = new UseTeleportCard(((GameEvent)evt));
-    	} else if (type.equals(GameEventType.subscribeRMI)) {
-    		action2 = new SubscribeRMI(((GameEvent)evt));
-    		return action2;
-    	} else if (type.equals(GameEventType.subscribeSocket)) {
-    		action2 = new SubscribeSocket(((GameEvent)evt));
-    		return action2;
     	} else if (type.equals(GameEventType.finishTurn)) {
     		action = new FinishTurn((GameEvent)evt);
     		return action;

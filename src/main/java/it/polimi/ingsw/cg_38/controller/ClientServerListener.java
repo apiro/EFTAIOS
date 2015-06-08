@@ -146,6 +146,7 @@ public class ClientServerListener extends Observable implements Runnable {
 		}
 		/*NOTIFYACTION RELATED TO ALL OTHER EVENTATTACKED*/
 		else if (((NotifyEvent)event).getType().equals(NotifyEventType.Attacked) && client.getIsMyTurn()) {
+			client.setPlayer(event.getGenerator());
 			for(Player pl:((EventAttacked)event).getKilled()){
 				if(pl.getName().equals(client.getPlayer().getName())) {
 					System.out.println("AN ALIEN KILLED YOU ! YOU LOOSE !");
