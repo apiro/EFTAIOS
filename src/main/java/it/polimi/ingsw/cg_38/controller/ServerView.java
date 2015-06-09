@@ -1,7 +1,12 @@
 package it.polimi.ingsw.cg_38.controller;
 
+import it.polimi.ingsw.cg_38.controller.action.Action;
+import it.polimi.ingsw.cg_38.controller.action.GameAction;
+import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
+import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotYourTurn;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -19,26 +24,48 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 	//aggiungendo un evento di gioco qui si aggiunge un evento da risolvere al server
 	private ConcurrentLinkedQueue<Event> queue;
 	private ServerController server;
+	private RMICommunicator communicator;
 
-	public ServerView(ServerController server) throws RemoteException {
+	public ServerView(ServerController server, RMIRemoteObjectInterface clientView) throws RemoteException {
 		super();
 		/*try {
 			UnicastRemoteObject.exportObject(this, 2344);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}*/
+		
+		this.communicator = new RMICommunicator(clientView);
 		this.server = server;
 		this.queue = server.getToDispatch();
 	}
 	@Override
-	public void trasmitEvent(Event evt) {
+	public void trasmitEvent(Event evt) throws RemoteException {
 		if(((GameEvent)evt).getNotifyEventIsBroadcast()) {
+			//se l'evento che il client vuole aggiungere presuppone un evento di risposta
+			//di tipo broadcast allora lo aggiungo alla coda del topic per poi inviarlo
+			//via publish.
 			queue.add((GameEvent)evt);
 			synchronized(queue) {
 				queue.notify();
 			}
 		} else {
-			//come nel theradHandler performo l'evento all'interno di questo ramo di else se l'evento di ritorno non è broadcast
+			this.processEvent(evt);
+			
 		}
+	}
+	@Override
+	public void processEvent(Event evt) throws RemoteException {
+		NotifyEvent callbackEvent = null;
+		GameController gcFound = null;
+		Action generatedAction = GameActionCreator.createGameAction(evt);
+		gcFound = server.getTopics().get(evt.getGenerator().getName());
+		if( evt.getGenerator().getName().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer().getName())) {
+			//se l'evento viene dal giocatore del turno corrente
+			callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
+		} else {
+			//se l'evento non viene dal gicatore del turno (qualcuno ha inviato un evento fuori turno)
+			callbackEvent = new EventNotYourTurn(evt.getGenerator());
+		}
+		communicator.send(callbackEvent);
 	}
 }

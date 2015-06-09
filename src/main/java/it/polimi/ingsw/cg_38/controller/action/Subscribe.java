@@ -12,7 +12,7 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
 
-public abstract class Subscribe extends InitGameAction {
+public class Subscribe extends Action {
 
 	private String topic;
 	private String typeMap;
@@ -40,6 +40,19 @@ public abstract class Subscribe extends InitGameAction {
     }
 	
 	public EventAddedToGame generalEventGenerator(Communicator c, ServerController server) throws ParserConfigurationException, Exception {
+		
+		/**
+		 * Controlla:
+		 * 	a) se il nome giocatore è gia presente tra i nomi --> added false
+		 * 	b) se il topic è gia presente tra i topic e il gioco è in accepting --> added true
+		 * 	c) se il topic è gia presente tra i topic e il gioco non è in accepting --> added false
+		 * 	d) se il topic non è presente ne creo uno
+		 * 
+		 * -->in ogni caso aggiungo il communicat al topic che il giocatore sceglie, 
+		 * 	  poi faro un controllo sull'evento di added per vedere se il bool 
+		 * 	  è falso, se lo è tolgo il comm e il rif al gioc nel server nella mappa
+		 * 	  gioc e gc.
+		 * */
 		
 		for(GameController gc:server.getTopics().values()) {
 			if(gc.getGameModel().getGamePlayers().contains(super.getPlayer())) {

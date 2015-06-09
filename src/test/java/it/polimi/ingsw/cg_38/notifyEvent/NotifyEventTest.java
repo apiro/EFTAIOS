@@ -38,7 +38,7 @@ public class NotifyEventTest {
 	EventNotifyPlayerState notifyPlayerState;
 	EventNotifyTurn notifyTurn;
 	EventNotYourTurn notYourTurn;
-	EventShowTopics showTopics;
+	/*EventShowTopics showTopics;*/
 	
 	Player player1;
 	Player player2;
@@ -111,7 +111,7 @@ public class NotifyEventTest {
 		notifyPlayerState = new EventNotifyPlayerState(player1, winner);
 		notifyTurn = new EventNotifyTurn(player1);
 		notYourTurn = new EventNotYourTurn(player1);
-		showTopics = new EventShowTopics(topics);
+		/*showTopics = new EventShowTopics(topics);*/
 		
 	}
 	
@@ -150,7 +150,7 @@ public class NotifyEventTest {
 		
 		assertEquals(notYourTurn.getMessage() , "This is not your turn !");
 		
-		assertEquals(showTopics.getTopics() , topics);		
+		/*assertEquals(showTopics.getTopics() , topics);*/		
 	}
 
 }

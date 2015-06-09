@@ -36,4 +36,10 @@ public class ClientView extends UnicastRemoteObject implements RMIRemoteObjectIn
 
 	}
 
+	@Override
+	public void processEvent(Event evt) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

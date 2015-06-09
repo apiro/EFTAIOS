@@ -16,5 +16,5 @@ public interface RMIRegistrationInterface extends Remote {
 
 	public boolean isLoginValid(String username) throws RemoteException;
 	
-	public void trasmitEvent(Event evt) throws RemoteException;
+	public void trasmitEventToPublisher(Event evt) throws RemoteException;
 }

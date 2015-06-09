@@ -28,7 +28,7 @@ import javax.xml.parsers.ParserConfigurationException;
 public class ServerController extends Observable {
 	
 	private int socketPortNumber = 4322;
-	private int portPublisherSubscriber = 3342;
+	private int portPublisherSubscriber = 3111;
 	private String IPAdress = "localhost";
 	private ServerSocket serverSocketPubSub;
 	private ServerSocket serverSocketClientServer;
@@ -107,6 +107,7 @@ public class ServerController extends Observable {
 					if(((EventAddedToGame)callbackEvent).getAdded() == false ) {
 						gcFound.getSubscribers().remove(msg.getGenerator().getName());
 						this.getTopics().remove(msg.getGenerator().getName());
+						this.deleteObserver(gcFound);
 					}
 				}
 				System.err.println("Event parsed !");
@@ -153,7 +154,7 @@ public class ServerController extends Observable {
 		this.serverSocketPubSub = new ServerSocket(portPublisherSubscriber);
 	
 	    Thread t1 = new SocketConnectionsHandler(this.serverSocketClientServer, this.getToDispatch(), this.serverAlive, this.getTopics());
-	    Thread t2 = new PubSubConnectionsHandler(this.serverSocketPubSub, this.serverAlive, this.getTopics());
+	    Thread t2 = new PubSubConnectionsHandler(this.serverSocketPubSub, this.serverAlive, this);
 	    t1.setName("ServerSocketClientServer");
 	    t2.setName("ServerSocketPubSub");
 	    t1.start();

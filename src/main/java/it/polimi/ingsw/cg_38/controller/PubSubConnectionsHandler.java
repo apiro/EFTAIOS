@@ -9,12 +9,12 @@ public class PubSubConnectionsHandler extends Thread {
 
 	private ServerSocket serverSocketPubSub;
 	private Boolean serverAlive;
-	private HashMap<String, GameController> topics;
+	private ServerController server;
 
-	public PubSubConnectionsHandler(ServerSocket serverSocketPubSub, Boolean serverAlive, HashMap<String, GameController> topics) {
+	public PubSubConnectionsHandler(ServerSocket serverSocketPubSub, Boolean serverAlive, ServerController server) {
 		this.serverSocketPubSub = serverSocketPubSub;
 		this.serverAlive = serverAlive;
-		this.topics = topics;
+		this.server = server;
 	}
 	
 	public void run() {
@@ -30,9 +30,9 @@ public class PubSubConnectionsHandler extends Thread {
 			//questa cosa qui sotto aggiungo il communicator che mi è arrivato direttamente alla lista dei comm della 
 			//partita che sta startando.
 			SubscribeController subscribeHandler = null;
-			subscribeHandler = new SubscribeController(new SocketCommunicator(socket), topics);
-			subscribeHandler.start();
-			subscribeHandler.setName("SubscribeControllerThread");			
+			subscribeHandler = new SubscribeController(new ServerSocketCommunicator(socket), server);
+			Thread t = new Thread(subscribeHandler, "SubscribeControllerThread");
+			t.start();
 		}
 	    try {
 			serverSocketPubSub.close();

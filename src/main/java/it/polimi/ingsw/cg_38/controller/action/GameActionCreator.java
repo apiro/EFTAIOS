@@ -20,7 +20,7 @@ public class GameActionCreator {
     public static Action createGameAction(Event evt) {
     	GameEventType type = ((GameEvent)evt).getType();
     	Action action = null;
-    	InitGameAction action2 = null;
+    	/*InitGameAction action2 = null;*/
     	if(type.equals(GameEventType.AttackCard)) {
     		action = new Attack(((GameEvent)evt));
     	} else if(type.equals(GameEventType.Attack)) {
@@ -46,6 +46,8 @@ public class GameActionCreator {
     	} else if (type.equals(GameEventType.finishTurn)) {
     		action = new FinishTurn((GameEvent)evt);
     		return action;
+    	} else if (type.equals(GameEventType.subscribe)) {
+    		action = new Subscribe((GameEvent)evt);
     	}
 		return action;
     }

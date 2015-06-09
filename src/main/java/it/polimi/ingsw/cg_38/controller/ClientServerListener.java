@@ -25,10 +25,10 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTurn;
 
 public class ClientServerListener extends Observable implements Runnable {
 	
-	private Client client;
+	private ClientOld client;
 	private Scanner in;
 
-	public ClientServerListener(Client client, Scanner in) {
+	public ClientServerListener(ClientOld client, Scanner in) {
 		this.client = client;
 		this.in = in;
 		this.addObserver(client);

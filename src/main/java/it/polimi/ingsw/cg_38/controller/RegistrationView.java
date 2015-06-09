@@ -1,11 +1,9 @@
 package it.polimi.ingsw.cg_38.controller;
 
-import it.polimi.ingsw.cg_38.controller.action.Action;
 import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
 import it.polimi.ingsw.cg_38.controller.action.Subscribe;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
-import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
 
@@ -16,9 +14,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RegistrationView extends UnicastRemoteObject implements RMIRegistrationInterface {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private ConcurrentLinkedQueue<Event> queue;
 	private Event evt;
@@ -52,27 +47,29 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 		
 		Subscribe subscribeAction = (Subscribe) GameActionCreator.createGameAction(subEvent);
 		EventAddedToGame evt = null;
+		
 		try {
+			
 			evt = (EventAddedToGame) subscribeAction.generalEventGenerator(c, server);
+			if(evt.isBroadcast()) {
+				this.trasmitEventToPublisher(evt);
+			} else {
+				clientView.trasmitEvent(evt);
+				return new ErrorView();
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		if(evt.getAdded() == true) {
-			view = new ServerView(server);
-		}
-		
-		return view;
+		return new ServerView(server, clientView);
 	}	
 	
 	@Override
-	public void trasmitEvent(Event evt) {
+	public void trasmitEventToPublisher(Event evt) {
 		queue.add((GameEvent)evt);
 		synchronized(queue) {
 			queue.notify();
-		}
-		if(!((GameEvent)evt).getNotifyEventIsBroadcast()) {
-			
 		}
 	}
 	

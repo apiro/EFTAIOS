@@ -25,18 +25,18 @@ public class PlayerController extends Thread  {
 	 * invierà il messaggio con le modalita prevista dal Communicator che ho scelto.
 	 * */
 
-	private Player player;
+	private PlayerClient player;
 
 	private ConcurrentLinkedQueue<Event> eventsToProcess;
 
 	private HashMap<String, GameController> topics;
 
 	
-	public Player getPlayer() {
+	public PlayerClient getPlayer() {
 		return player;
 	}
 
-	public void setPlayer(Player player) {
+	public void setPlayer(PlayerClient player) {
 		this.player = player;
 	}
 
