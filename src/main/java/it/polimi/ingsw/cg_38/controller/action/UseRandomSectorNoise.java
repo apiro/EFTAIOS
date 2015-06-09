@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg_38.gameEvent.EventNoiseRandSect;
 import it.polimi.ingsw.cg_38.model.GameModel;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.Sector;
+import it.polimi.ingsw.cg_38.notifyEvent.EventDeclareNoise;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDeclarePosition;
 
 /**
@@ -27,13 +28,7 @@ public class UseRandomSectorNoise extends GameAction {
      * @return
      */
     public NotifyEvent perform(GameModel model) {
-    	ArrayList<Player> toDeclare = new ArrayList<Player>();
-        for(Player pl:model.getGamePlayers()) {
-        	if(pl.getAvatar().getCurrentSector().equals(getToDeclare())) {
-        		toDeclare.add(pl);
-        	}
-        }
-    	return new EventDeclarePosition(model.getActualTurn().getCurrentPlayer(), toDeclare);
+    	return new EventDeclareNoise(model.getActualTurn().getCurrentPlayer(), this.getToDeclare());
     }
 
     private Sector toDeclare;
