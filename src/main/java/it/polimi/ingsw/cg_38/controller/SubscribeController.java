@@ -2,16 +2,12 @@ package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.action.Action;
 import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
-import it.polimi.ingsw.cg_38.controller.action.InitGameAction;
 import it.polimi.ingsw.cg_38.controller.action.Subscribe;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
-import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.HashMap;
 import java.util.Observable;
 
 public class SubscribeController extends Observable implements Runnable {
@@ -22,6 +18,11 @@ public class SubscribeController extends Observable implements Runnable {
 	public SubscribeController(SocketCommunicator socketCommunicator, ServerController server) {
 		
 		this.socketCommunicator = socketCommunicator;
+		try {
+			this.socketCommunicator.initCommunicator();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		this.server = server;
 	}
 

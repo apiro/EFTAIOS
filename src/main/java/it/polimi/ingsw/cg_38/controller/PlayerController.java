@@ -5,7 +5,6 @@ import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotYourTurn;
 
 import java.io.IOException;
@@ -75,7 +74,7 @@ public class PlayerController extends Thread  {
 						//se l'evento non viene dal gicatore del turno (qualcuno ha inviato un evento fuori turno)
 						callbackEvent = new EventNotYourTurn(evt.getGenerator());
 					}
-					this.communicator.send(evt);
+					this.communicator.send(callbackEvent);
 				} else {
 					this.getEventsToProcess().add((Event) evt);
 				}

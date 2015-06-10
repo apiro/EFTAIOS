@@ -29,7 +29,13 @@ public class Attack extends GameAction {
      */
     public NotifyEvent perform(GameModel model) { 
     	ArrayList<Player> killed = model.getDesiredPlayers(this.getSectorToAttack());
-    	killed.remove(super.getPlayer());
+    	Player p = null;
+    	for(Player pl:killed) {
+    		if(pl.getName().equals(super.getPlayer().getName())) {
+    			p = pl;
+    		}
+    	}
+    	killed.remove(p);
        	for(Player pl:model.getDesiredPlayers(this.getSectorToAttack())) {
        		//nella condizione di if oltre a verificare se l'attacco è andato a buon fine modifico anche il modello
        		//del gicatore attaccato

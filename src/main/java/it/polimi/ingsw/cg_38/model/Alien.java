@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg_38.model;
 import java.io.Serializable;
-import java.util.*;
 
 /**
  * 
@@ -8,6 +7,11 @@ import java.util.*;
 public class Alien extends Avatar implements Serializable {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * 
      */
     public Alien(Name name, Sector sector) {

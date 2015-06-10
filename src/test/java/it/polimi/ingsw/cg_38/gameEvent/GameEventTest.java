@@ -59,7 +59,7 @@ public class GameEventTest {
 			
 		adrenaline = new EventAdren(player1 , card1 );
 		attack = new EventAttack(player1 , sector1);
-		attackCard = new EventAttackCard(player1 , card1, sector1);	
+		attackCard = new EventAttackCard(player1 , card1);	
 		lights = new EventLights(player1 , sector1 , card1);
 		move = new EventMove(player1 , sector1);
 		newGame = new EventNewGame(player1 , room);

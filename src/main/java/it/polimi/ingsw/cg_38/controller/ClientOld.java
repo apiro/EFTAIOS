@@ -267,8 +267,7 @@ public class ClientOld implements Observer {
 						
 					} else if(this.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Attack)) {
 						
-						Sector toMove = this.askForMoveCoordinates(in);
-						this.communicator.send(new EventAttackCard(this.getPlayer(), this.getPlayer().getAvatar().getMyCards().get(cardSelected), toMove));
+						this.communicator.send(new EventAttackCard(this.getPlayer(), this.getPlayer().getAvatar().getMyCards().get(cardSelected)));
 						
 					} else if(this.getPlayer().getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Defense)) {
 						

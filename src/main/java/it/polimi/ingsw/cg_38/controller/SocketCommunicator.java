@@ -42,30 +42,14 @@ public class SocketCommunicator implements Communicator {
 	}
 
 	public void send(Event evt) {
-		//client o server inviano un evento
-		/*try {
-			Socket socket = new Socket("localhost", 4322);
-			System.out.println("Creating a socket with the Client/Server serverSocket !");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		this.setSocket(socket);*/
-		try {
-			this.initCommunicator();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
 		try {
 			this.getOutputStream().writeObject(evt);
+			this.getOutputStream().reset();
+			System.out.println("Sending ... : " + evt.toString());
 			this.getOutputStream().flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			System.out.println("Sending ... : " + evt.toString());
 		}
-		
-		//devo bloccare l'esecuzione di questo metodo fino a che non mi viene ritornato l'
-		//evento di ritorno o posso terminarlo e lavorare asincronamente?
 	}
 		
 	public void initCommunicator() throws IOException{
@@ -77,21 +61,12 @@ public class SocketCommunicator implements Communicator {
 	}
 	
 	public SocketCommunicator(Socket socket) {
-		/**
-		 * è il costruttore per chi deve ricevere un evento SUL socket passato
-		 * */
+
 		this.setSocket(socket);
 		System.out.println("Creating a new socket communicator !");
 	}
 	
 	public Event recieveEvent() {
-		//SERVER SI METTE IN RICEZIONE DI UN GAMEEVENT DAL CLIENT
-		
-		try {
-			this.initCommunicator();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
 		Event evt = null;
 		try {
 			evt = (Event)this.getInputStream().readObject();

@@ -11,7 +11,7 @@ public class Movement implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Movement [turnNumber=" + turnNumber + ", riga=" + targetsector.getRow() + ", colonna=" + targetsector.getCol() + "]";
+		return "Movement [ riga=" + targetsector.getRow() + ", colonna=" + targetsector.getCol() + "]";
 	}
 
 	/**

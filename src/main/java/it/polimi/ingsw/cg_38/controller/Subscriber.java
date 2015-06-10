@@ -3,10 +3,9 @@ package it.polimi.ingsw.cg_38.controller;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyEnvironment;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -36,6 +35,7 @@ public class Subscriber implements Runnable {
 			communicator = new SocketCommunicator(socketPubSub);
 			System.out.println("Creating a socket with the PUB/SUB serverSocket !");
 			((SocketCommunicator)communicator).initCommunicator();
+			System.out.println("Sending " + evt.toString() + " ...");
 			((SocketCommunicator)communicator).getOutputStream().writeObject(evt);
 			((SocketCommunicator)communicator).setOutputStream(null);
 		} catch (IOException e) {
@@ -47,7 +47,7 @@ public class Subscriber implements Runnable {
 	public void run() {
 		while(clientAlive) {
 			try {
-				NotifyEvent notEvt = (NotifyEvent)communicator.recieveEvent();
+				Event notEvt = communicator.recieveEvent();
 				if(notEvt != null) {
 					toProcess.add(notEvt);
 					synchronized(toProcess) {

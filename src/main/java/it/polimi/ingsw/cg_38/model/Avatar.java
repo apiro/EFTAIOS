@@ -8,6 +8,11 @@ import java.util.*;
 public abstract class Avatar implements Serializable{
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * 
      */
     private ArrayList<ObjectCard> myCards = new ArrayList<ObjectCard>();

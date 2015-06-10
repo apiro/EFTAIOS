@@ -1,8 +1,8 @@
 package it.polimi.ingsw.cg_38.model;
-/**
- * 
- */
-public enum Name {
+
+import java.io.Serializable;
+
+public enum Name implements Serializable{
     Human1,
     Human2,
     Human3,

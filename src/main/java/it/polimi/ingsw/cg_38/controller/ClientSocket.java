@@ -11,8 +11,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class ClientSocket extends Client implements Runnable {
 
 	private Boolean clientAlive = true;
-	private int clientServerPort;
+	private int clientServerPort= 4322;
 	private ConcurrentLinkedQueue<Event> toSend;
+	private ConcurrentLinkedQueue<Event> toProcess;
 
 	/**
 	 * QUESTO OGGETTO INVIA AL SERVER I MESSAGGI CHE TROVA NELLA SUA CODA E GENERA IL THREAD DI RICEZIONE MESSAGGI
@@ -21,6 +22,7 @@ public class ClientSocket extends Client implements Runnable {
 	
 	public ClientSocket(ConcurrentLinkedQueue<Event> toSend, ConcurrentLinkedQueue<Event> toProcess, EventSubscribe evt) {
 		this.toSend = toSend;
+		this.toProcess = toProcess;
 		Subscriber subscriber = new Subscriber(evt, toProcess);
 		Thread t = new Thread(subscriber, "PubSubReceiver");
 		t.start();
@@ -41,6 +43,8 @@ public class ClientSocket extends Client implements Runnable {
 						e.printStackTrace();
 					}
 					communicator.send(msg);
+					Event received = communicator.recieveEvent();
+					this.toProcess.add(received);
 					communicator.closeCommunicator();
 				} catch (RemoteException e) {
 					System.out.println("Problems with socket connection ! Check if the server is online ...");
