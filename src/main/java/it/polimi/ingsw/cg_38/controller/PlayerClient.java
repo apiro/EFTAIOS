@@ -193,11 +193,7 @@ public class PlayerClient {
 	}
 
 	public void process(Event msg) {
-		if(msg instanceof EventAddedToGame || msg instanceof EventNotifyEnvironment) {
-			System.out.println(msg);
-		} else {
-			this.loadInterface();
-		}
+		System.out.println(msg);
 	}
 	
 }

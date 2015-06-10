@@ -10,6 +10,7 @@ import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Observable;
 
@@ -36,9 +37,11 @@ public class SubscribeController extends Observable implements Runnable {
 		}
 		gcFound = server.getTopics().get(evt.getGenerator().getName());
 		gcFound.addEventToTheQueue(callbackEvent);
-		server.addObserver(gcFound);
-		this.setChanged();
-		this.notifyObservers(gcFound.getTopic());
+		try {
+			gcFound.sendNotifyEvent();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 
 		Thread.currentThread().interrupt();
 	}
