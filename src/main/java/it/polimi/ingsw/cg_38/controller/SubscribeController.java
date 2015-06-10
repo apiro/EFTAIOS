@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Observable;
 
@@ -17,7 +18,7 @@ public class SubscribeController extends Observable implements Runnable {
 	private SocketCommunicator socketCommunicator;
 	private ServerController server;
 
-	public SubscribeController(ServerSocketCommunicator socketCommunicator, ServerController server) {
+	public SubscribeController(SocketCommunicator socketCommunicator, ServerController server) {
 		
 		this.socketCommunicator = socketCommunicator;
 		this.server = server;

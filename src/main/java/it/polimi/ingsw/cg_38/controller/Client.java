@@ -5,15 +5,15 @@ import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class Client {
+public abstract class Client implements Runnable {
 
 	protected Communicator communicator;
 	
-	public static Client clientCreator(String type, ConcurrentLinkedQueue<Event> queue, EventSubscribe evt) {
+	public static Client clientCreator(String type, ConcurrentLinkedQueue<Event> toSend, ConcurrentLinkedQueue<Event> toProcess, EventSubscribe evt) {
 		if(type.equals("RMI")) {
-			return new ClientRMI(queue, evt);
+			return new ClientRMI(toSend, toProcess, evt);
 		} else if(type.equals("Socket")) {
-			return new ClientSocket(queue, evt);
+			return new ClientSocket(toSend, toProcess, evt);
 		} else return null;
 	}
 	

@@ -21,6 +21,7 @@ public class RMICommunicator implements Communicator {
 	
 	public RMICommunicator(RMIRemoteObjectInterface remoteView) {
 		this.remoteView = remoteView;
+		System.out.println("Creating a new RMI communicator !");
 	}
 	
 	public void send(Event evt) throws RemoteException {
@@ -33,6 +34,11 @@ public class RMICommunicator implements Communicator {
 		//CHI CHIAMA QUESTO METODO SI PONE IN ATTESA DI RICEVERE UN EVENTO DALL'OGGETTO REMOTO E LO METTE IN evt
 		NotifyEvent evt = null;/*remoteView.grabEvent();*/
 		return evt;
+	}
+
+	@Override
+	public void closeCommunicator() throws RemoteException {
+		remoteView = null;
 	}
 
 }

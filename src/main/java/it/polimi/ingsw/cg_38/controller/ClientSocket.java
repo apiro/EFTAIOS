@@ -10,24 +10,26 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ClientSocket extends Client implements Runnable {
 
-	private ConcurrentLinkedQueue<Event> queue;
-	private Boolean clientAlive;
+	private Boolean clientAlive = true;
 	private int clientServerPort;
-	private EventSubscribe evt;
+	private ConcurrentLinkedQueue<Event> toSend;
 
 	/**
-	 * QUESTO OGGETTO INVIA AL SERVER I MESSAGGI CHE TROVA NELLA SUA CODA.
+	 * QUESTO OGGETTO INVIA AL SERVER I MESSAGGI CHE TROVA NELLA SUA CODA E GENERA IL THREAD DI RICEZIONE MESSAGGI
+	 * PUB SUB
 	 * */
 	
-	public ClientSocket(ConcurrentLinkedQueue<Event> queue, EventSubscribe evt) {
-		this.queue = queue;
-		this.evt = evt;
+	public ClientSocket(ConcurrentLinkedQueue<Event> toSend, ConcurrentLinkedQueue<Event> toProcess, EventSubscribe evt) {
+		this.toSend = toSend;
+		Subscriber subscriber = new Subscriber(evt, toProcess);
+		Thread t = new Thread(subscriber, "PubSubReceiver");
+		t.start();
 	}
 
 	@Override
 	public void run() {
 		while(clientAlive) {
-			Event msg = queue.poll();
+			Event msg = toSend.poll();
 			if(msg != null) {
 				try {
 					 Socket socket = null;
@@ -38,9 +40,10 @@ public class ClientSocket extends Client implements Runnable {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					 communicator.send(msg);
+					communicator.send(msg);
+					communicator.closeCommunicator();
 				} catch (RemoteException e) {
-					e.printStackTrace();
+					System.out.println("Problems with socket connection ! Check if the server is online ...");
 				}
 			}
 		}

@@ -43,13 +43,13 @@ public class SocketCommunicator implements Communicator {
 
 	public void send(Event evt) {
 		//client o server inviano un evento
-		try {
+		/*try {
 			Socket socket = new Socket("localhost", 4322);
 			System.out.println("Creating a socket with the Client/Server serverSocket !");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		this.setSocket(socket);
+		this.setSocket(socket);*/
 		try {
 			this.initCommunicator();
 		} catch (IOException e1) {
@@ -81,14 +81,12 @@ public class SocketCommunicator implements Communicator {
 		 * è il costruttore per chi deve ricevere un evento SUL socket passato
 		 * */
 		this.setSocket(socket);
-		System.out.println("Creating a new empty socket communicator !");
+		System.out.println("Creating a new socket communicator !");
 	}
 	
 	public Event recieveEvent() {
 		//SERVER SI METTE IN RICEZIONE DI UN GAMEEVENT DAL CLIENT
 		
-		//la receive invece deve creare un thread per gestire i 
-		//dati ricevuti
 		try {
 			this.initCommunicator();
 		} catch (IOException e1) {
@@ -105,7 +103,7 @@ public class SocketCommunicator implements Communicator {
 		return evt;
 	}
 	
-	public void closeSocket(){
+	public void closeCommunicator(){
 		try {
 			this.getOutputStream().close();
 			this.getInputStream().close();

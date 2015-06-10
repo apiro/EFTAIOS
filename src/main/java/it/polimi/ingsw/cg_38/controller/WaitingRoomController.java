@@ -58,6 +58,8 @@ public class WaitingRoomController extends Observable implements Runnable {
 		System.out.println("RUNNING: " + gc.getTopic() + " ...");
 		System.out.println("---------------------------------------------------------------------\n");
 		//E' LA FASE DI SETTAGGIO A RUNNING DEL GIOCO
+		this.setChanged();
+		this.notifyObservers(gc.getTopic());
 		gc.assignAvatars();
 		gc.getBuffer().add(new EventNotifyEnvironment(gc.getGameModel().getGamePlayers(), gc.getGameModel().getGameMap()));
 		this.setChanged();

@@ -16,17 +16,19 @@ public class ClientRMI extends Client implements Runnable {
 	 * */
 	
 	private Registry registry;
-	private ConcurrentLinkedQueue<Event> queue;
 	private EventSubscribe evt;
-	private Boolean clientAlive;
+	private Boolean clientAlive = true;
+	private ConcurrentLinkedQueue<Event> toSend;
+	private ConcurrentLinkedQueue<Event> toProcess;
 
-	public ClientRMI(ConcurrentLinkedQueue<Event> queue, EventSubscribe evt) {
+	public ClientRMI(ConcurrentLinkedQueue<Event> toSend, ConcurrentLinkedQueue<Event> toProcess, EventSubscribe evt) {
 		this.evt = evt;
-		this.queue = queue;
+		this.toSend = toSend;
+		this.toProcess = toProcess;
 		try {
 			this.initClientRMI();
 		} catch (RemoteException e) {
-			e.printStackTrace();
+			System.out.println("Problems with the RMI connection ! Check if the server is online ...");
 		}
 	}
 	
@@ -47,7 +49,7 @@ public class ClientRMI extends Client implements Runnable {
 		System.out.println(game.isLoginValid("test"));*/
 		
 
-		RMIRemoteObjectInterface clientView = new ClientView(queue);
+		RMIRemoteObjectInterface clientView = new ClientView(toProcess);
 		RMIRemoteObjectInterface serverView = game.register(clientView, evt);
 		
 		communicator = new RMICommunicator(serverView);
@@ -56,7 +58,7 @@ public class ClientRMI extends Client implements Runnable {
 	@Override
 	public void run() {
 		while(clientAlive) {
-			Event msg = queue.poll();
+			Event msg = toSend.poll();
 			if(msg != null) {
 				try {
 					communicator.send(msg);
@@ -65,6 +67,10 @@ public class ClientRMI extends Client implements Runnable {
 				}
 			}
 		}
+		try {
+			communicator.closeCommunicator();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
-
 }

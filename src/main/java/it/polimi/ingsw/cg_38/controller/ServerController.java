@@ -83,22 +83,13 @@ public class ServerController extends Observable {
 				System.out.println("Parsing Event... : " + msg.toString());
 				GameController gcFound = null;
 				Action generatedAction = GameActionCreator.createGameAction(msg);
-				if(msg instanceof EventSubscribe) {
-					//se l'evento è di sottoscrizione ad un game, iniziato o no questo lo gestisce la perform dell'azione corrisp
-					System.out.println("New subscribe event !");
-		    		callbackEvent = ((InitGameAction)generatedAction).perform(this);
-		    		gcFound = topics.get(msg.getGenerator().getName());
-		    		
+				gcFound = topics.get(msg.getGenerator().getName());
+				if( msg.getGenerator().getName().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer().getName())) {
+					//se l'evento viene dal giocatore del turno corrente
+					callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 				} else {
-					//se l'evento è di gioco
-					gcFound = topics.get(msg.getGenerator().getName());
-					if( msg.getGenerator().getName().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer().getName())) {
-						//se l'evento viene dal giocatore del turno corrente
-						callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
-					} else {
-						//se l'evento non viene dal gicatore del turno (qualcuno ha inviato un evento fuori turno)
-						callbackEvent = new EventNotYourTurn(msg.getGenerator());
-					}
+					//se l'evento non viene dal gicatore del turno (qualcuno ha inviato un evento fuori turno)
+					callbackEvent = new EventNotYourTurn(msg.getGenerator());
 				}
 				gcFound.addEventToTheQueue(callbackEvent);
 				this.setChanged();

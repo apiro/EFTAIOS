@@ -20,4 +20,6 @@ public interface Communicator {
 	void send(Event evt) throws RemoteException;
 	
 	Event recieveEvent() throws RemoteException;
+	
+	void closeCommunicator() throws RemoteException;
 }

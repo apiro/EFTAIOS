@@ -52,6 +52,7 @@ public class PlayerController extends Thread  {
 		//a questo passo la lista di topic(arraylist di gamecontroller)
 		this.topics = topics;
 		this.communicator = communicator;
+		((SocketCommunicator)communicator).initCommunicator();
 		this.setEventsToProcess(toDispatch);
 	}
 	

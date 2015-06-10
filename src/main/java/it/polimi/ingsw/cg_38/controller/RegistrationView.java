@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
 import it.polimi.ingsw.cg_38.controller.action.Subscribe;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
+import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
 
@@ -15,7 +16,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class RegistrationView extends UnicastRemoteObject implements RMIRegistrationInterface {
 
 	private static final long serialVersionUID = 1L;
-	private ConcurrentLinkedQueue<Event> queue;
+	private ConcurrentLinkedQueue<NotifyEvent> queue = new ConcurrentLinkedQueue<NotifyEvent>();
 	private Event evt;
 	private HashMap<String, GameController> topics;
 	private ServerController server;
@@ -23,7 +24,6 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 	public RegistrationView(ServerController server) throws RemoteException {
 		super();
 		this.server = server;
-		this.queue = server.getToDispatch();
 	}
 	
 	public RMIRemoteObjectInterface register(RMIRemoteObjectInterface clientView, EventSubscribe subEvent) throws RemoteException {
@@ -67,7 +67,16 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 	
 	@Override
 	public void trasmitEventToPublisher(Event evt) {
-		queue.add((GameEvent)evt);
+		
+		System.out.println("CLASS RegistrationView LINE 71");
+		this.queue = server.getTopics().get(evt.getGenerator().getName()).getBuffer();
+		
+		queue.add((NotifyEvent)evt);
+		try {
+			server.getTopics().get(evt.getGenerator().getName()).sendNotifyEvent();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 		synchronized(queue) {
 			queue.notify();
 		}

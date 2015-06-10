@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
+import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 
 import java.io.IOException;
@@ -14,33 +15,31 @@ public class Subscriber implements Runnable {
 
 	private int portPubSub = 3111;
 	private String host = "127.0.0.1";
-	private ConcurrentLinkedQueue<Event> queue;
-	private Boolean clientAlive;
+	private ConcurrentLinkedQueue<Event> toProcess;
+	private Boolean clientAlive = true;
 	private EventSubscribe evt;
 	private Communicator communicator;
 	
-	public Subscriber(EventSubscribe evt, ConcurrentLinkedQueue<Event> queue) {
-		this.queue = queue;
+	public Subscriber(EventSubscribe evt, ConcurrentLinkedQueue<Event> toProcess) {
+		this.toProcess = toProcess;
 		this.evt = evt;
 		this.initSubscriber();
 	}
 	
 	public void initSubscriber() {
 		Socket socketPubSub;
-		ObjectOutputStream out = null;
-		ObjectInputStream in = null;
+		/*ObjectOutputStream out = null;
+		ObjectInputStream in = null;*/
+		
 		try {
 			socketPubSub = new Socket(host, portPubSub);
 			communicator = new SocketCommunicator(socketPubSub);
 			System.out.println("Creating a socket with the PUB/SUB serverSocket !");
-			out = new ObjectOutputStream(socketPubSub.getOutputStream());
-			out.flush();
-			in = new ObjectInputStream(socketPubSub.getInputStream());
-			
-			out.writeObject(evt);
-			out = null;
+			((SocketCommunicator)communicator).initCommunicator();
+			((SocketCommunicator)communicator).getOutputStream().writeObject(evt);
+			((SocketCommunicator)communicator).setOutputStream(null);
 		} catch (IOException e) {
-			System.out.println("Problems with socket connection !");
+			System.out.println("Problems with socket connection ! Check if the server is online ...");
 		}
 	}
 	
@@ -48,10 +47,12 @@ public class Subscriber implements Runnable {
 	public void run() {
 		while(clientAlive) {
 			try {
-				evt = (EventSubscribe)communicator.recieveEvent();
-				queue.add(evt);
-				synchronized(queue) {
-					queue.notify();
+				NotifyEvent notEvt = (NotifyEvent)communicator.recieveEvent();
+				if(notEvt != null) {
+					toProcess.add(notEvt);
+					synchronized(toProcess) {
+						toProcess.notify();
+					}
 				}
 			} catch (RemoteException e) {
 				e.printStackTrace();

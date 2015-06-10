@@ -30,7 +30,7 @@ public class PubSubConnectionsHandler extends Thread {
 			//questa cosa qui sotto aggiungo il communicator che mi è arrivato direttamente alla lista dei comm della 
 			//partita che sta startando.
 			SubscribeController subscribeHandler = null;
-			subscribeHandler = new SubscribeController(new ServerSocketCommunicator(socket), server);
+			subscribeHandler = new SubscribeController(new SocketCommunicator(socket), server);
 			Thread t = new Thread(subscribeHandler, "SubscribeControllerThread");
 			t.start();
 		}
