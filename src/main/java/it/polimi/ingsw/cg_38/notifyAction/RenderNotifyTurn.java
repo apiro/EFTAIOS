@@ -14,7 +14,7 @@ public class RenderNotifyTurn extends NotifyAction {
 
 	@Override
 	public Boolean isPossible(Client client) {
-		return null;
+		return true;
 	}
 
 	@Override

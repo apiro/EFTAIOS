@@ -17,7 +17,10 @@ public class RenderEnvironment extends NotifyAction {
 
 	@Override
 	public Boolean isPossible(Client client) {
-		return null;
+		if(client.getMap() != null) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
