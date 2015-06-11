@@ -13,15 +13,17 @@ public class RenderLoose extends NotifyAction {
 
 	@Override
 	public Boolean isPossible(PlayerClient client) {
-		return null;
+		return true;
 	}
 
 	@Override
 	public GameEvent render(PlayerClient client) {
-		System.out.println("YOU LOOSE !");
-		client.setIsInterfaceBlocked(true);
-		client.setPlayerClientState(PlayerClientState.winner);
-		client.closeClient();
+		if(evt.getGenerator().getName().equals(client.getPlayer().getName())) {
+			System.out.println("YOU LOOSE !");
+			client.setIsInterfaceBlocked(true);
+			client.setPlayerClientState(PlayerClientState.looser);
+			client.closeClient();
+		}
 		return null;
 	}
 
