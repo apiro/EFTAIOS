@@ -20,15 +20,10 @@ public class GameActionCreator {
     public static Action createGameAction(Event evt) {
     	GameEventType type = ((GameEvent)evt).getType();
     	Action action = null;
-<<<<<<< HEAD
     	/*InitGameAction action2 = null;*/
     	if(type.equals(GameEventType.AttackCard)) {
     		action = new Attack(((GameEvent)evt));
     	} else if(type.equals(GameEventType.Attack)) {
-=======
-    	InitGameAction action2 = null;
-    	if(type.equals(GameEventType.Attack)) {
->>>>>>> branch 'master' of https://albypiro@bitbucket.org/albypiro/cg_38.git
     		action = new Attack(((GameEvent)evt));
     	} else if (type.equals(GameEventType.Draw)) {
     		action = new Draw(((GameEvent)evt));
