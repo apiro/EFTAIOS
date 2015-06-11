@@ -287,6 +287,9 @@ public class UseCardTest {
 		
 		model1.setActualTurn(turn3);
 		assertEquals(useAdrenalineCard3.isPossible(model1) , false);
+		model1.setGameState(GameState.ACCEPTING);
+		assertEquals(useLightsCard1.isPossible(model1) , false);
+		model1.setGameState(GameState.RUNNING);
 		assertEquals(useLightsCard1.isPossible(model1) , true);
 		evtDeclarePosition1 = (EventDeclarePosition) useLightsCard1.perform(model1);
 		assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards() , new ArrayList<Card>());
