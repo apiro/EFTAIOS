@@ -33,9 +33,20 @@ public class RenderMoved extends NotifyAction {
 		Scanner in = new Scanner(System.in);
 		client.setPlayer(evt.getGenerator());
 		if(((EventMoved)evt).getMoved().equals("Safe")) {
-			System.out.println("You are in a SAFE sector !");
-			client.setIsInterfaceBlocked(false);
-			return null;
+			System.out.println("You are in a SAFE sector ! Type attack or continue: [A] | [C]");
+			String com = in.nextLine();
+			while(!com.equals("C") && !com.equals("A")) {
+				System.out.println("Command not valid retry !");
+				System.out.println("You are in a DANGEROUS sector ! Type draw or attack :[A] | [C] ?");
+				com = in.nextLine();
+			}
+			if(com.equals("C")) {
+				client.setIsInterfaceBlocked(false);
+				return null;
+			} else if (com.equals("A")) {
+				evt1 = new EventAttack(client.getPlayer(), client.getPlayer().getAvatar().getCurrentSector());
+				return evt1;
+			}
 		} else if(((EventMoved)evt).getMoved().equals("Dangerous")) {
 			System.out.println("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?");
 			String com = in.nextLine();

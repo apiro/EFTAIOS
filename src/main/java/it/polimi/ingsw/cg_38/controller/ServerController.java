@@ -8,6 +8,8 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
 import it.polimi.ingsw.cg_38.controller.action.InitGameAction;
 import it.polimi.ingsw.cg_38.controller.action.GameAction;
+import it.polimi.ingsw.cg_38.gameEvent.EventPlayerLooser;
+import it.polimi.ingsw.cg_38.gameEvent.EventPlayerWinner;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotYourTurn;
@@ -89,7 +91,11 @@ public class ServerController extends Observable {
 					callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 				} else {
 					//se l'evento non viene dal gicatore del turno (qualcuno ha inviato un evento fuori turno)
-					callbackEvent = new EventNotYourTurn(msg.getGenerator());
+					if(msg instanceof EventPlayerLooser || msg instanceof EventPlayerWinner) {
+						callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
+					} else {
+						callbackEvent = new EventNotYourTurn(msg.getGenerator());
+					}
 				}
 				gcFound.addEventToTheQueue(callbackEvent);
 				this.setChanged();

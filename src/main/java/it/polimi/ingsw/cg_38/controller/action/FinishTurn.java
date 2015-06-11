@@ -23,10 +23,13 @@ public class FinishTurn extends GameAction {
 	
 	@Override
 	public NotifyEvent perform(GameModel model) {
-		Player previousTurnPlayer = model.getActualTurn().getCurrentPlayer();
-		model.getActualTurn().getCurrentPlayer().finishTurn();
-		Turn newTurn = new Turn(model.getNextPlayer());
-    	model.setActualTurn(newTurn);
-		return new EventNotifyTurn(newTurn.getCurrentPlayer());
+		if(model.getActualTurn().getHasMoved()) {
+			model.getActualTurn().getCurrentPlayer().finishTurn();
+			Turn newTurn = new Turn(model.getNextPlayer());
+	    	model.setActualTurn(newTurn);
+			return new EventNotifyTurn(newTurn.getCurrentPlayer());
+		} else {
+			return new EventNotifyTurn(model.getActualTurn().getCurrentPlayer());
+		}
 	}
 }

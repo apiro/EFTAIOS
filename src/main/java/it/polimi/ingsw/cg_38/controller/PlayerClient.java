@@ -223,14 +223,19 @@ public class PlayerClient {
 	}
 
 	public Sector askForMoveCoordinates(Scanner in) {
-		System.out.println("----------------------------------------------------------------------");
-		System.out.println("Inserire la riga :");
-    	int userRow = Integer.parseInt(in.nextLine());
-    	System.out.println("Inserire la colonna :");
-    	int userCol = Integer.parseInt(in.nextLine());
-    	Sector toMove = map.searchSectorByCoordinates(userRow, userCol);
-    	System.out.println("----------------------------------------------------------------------");
-    	return toMove;
+		try {
+			System.out.println("----------------------------------------------------------------------");
+			System.out.println("Inserire la riga :");
+	    	int userRow = Integer.parseInt(in.nextLine());
+	    	System.out.println("Inserire la colonna :");
+	    	int userCol = Integer.parseInt(in.nextLine());
+	    	Sector toMove = map.searchSectorByCoordinates(userRow, userCol);
+	    	System.out.println("----------------------------------------------------------------------");
+	    	return toMove;
+		} catch (NumberFormatException e) {
+			System.out.println("Invalid input retry !");
+			return askForMoveCoordinates(in);
+		}
 	}
 
 	public void process(Event msg) {
