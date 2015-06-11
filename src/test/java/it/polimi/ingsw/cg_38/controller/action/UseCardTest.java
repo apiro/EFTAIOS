@@ -202,8 +202,8 @@ public class UseCardTest {
 		
 		evtAdren1 = new EventAdren(player1 , adrenalineCard1);
 		evtAdren2 = new EventAdren(player2 , adrenalineCard2);
-		evtAttackCard1 = new EventAttackCard(player5 , attackCard1 , sector4);
-		evtAttackCard2 = new EventAttackCard(player6 , attackCard2 , sector5);
+		evtAttackCard1 = new EventAttackCard(player5 , attackCard1);
+		evtAttackCard2 = new EventAttackCard(player6 , attackCard2);
 		evtLights1 = new EventLights(player3 , sector2 , lightsCard1);
 		evtLights2 = new EventLights(player6 , sector5 , lightsCard2);
 		evtNoiseMySect = new EventNoiseMySect(player2);

@@ -12,7 +12,10 @@ import it.polimi.ingsw.cg_38.gameEvent.EventNoiseMySect;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseRandSect;
 import it.polimi.ingsw.cg_38.gameEvent.EventSedat;
 import it.polimi.ingsw.cg_38.gameEvent.EventTeleport;
+import it.polimi.ingsw.cg_38.model.Avatar;
 import it.polimi.ingsw.cg_38.model.Card;
+import it.polimi.ingsw.cg_38.model.Human;
+import it.polimi.ingsw.cg_38.model.Name;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.Sector;
 
@@ -50,6 +53,8 @@ public class GameActionCreatorTest {
 	
 	Player player1;
 	
+	Avatar avatar1;
+	
 	Card card1;
 	
 	Sector sector1;
@@ -61,9 +66,14 @@ public class GameActionCreatorTest {
 	@Before
 	public void init() throws ParserConfigurationException, Exception{
 		
+		avatar1 = new Human(Name.Human1 , sector1);
+		
+		player1 = new Player("scimmiu");
+		player1.setAvatar(avatar1);
+		
 		evtAdren = new EventAdren(player1 , card1);
 		evtAttack = new EventAttack(player1 , sector1);
-		evtAttackCard = new EventAttackCard(player1 , card1 , sector1);
+		evtAttackCard = new EventAttackCard(player1 , card1);
 		evtDraw = new EventDraw(player1);
 		evtFinishTurn = new EventFinishTurn(player1);
 		evtLights = new EventLights(player1 , sector1 , card1);
