@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
+import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 
 import java.io.IOException;
@@ -43,8 +44,10 @@ public class ClientSocket extends Client implements Runnable {
 						e.printStackTrace();
 					}
 					communicator.send(msg);
-					Event received = communicator.recieveEvent();
-					this.toProcess.add(received);
+					if(!((GameEvent)msg).getNotifyEventIsBroadcast()) {
+						Event received = communicator.recieveEvent();
+						this.toProcess.add(received);
+					}
 					communicator.closeCommunicator();
 				} catch (RemoteException e) {
 					System.out.println("Problems with socket connection ! Check if the server is online ...");

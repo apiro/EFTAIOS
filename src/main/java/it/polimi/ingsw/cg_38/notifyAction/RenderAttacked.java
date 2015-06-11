@@ -16,10 +16,9 @@ public class RenderAttacked extends NotifyAction {
 
 	@Override
 	public Boolean isPossible(PlayerClient client) {
-		if(client.getPlayerClientState().equals(PlayerClientState.isTurn)){
-			return true;
-		}
-		return false;
+		//deve sempre ritornare true perchè l'evento di attaccato deve essere processato anche
+		//da chi non è del turno(anche chi è stato attaccato deve fare la render)
+		return true;
 	}
 
 	@Override
