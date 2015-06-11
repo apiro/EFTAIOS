@@ -21,9 +21,7 @@ public class GameActionCreator {
     	GameEventType type = ((GameEvent)evt).getType();
     	Action action = null;
     	/*InitGameAction action2 = null;*/
-    	if(type.equals(GameEventType.AttackCard)) {
-    		action = new Attack(((GameEvent)evt));
-    	} else if(type.equals(GameEventType.Attack)) {
+    	if(type.equals(GameEventType.Attack)) {
     		action = new Attack(((GameEvent)evt));
     	} else if (type.equals(GameEventType.Draw)) {
     		action = new Draw(((GameEvent)evt));

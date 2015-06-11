@@ -14,8 +14,8 @@ public class Winner extends GameAction {
 
 	@Override
 	public NotifyEvent perform(GameModel model) {
-		model.getGamePlayers().remove(model.getActualTurn().getCurrentPlayer());
-		
+		model.getGamePlayers().remove(super.getPlayer());
+		//DOVREI  togliere riferimenti al giocatore nel server e nel topic
 		return new EventNotifyWin(model.getActualTurn().getCurrentPlayer());
 	}
 

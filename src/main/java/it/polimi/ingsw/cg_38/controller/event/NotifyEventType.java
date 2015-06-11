@@ -12,5 +12,6 @@ public enum NotifyEventType {
 	notifyTurn, 
 	environment, 
 	Noise, 
-	notWin
+	notWin, 
+	notLoose
 }

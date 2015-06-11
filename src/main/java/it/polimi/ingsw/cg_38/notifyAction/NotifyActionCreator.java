@@ -27,12 +27,12 @@ public class NotifyActionCreator {
     		action = new RenderMoved((NotifyEvent) evt);
     	if(type.equals(NotifyEventType.Drown))
     		action = new RenderDrown((NotifyEvent) evt);
-    	if(type.equals(NotifyEventType.Noise)) {
+    	if(type.equals(NotifyEventType.Noise)) 
     		action = new RenderNoise((NotifyEvent) evt);
-    	}
-    	if(type.equals(NotifyEventType.notWin)) {
+    	if(type.equals(NotifyEventType.notWin)) 
     		action = new RenderWin((NotifyEvent) evt);
-    	}
+    	if(type.equals(NotifyEventType.notLoose)) 
+    		action = new RenderLoose((NotifyEvent) evt);
 		return action;
 		
 	}

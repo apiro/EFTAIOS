@@ -4,6 +4,8 @@ import it.polimi.ingsw.cg_38.controller.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.gameEvent.EventPlayerLooser;
+import it.polimi.ingsw.cg_38.gameEvent.EventPlayerWinner;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAttacked;
 
@@ -27,8 +29,8 @@ public class RenderAttacked extends NotifyAction {
 		/*client.setPlayer(evt.getGenerator());*/
 		for(Player pl:((EventAttacked)evt).getKilled()){
 			if(pl.getName().equals(client.getPlayer().getName())) {
-				System.out.println("AN ALIEN KILLED YOU ! YOU LOOSE !");
 				client.setIsInterfaceBlocked(true);
+				return new EventPlayerLooser(client.getPlayer());
 			}
 		}
 		if(((EventAttacked)evt).getGenerator().getName().equals(client.getPlayer().getName()) &&
@@ -36,12 +38,12 @@ public class RenderAttacked extends NotifyAction {
 			System.out.println("You killed an Human ! You are powered!");
 			if(((EventAttacked)evt).getAreThereOtherHumans()) {
 				client.setIsInterfaceBlocked(false);
-			} else if (((EventAttacked)evt).getGenerator().getName().equals(client.getPlayer().getName()) &&
-					!(((EventAttacked)evt).getKilled().size() >= 1)) {
+			} else {
 				client.setIsInterfaceBlocked(true);
-				System.out.println("You Are The Winner !");
+				return new EventPlayerWinner(client.getPlayer());
 			}
-		} else {
+		} else if (((EventAttacked)evt).getGenerator().getName().equals(client.getPlayer().getName()) &&
+				!(((EventAttacked)evt).getKilled().size() >= 1)) {
 			System.out.println("There are no Players in the sector you have choosen !");
 		}
 		return null;
