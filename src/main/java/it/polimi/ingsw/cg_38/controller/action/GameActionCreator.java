@@ -50,6 +50,8 @@ public class GameActionCreator {
     		action = new Winner((GameEvent)evt);
     	} else if (type.equals(GameEventType.looser)) {
     		action = new Looser((GameEvent)evt);
+    	} else if (type.equals(GameEventType.aliensWin)) {
+    		action = new AliensWin((GameEvent)evt);
     	}
 		return action;
     }

@@ -2,7 +2,9 @@ package it.polimi.ingsw.cg_38.controller.action;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.model.EndState;
 import it.polimi.ingsw.cg_38.model.GameModel;
+import it.polimi.ingsw.cg_38.model.LifeState;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyWin;
 
@@ -14,8 +16,12 @@ public class Winner extends GameAction {
 
 	@Override
 	public NotifyEvent perform(GameModel model) {
-		model.getGamePlayers().remove(super.getPlayer());
-		//DOVREI  togliere riferimenti al giocatore nel server e nel topic
+		for(Player pl:model.getGamePlayers()) {
+			if(pl.getName().equals(super.getPlayer().getName())) {
+				pl.getAvatar().setIsAlive(LifeState.ALIVE);
+				pl.getAvatar().setIsWinner(EndState.WINNER);
+			}
+		}
 		return new EventNotifyWin(model.getActualTurn().getCurrentPlayer());
 	}
 

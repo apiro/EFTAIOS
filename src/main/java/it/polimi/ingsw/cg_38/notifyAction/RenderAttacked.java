@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg_38.notifyAction;
 
 import it.polimi.ingsw.cg_38.controller.PlayerClient;
-import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.gameEvent.EventPlayerLooser;
-import it.polimi.ingsw.cg_38.gameEvent.EventPlayerWinner;
+import it.polimi.ingsw.cg_38.model.Alien;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAttacked;
 
@@ -34,11 +34,17 @@ public class RenderAttacked extends NotifyAction {
 		}
 		if(((EventAttacked)evt).getGenerator().getName().equals(client.getPlayer().getName()) &&
 				((EventAttacked)evt).getKilled().size() >= 1) {
-			System.out.println("You killed an Human ! You are powered!");
-			if(((EventAttacked)evt).getAreThereOtherHumans()) {
-				client.setIsInterfaceBlocked(false);
+			System.out.println("You killed someone !");
+			if(((EventAttacked)evt).getGenerator().getAvatar() instanceof Alien) {
+				if(((EventAttacked)evt).getAreThereOtherHumans()) {
+					client.setIsInterfaceBlocked(false);
+					return null;
+				} else {
+					return new EventAliensWinner(client.getPlayer());
+				}
 			} else {
-				return new EventPlayerWinner(client.getPlayer());
+				client.setIsInterfaceBlocked(false);
+				return null;
 			}
 		} else if (((EventAttacked)evt).getGenerator().getName().equals(client.getPlayer().getName()) &&
 				!(((EventAttacked)evt).getKilled().size() >= 1)) {

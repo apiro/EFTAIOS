@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.model.Sector;
 
 public class EventAttack extends GameEvent {
 
+	private static final long serialVersionUID = 1L;
 	private Sector target;
 	
 	public Sector getTarget() {

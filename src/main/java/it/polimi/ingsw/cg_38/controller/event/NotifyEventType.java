@@ -13,5 +13,6 @@ public enum NotifyEventType {
 	environment, 
 	Noise, 
 	notWin, 
-	notLoose
+	notLoose, 
+	aliensWin
 }

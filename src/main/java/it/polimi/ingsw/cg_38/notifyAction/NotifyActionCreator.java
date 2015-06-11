@@ -33,6 +33,8 @@ public class NotifyActionCreator {
     		action = new RenderWin((NotifyEvent) evt);
     	if(type.equals(NotifyEventType.notLoose)) 
     		action = new RenderLoose((NotifyEvent) evt);
+    	if(type.equals(NotifyEventType.aliensWin))
+    		action = new RenderAliensWin((NotifyEvent)evt);
 		return action;
 		
 	}
