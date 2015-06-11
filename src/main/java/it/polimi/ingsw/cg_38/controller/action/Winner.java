@@ -15,6 +15,7 @@ public class Winner extends GameAction {
 	@Override
 	public NotifyEvent perform(GameModel model) {
 		model.getGamePlayers().remove(model.getActualTurn().getCurrentPlayer());
+		
 		return new EventNotifyWin(model.getActualTurn().getCurrentPlayer());
 	}
 
