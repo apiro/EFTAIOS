@@ -3,7 +3,10 @@ package it.polimi.ingsw.cg_38.gameEvent;
 
 import static org.junit.Assert.*;
 import it.polimi.ingsw.cg_38.controller.event.GameEventType;
+import it.polimi.ingsw.cg_38.model.Avatar;
 import it.polimi.ingsw.cg_38.model.Card;
+import it.polimi.ingsw.cg_38.model.Human;
+import it.polimi.ingsw.cg_38.model.Name;
 import it.polimi.ingsw.cg_38.model.ObjectCard;
 import it.polimi.ingsw.cg_38.model.ObjectCardType;
 import it.polimi.ingsw.cg_38.model.Player;
@@ -32,6 +35,8 @@ public class GameEventTest {
 	
 	Player player1;
 	
+	Avatar avatar1;
+	
 	Sector sector1;
 	
 	String room;
@@ -48,8 +53,12 @@ public class GameEventTest {
 	public void init() throws ParserConfigurationException, Exception {
 		
 		player1 = new Player("Albi");
-		
+				
 		sector1 = new Sector();
+		
+		avatar1 = new Human(Name.Human1 , sector1);
+		
+		player1.setAvatar(avatar1);
 		
 		room = "room1";
 		

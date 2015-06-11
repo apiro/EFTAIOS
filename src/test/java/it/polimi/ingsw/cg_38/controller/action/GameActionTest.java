@@ -236,7 +236,7 @@ public class GameActionTest {
 			
 			assertEquals(finishTurn.isPossible(model1) , true);
 			evtNotifyTurn = (EventNotifyTurn)finishTurn.perform(model1);
-			assertEquals(evtNotifyTurn.getPlayerOfTurn() , player3);
+			assertEquals(evtNotifyTurn.getPlayerOfTurn() , model1.getNextPlayer());
 			
 			model1.setActualTurn(turn3);
 			assertEquals(move.isPossible(model1) , true);
