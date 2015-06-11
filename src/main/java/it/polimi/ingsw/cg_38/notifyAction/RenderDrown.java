@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseMySect;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseRandSect;
+import it.polimi.ingsw.cg_38.gameEvent.EventPlayerWinner;
 import it.polimi.ingsw.cg_38.model.HatchCard;
 import it.polimi.ingsw.cg_38.model.HatchCardType;
 import it.polimi.ingsw.cg_38.model.SectorCard;
@@ -53,13 +54,10 @@ public class RenderDrown extends NotifyAction {
 		} else if (((EventDrown)evt).getDrown() instanceof HatchCard) {
 			HatchCard card = ((HatchCard)((EventDrown)evt).getDrown());
 			if(card.getColor().equals(HatchCardType.Green)) {
-				//se sono umano
-				System.out.println("WINNER");
-				//send event of "player generator wins"
-				//se sono alieno niente
+				evt1 = new EventPlayerWinner(client.getPlayer());
 			} else if(card.getColor().equals(HatchCardType.Red)) {
-				//niente
 				client.setIsInterfaceBlocked(false);
+				System.out.println("You can't escape frome the SpaceShip !");
 				return null;
 			}
 		}

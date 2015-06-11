@@ -13,9 +13,8 @@ public class NotifyActionCreator {
 	public static Action createNotifyAction(Event evt) {
 		NotifyEventType type = ((NotifyEvent)evt).getType();
     	Action action = null;
-    	if(type.equals(NotifyEventType.Added)) {
+    	if(type.equals(NotifyEventType.Added)) 
     		action = new AddedToGame((NotifyEvent) evt);
-    	} /*else if (type.equals(NotifyEventType.))*/
     	if(type.equals(NotifyEventType.environment))
     		action = new RenderEnvironment((NotifyEvent) evt);
     	if(type.equals(NotifyEventType.Attacked))
@@ -30,6 +29,9 @@ public class NotifyActionCreator {
     		action = new RenderDrown((NotifyEvent) evt);
     	if(type.equals(NotifyEventType.Noise)) {
     		action = new RenderNoise((NotifyEvent) evt);
+    	}
+    	if(type.equals(NotifyEventType.notWin)) {
+    		action = new RenderWin((NotifyEvent) evt);
     	}
 		return action;
 		

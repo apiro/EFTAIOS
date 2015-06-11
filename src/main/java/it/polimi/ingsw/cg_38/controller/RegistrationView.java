@@ -68,7 +68,6 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 	@Override
 	public void trasmitEventToPublisher(Event evt) {
 		
-		System.out.println("CLASS RegistrationView LINE 71");
 		this.queue = server.getTopics().get(evt.getGenerator().getName()).getBuffer();
 		
 		queue.add((NotifyEvent)evt);

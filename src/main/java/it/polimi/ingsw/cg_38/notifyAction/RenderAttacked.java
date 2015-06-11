@@ -34,7 +34,13 @@ public class RenderAttacked extends NotifyAction {
 		if(((EventAttacked)evt).getGenerator().getName().equals(client.getPlayer().getName()) &&
 				((EventAttacked)evt).getKilled().size() >= 1) {
 			System.out.println("You killed an Human ! You are powered!");
-			client.setIsInterfaceBlocked(false);
+			if(((EventAttacked)evt).getAreThereOtherHumans()) {
+				client.setIsInterfaceBlocked(false);
+			} else if (((EventAttacked)evt).getGenerator().getName().equals(client.getPlayer().getName()) &&
+					!(((EventAttacked)evt).getKilled().size() >= 1)) {
+				client.setIsInterfaceBlocked(true);
+				System.out.println("You Are The Winner !");
+			}
 		} else {
 			System.out.println("There are no Players in the sector you have choosen !");
 		}

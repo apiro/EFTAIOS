@@ -48,6 +48,10 @@ public class GameActionCreator {
     		return action;
     	} else if (type.equals(GameEventType.subscribe)) {
     		action = new Subscribe((GameEvent)evt);
+    	} else if (type.equals(GameEventType.winner)) {
+    		action = new Winner((GameEvent)evt);
+    	} else if (type.equals(GameEventType.looser)) {
+    		action = new Looser((GameEvent)evt);
     	}
 		return action;
     }

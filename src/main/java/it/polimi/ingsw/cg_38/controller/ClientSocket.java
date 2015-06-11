@@ -15,6 +15,7 @@ public class ClientSocket extends Client implements Runnable {
 	private int clientServerPort= 4322;
 	private ConcurrentLinkedQueue<Event> toSend;
 	private ConcurrentLinkedQueue<Event> toProcess;
+	private Thread pubSubReceiver;
 
 	/**
 	 * QUESTO OGGETTO INVIA AL SERVER I MESSAGGI CHE TROVA NELLA SUA CODA E GENERA IL THREAD DI RICEZIONE MESSAGGI
@@ -25,8 +26,12 @@ public class ClientSocket extends Client implements Runnable {
 		this.toSend = toSend;
 		this.toProcess = toProcess;
 		Subscriber subscriber = new Subscriber(evt, toProcess);
-		Thread t = new Thread(subscriber, "PubSubReceiver");
-		t.start();
+		pubSubReceiver = new Thread(subscriber, "PubSubReceiver");
+		pubSubReceiver.start();
+	}
+
+	public Thread getPubSubReceiver() {
+		return pubSubReceiver;
 	}
 
 	@Override

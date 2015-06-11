@@ -41,6 +41,7 @@ public class PlayerClient {
 	private Boolean clientAlive = true;
 	private Boolean isInterfaceBlocked = true;
 	private Map map;
+	private Thread gameEventSender;
 	
 	public PlayerClient() {
 		this.initPlayer();
@@ -53,8 +54,8 @@ public class PlayerClient {
 		connection = this.askForTypeOfConnection();
 		evt = this.askForEventSubscribe();
 		client = Client.clientCreator(connection, toSend, toProcess, evt);
-		Thread t = new Thread(client, "GameEventSender");
-		t.start();
+		gameEventSender = new Thread(client, "GameEventSender");
+		gameEventSender.start();
 	}
 
 	public String askForTypeOfConnection() {
@@ -257,6 +258,10 @@ public class PlayerClient {
 
 	public void setIsInterfaceBlocked(Boolean isInterfaceBlocked) {
 		this.isInterfaceBlocked = isInterfaceBlocked;
+	}
+
+	public void closeClient() {
+		this.gameEventSender.interrupt();
 	}
 	
 }
