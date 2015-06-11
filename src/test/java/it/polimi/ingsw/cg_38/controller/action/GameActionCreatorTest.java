@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg_38.controller.action;
 
 import static org.junit.Assert.*;
 import it.polimi.ingsw.cg_38.gameEvent.EventAdren;
+import it.polimi.ingsw.cg_38.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttackCard;
 import it.polimi.ingsw.cg_38.gameEvent.EventDraw;
@@ -43,6 +44,7 @@ public class GameActionCreatorTest {
 	EventSedat evtSedat;
 	EventTeleport evtTeleport;
 	EventSubscribe evtSubscribe;
+	EventAliensWinner evtAliensWinner;
 	
 	Attack attack1;
 	Draw draw;
@@ -102,6 +104,7 @@ public class GameActionCreatorTest {
 		evtSedat = new EventSedat(player1 , card1);
 		evtSubscribe = new EventSubscribe(player1 , room , map);
 		evtTeleport = new EventTeleport(player1 , card1);
+		evtAliensWinner = new EventAliensWinner(player1);
 				
 	}
 
@@ -122,6 +125,7 @@ public class GameActionCreatorTest {
 		assertTrue(GameActionCreator.createGameAction(evtSedat) instanceof UseSedativesCard);
 		assertTrue(GameActionCreator.createGameAction(evtSubscribe) instanceof Subscribe);
 		assertTrue(GameActionCreator.createGameAction(evtTeleport) instanceof UseTeleportCard);
+		assertTrue(GameActionCreator.createGameAction(evtAliensWinner) instanceof AliensWin);
 		
 	}
 

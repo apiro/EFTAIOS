@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 
 import it.polimi.ingsw.cg_38.controller.GameState;
+import it.polimi.ingsw.cg_38.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.gameEvent.EventFinishTurn;
@@ -42,6 +43,7 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventAttacked;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDrown;
 import it.polimi.ingsw.cg_38.notifyEvent.EventFinishedTurn;
 import it.polimi.ingsw.cg_38.notifyEvent.EventMoved;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyAliensWin;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyLoose;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTurn;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyWin;
@@ -66,7 +68,8 @@ public class GameActionTest {
 	Move move3;
 	Looser looser;
 	Winner winner;
-	
+	AliensWin aliensWin1;
+	AliensWin aliensWin2;	
 
 	EventDraw evtDraw1;
 	EventDraw evtDraw2;
@@ -83,6 +86,8 @@ public class GameActionTest {
 	EventMove evtMove3;
 	EventPlayerWinner evtPlayerWinner;
 	EventPlayerLooser evtPlayerLooser;
+	EventAliensWinner evtAliensWinner1;
+	EventAliensWinner evtAliensWinner2;
 	
 	EventAttacked evtAttacked1;
 	EventAttacked evtAttacked2;
@@ -93,6 +98,7 @@ public class GameActionTest {
 	EventMoved evtMoved;
 	EventNotifyTurn evtNotifyTurn;
 	EventNotifyTurn evtNotifyTurn2;
+	EventNotifyAliensWin evtNotifyAliensWin;
 	
 	Player player1;
 	Player player2;
@@ -180,7 +186,7 @@ public class GameActionTest {
 		avatar3 = new Human(Name.Human1 , sector2);
 		avatar4 = new Human(Name.Human2 , sector4);
 		avatar5 = new Human(Name.Human3 , sector5);
-		avatar6 = new Alien(Name.Alien3 , sector2);
+		avatar6 = new Alien(Name.Alien3 , sector4);
 		
 		sectorList1 = new ArrayList<SectorCard>();
 		objectList1 = new ArrayList<ObjectCard>();
@@ -212,6 +218,8 @@ public class GameActionTest {
 		evtMove3 = new EventMove(player2 , sector4);
 		evtPlayerWinner = new EventPlayerWinner(player5);
 		evtPlayerLooser = new EventPlayerLooser(player6);
+		evtAliensWinner1 = new EventAliensWinner(player3);
+		evtAliensWinner2 = new EventAliensWinner(player1);
 		
 		draw1 = new Draw(evtDraw1);
 		draw2 = new Draw(evtDraw2);
@@ -228,6 +236,8 @@ public class GameActionTest {
 		move3 = new Move(evtMove3);
 		winner = new Winner(evtPlayerWinner);
 		looser = new Looser(evtPlayerLooser);
+		aliensWin1 = new AliensWin(evtAliensWinner1);
+		aliensWin2 = new AliensWin(evtAliensWinner2);
 		
 		player1.setAvatar(avatar1);
 		player2.setAvatar(avatar2);
@@ -277,20 +287,20 @@ public class GameActionTest {
 			assertEquals(objectCard1 , evtDrown2.getAdded());
 			model1.getActualTurn().setHasAttacked(true);
 			assertEquals(attack2.isPossible(model1) , false);
+			aliensWin2.perform(model1);
+			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsWinner() , EndState.WINNER);
 			
 			model1.setActualTurn(turn2);
 			model1.getActualTurn().setHasMoved(false);
 			assertEquals(move3.isPossible(model1) , false);
 			model1.getActualTurn().setHasMoved(true);
+			
 			assertEquals(draw1.isPossible(model1) , true);
 			assertEquals(attack1.isPossible(model1) , true);
 			evtAttacked1 = (EventAttacked)attack1.perform(model1);
 
-
 			killedPlayer.add(player1);
 			killedPlayer.add(player3);
-			killedPlayer.add(player6);
-			
 			
 			assertEquals(killedPlayer , evtAttacked1.getKilled());	
 			
@@ -320,6 +330,7 @@ public class GameActionTest {
 			model1.getActualTurn().setHasMoved(false);
 			evtNotifyTurn2 = (EventNotifyTurn)finishTurn3.perform(model1);
 			assertEquals(evtNotifyTurn2.getPlayerOfTurn() , player3);
+			evtNotifyAliensWin = (EventNotifyAliensWin)aliensWin1.perform(model1);
 			
 			
 			model1.setActualTurn(turn4);
@@ -351,7 +362,7 @@ public class GameActionTest {
 			looser.perform(model1);
 			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsAlive() , LifeState.DEAD);
 			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsWinner() , EndState.LOOSER);
-
+			
 			
 	}
 } 
