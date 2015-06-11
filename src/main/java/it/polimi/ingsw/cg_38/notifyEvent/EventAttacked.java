@@ -11,6 +11,15 @@ public class EventAttacked extends NotifyEvent {
 	private static final long serialVersionUID = 1L;
 	
 	private Boolean areYouPowered;
+	private Boolean areThereOtherHumans;
+	public Boolean getAreThereOtherHumans() {
+		return areThereOtherHumans;
+	}
+
+	public void setAreThereOtherHumans(Boolean areThereOtherHumans) {
+		this.areThereOtherHumans = areThereOtherHumans;
+	}
+
 	private ArrayList<Player> killed = new ArrayList<Player>();
 	
 	public Boolean getAreYouPowered() {
@@ -21,8 +30,9 @@ public class EventAttacked extends NotifyEvent {
 		this.areYouPowered = areYouPowered;
 	}
 
-	public EventAttacked(Player generator, ArrayList<Player> killed) {
+	public EventAttacked(Player generator, ArrayList<Player> killed, Boolean areThereOtherHumans) {
 		super(generator, true);
+		this.setAreThereOtherHumans(areThereOtherHumans);
 		super.setType(NotifyEventType.Attacked);
 		this.setKilled(killed);
 		this.setAreYouPowered(generator.getAvatar().getIsPowered());

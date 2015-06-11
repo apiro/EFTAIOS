@@ -41,6 +41,7 @@ public class Attack extends GameAction {
        		//del gicatore attaccato
        		if(pl.getAvatar().attacked()) {
        		//se l'attacco è andato a buon fine sul giocatore i che si trovava nel settore che hai attaccato
+       	    	model.getGamePlayers().remove(pl);
        			if(this.currentAvatarType(model).equals("Alien")) {
        				model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
        			} else {
@@ -51,7 +52,17 @@ public class Attack extends GameAction {
        		}
         }
         model.getActualTurn().setHasAttacked(true);
-        return new EventAttacked(model.getActualTurn().getCurrentPlayer(), killed);
+        
+        Boolean areAllAliens = true;
+        for(Player pl:model.getGamePlayers()) {
+        	if(pl.getAvatar() instanceof Human) {
+        		areAllAliens = false;
+        	}
+        }
+        if(areAllAliens) {
+        	return new EventAttacked(model.getActualTurn().getCurrentPlayer(), killed, false);
+        }
+        return new EventAttacked(model.getActualTurn().getCurrentPlayer(), killed, true);
     }
 
     /**
