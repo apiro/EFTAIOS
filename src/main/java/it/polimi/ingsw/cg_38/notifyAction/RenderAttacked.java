@@ -29,7 +29,6 @@ public class RenderAttacked extends NotifyAction {
 		/*client.setPlayer(evt.getGenerator());*/
 		for(Player pl:((EventAttacked)evt).getKilled()){
 			if(pl.getName().equals(client.getPlayer().getName())) {
-				client.setIsInterfaceBlocked(true);
 				return new EventPlayerLooser(client.getPlayer());
 			}
 		}
@@ -39,7 +38,6 @@ public class RenderAttacked extends NotifyAction {
 			if(((EventAttacked)evt).getAreThereOtherHumans()) {
 				client.setIsInterfaceBlocked(false);
 			} else {
-				client.setIsInterfaceBlocked(true);
 				return new EventPlayerWinner(client.getPlayer());
 			}
 		} else if (((EventAttacked)evt).getGenerator().getName().equals(client.getPlayer().getName()) &&

@@ -19,6 +19,7 @@ public class RenderWin extends NotifyAction {
 	@Override
 	public GameEvent render(PlayerClient client) {
 		System.out.println("YOU WIN !");
+		client.setIsInterfaceBlocked(true);
 		client.setPlayerClientState(PlayerClientState.winner);
 		client.closeClient();
 		return null;
