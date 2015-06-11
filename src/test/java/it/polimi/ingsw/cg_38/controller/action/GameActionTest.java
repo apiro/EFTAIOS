@@ -22,11 +22,13 @@ import it.polimi.ingsw.cg_38.model.HatchCard;
 import it.polimi.ingsw.cg_38.model.HatchCardType;
 import it.polimi.ingsw.cg_38.model.HatchDeck;
 import it.polimi.ingsw.cg_38.model.Human;
+import it.polimi.ingsw.cg_38.model.HumanStartingPoint;
 import it.polimi.ingsw.cg_38.model.Name;
 import it.polimi.ingsw.cg_38.model.ObjectCard;
 import it.polimi.ingsw.cg_38.model.ObjectCardType;
 import it.polimi.ingsw.cg_38.model.ObjectDeck;
 import it.polimi.ingsw.cg_38.model.Player;
+import it.polimi.ingsw.cg_38.model.Safe;
 import it.polimi.ingsw.cg_38.model.Sector;
 import it.polimi.ingsw.cg_38.model.SectorCard;
 import it.polimi.ingsw.cg_38.model.SectorCardType;
@@ -46,23 +48,27 @@ public class GameActionTest {
 	Draw draw1;
 	Draw draw2;
 	Draw draw3;
+	Draw draw4;
 	Attack attack1;
 	Attack attack2;
 	FinishTurn finishTurn;
 	FinishTurn finishTurn2;
 	Move move;
 	Move move2;
+	Move move3;
 	
 
 	EventDraw evtDraw1;
 	EventDraw evtDraw2;
 	EventDraw evtDraw3;
+	EventDraw evtDraw4;
 	EventFinishTurn evtFinishTurn;
 	EventFinishTurn evtFinishTurn2;
 	EventAttack evtAttack1;
 	EventAttack evtAttack2;
 	EventMove evtMove;
 	EventMove evtMove2;
+	EventMove evtMove3;
 	
 	EventAttacked evtAttacked1;
 	EventDrown evtDrown1;
@@ -76,11 +82,13 @@ public class GameActionTest {
 	Player player2;
 	Player player3;
 	Player player4;
+	Player player5;
 	
 	Turn turn1;
 	Turn turn2;
 	Turn turn3;
 	Turn turn4;
+	Turn turn5;
 	
 	ArrayList<SectorCard> sectorList1;
 	ArrayList<ObjectCard> objectList1;
@@ -101,11 +109,14 @@ public class GameActionTest {
 	Sector sector2;
 	Sector sector3;
 	Sector sector4;
+	Sector sector5;
+	Sector sector6;
 	
 	Avatar avatar1;
 	Avatar avatar2;
 	Avatar avatar3;
 	Avatar avatar4;
+	Avatar avatar5;
 	
 	GameModel model1;
 	
@@ -122,6 +133,7 @@ public class GameActionTest {
 		player2.getAvatar();
 		player3 = new Player("shane");
 		player4 = new Player("diffi");
+		player5 = new Player("reda");
 		
 		model1 = new GameModel("Galvani");
 		model1.setGameState(GameState.RUNNING);
@@ -132,6 +144,7 @@ public class GameActionTest {
 		turn2.setHasMoved(true);
 		turn3 = new Turn(player3);
 		turn4 = new Turn(player4);
+		turn5 = new Turn(player5);
 		
 		sector1 = new Dangerous();
 		sector1.setCol(5);
@@ -139,11 +152,14 @@ public class GameActionTest {
 		sector2 = model1.getGameMap().getTable().get(3).get(6);
 		sector3 = model1.getGameMap().getTable().get(3).get(5);
 		sector4 = new Hatch();
+		sector5 = new HumanStartingPoint();
+		sector6 = new Safe();
 		
 		avatar1 = new Alien(Name.Alien1 , sector2);
 		avatar2 = new Alien(Name.Alien2 , sector2);
 		avatar3 = new Human(Name.Human1 , sector2);
 		avatar4 = new Human(Name.Human2 , sector4);
+		avatar5 = new Human(Name.Human3 , sector5);
 		
 		sectorList1 = new ArrayList<SectorCard>();
 		objectList1 = new ArrayList<ObjectCard>();
@@ -163,31 +179,37 @@ public class GameActionTest {
 		evtDraw1 = new EventDraw(player1);
 		evtDraw2 = new EventDraw(player1);
 		evtDraw3 = new EventDraw(player4);
+		evtDraw4 = new EventDraw(player5);
 		evtAttack1 = new EventAttack(player2 , sector2);
 		evtAttack2 = new EventAttack(player1 , sector1);
 		evtFinishTurn = new EventFinishTurn(player2);
 		evtFinishTurn2 = new EventFinishTurn(player4);
 		evtMove = new EventMove(player3 , sector3);
 		evtMove2 = new EventMove(player3 , sector2);
+		evtMove3 = new EventMove(player2 , sector4);
 		
 		draw1 = new Draw(evtDraw1);
 		draw2 = new Draw(evtDraw2);
 		draw3 = new Draw(evtDraw3);
+		draw4 = new Draw(evtDraw4);
 		attack1 = new Attack(evtAttack1);
 		attack2 = new Attack(evtAttack2);
 		finishTurn = new FinishTurn(evtFinishTurn);
 		finishTurn2 = new FinishTurn(evtFinishTurn2);
 		move = new Move(evtMove);
 		move2 = new Move(evtMove2);
+		move3 = new Move(evtMove3);
 		
 		player1.setAvatar(avatar1);
 		player2.setAvatar(avatar2);
 		player3.setAvatar(avatar3);
 		player4.setAvatar(avatar4);
+		player5.setAvatar(avatar5);
 		addPlayers.add(player1);
 		addPlayers.add(player2);
 		addPlayers.add(player3);
 		addPlayers.add(player4);
+		addPlayers.add(player5);
 		model1.setGamePlayers(addPlayers);
 		
 		sectorList1.add((SectorCard)sectorCard1);
@@ -224,6 +246,7 @@ public class GameActionTest {
 			assertEquals(attack2.isPossible(model1) , false);
 			
 			model1.setActualTurn(turn2);
+			assertEquals(move3.isPossible(model1) , false);
 			assertEquals(draw1.isPossible(model1) , true);
 			evtAttacked1 = (EventAttacked)attack1.perform(model1);
 
@@ -249,6 +272,22 @@ public class GameActionTest {
 			assertEquals(evtDrown4.getDrown() , hatchCard1);
 			assertEquals(finishTurn2.isPossible(model1) , false);
 			
+			model1.setActualTurn(turn5);
+			assertEquals(draw4.perform(model1) , null);
+			model1.getActualTurn().getCurrentPlayer().getAvatar().setCurrentSector(sector3);
+			assertEquals(draw4.isPossible(model1) , false);
+			model1.getActualTurn().setHasMoved(true);
+			model1.getActualTurn().setHasAttacked(true);
+			assertEquals(draw4.isPossible(model1) , false);
+			model1.getActualTurn().setHasAttacked(false);
+			model1.getActualTurn().setHasDraw(true);
+			assertEquals(draw4.isPossible(model1) , false);
+			model1.getActualTurn().setHasDraw(false);
+			model1.setGameState(GameState.ACCEPTING);
+			assertEquals(draw4.isPossible(model1) , false);
+			model1.setGameState(GameState.RUNNING);
+			model1.getActualTurn().getCurrentPlayer().getAvatar().setCurrentSector(sector6);
+			assertEquals(draw4.isPossible(model1) , false);
 			
 	}
 } 

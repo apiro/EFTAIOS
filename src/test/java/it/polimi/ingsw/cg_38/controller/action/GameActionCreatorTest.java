@@ -66,6 +66,8 @@ public class GameActionCreatorTest {
 	@Before
 	public void init() throws ParserConfigurationException, Exception{
 		
+		gameActionCreator = new GameActionCreator();
+		
 		avatar1 = new Human(Name.Human1 , sector1);
 		
 		player1 = new Player("scimmiu");

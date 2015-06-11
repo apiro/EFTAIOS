@@ -43,30 +43,42 @@ public class UseCardTest {
 	
 	UseAdrenalineCard useAdrenalineCard1;
 	UseAdrenalineCard useAdrenalineCard2;
+	UseAdrenalineCard useAdrenalineCard3;
 	UseAttackCard useAttackCard1;
 	UseAttackCard useAttackCard2;
+	UseAttackCard useAttackCard3;
+	UseAttackCard useAttackCard4;
 	UseLightsCard useLightsCard1;
 	UseLightsCard useLightsCard2;
+	UseLightsCard useLightsCard3;
 	UseMySectorNoise useMySectorNoise;
 	UseRandomSectorNoise useRandomSectorNoise;
 	UseSedativesCard useSedativesCard;
 	UseSedativesCard useSedativesCard2;
+	UseSedativesCard useSedativesCard3;
 	UseSilenceCard useSilenceCard;
 	UseTeleportCard useTeleportCard;
 	UseTeleportCard useTeleportCard2;
+	UseTeleportCard useTeleportCard3;
 	
 	EventAdren evtAdren1;
 	EventAdren evtAdren2;
+	EventAdren evtAdren3;
 	EventAttackCard evtAttackCard1;
 	EventAttackCard evtAttackCard2;
+	EventAttackCard evtAttackCard3;
+	EventAttackCard evtAttackCard4;
 	EventLights evtLights1;
 	EventLights evtLights2;
+	EventLights evtLights3;
 	EventNoiseMySect evtNoiseMySect;
 	EventNoiseRandSect evtNoiseRandSect;
 	EventSedat evtSedat;
 	EventSedat evtSedat2;
+	EventSedat evtSedat3;
 	EventTeleport evtTeleport;
 	EventTeleport evtTeleport2;
+	EventTeleport evtTeleport3;
 	
 	
 	EventAttacked evtAttacked;
@@ -144,7 +156,6 @@ public class UseCardTest {
 		teleportCard = new ObjectCard(ObjectCardType.Teleport);
 		
 		model1 = new GameModel("Galvani");
-		model1.setGameState(GameState.RUNNING);
 		
 		turn1 = new Turn(player1);
 		turn2 = new Turn(player2);
@@ -202,30 +213,42 @@ public class UseCardTest {
 		
 		evtAdren1 = new EventAdren(player1 , adrenalineCard1);
 		evtAdren2 = new EventAdren(player2 , adrenalineCard2);
+		evtAdren3 = new EventAdren(player3 , adrenalineCard2);
 		evtAttackCard1 = new EventAttackCard(player5 , attackCard1);
 		evtAttackCard2 = new EventAttackCard(player6 , attackCard2);
+		evtAttackCard3 = new EventAttackCard(player4 , attackCard2);
+		evtAttackCard4 = new EventAttackCard(player1 , attackCard1);
 		evtLights1 = new EventLights(player3 , sector2 , lightsCard1);
 		evtLights2 = new EventLights(player6 , sector5 , lightsCard2);
+		evtLights3 = new EventLights(player2 , sector3 , lightsCard2);
 		evtNoiseMySect = new EventNoiseMySect(player2);
 		evtNoiseRandSect = new EventNoiseRandSect(player3 , sector4);
 		evtSedat = new EventSedat(player4 , sedatCard);
 		evtSedat2 = new EventSedat(player6 , sedatCard);
+		evtSedat3 = new EventSedat(player5 , sedatCard);
 		evtTeleport = new EventTeleport(player5 , teleportCard);
 		evtTeleport2 = new EventTeleport(player6 , teleportCard);
+		evtTeleport3 = new EventTeleport(player4 , teleportCard);
 		
 		useAdrenalineCard1 = new UseAdrenalineCard(evtAdren1);
 		useAdrenalineCard2 = new UseAdrenalineCard(evtAdren2);
+		useAdrenalineCard3 = new UseAdrenalineCard(evtAdren3);
 		useAttackCard1 = new UseAttackCard(evtAttackCard1);
 		useAttackCard2 = new UseAttackCard(evtAttackCard2);
+		useAttackCard3 = new UseAttackCard(evtAttackCard3);
+		useAttackCard4 = new UseAttackCard(evtAttackCard4);
 		useLightsCard1 = new UseLightsCard(evtLights1);
 		useLightsCard2 = new UseLightsCard(evtLights2);
+		useLightsCard3 = new UseLightsCard(evtLights3);
 		useMySectorNoise = new UseMySectorNoise(evtNoiseMySect);
 		useRandomSectorNoise = new UseRandomSectorNoise(evtNoiseRandSect);
 		useSedativesCard = new UseSedativesCard(evtSedat);
 		useSedativesCard2 = new UseSedativesCard(evtSedat2);
+		useSedativesCard3 = new UseSedativesCard(evtSedat3);
 		useSilenceCard = new UseSilenceCard(evtNoiseMySect);
 		useTeleportCard = new UseTeleportCard(evtTeleport);
 		useTeleportCard2 = new UseTeleportCard(evtTeleport2);
+		useTeleportCard3 = new UseTeleportCard(evtTeleport3);
 		
 		
 		toDeclare.put(player1.getName() , player1.getAvatar().getCurrentSector());
@@ -242,11 +265,14 @@ public class UseCardTest {
 
 		
 		assertEquals(useAdrenalineCard1.isPossible(model1) , false);
+		model1.setGameState(GameState.RUNNING);
 		evtCardUsed = (EventCardUsed) useAdrenalineCard1.perform(model1);
 		assertEquals(evtCardUsed.getPerformed() , false);
+		assertEquals(useAttackCard4.isPossible(model1) , false);
 		
 		model1.setActualTurn(turn2);
 		
+		assertEquals(useLightsCard3.isPossible(model1) , false);
 		assertEquals(useAdrenalineCard2.isPossible(model1) , true); 
 		useAdrenalineCard2.perform(model1);
 		assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsPowered() , true);
@@ -257,6 +283,7 @@ public class UseCardTest {
 		assertEquals(evtDeclareNoise1.getSectorToNoise() , sector3);
 		
 		model1.setActualTurn(turn3);
+		assertEquals(useAdrenalineCard3.isPossible(model1) , false);
 		assertEquals(useLightsCard1.isPossible(model1) , true);
 		evtDeclarePosition1 = (EventDeclarePosition) useLightsCard1.perform(model1);
 		assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards() , new ArrayList<Card>());
@@ -270,13 +297,16 @@ public class UseCardTest {
 		assertEquals(evtDeclareNoise2.getSectorToNoise() , sector4);
 		
 		model1.setActualTurn(turn4);
+		assertEquals(useTeleportCard3.isPossible(model1) , false);
 		assertEquals(useSedativesCard.isPossible(model1) , true);
 		useSedativesCard.perform(model1);
 		assertEquals(model1.getActualTurn().getHasDraw() , true);
+		assertEquals(useAttackCard3.isPossible(model1) , false);
 		
 		model1.setActualTurn(turn5);
 		turn5.setHasMoved(true);
 		
+		assertEquals(useSedativesCard3.isPossible(model1) , false);
 		assertEquals(useAttackCard1.isPossible(model1) , true);
 		assertEquals(useAttackCard1.getCard() , attackCard1);
 		evtAttacked = (EventAttacked) useAttackCard1.perform(model1);
