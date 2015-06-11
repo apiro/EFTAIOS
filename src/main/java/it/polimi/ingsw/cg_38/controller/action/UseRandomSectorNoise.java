@@ -7,6 +7,10 @@ import it.polimi.ingsw.cg_38.gameEvent.EventNoiseRandSect;
 import it.polimi.ingsw.cg_38.model.GameModel;
 import it.polimi.ingsw.cg_38.model.Sector;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDeclareNoise;
+<<<<<<< HEAD
+=======
+import it.polimi.ingsw.cg_38.notifyEvent.EventDeclarePosition;
+>>>>>>> branch 'master' of https://albypiro@bitbucket.org/albypiro/cg_38.git
 
 public class UseRandomSectorNoise extends GameAction {
 

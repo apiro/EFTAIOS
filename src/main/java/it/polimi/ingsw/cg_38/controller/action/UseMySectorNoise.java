@@ -3,6 +3,10 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDeclareNoise;
+<<<<<<< HEAD
+=======
+import it.polimi.ingsw.cg_38.notifyEvent.EventDeclarePosition;
+>>>>>>> branch 'master' of https://albypiro@bitbucket.org/albypiro/cg_38.git
 
 
 public class UseMySectorNoise extends GameAction {

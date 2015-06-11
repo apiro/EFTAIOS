@@ -59,7 +59,7 @@ public class UseAttackCard extends GameAction {
      */
     public Boolean isPossible(GameModel model) {
         // TODO implement here
-    	if(!this.currentAvatarType(model).equals("Alien") ||
+    	if(!this.currentAvatarType(model).equals("Alien") &&
     			model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
     			super.isPossible(model)) {
         	return true;
