@@ -136,7 +136,6 @@ public class GameActionTest {
 		player5 = new Player("reda");
 		
 		model1 = new GameModel("Galvani");
-		model1.setGameState(GameState.RUNNING);
 		
 		turn1 = new Turn(player1);
 		turn1.setHasMoved(true);
@@ -234,6 +233,8 @@ public class GameActionTest {
 	@Test
 	public void test() {
 		
+			assertEquals(draw1.isPossible(model1) , false);
+			model1.setGameState(GameState.RUNNING);
 			assertEquals(draw1.isPossible(model1) , true);
 			evtDrown1 = (EventDrown)draw1.perform(model1);	
 			evtDrown2 = (EventDrown)draw2.perform(model1);
@@ -246,7 +247,9 @@ public class GameActionTest {
 			assertEquals(attack2.isPossible(model1) , false);
 			
 			model1.setActualTurn(turn2);
+			model1.getActualTurn().setHasMoved(false);
 			assertEquals(move3.isPossible(model1) , false);
+			model1.getActualTurn().setHasMoved(true);
 			assertEquals(draw1.isPossible(model1) , true);
 			evtAttacked1 = (EventAttacked)attack1.perform(model1);
 
@@ -262,6 +265,9 @@ public class GameActionTest {
 			assertEquals(evtNotifyTurn.getPlayerOfTurn() , model1.getNextPlayer());
 			
 			model1.setActualTurn(turn3);
+			model1.setGameState(GameState.ACCEPTING);
+			assertEquals(move.isPossible(model1) , false);
+			model1.setGameState(GameState.RUNNING);
 			assertEquals(move.isPossible(model1) , true);
 			evtMoved = (EventMoved)move.perform(model1);
 			assertEquals(evtMoved.getMoved() , sector3.getName());
