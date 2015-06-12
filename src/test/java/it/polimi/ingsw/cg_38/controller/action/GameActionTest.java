@@ -18,7 +18,6 @@ import it.polimi.ingsw.cg_38.model.Alien;
 import it.polimi.ingsw.cg_38.model.Avatar;
 import it.polimi.ingsw.cg_38.model.Card;
 import it.polimi.ingsw.cg_38.model.Dangerous;
-import it.polimi.ingsw.cg_38.model.Deck;
 import it.polimi.ingsw.cg_38.model.EndState;
 import it.polimi.ingsw.cg_38.model.GameModel;
 import it.polimi.ingsw.cg_38.model.Hatch;
@@ -41,12 +40,10 @@ import it.polimi.ingsw.cg_38.model.SectorDeck;
 import it.polimi.ingsw.cg_38.model.Turn;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAttacked;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDrown;
-import it.polimi.ingsw.cg_38.notifyEvent.EventFinishedTurn;
 import it.polimi.ingsw.cg_38.notifyEvent.EventMoved;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyAliensWin;
-import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyLoose;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTopics;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTurn;
-import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyWin;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -99,6 +96,7 @@ public class GameActionTest {
 	EventNotifyTurn evtNotifyTurn;
 	EventNotifyTurn evtNotifyTurn2;
 	EventNotifyAliensWin evtNotifyAliensWin;
+	EventNotifyTopics evtNotifyTopics;
 	
 	Player player1;
 	Player player2;
@@ -119,6 +117,7 @@ public class GameActionTest {
 	ArrayList<HatchCard> hatchList1;
 	ArrayList<Player> killedPlayer;
 	ArrayList<Player> addPlayers;
+	ArrayList<String> topics;
 	
 	SectorDeck sectorDeck1;
 	ObjectDeck objectDeck1;
@@ -193,6 +192,9 @@ public class GameActionTest {
 		hatchList1 = new ArrayList<HatchCard>();
 		killedPlayer = new ArrayList<Player>();
 		addPlayers = new ArrayList<Player>();
+		topics = new ArrayList<String>();
+		topics.add("room1");
+		topics.add("room2");
 		
 		sectorDeck1 = new SectorDeck();
 		objectDeck1 = new ObjectDeck();
@@ -238,6 +240,8 @@ public class GameActionTest {
 		looser = new Looser(evtPlayerLooser);
 		aliensWin1 = new AliensWin(evtAliensWinner1);
 		aliensWin2 = new AliensWin(evtAliensWinner2);
+		
+		evtNotifyTopics = new EventNotifyTopics(player1 , true , topics);
 		
 		player1.setAvatar(avatar1);
 		player2.setAvatar(avatar2);
@@ -285,6 +289,7 @@ public class GameActionTest {
 			
 			assertEquals(sectorCard2 , evtDrown2.getDrown());
 			assertEquals(objectCard1 , evtDrown2.getAdded());
+			assertEquals(evtDrown2.toString() ,"EventDrown [added=" + objectCard1 + ", drown=" + sectorCard2 + "]");
 			model1.getActualTurn().setHasAttacked(true);
 			assertEquals(attack2.isPossible(model1) , false);
 			aliensWin2.perform(model1);
@@ -298,6 +303,7 @@ public class GameActionTest {
 			assertEquals(draw1.isPossible(model1) , true);
 			assertEquals(attack1.isPossible(model1) , true);
 			evtAttacked1 = (EventAttacked)attack1.perform(model1);
+			assertEquals(evtAttacked1.getAreThereOtherHumans() , true);
 
 			killedPlayer.add(player1);
 			killedPlayer.add(player3);
