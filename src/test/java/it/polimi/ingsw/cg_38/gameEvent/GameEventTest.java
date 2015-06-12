@@ -32,6 +32,7 @@ public class GameEventTest {
 	EventDraw draw;
 	EventNoiseMySect noiseMySect;
 	EventFinishTurn finishTurn;
+	EventRequestTopic requestTopic;
 	
 	Player player1;
 	
@@ -79,6 +80,7 @@ public class GameEventTest {
 		draw = new EventDraw(player1);
 		noiseMySect = new EventNoiseMySect(player1);
 		finishTurn = new EventFinishTurn(player1);
+		requestTopic = new EventRequestTopic(player1 , true);
 		
 				
 	}

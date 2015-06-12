@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg_38.controller.action;
 
 import static org.junit.Assert.*;
 import it.polimi.ingsw.cg_38.gameEvent.EventAdren;
+import it.polimi.ingsw.cg_38.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttackCard;
 import it.polimi.ingsw.cg_38.gameEvent.EventDraw;
@@ -10,7 +11,10 @@ import it.polimi.ingsw.cg_38.gameEvent.EventLights;
 import it.polimi.ingsw.cg_38.gameEvent.EventMove;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseMySect;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseRandSect;
+import it.polimi.ingsw.cg_38.gameEvent.EventPlayerLooser;
+import it.polimi.ingsw.cg_38.gameEvent.EventPlayerWinner;
 import it.polimi.ingsw.cg_38.gameEvent.EventSedat;
+import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.gameEvent.EventTeleport;
 import it.polimi.ingsw.cg_38.model.Avatar;
 import it.polimi.ingsw.cg_38.model.Card;
@@ -35,13 +39,19 @@ public class GameActionCreatorTest {
 	EventMove evtMove;
 	EventNoiseMySect evtNoiseMySect;
 	EventNoiseRandSect evtNoiseRandSect;
+	EventPlayerWinner evtPlayerWinner;
+	EventPlayerLooser evtPlayerLooser;
 	EventSedat evtSedat;
 	EventTeleport evtTeleport;
+	EventSubscribe evtSubscribe;
+	EventAliensWinner evtAliensWinner;
 	
 	Attack attack1;
 	Draw draw;
 	FinishTurn finishTurn;
+	Looser looser;
 	Move move;
+	Subscribe subscribe;
 	UseAdrenalineCard adrenalineCard;
 	UseAttackCard attackCard;
 	UseLightsCard lightsCard;
@@ -50,10 +60,14 @@ public class GameActionCreatorTest {
 	UseSedativesCard sedativesCard;
 	UseSilenceCard silenceCard;
 	UseTeleportCard teleportCard;
+	Winner winner;
 	
 	Player player1;
 	
 	Avatar avatar1;
+	
+	String room;
+	String map;
 	
 	Card card1;
 	
@@ -67,6 +81,9 @@ public class GameActionCreatorTest {
 	public void init() throws ParserConfigurationException, Exception{
 		
 		gameActionCreator = new GameActionCreator();
+		
+		room = "room2";
+		map = "Galvani";
 		
 		avatar1 = new Human(Name.Human1 , sector1);
 		
@@ -82,8 +99,12 @@ public class GameActionCreatorTest {
 		evtMove = new EventMove(player1 , sector1);
 		evtNoiseMySect = new EventNoiseMySect(player1);
 		evtNoiseRandSect = new EventNoiseRandSect(player1 , sector1);
+		evtPlayerLooser = new EventPlayerLooser(player1);
+		evtPlayerWinner = new EventPlayerWinner(player1);
 		evtSedat = new EventSedat(player1 , card1);
+		evtSubscribe = new EventSubscribe(player1 , room , map);
 		evtTeleport = new EventTeleport(player1 , card1);
+		evtAliensWinner = new EventAliensWinner(player1);
 				
 	}
 
@@ -99,8 +120,12 @@ public class GameActionCreatorTest {
 		assertTrue(GameActionCreator.createGameAction(evtMove) instanceof Move);
 		assertTrue(GameActionCreator.createGameAction(evtNoiseMySect) instanceof UseMySectorNoise);
 		assertTrue(GameActionCreator.createGameAction(evtNoiseRandSect) instanceof UseRandomSectorNoise);
+		assertTrue(GameActionCreator.createGameAction(evtPlayerLooser) instanceof Looser);
+		assertTrue(GameActionCreator.createGameAction(evtPlayerWinner) instanceof Winner);
 		assertTrue(GameActionCreator.createGameAction(evtSedat) instanceof UseSedativesCard);
+		assertTrue(GameActionCreator.createGameAction(evtSubscribe) instanceof Subscribe);
 		assertTrue(GameActionCreator.createGameAction(evtTeleport) instanceof UseTeleportCard);
+		assertTrue(GameActionCreator.createGameAction(evtAliensWinner) instanceof AliensWin);
 		
 	}
 
