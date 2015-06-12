@@ -1,12 +1,13 @@
 package it.polimi.ingsw.cg_38.model;
 import java.io.Serializable;
-import java.util.*;
 
 /**
  * 
  */
 public class Player implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
     @Override
 	public String toString() {
 		return "Player [ Name=" + name + "numTurniGiocati=" + numTurniGiocati + ", avatar="

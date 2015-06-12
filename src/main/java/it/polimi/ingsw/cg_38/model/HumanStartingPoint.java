@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg_38.model;
-import java.util.*;
 
 /**
  * 
  */
 public class HumanStartingPoint extends Sector {
 
+	private static final long serialVersionUID = 1L;
     /**
      * 
      */

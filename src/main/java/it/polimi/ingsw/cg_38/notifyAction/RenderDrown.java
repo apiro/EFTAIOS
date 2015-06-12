@@ -2,7 +2,6 @@ package it.polimi.ingsw.cg_38.notifyAction;
 
 import java.util.Scanner;
 
-import it.polimi.ingsw.cg_38.controller.Client;
 import it.polimi.ingsw.cg_38.controller.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
@@ -48,6 +47,7 @@ public class RenderDrown extends NotifyAction {
 				
 			} else if (card.getType().equals(SectorCardType.Silence)) {
 				client.setIsInterfaceBlocked(false);
+				in.close();
 				return null;
 			}
 			
@@ -58,6 +58,7 @@ public class RenderDrown extends NotifyAction {
 			} else if(card.getColor().equals(HatchCardType.Red)) {
 				client.setIsInterfaceBlocked(false);
 				System.out.println("You can't escape frome the SpaceShip !");
+				in.close();
 				return null;
 			}
 		}

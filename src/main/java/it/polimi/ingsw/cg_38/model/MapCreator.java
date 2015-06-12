@@ -1,5 +1,4 @@
 package it.polimi.ingsw.cg_38.model;
-import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 

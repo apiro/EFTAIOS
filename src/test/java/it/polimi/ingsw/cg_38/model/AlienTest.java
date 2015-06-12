@@ -2,8 +2,6 @@ package it.polimi.ingsw.cg_38.model;
 
 import static org.junit.Assert.*;
 
-import java.util.Scanner;
-
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Before;

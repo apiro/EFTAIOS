@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.model.Player;
 public class EventNewGame extends GameEvent {
 
 	private String creatingRoomName;
+	private static final long serialVersionUID = 1L;
 	
 	public String getCreatingRoomName() {
 		return creatingRoomName;

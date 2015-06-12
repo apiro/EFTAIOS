@@ -1,8 +1,6 @@
 package it.polimi.ingsw.cg_38.model;
-import java.io.IOException;
 import java.util.*;
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -10,7 +8,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -71,7 +68,6 @@ public class Map implements Serializable {
     		
     		Node mapNode = mapNodeList.item(0);
     		String[] mapNumbers = mapNode.getTextContent().split("\\s+");
-    		System.out.println(mapNumbers.length);
     		
     		for(int i = 1; i<mapNumbers.length; i++){
     			conf[i] = Integer.parseInt(mapNumbers[i]);

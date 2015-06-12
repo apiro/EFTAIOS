@@ -10,6 +10,7 @@ public class EventLights extends GameEvent{
 
 	private Sector target;
 	private Card card;
+	private static final long serialVersionUID = 1L;
 	
 	public Card getCard() {
 		return card;

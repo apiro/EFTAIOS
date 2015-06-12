@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg_38.model.Player;
 public class EventSedat extends GameEvent {
 
 	private Card toUse;
+	private static final long serialVersionUID = 1L;
 	
 	public Card getToUse() {
 		return toUse;

@@ -20,10 +20,15 @@ public class GameModelTest {
 	Player player22;
 	Player player32;
 	Player player18;
+	Avatar avatar11;
+	Avatar avatar12;
+	Avatar avatar22;
+	Avatar avatar32;
 	Turn turn1;
 	Turn turn2;
 	Turn turn3;
 	Turn turn8;
+	Sector sector;
 	int i;
 	
 	/*Deck deckSector11;
@@ -39,6 +44,11 @@ public class GameModelTest {
 	
 	@Before
 	public void init() throws ParserConfigurationException, Exception {
+		
+		avatar11 = new Alien(Name.Alien2 , sector);
+		avatar12 = new Human(Name.Human1 , sector);
+		avatar22 = new Alien(Name.Alien1 , sector);
+		avatar32 = new Human(Name.Human2 , sector);
 		model1 = new GameModel("Galilei");
 		model2 = new GameModel("Galvani");
 		model3 = new GameModel("Fermi");
@@ -55,11 +65,15 @@ public class GameModelTest {
 		model1.getGamePlayers().add(new Player("Andrea"));
 		model1.getGamePlayers().add(new Player("Ermenegilda"));
 		model1.getGamePlayers().add(new Player("Candeloro"));
+		model1.getGamePlayers().get(0).setAvatar(avatar11);
 		player11 = model1.getGamePlayers().get(0);
 		player21 = model2.getGamePlayers().get(0);
 		player31 = model3.getGamePlayers().get(0);
+		model1.getGamePlayers().get(1).setAvatar(avatar12);
 		player12 = model1.getGamePlayers().get(1);
+		model2.getGamePlayers().get(1).setAvatar(avatar22);
 		player22 = model2.getGamePlayers().get(1);
+		model3.getGamePlayers().get(1).setAvatar(avatar32);
 		player32 = model3.getGamePlayers().get(1);
 		player18 = model1.getGamePlayers().get(7);
 		turn1 = new Turn(player11);
@@ -81,8 +95,6 @@ public class GameModelTest {
 		assertEquals(model1.getActualTurn(), turn1);
 		assertEquals(model2.getActualTurn(), turn2);
 		assertEquals(model3.getActualTurn(), turn3);
-		
-		
 		
 		assertEquals(model1.getNextPlayer(), player12);
 		assertEquals(model2.getNextPlayer(), player22);

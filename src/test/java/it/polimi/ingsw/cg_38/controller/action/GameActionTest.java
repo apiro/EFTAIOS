@@ -301,6 +301,15 @@ public class GameActionTest {
 			model1.getActualTurn().setHasMoved(true);
 			
 			assertEquals(draw1.isPossible(model1) , true);
+			model1.getActualTurn().setHasMoved(false);
+			assertEquals(attack1.isPossible(model1) , false);
+			model1.getActualTurn().setHasMoved(true);
+			model1.getActualTurn().setHasDraw(true);
+			assertEquals(attack1.isPossible(model1) , false);
+			model1.getActualTurn().setHasDraw(false);
+			model1.setGameState(GameState.ACCEPTING);
+			assertEquals(attack1.isPossible(model1) , false);
+			model1.setGameState(GameState.RUNNING);
 			assertEquals(attack1.isPossible(model1) , true);
 			evtAttacked1 = (EventAttacked)attack1.perform(model1);
 			assertEquals(evtAttacked1.getAreThereOtherHumans() , true);
@@ -315,7 +324,7 @@ public class GameActionTest {
 			model1.setGameState(GameState.RUNNING);
 			assertEquals(finishTurn.isPossible(model1) , true);
 			evtNotifyTurn = (EventNotifyTurn)finishTurn.perform(model1);
-			assertEquals(evtNotifyTurn.getPlayerOfTurn() , model1.getNextPlayer());
+			assertEquals(evtNotifyTurn.getPlayerOfTurn() , model1.getActualTurn().getCurrentPlayer());
 			
 			model1.setActualTurn(turn3);
 			model1.setGameState(GameState.ACCEPTING);

@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg_38.model.Sector;
 public class EventMove extends GameEvent {
 
 	private Sector toMove;
+	private static final long serialVersionUID = 1L;
 	
 	public EventMove(Player generator, Sector toMove) {
 		super(generator, false);

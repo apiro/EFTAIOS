@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg_38.model.Player;
 public class EventTeleport extends GameEvent {
 
 	private Card toUse;
+	private static final long serialVersionUID = 1L;
 	
 	public EventTeleport(Player generator, Card card) {
 		super(generator, false);
