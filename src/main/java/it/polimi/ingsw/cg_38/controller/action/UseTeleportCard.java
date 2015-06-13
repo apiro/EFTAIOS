@@ -34,7 +34,6 @@ public class UseTeleportCard extends GameAction {
      * @return
      */
     public NotifyEvent perform(GameModel model) {
-        // TODO implement here
     	model.getActualTurn().getCurrentPlayer().getAvatar().move(
     			model.getGameMap().searchSectorByName("HumanStartingPoint"), 
     			model.getActualTurn().getCurrentPlayer().getNumTurniGiocati()+1);
@@ -49,12 +48,12 @@ public class UseTeleportCard extends GameAction {
      * @return
      */
     public Boolean isPossible(GameModel model) {
-        // TODO implement here
     	if(!this.currentAvatarType(model).equals("Alien") && 
     			model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
     			super.isPossible(model)) {
         	return true;
         }
+    	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
         return false;
     }
 }

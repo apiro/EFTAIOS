@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg_38.controller.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
 
 public class AddedToGame extends NotifyAction {
 
@@ -23,10 +24,16 @@ public class AddedToGame extends NotifyAction {
 
 	@Override
 	public GameEvent render(PlayerClient client) {
-		System.out.println(super.getEvt().getGenerator().getName() + " has been added to the choosen topic ! Enjoy");
-		client.setPlayerClientState(PlayerClientState.connected);
-		client.setIsInterfaceBlocked(true);
-		return null;		
+		/*if(((EventAddedToGame)evt).getAdded()) {*/
+			/*System.out.println(((EventAddedToGame)evt).getAdded());*/
+			System.out.println(super.getEvt().getGenerator().getName() + " has been added to the choosen topic ! Enjoy");
+			client.setPlayerClientState(PlayerClientState.connected);
+			client.setIsInterfaceBlocked(true);
+			return null;		
+		/*} else {
+			System.out.println(super.getEvt().getGenerator().getName() + " has NOT been added to the choosen topic ! Enjoy");
+			return null;
+		}*/
 	}
 
 	public Boolean isPossible(PlayerClient client) {

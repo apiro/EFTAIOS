@@ -94,7 +94,7 @@ public class Attack extends GameAction {
         		((Human)model.getActualTurn().getCurrentPlayer().getAvatar()).getCanAttack() && 
         		model.getActualTurn().getHasMoved() &&
         		!model.getActualTurn().getHasAttacked() && 
-        		!model.getActualTurn().getHasDraw()) {
+        		!model.getActualTurn().getHasDraw() && super.isPossible(model)) {
         	return true;
         }
         return false;

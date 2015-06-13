@@ -20,13 +20,13 @@ public class RenderAttacked extends NotifyAction {
 	public Boolean isPossible(PlayerClient client) {
 		//deve sempre ritornare true perchè l'evento di attaccato deve essere processato anche
 		//da chi non è del turno(anche chi è stato attaccato deve fare la render)
-		return true;
+		return super.check(client);
 	}
 
 	@Override
 	public GameEvent render(PlayerClient client) {	
 		
-		/*client.setPlayer(evt.getGenerator());*/
+		client.setPlayer(evt.getGenerator());
 		for(Player pl:((EventAttacked)evt).getKilled()){
 			if(pl.getName().equals(client.getPlayer().getName())) {
 				return new EventPlayerLooser(client.getPlayer());

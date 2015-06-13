@@ -35,6 +35,10 @@ public class NotifyActionCreator {
     		action = new RenderLoose((NotifyEvent) evt);
     	if(type.equals(NotifyEventType.aliensWin))
     		action = new RenderAliensWin((NotifyEvent)evt);
+    	if(type.equals(NotifyEventType.CardUsed))
+    		action = new RenderNoSideEffectCard((NotifyEvent)evt);
+    	if(type.equals(NotifyEventType.DeclarePosition))
+    		action = new RenderSpotlight((NotifyEvent)evt);
 		return action;
 		
 	}

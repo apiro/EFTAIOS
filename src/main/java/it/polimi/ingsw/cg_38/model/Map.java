@@ -73,7 +73,7 @@ public class Map implements Serializable {
     			conf[i] = Integer.parseInt(mapNumbers[i]);
     		}
     	}  catch(Exception e) {
-			e.printStackTrace();
+			System.out.println("Someone asked for a not existing map !");
 		}
     	this.setConfiguration(conf);
     }

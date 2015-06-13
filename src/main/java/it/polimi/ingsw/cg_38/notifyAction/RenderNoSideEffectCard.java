@@ -3,26 +3,23 @@ package it.polimi.ingsw.cg_38.notifyAction;
 import it.polimi.ingsw.cg_38.controller.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.model.Alien;
+import it.polimi.ingsw.cg_38.model.Player;
 
-public class RenderAliensWin extends NotifyAction {
+public class RenderNoSideEffectCard extends NotifyAction {
 
-	public RenderAliensWin(NotifyEvent evt) {
+	public RenderNoSideEffectCard(NotifyEvent evt) {
 		super(evt.getGenerator(), evt);
 	}
 
 	@Override
 	public Boolean isPossible(PlayerClient client) {
-		if(client.getPlayer().getAvatar() instanceof Alien &&
-				super.check(client)) {
-			return true;
-		}
-		return false;
+		return super.check(client);
 	}
 
 	@Override
 	public GameEvent render(PlayerClient client) {
-		System.out.println("YOU KILLED ALL THE HUMANS, YOU WIN !");
+		client.setPlayer(evt.getGenerator());
+		System.out.println("Card used ! ");
 		return null;
 	}
 

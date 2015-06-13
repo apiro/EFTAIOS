@@ -71,6 +71,7 @@ public class UseLightsCard extends GameAction {
     			super.isPossible(model)) {
         	return true;
         }
+    	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
         return false;
     }
 

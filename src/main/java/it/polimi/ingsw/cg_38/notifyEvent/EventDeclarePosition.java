@@ -12,26 +12,27 @@ public class EventDeclarePosition extends NotifyEvent {
 
 	private static final long serialVersionUID = 1L;
 	
-	private HashMap<String, Sector> toDeclare = new HashMap<String, Sector>();
+	private ArrayList<Player> toDeclare = new ArrayList<Player>();
 	
 	public EventDeclarePosition(Player generator, ArrayList<Player> toDeclare) {
 		super(generator/*potrei metterlo a null tanto è broadcast !*/, true);
 		super.setType(NotifyEventType.DeclarePosition);
-		this.buildMap(toDeclare);
+		this.setToDeclare(toDeclare);
+		/*this.buildMap(toDeclare);*/
 	}
 
-	private void buildMap(ArrayList<Player> toDeclare2) {
-		for(Player pl:toDeclare2){
-			this.getToDeclare().put(pl.getName(), pl.getAvatar().getCurrentSector());
-		}
-	}
-
-	public HashMap<String, Sector> getToDeclare() {
+	public ArrayList<Player> getToDeclare() {
 		return toDeclare;
 	}
 
-	public void setToDeclare(HashMap<String, Sector> toDeclare) {
+	public void setToDeclare(ArrayList<Player> toDeclare) {
 		this.toDeclare = toDeclare;
 	}
+
+	/*private void buildMap(ArrayList<Player> toDeclare2) {
+		for(Player pl:toDeclare2){
+			this.getToDeclare().put(pl.getName(), pl.getAvatar().getCurrentSector());
+		}
+	}*/
 
 }
