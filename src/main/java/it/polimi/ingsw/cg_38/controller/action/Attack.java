@@ -44,11 +44,17 @@ public class Attack extends GameAction {
        	    	/*model.getGamePlayers().remove(pl);*/
        			if(this.currentAvatarType(model).equals("Alien")) {
        				model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
+       				if(pl.getAvatar() instanceof Alien) {
+       	       			killed.remove(pl);
+       	       		}
        			} else {
        				//se il giocatore che attacca è umano non so cosa succede all'umano che uccide qualcuno,
        				//se diventa potenziato allora non serve questo ultimo ramo if-else e il setIsPowered è 
        				//sia per umani che per alieni
        			}
+       		} else {
+       			//se l'attacco su pl non è andato a buon fine perchè il giocatore ha la carta difesa
+       			killed.remove(pl);
        		}
         }
         model.getActualTurn().setHasAttacked(true);
@@ -92,9 +98,9 @@ public class Attack extends GameAction {
         	return true;
         } else if (this.currentAvatarType(model).equals("Human") && 
         		((Human)model.getActualTurn().getCurrentPlayer().getAvatar()).getCanAttack() && 
-        		model.getActualTurn().getHasMoved() &&
+        		/*model.getActualTurn().getHasMoved() && non c'è questa condizione perchè l'umano puo giocare la carta attacco anche prima di aver mosso !*/
         		!model.getActualTurn().getHasAttacked() && 
-        		!model.getActualTurn().getHasDraw() && super.isPossible(model)) {
+        		/*!model.getActualTurn().getHasDraw() && non c'è questa condizione perchè l'umano puo giocare la carta attacco anche prima di aver pescato !*/ super.isPossible(model)) {
         	return true;
         }
         return false;
