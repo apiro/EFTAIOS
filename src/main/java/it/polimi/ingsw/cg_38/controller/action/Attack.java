@@ -30,33 +30,28 @@ public class Attack extends GameAction {
     public NotifyEvent perform(GameModel model) { 
     	ArrayList<Player> killed = model.getDesiredPlayers(this.getSectorToAttack());
     	Player p = null;
+    	//tolgo il giocatore che ha attaccato che è nel target sector
     	for(Player pl:killed) {
     		if(pl.getName().equals(super.getPlayer().getName())) {
     			p = pl;
     		}
     	}
     	killed.remove(p);
+    	
        	for(Player pl:killed) {
-       		//nella condizione di if oltre a verificare se l'attacco è andato a buon fine modifico anche il modello
-       		//del gicatore attaccato
-       		if(pl.getAvatar().attacked()) {
-       		//se l'attacco è andato a buon fine sul giocatore i che si trovava nel settore che hai attaccato
-       	    	/*model.getGamePlayers().remove(pl);*/
+       		
+       		if(pl.getAvatar() instanceof Human && pl.getAvatar().attacked()) {
+       		
        			if(this.currentAvatarType(model).equals("Alien")) {
        				model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
-       				if(pl.getAvatar() instanceof Alien) {
-       	       			killed.remove(pl);
-       	       		}
-       			} else {
-       				//se il giocatore che attacca è umano non so cosa succede all'umano che uccide qualcuno,
-       				//se diventa potenziato allora non serve questo ultimo ramo if-else e il setIsPowered è 
-       				//sia per umani che per alieni
-       			}
+       			} 
+       			
        		} else {
-       			//se l'attacco su pl non è andato a buon fine perchè il giocatore ha la carta difesa
-       			killed.remove(pl);
+       			p = pl;
        		}
         }
+       	killed.remove(p);
+       	p = null;
         model.getActualTurn().setHasAttacked(true);
         
         Boolean areAllAliens = true;

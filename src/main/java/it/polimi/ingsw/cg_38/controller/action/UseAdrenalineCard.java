@@ -34,7 +34,6 @@ public class UseAdrenalineCard extends GameAction {
      * @return
      */
     public NotifyEvent perform(GameModel model) {
-        // TODO implement here
     	if(model.getActualTurn().getCurrentPlayer().getAvatar() instanceof Alien) {
     		return new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false);
     	} else {

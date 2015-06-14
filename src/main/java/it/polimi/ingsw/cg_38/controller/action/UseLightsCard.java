@@ -50,11 +50,15 @@ public class UseLightsCard extends GameAction {
     public NotifyEvent perform(GameModel model) {
     	ArrayList<Player> players = new ArrayList<Player>();
     	for(Player pl:model.getDesiredPlayers(this.getTargetSector())) {
-    		players.add(pl);
+    		if(!(pl.getName().equals(model.getActualTurn().getCurrentPlayer().getName()))) {
+    			players.add(pl);
+    		}
     	}
     	for(Sector sec:model.getGameMap().searchSectorByCoordinates(this.getTargetSector().getRow(), this.getTargetSector().getCol()).getNeighboringSectors()) {
     		for(Player pl:model.getDesiredPlayers(sec)) {
-        		players.add(pl);
+    			if(!(pl.getName().equals(model.getActualTurn().getCurrentPlayer().getName()))) {
+    				players.add(pl);
+    			}
         	}
     	}
     	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);

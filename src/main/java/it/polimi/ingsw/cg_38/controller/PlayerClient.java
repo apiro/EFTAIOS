@@ -239,6 +239,7 @@ public class PlayerClient {
 	}
 
 	public void process(Event msg) {
+		System.out.println("----------------------------------------------------------------------\n");
 		System.err.println("Recieving " + msg.toString() + " ...\n");
 		NotifyAction action = (NotifyAction)NotifyActionCreator.createNotifyAction(msg);
 		GameEvent gamEvt = null;

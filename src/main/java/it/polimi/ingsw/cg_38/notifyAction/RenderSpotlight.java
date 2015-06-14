@@ -20,7 +20,7 @@ public class RenderSpotlight extends NotifyAction {
 	@Override
 	public GameEvent render(PlayerClient client) {
 		
-		client.setPlayer(evt.getGenerator());
+		/*client.setPlayer(evt.getGenerator());*/
 		if(((EventDeclarePosition)evt).getToDeclare().size() >= 1) {
 			System.out.println("Declared Light in sector: row: " + ((EventDeclarePosition)evt).getToDeclare().get(0).getAvatar().getCurrentSector().getRow() + 
 				"col: " + ((EventDeclarePosition)evt).getToDeclare().get(0).getAvatar().getCurrentSector().getCol());
