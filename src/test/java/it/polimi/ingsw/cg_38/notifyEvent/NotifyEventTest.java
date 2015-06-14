@@ -49,7 +49,7 @@ public class NotifyEventTest {
 	
 	Sector sector1;
 	
-	HashMap<String, Sector> toDeclare2;
+	ArrayList<Player> toDeclare2;
 	
 	ArrayList<Player> toDeclare;
 	ArrayList<String> topics;
@@ -92,7 +92,7 @@ public class NotifyEventTest {
 		winner = true;
 		finished = true;
 		
-		toDeclare2 = new HashMap<String, Sector>();
+		toDeclare2 = new ArrayList<Player>();
 		
 		toDeclare = new ArrayList<Player>();
 		topics = new ArrayList<String>();

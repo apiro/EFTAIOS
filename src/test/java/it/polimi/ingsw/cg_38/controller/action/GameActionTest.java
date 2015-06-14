@@ -104,6 +104,7 @@ public class GameActionTest {
 	Player player4;
 	Player player5;
 	Player player6;
+	Player player7;
 	
 	Turn turn1;
 	Turn turn2;
@@ -323,8 +324,9 @@ public class GameActionTest {
 			assertEquals(finishTurn.isPossible(model1) , false);
 			model1.setGameState(GameState.RUNNING);
 			assertEquals(finishTurn.isPossible(model1) , true);
+			player7 = model1.getNextPlayer();
 			evtNotifyTurn = (EventNotifyTurn)finishTurn.perform(model1);
-			assertEquals(evtNotifyTurn.getPlayerOfTurn() , model1.getActualTurn().getCurrentPlayer());
+			assertEquals(evtNotifyTurn.getPlayerOfTurn() , player7);
 			
 			model1.setActualTurn(turn3);
 			model1.setGameState(GameState.ACCEPTING);
