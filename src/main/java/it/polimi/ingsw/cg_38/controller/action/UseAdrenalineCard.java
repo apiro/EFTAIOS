@@ -12,9 +12,8 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
  */
 public class UseAdrenalineCard extends GameAction {
 
-    /**
-     * 
-     */
+	private static final long serialVersionUID = 1L;
+
     public UseAdrenalineCard(GameEvent evt) {
     	super(evt.getGenerator());
     	this.setCard(((EventAdren)evt).getToUse());
@@ -48,12 +47,14 @@ public class UseAdrenalineCard extends GameAction {
      * @return
      */
     public Boolean isPossible(GameModel model) {
-        if(!this.currentAvatarType(model).equals("Alien") && 
-        		model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
-        		super.isPossible(model)) {
-        	return true;
+        if(!this.currentAvatarType(model).equals("Alien")) {
+        	if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
+            		super.isPossible(model)) {
+        		return true;
+        	}
+        } else {
+        	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
         }
-        model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
         return false;
     }
 }
