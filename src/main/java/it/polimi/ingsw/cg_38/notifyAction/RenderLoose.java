@@ -7,6 +7,8 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 
 public class RenderLoose extends NotifyAction {
 
+	private static final long serialVersionUID = 1L;
+
 	public RenderLoose(NotifyEvent evt) {
 		super(evt.getGenerator(), evt);
 	}
@@ -18,12 +20,17 @@ public class RenderLoose extends NotifyAction {
 
 	@Override
 	public GameEvent render(PlayerClient client) {
+		
 		if(evt.getGenerator().getName().equals(client.getPlayer().getName())) {
+			
 			System.out.println("YOU LOOSE !");
 			client.setIsInterfaceBlocked(true);
 			client.setPlayerClientState(PlayerClientState.looser);
 			client.closeClient();
 		}
+		System.out.println("Player killed in sector: row: " + 
+				evt.getGenerator().getAvatar().getCurrentSector().getRow() + " col: " + 
+				evt.getGenerator().getAvatar().getCurrentSector().getCol());
 		return null;
 	}
 

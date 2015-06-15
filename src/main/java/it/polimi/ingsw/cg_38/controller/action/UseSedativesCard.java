@@ -1,4 +1,6 @@
 package it.polimi.ingsw.cg_38.controller.action;
+import java.util.ArrayList;
+
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSedat;
@@ -33,11 +35,13 @@ public class UseSedativesCard extends GameAction {
 	/**
      * @return
      */
-    public NotifyEvent perform(GameModel model) {
+    public ArrayList<NotifyEvent> perform(GameModel model) {
+    	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	model.getActualTurn().setHasDraw(true);
     	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     	model.getActualTurn().setHasUsedObjectCard(true);
-    	return new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true);
+    	callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true));
+    	return callbackEvent;
     }
 
     /**

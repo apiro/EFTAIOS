@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg_38.controller.action;
 
+import java.util.ArrayList;
+
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.model.GameModel;
@@ -22,7 +24,8 @@ public class FinishTurn extends GameAction {
 	}
 	
 	@Override
-	public NotifyEvent perform(GameModel model) {
+	public ArrayList<NotifyEvent> perform(GameModel model) {
+		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		if(model.getActualTurn().getHasMoved()) {
 			if(model.getActualTurn().getCurrentPlayer().getAvatar() instanceof Human 
 					&& model.getActualTurn().getCurrentPlayer().getAvatar().getIsPowered()) {
@@ -31,9 +34,10 @@ public class FinishTurn extends GameAction {
 			model.getActualTurn().getCurrentPlayer().finishTurn();
 			Turn newTurn = new Turn(model.getNextPlayer());
 	    	model.setActualTurn(newTurn);
-			return new EventNotifyTurn(newTurn.getCurrentPlayer());
+	    	callbackEvent.add(new EventNotifyTurn(newTurn.getCurrentPlayer()));
 		} else {
-			return new EventNotifyTurn(model.getActualTurn().getCurrentPlayer());
+			callbackEvent.add(new EventNotifyTurn(model.getActualTurn().getCurrentPlayer()));
 		}
+		return callbackEvent;
 	}
 }

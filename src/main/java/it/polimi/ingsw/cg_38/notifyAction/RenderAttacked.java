@@ -4,9 +4,7 @@ import it.polimi.ingsw.cg_38.controller.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventAliensWinner;
-import it.polimi.ingsw.cg_38.gameEvent.EventPlayerLooser;
 import it.polimi.ingsw.cg_38.model.Alien;
-import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAttacked;
 
 public class RenderAttacked extends NotifyAction {
@@ -28,30 +26,36 @@ public class RenderAttacked extends NotifyAction {
 	@Override
 	public GameEvent render(PlayerClient client) {	
 		
-		/*client.setPlayer(evt.getGenerator());*/
-		for(Player pl:((EventAttacked)evt).getKilled()){
-			if(pl.getName().equals(client.getPlayer().getName())) {
-				return new EventPlayerLooser(client.getPlayer());
-			}
-		}
-		if(((EventAttacked)evt).getGenerator().getName().equals(client.getPlayer().getName()) &&
-				((EventAttacked)evt).getKilled().size() >= 1) {
-			System.out.println("You killed someone !");
-			if(((EventAttacked)evt).getGenerator().getAvatar() instanceof Alien) {
-				if(((EventAttacked)evt).getAreThereOtherHumans()) {
+		
+		//se il giocatore a cui arriva questo evento è il generator dell'evento cioè chi ha attaccato
+		if(((EventAttacked)evt).getGenerator().getName().equals(client.getPlayer().getName())) {
+			
+			client.setPlayer(evt.getGenerator());
+			//ha ucciso almeno un giocatore
+			if(((EventAttacked)evt).getAreYouPowered()) {
+				System.out.println("You killed someone !");
+				//se ha attaccato un alieno verifico se ci sono altri human nella mappa
+				if(((EventAttacked)evt).getGenerator().getAvatar() instanceof Alien) {
+					
+					if(((EventAttacked)evt).getAreThereOtherHumans()) {
+						
+						client.setIsInterfaceBlocked(false);
+						return null;
+					} else {
+						
+						return new EventAliensWinner(client.getPlayer());
+					}
+				} else {
+					
 					client.setIsInterfaceBlocked(false);
 					return null;
-				} else {
-					return new EventAliensWinner(client.getPlayer());
 				}
 			} else {
-				client.setIsInterfaceBlocked(false);
-				return null;
+				
+				System.out.println("There are no players in the sector you have choosen !");
 			}
-		} else if (((EventAttacked)evt).getGenerator().getName().equals(client.getPlayer().getName()) &&
-				!(((EventAttacked)evt).getKilled().size() >= 1)) {
-			System.out.println("There are no Players in the sector you have choosen !");
 		}
+		
 		return null;
 	}
 }

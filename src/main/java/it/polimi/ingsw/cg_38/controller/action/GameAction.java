@@ -1,4 +1,6 @@
 package it.polimi.ingsw.cg_38.controller.action;
+import java.util.ArrayList;
+
 import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import  it.polimi.ingsw.cg_38.model.*;
@@ -13,11 +15,13 @@ import  it.polimi.ingsw.cg_38.model.*;
  */
 public abstract class GameAction extends Action {
 
-    public GameAction(Player player) {
+	private static final long serialVersionUID = 1L;
+
+	public GameAction(Player player) {
     	super(player);
     }
     
-    public abstract NotifyEvent perform(GameModel model);
+    public abstract ArrayList<NotifyEvent> perform(GameModel model);
 
     public Boolean isPossible(GameModel model) {
     	if(model.getGameState().equals(GameState.RUNNING)) {

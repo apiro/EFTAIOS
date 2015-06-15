@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg_38.controller.action;
 
+import java.util.ArrayList;
+
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.model.GameModel;
@@ -17,8 +19,10 @@ public class UseSilenceCard extends GameAction {
     /**
      * @return
      */
-    public NotifyEvent perform(GameModel model) {
-        return new EventDeclareNoise(model.getActualTurn().getCurrentPlayer(), null);
+    public ArrayList<NotifyEvent> perform(GameModel model) {
+    	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+        callbackEvent.add(new EventDeclareNoise(model.getActualTurn().getCurrentPlayer(), null));
+        return callbackEvent;
     }
 
 	/**

@@ -12,6 +12,13 @@ public class GameEvent extends Event {
 		this.notifyEventIsBroadcast = notifyEventIsBroadcast;
 	}
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * notifyEventIsBroadCast: 
+	 * 	true: questo evento di gioco genera SOLO notify eventi di tipo broadcast 
+	 *  false: questo evento di gioco genera NON SOLO notify event di tip broadcast(o solo personal)
+	 * */
+	
 	public GameEvent(Player generator, Boolean notifyEventIsBroadcast) {
 		super(generator);
 		this.setNotifyEventIsBroadcast(notifyEventIsBroadcast);

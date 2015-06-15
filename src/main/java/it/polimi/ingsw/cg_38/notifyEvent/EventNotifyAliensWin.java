@@ -11,8 +11,8 @@ public class EventNotifyAliensWin extends NotifyEvent {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Player> winners;
 
-	public EventNotifyAliensWin(Player generator, Boolean bool, ArrayList<Player> winners) {
-		super(generator, bool);
+	public EventNotifyAliensWin(Player generator, ArrayList<Player> winners) {
+		super(generator, true);
 		this.winners = winners;
 		super.setType(NotifyEventType.aliensWin);
 	}

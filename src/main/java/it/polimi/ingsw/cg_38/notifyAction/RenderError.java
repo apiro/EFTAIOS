@@ -24,7 +24,7 @@ public class RenderError extends NotifyAction {
 		if(client.getPlayer().getName().equals(evt.getGenerator().getName())){
 			client.setPlayer(evt.getGenerator());
 			System.out.println("There was an error in processing " + 
-			((EventNotifyError)evt).getRelatedAction().getClass().toString() + 
+			((EventNotifyError)evt).getRelatedAction().getClass().toString().substring(46) + 
 			" action related to your previous GameEvent ... RETRY !");
 		}
 		client.setIsInterfaceBlocked(false);

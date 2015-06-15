@@ -1,4 +1,6 @@
 package it.polimi.ingsw.cg_38.controller.action;
+import java.util.ArrayList;
+
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventAdren;
@@ -32,15 +34,18 @@ public class UseAdrenalineCard extends GameAction {
 	/**
      * @return
      */
-    public NotifyEvent perform(GameModel model) {
+    public ArrayList<NotifyEvent> perform(GameModel model) {
+    	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	if(model.getActualTurn().getCurrentPlayer().getAvatar() instanceof Alien) {
-    		return new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false);
+    		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false));
     	} else {
     		model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
     		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     		model.getActualTurn().setHasUsedObjectCard(true);
-    		return new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true);	
+    		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true));	
     	}
+    	/*callbackEvent.add(new EventUsedCard(model.getActualTurn().getCurrentPlayer(), ((ObjectCard)card).getType()));*/
+    	return callbackEvent;
     }
 
     /**

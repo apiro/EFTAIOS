@@ -1,6 +1,8 @@
 package it.polimi.ingsw.cg_38.controller.action;
 
 
+import java.util.ArrayList;
+
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseRandSect;
@@ -18,8 +20,10 @@ public class UseRandomSectorNoise extends GameAction {
     /**
      * @return
      */
-    public NotifyEvent perform(GameModel model) {
-    	return new EventDeclareNoise(model.getActualTurn().getCurrentPlayer(), this.getToDeclare());
+    public ArrayList<NotifyEvent> perform(GameModel model) {
+    	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+    	callbackEvent.add(new EventDeclareNoise(model.getActualTurn().getCurrentPlayer(), this.getToDeclare()));
+    	return callbackEvent;
     }
 
     private Sector toDeclare;

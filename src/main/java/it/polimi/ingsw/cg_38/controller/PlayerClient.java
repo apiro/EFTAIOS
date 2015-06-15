@@ -162,7 +162,7 @@ public class PlayerClient {
 				
 				/*if(player.getAvatar() instanceof Human) {*/
 					System.out.println("----------------------------------------------------------------------");
-					System.out.println("Which one ? type the number ... ");
+					System.out.println("Which one? type the number ...");
 					int j = 1;
 					for(ObjectCard card:player.getAvatar().getMyCards()) {
 						System.out.println(j + ")" + card.getType() + "\n");
@@ -208,7 +208,7 @@ public class PlayerClient {
 						}
 						
 					} catch(IndexOutOfBoundsException e) {
-						System.out.println("NO CARDS, RETRY !");
+						System.out.println("The requested card doesn't exist !");
 						this.loadInterface();
 					}
 				/*} else {

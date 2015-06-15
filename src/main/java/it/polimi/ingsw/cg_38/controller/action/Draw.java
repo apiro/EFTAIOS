@@ -1,4 +1,6 @@
 package it.polimi.ingsw.cg_38.controller.action;
+import java.util.ArrayList;
+
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import  it.polimi.ingsw.cg_38.model.*;
@@ -29,8 +31,8 @@ public class Draw extends GameAction {
     /**
      * @return
      */
-    public NotifyEvent perform(GameModel model) {
-        // TODO implement here
+    public ArrayList<NotifyEvent> perform(GameModel model) {
+    	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	if(model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector() instanceof Dangerous ) {
     		SectorCard drown1 = (SectorCard)model.getDeckSector().draw();
     		ObjectCard drown2 = null;
@@ -39,14 +41,13 @@ public class Draw extends GameAction {
     			model.getActualTurn().getCurrentPlayer().getAvatar().addCard(drown2);
     		}
     		model.getActualTurn().setHasDraw(true);
-   			return new EventDrown(model.getActualTurn().getCurrentPlayer(), drown2, drown1);
+   			callbackEvent.add(new EventDrown(model.getActualTurn().getCurrentPlayer(), drown2, drown1));
    		} else if (model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector() instanceof Hatch ) {
    			model.getActualTurn().setHasDraw(true);
    			HatchCard drown1 =  (HatchCard)model.getDeckHatch().draw();
-   			return new EventDrown(model.getActualTurn().getCurrentPlayer(), null, drown1);
-   		} else {
-    		return null;
-    	}
+   			callbackEvent.add(new EventDrown(model.getActualTurn().getCurrentPlayer(), null, drown1));
+   		} 
+    	return callbackEvent;
     }
 
     /**

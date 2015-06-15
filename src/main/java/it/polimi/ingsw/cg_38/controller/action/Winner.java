@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg_38.controller.action;
 
+import java.util.ArrayList;
+
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.model.EndState;
@@ -15,14 +17,16 @@ public class Winner extends GameAction {
 	}
 
 	@Override
-	public NotifyEvent perform(GameModel model) {
+	public ArrayList<NotifyEvent> perform(GameModel model) {
+		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		for(Player pl:model.getGamePlayers()) {
 			if(pl.getName().equals(super.getPlayer().getName())) {
 				pl.getAvatar().setIsAlive(LifeState.ALIVE);
 				pl.getAvatar().setIsWinner(EndState.WINNER);
 			}
 		}
-		return new EventNotifyWin(model.getActualTurn().getCurrentPlayer());
+		callbackEvent.add(new EventNotifyWin(model.getActualTurn().getCurrentPlayer()));
+		return callbackEvent;
 	}
 
 }

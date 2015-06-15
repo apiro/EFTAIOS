@@ -39,6 +39,8 @@ public class NotifyActionCreator {
     		action = new RenderNoSideEffectCard((NotifyEvent)evt);
     	if(type.equals(NotifyEventType.DeclarePosition))
     		action = new RenderSpotlight((NotifyEvent)evt);
+    	if(type.equals(NotifyEventType.sufferAttack)) 
+    		action = new RenderAttackDamage((NotifyEvent)evt);
 		return action;
 		
 	}

@@ -1,4 +1,6 @@
 package it.polimi.ingsw.cg_38.controller.action;
+import java.util.ArrayList;
+
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventMove;
@@ -34,12 +36,14 @@ public class Move extends GameAction {
     /**
      * @return
      */
-    public NotifyEvent perform(GameModel model) {
-        // TODO implement here
+    public ArrayList<NotifyEvent> perform(GameModel model) {
+    	
+    	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	String toReturn = model.getActualTurn().getCurrentPlayer().getAvatar().move(getSectorToMove(), model.getActualTurn().getCurrentPlayer().getNumTurniGiocati()+1);
     	model.getActualTurn().getCurrentPlayer().setNumTurniGiocati(model.getActualTurn().getCurrentPlayer().getNumTurniGiocati()+1);
     	model.getActualTurn().setHasMoved(true);
-    	return new EventMoved(model.getActualTurn().getCurrentPlayer(), toReturn);
+    	callbackEvent.add(new EventMoved(model.getActualTurn().getCurrentPlayer(), toReturn));
+    	return callbackEvent;
     }
 
     /**

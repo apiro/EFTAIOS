@@ -10,6 +10,7 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventNotYourTurn;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 //l'oggetto SERVERVIEW che il server mette remotamente a disposizione dei client 
@@ -55,7 +56,7 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 	}
 	@Override
 	public void processEvent(Event evt) throws RemoteException {
-		NotifyEvent callbackEvent = null;
+		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		GameController gcFound = null;
 		Action generatedAction = GameActionCreator.createGameAction(evt);
 		gcFound = server.getTopics().get(evt.getGenerator().getName());
@@ -64,8 +65,16 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 			callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 		} else {
 			//se l'evento non viene dal gicatore del turno (qualcuno ha inviato un evento fuori turno)
-			callbackEvent = new EventNotYourTurn(evt.getGenerator());
+			NotifyEvent callbackError = new EventNotYourTurn(evt.getGenerator());
+			callbackEvent.add(callbackError);
 		}
-		communicator.send(callbackEvent);
+		for(NotifyEvent e:callbackEvent) {
+			if(e.isBroadcast()) {
+				gcFound.addEventToTheQueue(e);
+				gcFound.sendNotifyEvent();
+			} else {
+				this.communicator.send(e);
+			}
+		}
 	}
 }

@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventNotYourTurn;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -63,7 +64,7 @@ public class PlayerController extends Thread  {
 				//è personale lo processa direttmente qui e invia l'evento di risposta !
 				Event evt = this.communicator.recieveEvent();
 				if(!((GameEvent)evt).getNotifyEventIsBroadcast()){
-					NotifyEvent callbackEvent = null;
+					ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 					GameController gcFound = null;
 					Action generatedAction = GameActionCreator.createGameAction(evt);
 					gcFound = topics.get(evt.getGenerator().getName());
@@ -72,9 +73,22 @@ public class PlayerController extends Thread  {
 						callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 					} else {
 						//se l'evento non viene dal gicatore del turno (qualcuno ha inviato un evento fuori turno)
-						callbackEvent = new EventNotYourTurn(evt.getGenerator());
+						NotifyEvent callbackError = new EventNotYourTurn(evt.getGenerator());
+						callbackEvent.add(callbackError);
 					}
-					this.communicator.send(callbackEvent);
+					/**
+					 * invece che essere un evento callbackevent sara un arraylist di eventi. qui prendo l'arraylist
+					 * che ho popolato prima e guardo se l'evento di notifica è broacast o no. se lo è lo aggiungo al 
+					 * buffer del server --> this.getEventsToProcess().add((Event) evt); se non lo è --> this.communicator.send(callbackEvent);
+					 * */
+					for(NotifyEvent e:callbackEvent) {
+						if(e.isBroadcast()) {
+							gcFound.addEventToTheQueue(e);
+							gcFound.sendNotifyEvent();
+						} else {
+							this.communicator.send(e);
+						}
+					}
 				} else {
 					this.getEventsToProcess().add((Event) evt);
 				}

@@ -12,20 +12,24 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyAliensWin;
 
 public class AliensWin extends GameAction {
 
+	private static final long serialVersionUID = 1L;
+
 	public AliensWin(Event evt) {
 		super(evt.getGenerator());
 	}
 
 	@Override
-	public NotifyEvent perform(GameModel model) {
+	public ArrayList<NotifyEvent> perform(GameModel model) {
 		ArrayList<Player> winners = new ArrayList<Player>();
+		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		for(Player pl:model.getGamePlayers()) {
 			if(pl.getAvatar() instanceof Alien) {
 				pl.getAvatar().setIsWinner(EndState.WINNER);
 				winners.add(pl);
 			}
 		}
-		return new EventNotifyAliensWin(model.getActualTurn().getCurrentPlayer(), true, winners);
+		callbackEvent.add(new EventNotifyAliensWin(model.getActualTurn().getCurrentPlayer(), winners));
+		return callbackEvent;
 	}
 
 }

@@ -6,6 +6,9 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAttacked;
+import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
+import it.polimi.ingsw.cg_38.notifyEvent.EventSufferAttack;
+import it.polimi.ingsw.cg_38.notifyEvent.EventUseDefense;
 
 /**
  * 
@@ -19,40 +22,44 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventAttacked;
  */
 public class Attack extends GameAction {
 	
-    /**
-     * 
-     */
+	private static final long serialVersionUID = 1L;
+	
     public Sector sectorToAttack;
 
     /**
      * @return
      */
-    public NotifyEvent perform(GameModel model) { 
+    public ArrayList<NotifyEvent> perform(GameModel model) { 
+    	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	ArrayList<Player> killed = model.getDesiredPlayers(this.getSectorToAttack());
     	Player p = null;
+    	ArrayList<Player> hasDefense = new ArrayList<Player>();
     	//tolgo il giocatore che ha attaccato che è nel target sector
     	for(Player pl:killed) {
     		if(pl.getName().equals(super.getPlayer().getName())) {
     			p = pl;
+    		} else if (pl.getAvatar().hasDefenseCard()) {
+    			hasDefense.add(pl);
+    			callbackEvent.add(new EventCardUsed(pl, true));
+    		} else {
+    			pl.getAvatar().attacked();
+    			if(this.currentAvatarType(model).equals("Alien")) {
+       				model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
+       			}
     		}
     	}
+    	if(model.getActualTurn().getCurrentPlayer().getAvatar() instanceof Human) {
+    		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true));
+    	}
     	killed.remove(p);
+    	for(Player pl:hasDefense) {
+    		killed.remove(pl);
+    	}
+    	if(killed != null) {
+    		callbackEvent.add(new EventSufferAttack(model.getActualTurn().getCurrentPlayer(), killed));
+    	}
     	
-       	for(Player pl:killed) {
-       		
-       		if(pl.getAvatar() instanceof Human && pl.getAvatar().attacked()) {
-       		
-       			if(this.currentAvatarType(model).equals("Alien")) {
-       				model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
-       			} 
-       			
-       		} else {
-       			p = pl;
-       		}
-        }
-       	killed.remove(p);
-       	p = null;
-        model.getActualTurn().setHasAttacked(true);
+    	model.getActualTurn().setHasAttacked(true);
         
         Boolean areAllAliens = true;
         for(Player pl:model.getGamePlayers()) {
@@ -61,9 +68,11 @@ public class Attack extends GameAction {
         	}
         }
         if(areAllAliens) {
-        	return new EventAttacked(model.getActualTurn().getCurrentPlayer(), killed, false);
+        	callbackEvent.add(new EventAttacked(model.getActualTurn().getCurrentPlayer(), false));
+        } else {
+        	callbackEvent.add(new EventAttacked(model.getActualTurn().getCurrentPlayer(), true));
         }
-        return new EventAttacked(model.getActualTurn().getCurrentPlayer(), killed, true);
+        return callbackEvent;
     }
 
     /**

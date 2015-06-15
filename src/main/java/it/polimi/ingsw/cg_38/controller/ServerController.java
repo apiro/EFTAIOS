@@ -20,6 +20,7 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Scanner;
@@ -79,7 +80,7 @@ public class ServerController extends Observable {
 		
 		while(serverAlive) {
 			Event msg = toDispatch.poll();
-			NotifyEvent callbackEvent = null;
+			ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 			if(msg != null) {
 				System.err.println("Game Event arrived !\n");
 				System.out.println("Parsing Event... : " + msg.toString());
@@ -94,19 +95,28 @@ public class ServerController extends Observable {
 					if(msg instanceof EventPlayerLooser || msg instanceof EventPlayerWinner) {
 						callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 					} else {
-						callbackEvent = new EventNotYourTurn(msg.getGenerator());
+						NotifyEvent callbackError = new EventNotYourTurn(msg.getGenerator());
+						callbackEvent.add(callbackError);
 					}
 				}
-				gcFound.addEventToTheQueue(callbackEvent);
-				this.setChanged();
-				this.notifyObservers(gcFound.getTopic());
-				if(callbackEvent.getType().equals(NotifyEventType.Added)) {
-					if(((EventAddedToGame)callbackEvent).getAdded() == false ) {
-						gcFound.getSubscribers().remove(msg.getGenerator().getName());
-						this.getTopics().remove(msg.getGenerator().getName());
-						this.deleteObserver(gcFound);
+				for(NotifyEvent e:callbackEvent) {
+					gcFound.addEventToTheQueue(e);
+					this.setChanged();
+					this.notifyObservers(gcFound.getTopic());
+				}
+				/*this.setChanged();
+				this.notifyObservers(gcFound.getTopic());*/
+				
+				for(NotifyEvent e:callbackEvent) {
+					if(e.getType().equals(NotifyEventType.Added)) {
+						if(((EventAddedToGame)e).getAdded() == false ) {
+							gcFound.getSubscribers().remove(msg.getGenerator().getName());
+							this.getTopics().remove(msg.getGenerator().getName());
+							this.deleteObserver(gcFound);
+						}
 					}
 				}
+				
 				System.err.println("Event parsed !");
 				System.out.println("---------------------------------------------------------------------\n");
 			} 

@@ -155,13 +155,9 @@ public abstract class Avatar implements Serializable{
     /**
      * return true se l'attacco va a buon fine false se non va a buon fine
      * */
-    public Boolean attacked() {
-    	if(!this.hasDefenseCard()){
-    		this.setIsAlive(LifeState.DEAD);
-    		this.setIsWinner(EndState.LOOSER);
-    		return true;
-    	}
-    	return false;
+    public void attacked() {
+    	this.setIsAlive(LifeState.DEAD);
+    	this.setIsWinner(EndState.LOOSER);
     }
     
     /**

@@ -1,9 +1,12 @@
 package it.polimi.ingsw.cg_38.controller.action;
+import java.util.ArrayList;
+
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttackCard;
 import  it.polimi.ingsw.cg_38.model.*;
+import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
 
 /**
  * 
@@ -41,16 +44,18 @@ public class UseAttackCard extends GameAction {
 	/**
      * @return
      */
-    public NotifyEvent perform(GameModel model) {
-    		((Human)model.getActualTurn().getCurrentPlayer().getAvatar()).setCanAttack(true);
-    		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
-    		GameAction humanAttackAction = new Attack(new EventAttack(model.getActualTurn().getCurrentPlayer(), this.getSectorToAttack()));
-    		NotifyEvent evt = null;
-    		if(humanAttackAction.isPossible(model)) {
-    			evt = humanAttackAction.perform(model);
-    		}
-    		model.getActualTurn().setHasUsedObjectCard(true);
-    		return evt;
+    public ArrayList<NotifyEvent> perform(GameModel model) {
+    	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+    	((Human)model.getActualTurn().getCurrentPlayer().getAvatar()).setCanAttack(true);
+    	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    	GameAction humanAttackAction = new Attack(new EventAttack(model.getActualTurn().getCurrentPlayer(), this.getSectorToAttack()));
+    	
+    	if(humanAttackAction.isPossible(model)) {
+    		callbackEvent = humanAttackAction.perform(model);
+    	}
+    	model.getActualTurn().setHasUsedObjectCard(true);
+    	callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true));
+    	return callbackEvent;
     }
 
     /**

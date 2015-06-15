@@ -3,6 +3,7 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventLights;
 import  it.polimi.ingsw.cg_38.model.*;
+import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDeclarePosition;
 
 import java.util.*;
@@ -47,7 +48,8 @@ public class UseLightsCard extends GameAction {
 	/**
      * @return
      */
-    public NotifyEvent perform(GameModel model) {
+    public ArrayList<NotifyEvent> perform(GameModel model) {
+    	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	ArrayList<Player> players = new ArrayList<Player>();
     	for(Player pl:model.getDesiredPlayers(this.getTargetSector())) {
     		if(!(pl.getName().equals(model.getActualTurn().getCurrentPlayer().getName()))) {
@@ -63,7 +65,9 @@ public class UseLightsCard extends GameAction {
     	}
     	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     	model.getActualTurn().setHasUsedObjectCard(true);
-    	return new EventDeclarePosition(model.getActualTurn().getCurrentPlayer(), players);
+    	callbackEvent.add(new EventDeclarePosition(model.getActualTurn().getCurrentPlayer(), players));
+    	callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true));
+    	return callbackEvent;
     }
 
     /**

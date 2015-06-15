@@ -1,8 +1,11 @@
 package it.polimi.ingsw.cg_38.controller.action;
+import java.util.ArrayList;
+
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventTeleport;
 import  it.polimi.ingsw.cg_38.model.*;
+import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.notifyEvent.EventMoved;
 
 /**
@@ -33,15 +36,18 @@ public class UseTeleportCard extends GameAction {
 	/**
      * @return
      */
-    public NotifyEvent perform(GameModel model) {
+    public ArrayList<NotifyEvent> perform(GameModel model) {
+    	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	model.getActualTurn().getCurrentPlayer().getAvatar().move(
     			model.getGameMap().searchSectorByName("HumanStartingPoint"), 
     			model.getActualTurn().getCurrentPlayer().getNumTurniGiocati()+1);
     	model.getActualTurn().getCurrentPlayer().setNumTurniGiocati(model.getActualTurn().getCurrentPlayer().getNumTurniGiocati()+1);
     	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     	model.getActualTurn().setHasUsedObjectCard(true);
-    	return new EventMoved(model.getActualTurn().getCurrentPlayer(), model.getActualTurn().getCurrentPlayer().
-    			getAvatar().getCurrentSector().getName());
+    	callbackEvent.add(new EventMoved(model.getActualTurn().getCurrentPlayer(), model.getActualTurn().getCurrentPlayer().
+    			getAvatar().getCurrentSector().getName()));
+    	callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true));
+    	return callbackEvent;
     }
 
     /**

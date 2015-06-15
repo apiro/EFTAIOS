@@ -75,8 +75,8 @@ public class GameController implements Observer {
 		}
 	}
 	
-	public NotifyEvent performUserCommands(GameAction action) throws RemoteException {
-		NotifyEvent notifyEvent = null;
+	public ArrayList<NotifyEvent> performUserCommands(GameAction action) throws RemoteException {
+		ArrayList<NotifyEvent> notifyEvent = new ArrayList<NotifyEvent>();
 		if(action instanceof FinishTurn) {
 			//l'oggetto action viene gestito diversamente dalle altre action. ritorno l'evento di 
 			//callback in ogni caso !
@@ -86,7 +86,8 @@ public class GameController implements Observer {
 		if(action.isPossible(this.getGameModel())) {
 			notifyEvent = action.perform(this.getGameModel());
     	} else {
-    		notifyEvent = new EventNotifyError(action.getPlayer(), action);
+    		NotifyEvent e = new EventNotifyError(action.getPlayer(), action);
+    		notifyEvent.add(e);
     	}
 		return notifyEvent; 
 	}
@@ -139,7 +140,7 @@ public class GameController implements Observer {
 	   		if(i<floor) {
 	   			this.getGameModel().getGamePlayers().get(i).setAvatar(new Human(Name.valueOf("Human"+(i+1)), this.getGameModel().getGameMap().searchSectorByName("HumanStartingPoint")));
 	    	} else {
-	    		this.getGameModel().getGamePlayers().get(i).setAvatar(new Alien(Name.valueOf("Alien"+(i-floor+1)), this.getGameModel().getGameMap().searchSectorByName("AlienStartingPoint"))/*this.getGameModel().getGameMap().searchSectorByName("AlienStartingPoint"))*/);
+	    		this.getGameModel().getGamePlayers().get(i).setAvatar(new Alien(Name.valueOf("Alien"+(i-floor+1)), this.getGameModel().getGameMap().searchSectorByName("HumanStartingPoint"))/*this.getGameModel().getGameMap().searchSectorByName("AlienStartingPoint"))*/);
 	    	}
 	    }
 	   	Collections.shuffle(getGameModel().getGamePlayers());
