@@ -1,9 +1,13 @@
 package it.polimi.ingsw.cg_38.controller.action;
 
+import java.io.Serializable;
+
 import it.polimi.ingsw.cg_38.model.Player;
 
-public abstract class Action {
+public abstract class Action implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	public Action(Player player) {
     	this.setPlayer(player);
     }

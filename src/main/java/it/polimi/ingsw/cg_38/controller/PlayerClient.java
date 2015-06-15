@@ -189,6 +189,7 @@ public class PlayerClient {
 						} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Defense)) {
 							
 							System.out.println("---> You can't use defense card !");
+							this.getPlayer().getAvatar().getMyCards().remove(cardSelected);
 							this.loadInterface();
 							
 						} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Sedatives)) {

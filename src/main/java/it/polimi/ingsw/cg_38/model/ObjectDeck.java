@@ -53,7 +53,6 @@ public class ObjectDeck extends Deck {
      *
      */
     public void shuffle() {
-        // TODO implement here
     	Collections.shuffle(this.getObjectDeck());
     }
 
@@ -61,7 +60,6 @@ public class ObjectDeck extends Deck {
      * @return
      */
     public Card draw() {
-        // TODO implement here
     	Card extracted = this.getObjectDeck().get(0);
     	this.eliminateCard(extracted);
     	this.shuffle();

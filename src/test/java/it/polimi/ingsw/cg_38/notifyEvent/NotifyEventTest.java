@@ -107,7 +107,7 @@ public class NotifyEventTest {
 		finishedTurn = new EventFinishedTurn(player1 , finished);
 		moved = new EventMoved(player1 , moved1);
 		notifyEnvironment = new EventNotifyEnvironment(toDeclare, map);
-		notifyError = new EventNotifyError(player1);
+		/*notifyError = new EventNotifyError(player1);*/
 		notifyPlayerState = new EventNotifyPlayerState(player1, winner);
 		notifyTurn = new EventNotifyTurn(player1);
 		notYourTurn = new EventNotYourTurn(player1);

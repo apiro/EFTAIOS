@@ -11,6 +11,8 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventAttacked;
 
 public class RenderAttacked extends NotifyAction {
 	
+	private static final long serialVersionUID = 1L;
+
 	public RenderAttacked(NotifyEvent evt){
 		
 		super(evt.getGenerator() , evt);
