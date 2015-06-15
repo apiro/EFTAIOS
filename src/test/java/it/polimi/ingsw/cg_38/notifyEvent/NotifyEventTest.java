@@ -3,7 +3,6 @@ package it.polimi.ingsw.cg_38.notifyEvent;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 
