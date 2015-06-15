@@ -8,6 +8,7 @@ import org.junit.Test;
 public class ObjectDeckTest {
 	
 	ObjectDeck deck;
+	ObjectCard objectCard;
 	int i;
 
 	@Before
@@ -19,8 +20,10 @@ public class ObjectDeckTest {
 	public void test() {
 
 		i = deck.getObjectDeck().size();
-		deck.draw();
+		objectCard = (ObjectCard)deck.draw();
 		assertEquals(deck.getObjectDeck().size() ,  i-1);
+		assertEquals(objectCard.equals(null) , false);
+		assertEquals(objectCard.equals(new Sector()) , false);
 		
 	}
 

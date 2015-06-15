@@ -11,9 +11,12 @@ public class AlienTest {
 
 	GameModel model;
 	Sector alienStartingPoint;
+	Sector sector;
 	Player player;
+	Player player2;
 	Turn actualTurn;
 	Avatar avatar;
+	Avatar avatar2;
 	Card drownSect; 
 	Card drownObj; 
 	Card drownHatch;
@@ -34,6 +37,9 @@ public class AlienTest {
     	System.out.println(avatar.getCurrentSector().toString());
     	drownSect = avatar.draw(model.getDeckSector());
     	drownHatch = avatar.draw(model.getDeckHatch());
+    	avatar2 = new Alien(Name.Alien1 , sector);
+    	player2 = new Player("reda");
+    	player2.setAvatar(avatar2);
 	}
 	
 	
@@ -130,6 +136,10 @@ public class AlienTest {
 		avatar.attacked();
 		assertEquals(avatar.getIsWinner(), EndState.LOOSER);
 		assertEquals(avatar.getIsAlive(), LifeState.DEAD);
+		
+		assertEquals(player2.getAvatar().canMove(alienStartingPoint) , false);
+		player2.getAvatar().setIsPowered(true);
+		assertEquals(player2.getAvatar().canMove(sector) , false);
 		
 		
 	}
