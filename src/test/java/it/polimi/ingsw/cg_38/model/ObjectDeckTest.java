@@ -8,23 +8,19 @@ import org.junit.Test;
 public class ObjectDeckTest {
 	
 	ObjectDeck deck;
-	private boolean contain;
+	int i;
 
 	@Before
 	public void init(){
-		deck = new ObjectDeck();
-		contain = false;
-		
+		deck = new ObjectDeck();		
 		
 	}
 	@Test
 	public void test() {
-		Card ObjectCardDraw = deck.draw();
-		if(deck.getObjectDeck().contains(ObjectCardDraw)){
-			contain = true;
-		}
-		
-		assertEquals(contain, false);
+
+		i = deck.getObjectDeck().size();
+		deck.draw();
+		assertEquals(deck.getObjectDeck().size() ,  i-1);
 		
 	}
 

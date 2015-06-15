@@ -342,8 +342,6 @@ public class GameActionTest {
 			model1.getActualTurn().setHasAttacked(true);
 			assertEquals(attack3.isPossible(model1) , false);
 			model1.getActualTurn().setHasAttacked(false);
-			model1.getActualTurn().setHasDraw(true);
-			assertEquals(attack3.isPossible(model1) , false);
 			model1.getActualTurn().setHasMoved(false);
 			evtNotifyTurn2 = (EventNotifyTurn)finishTurn3.perform(model1);
 			assertEquals(evtNotifyTurn2.getPlayerOfTurn() , player3);

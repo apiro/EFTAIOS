@@ -106,7 +106,7 @@ public class UseCardTest {
 	ArrayList<ObjectCard> objectList1;
 	ArrayList<Player> killedPlayer;
 	ArrayList<Player> addPlayers;
-	HashMap<String , Sector> toDeclare;
+	ArrayList<Player> toDeclare;
 	
 	SectorDeck sectorDeck1;
 	ObjectDeck objectDeck1;
@@ -188,7 +188,7 @@ public class UseCardTest {
 		
 		killedPlayer = new ArrayList<Player>();
 		addPlayers = new ArrayList<Player>();
-		toDeclare = new HashMap<String , Sector>();
+		toDeclare = new ArrayList<Player>();
 		
 		sectorDeck1 = new SectorDeck();
 		objectDeck1 = new ObjectDeck();
@@ -250,9 +250,9 @@ public class UseCardTest {
 		useTeleportCard3 = new UseTeleportCard(evtTeleport3);
 		
 		
-		toDeclare.put(player1.getName() , player1.getAvatar().getCurrentSector());
-		toDeclare.put(player3.getName() , player3.getAvatar().getCurrentSector());
-		toDeclare.put(player6.getName() , player6.getAvatar().getCurrentSector());
+		toDeclare.add(player1);
+		toDeclare.add(player3);
+		toDeclare.add(player6);
 		/*toDeclare.put(player6.getName(), player6.getAvatar().getCurrentSector());*/
 		
 	}
@@ -317,9 +317,6 @@ public class UseCardTest {
 		model1.setGameState(GameState.ACCEPTING);
 		assertEquals(useAttackCard1.isPossible(model1) , false);
 		model1.setGameState(GameState.RUNNING);
-		turn5.setHasMoved(false);
-		assertEquals(useAttackCard1.perform(model1) , null);
-		turn5.setHasMoved(true);
 		model1.getActualTurn().getCurrentPlayer().getAvatar().addCard(attackCard1);
 		assertEquals(useAttackCard1.isPossible(model1) , true);
 		assertEquals(useAttackCard1.getCard() , attackCard1);

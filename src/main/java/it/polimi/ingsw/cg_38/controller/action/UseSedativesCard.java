@@ -44,13 +44,17 @@ public class UseSedativesCard extends GameAction {
      * @return
      */
     public Boolean isPossible(GameModel model) {
-    	if(!this.currentAvatarType(model).equals("Alien") && 
-    			model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
-    			super.isPossible(model)) {
-        	return true;
-        }
+    	if(!this.currentAvatarType(model).equals("Alien")){
+    		if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
+        			super.isPossible(model)){
+    	
+    			return true;
+    		}
+    	}else{
     	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
-        return false;
+        
+    	}
+    		return false;
     }
 
 }

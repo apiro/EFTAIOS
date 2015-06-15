@@ -50,15 +50,15 @@ public class UseLightsCard extends GameAction {
     public NotifyEvent perform(GameModel model) {
     	ArrayList<Player> players = new ArrayList<Player>();
     	for(Player pl:model.getDesiredPlayers(this.getTargetSector())) {
-    		if(!(pl.getName().equals(model.getActualTurn().getCurrentPlayer().getName()))) {
+    		
     			players.add(pl);
-    		}
+    		
     	}
     	for(Sector sec:model.getGameMap().searchSectorByCoordinates(this.getTargetSector().getRow(), this.getTargetSector().getCol()).getNeighboringSectors()) {
     		for(Player pl:model.getDesiredPlayers(sec)) {
-    			if(!(pl.getName().equals(model.getActualTurn().getCurrentPlayer().getName()))) {
+    			
     				players.add(pl);
-    			}
+    			
         	}
     	}
     	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
@@ -70,12 +70,14 @@ public class UseLightsCard extends GameAction {
      * @return
      */
     public Boolean isPossible(GameModel model) {
-    	if(!this.currentAvatarType(model).equals("Alien") && 
-    			model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
-    			super.isPossible(model)) {
-        	return true;
-        }
-    	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    	if(!this.currentAvatarType(model).equals("Alien")){
+    		if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
+        			super.isPossible(model))
+        			return true;
+    	}
+    	else{
+    		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    	}
         return false;
     }
 

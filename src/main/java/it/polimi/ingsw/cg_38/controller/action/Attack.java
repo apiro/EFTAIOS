@@ -40,7 +40,7 @@ public class Attack extends GameAction {
     	
        	for(Player pl:killed) {
        		
-       		if(pl.getAvatar() instanceof Human && pl.getAvatar().attacked()) {
+       		if(pl.getAvatar().attacked()) {
        		
        			if(this.currentAvatarType(model).equals("Alien")) {
        				model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);

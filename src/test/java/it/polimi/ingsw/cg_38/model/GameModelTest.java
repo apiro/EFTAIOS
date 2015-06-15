@@ -109,7 +109,7 @@ public class GameModelTest {
 		i = player11.getNumTurniGiocati();
 		player11.finishTurn();
 		assertEquals(player11.getNumTurniGiocati(), i+1);
-		
+
 	}
 
 }

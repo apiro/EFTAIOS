@@ -22,6 +22,7 @@ public abstract class Avatar implements Serializable{
      */
     private Sector currentSector;
 
+    /*
     @Override
 	public String toString() {
     	String code = "name=" + name + "currentSector=" + currentSector
@@ -39,7 +40,7 @@ public abstract class Avatar implements Serializable{
     	}
     	
 		return code;
-	}
+	}*/
 
     
     
