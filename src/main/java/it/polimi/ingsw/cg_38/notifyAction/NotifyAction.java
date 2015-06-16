@@ -22,7 +22,7 @@ public abstract class NotifyAction extends Action {
 
 	public NotifyAction(Player player , NotifyEvent evt) {
 		super(player);
-		this.evt = evt;
+		this.setEvt(evt);
 	}
 	
 	public abstract Boolean isPossible(PlayerClient client);

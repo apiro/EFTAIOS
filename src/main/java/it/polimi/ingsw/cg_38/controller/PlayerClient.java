@@ -43,6 +43,13 @@ public class PlayerClient {
 	private Map map;
 	private Thread gameEventSender;
 	
+	public PlayerClient(String connection , EventSubscribe evt){
+		
+		this.connection = connection;
+		this.evt = evt;
+		
+		}
+	
 	public PlayerClient() {
 		this.initPlayer();
 	}

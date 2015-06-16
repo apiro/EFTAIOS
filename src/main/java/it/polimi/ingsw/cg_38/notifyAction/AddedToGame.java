@@ -26,7 +26,7 @@ public class AddedToGame extends NotifyAction {
 	public GameEvent render(PlayerClient client) {
 		/*if(((EventAddedToGame)evt).getAdded()) {*/
 			/*System.out.println(((EventAddedToGame)evt).getAdded());*/
-			System.out.println(super.getEvt().getGenerator().getName() + " has been added to the choosen topic ! Enjoy");
+			System.out.println(this.getEvt().getGenerator().getName() + " has been added to the choosen topic ! Enjoy");
 			client.setPlayerClientState(PlayerClientState.connected);
 			client.setIsInterfaceBlocked(true);
 			return null;		

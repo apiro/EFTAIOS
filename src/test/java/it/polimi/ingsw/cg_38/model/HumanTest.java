@@ -42,10 +42,9 @@ public class HumanTest {
     	player.setNumTurniGiocati(player.getNumTurniGiocati());
     	avatar = model.getGamePlayers().get(0).getAvatar();
     	card1 = new ObjectCard(ObjectCardType.Defense);
-    	sector = new Dangerous();
+    	sector = model.getGameMap().searchSectorByCoordinates(2, 1);
     	avatar2 = new Human(Name.Human1 , sector);
     	player2.setAvatar(avatar2);
-    	player2.getAvatar().addCard(card1);
     	drownSect = avatar.draw(model.getDeckSector());
     	drownHatch = avatar.draw(model.getDeckHatch());
 	}
@@ -144,9 +143,12 @@ public class HumanTest {
 		avatar.attacked();
 		assertEquals(avatar.getIsWinner(), EndState.LOOSER);
 		assertEquals(avatar.getIsAlive(), LifeState.DEAD);
-		
+
+		assertEquals(player2.getAvatar().hasDefenseCard() , false);
+    	player2.getAvatar().addCard(card1);
 		assertEquals(player2.getAvatar().hasDefenseCard() , true);
 		assertEquals(player2.getAvatar().canMove(humanStartingPoint) , false);
+		assertEquals(player2.getAvatar().canMove(sector) , false);
 		player2.getAvatar().setIsPowered(true);
 		assertEquals(player2.getAvatar().canMove(sector) , false);
 		
