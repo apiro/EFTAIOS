@@ -23,7 +23,7 @@ import it.polimi.ingsw.cg_38.notifyAction.NotifyActionCreator;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class PlayerClient {
+public class PlayerClient implements PlayerClientInterface {
 
 	private ConcurrentLinkedQueue<Event> toSend;
 	private ConcurrentLinkedQueue<Event> toProcess;
