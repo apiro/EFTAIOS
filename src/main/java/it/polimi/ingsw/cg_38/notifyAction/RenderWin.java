@@ -7,6 +7,8 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 
 public class RenderWin extends NotifyAction {
 
+	private static final long serialVersionUID = 1L;
+
 	public RenderWin(NotifyEvent evt) {
 		super(evt.getGenerator(), evt);
 	}

@@ -12,9 +12,8 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventMoved;
  */
 public class Move extends GameAction {
 
-    /**
-     * 
-     */
+	private static final long serialVersionUID = 1L;
+
     public Move(GameEvent evt) {
     	super(evt.getGenerator());
     	this.setSectorToMove(((EventMove)evt).getToMove());

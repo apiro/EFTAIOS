@@ -18,16 +18,16 @@ public class UseAdrenalineCard extends GameAction {
 
     public UseAdrenalineCard(GameEvent evt) {
     	super(evt.getGenerator());
-    	this.setCard(((EventAdren)evt).getToUse());
+    	this.setCard(((ObjectCard)((EventAdren)evt).getToUse()));
     }
 
-    private Card card;
+    private ObjectCard card;
     
-    public Card getCard() {
+    public ObjectCard getCard() {
 		return card;
 	}
 
-	public void setCard(Card card) {
+	public void setCard(ObjectCard card) {
 		this.card = card;
 	}
 
@@ -37,12 +37,12 @@ public class UseAdrenalineCard extends GameAction {
     public ArrayList<NotifyEvent> perform(GameModel model) {
     	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	if(model.getActualTurn().getCurrentPlayer().getAvatar() instanceof Alien) {
-    		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false));
+    		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false, card.getType()));
     	} else {
     		model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
     		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     		model.getActualTurn().setHasUsedObjectCard(true);
-    		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true));	
+    		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true, card.getType()));	
     	}
     	/*callbackEvent.add(new EventUsedCard(model.getActualTurn().getCurrentPlayer(), ((ObjectCard)card).getType()));*/
     	return callbackEvent;

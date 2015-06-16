@@ -23,6 +23,7 @@ public class RenderAliensWin extends NotifyAction {
 	@Override
 	public GameEvent render(PlayerClient client) {
 		System.out.println("YOU KILLED ALL THE HUMANS, YOU WIN !");
+		client.setIsInterfaceBlocked(true);
 		return null;
 	}
 

@@ -21,7 +21,7 @@ public class RMICommunicator implements Communicator {
 	
 	public RMICommunicator(RMIRemoteObjectInterface remoteView) {
 		this.remoteView = remoteView;
-		System.out.println("Creating a new RMI communicator !");
+		/*System.out.println("Creating a new RMI communicator !");*/
 	}
 	
 	public void send(Event evt) throws RemoteException {

@@ -7,28 +7,22 @@ import it.polimi.ingsw.cg_38.gameEvent.EventSedat;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
 
-/**
- * 
- * anche questa perform è void in realtà
- * 
- */
 public class UseSedativesCard extends GameAction {
 
-    /**
-     * 
-     */
+	private static final long serialVersionUID = 1L;
+
     public UseSedativesCard(GameEvent evt) {
     	super(evt.getGenerator());
-    	this.setCard(((EventSedat)evt).getToUse());
+    	this.setCard(((ObjectCard)((EventSedat)evt).getToUse()));
     }
 
-    private Card card;
+    private ObjectCard card;
     
-    public Card getCard() {
+    public ObjectCard getCard() {
 		return card;
 	}
 
-	public void setCard(Card card) {
+	public void setCard(ObjectCard card) {
 		this.card = card;
 	}
 
@@ -40,7 +34,7 @@ public class UseSedativesCard extends GameAction {
     	model.getActualTurn().setHasDraw(true);
     	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     	model.getActualTurn().setHasUsedObjectCard(true);
-    	callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true));
+    	callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true, card.getType()));
     	return callbackEvent;
     }
 

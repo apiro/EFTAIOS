@@ -8,7 +8,6 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseMySect;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseRandSect;
-import it.polimi.ingsw.cg_38.gameEvent.EventPlayerWinner;
 import it.polimi.ingsw.cg_38.model.HatchCard;
 import it.polimi.ingsw.cg_38.model.HatchCardType;
 import it.polimi.ingsw.cg_38.model.SectorCard;
@@ -17,6 +16,8 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventDrown;
 
 public class RenderDrown extends NotifyAction {
 	
+	private static final long serialVersionUID = 1L;
+
 	public RenderDrown(NotifyEvent evt){
 		
 		super(evt.getGenerator() , evt);
@@ -55,7 +56,7 @@ public class RenderDrown extends NotifyAction {
 		} else if (((EventDrown)evt).getDrown() instanceof HatchCard) {
 			HatchCard card = ((HatchCard)((EventDrown)evt).getDrown());
 			if(card.getColor().equals(HatchCardType.Green)) {
-				evt1 = new EventPlayerWinner(client.getPlayer());
+				this.renderWin(client);
 			} else if(card.getColor().equals(HatchCardType.Red)) {
 				client.setIsInterfaceBlocked(false);
 				System.out.println("You can't escape frome the SpaceShip !");
@@ -64,5 +65,12 @@ public class RenderDrown extends NotifyAction {
 			}
 		}
 		return evt1;
+	}
+
+	private void renderWin(PlayerClient client) {
+		System.out.println("YOU WIN !");
+		client.setIsInterfaceBlocked(true);
+		client.setPlayerClientState(PlayerClientState.winner);
+		client.closeClient();
 	}
 }

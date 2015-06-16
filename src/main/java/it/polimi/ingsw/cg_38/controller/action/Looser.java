@@ -12,6 +12,8 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyLoose;
 
 public class Looser extends GameAction {
 
+	private static final long serialVersionUID = 1L;
+
 	public Looser(GameEvent evt) {
 		super(evt.getGenerator());
 	}
@@ -27,7 +29,7 @@ public class Looser extends GameAction {
 			}
 		}
 		//DOVREI  togliere riferimenti al giocatore nel server e nel topic
-		callbackEvent.add(new EventNotifyLoose(model.getActualTurn().getCurrentPlayer()));
+		callbackEvent.add(new EventNotifyLoose(super.getPlayer()));
 		return callbackEvent;
 	}
 

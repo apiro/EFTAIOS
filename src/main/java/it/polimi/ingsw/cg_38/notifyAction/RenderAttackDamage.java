@@ -1,9 +1,10 @@
 package it.polimi.ingsw.cg_38.notifyAction;
 
 import it.polimi.ingsw.cg_38.controller.PlayerClient;
+import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.gameEvent.EventPlayerLooser;
+import it.polimi.ingsw.cg_38.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.notifyEvent.EventSufferAttack;
 
@@ -28,12 +29,22 @@ public class RenderAttackDamage extends NotifyAction {
 						evt.getGenerator().getAvatar().getCurrentSector().getCol() + " ...");
 		
 		for(Player pl:((EventSufferAttack)evt).getKilled()){
+			System.out.println("Player killed in sector: row: " + 
+					evt.getGenerator().getAvatar().getCurrentSector().getRow() + " col: " + 
+					evt.getGenerator().getAvatar().getCurrentSector().getCol());
 			if(pl.getName().equals(client.getPlayer().getName())) {
-				return new EventPlayerLooser(client.getPlayer());
+				this.renderLoose(client);
 			}
 		}
 		
-		return null;
+		return new EventContinue();
 	}
 
+	public void renderLoose(PlayerClient client) {
+		
+		System.out.println("YOU LOOSE !");
+		client.setIsInterfaceBlocked(true);
+		client.setPlayerClientState(PlayerClientState.looser);
+		client.closeClient();
+	}
 }

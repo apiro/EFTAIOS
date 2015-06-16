@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.gameEvent.EventAdren;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttackCard;
 import  it.polimi.ingsw.cg_38.model.*;
@@ -18,7 +19,7 @@ public class UseAttackCard extends GameAction {
 
 	public UseAttackCard(GameEvent evt) {
 		super(evt.getGenerator());
-    	this.setCard(((EventAttackCard)evt).getToUse());
+		this.setCard(((ObjectCard)((EventAttackCard)evt).getToUse()));
     	this.setSectorToAttack(((EventAttackCard)evt).getTarget());
     }
 
@@ -30,14 +31,14 @@ public class UseAttackCard extends GameAction {
 		this.sectorToAttack = sectorToAttack;
 	}
 
-	private Card card;
+	private ObjectCard card;
     private Sector sectorToAttack;
     
-    public Card getCard() {
+    public ObjectCard getCard() {
 		return card;
 	}
 
-	public void setCard(Card card) {
+	public void setCard(ObjectCard card) {
 		this.card = card;
 	}
 
@@ -54,7 +55,7 @@ public class UseAttackCard extends GameAction {
     		callbackEvent = humanAttackAction.perform(model);
     	}
     	model.getActualTurn().setHasUsedObjectCard(true);
-    	callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true));
+    	callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true, card.getType()));
     	return callbackEvent;
     }
 

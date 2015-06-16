@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg_38.controller.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventAliensWinner;
+import it.polimi.ingsw.cg_38.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.model.Alien;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAttacked;
 
@@ -27,14 +28,13 @@ public class RenderAttacked extends NotifyAction {
 	public GameEvent render(PlayerClient client) {	
 		
 		
-		//se il giocatore a cui arriva questo evento è il generator dell'evento cioè chi ha attaccato
-		if(((EventAttacked)evt).getGenerator().getName().equals(client.getPlayer().getName())) {
+		/*if(((EventAttacked)evt).getGenerator().getName().equals(client.getPlayer().getName())) {*/
 			
 			client.setPlayer(evt.getGenerator());
-			//ha ucciso almeno un giocatore
+			
 			if(((EventAttacked)evt).getAreYouPowered()) {
 				System.out.println("You killed someone !");
-				//se ha attaccato un alieno verifico se ci sono altri human nella mappa
+				//verifico chi è stato a fare l'attacco
 				if(((EventAttacked)evt).getGenerator().getAvatar() instanceof Alien) {
 					
 					if(((EventAttacked)evt).getAreThereOtherHumans()) {
@@ -47,15 +47,17 @@ public class RenderAttacked extends NotifyAction {
 					}
 				} else {
 					
-					client.setIsInterfaceBlocked(false);
-					return null;
+					client.setIsInterfaceBlocked(true);
+					return new EventContinue();
 				}
 			} else {
 				
 				System.out.println("There are no players in the sector you have choosen !");
+				client.setIsInterfaceBlocked(false);
+				return null;
 			}
-		}
-		
-		return null;
+		/*}
+		client.setIsInterfaceBlocked(true);
+		return null;*/
 	}
 }

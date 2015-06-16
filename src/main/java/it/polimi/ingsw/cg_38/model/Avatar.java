@@ -72,10 +72,10 @@ public abstract class Avatar implements Serializable{
      * @param Name name
      */
     public Avatar() {
-        // TODO implement here
     }
 
     public Boolean hasDefenseCard(){
+    	
     	for(int i = 0; i<myCards.size(); i++){
     		if((myCards.get(i).getType()).equals(ObjectCardType.Defense)) {
     			return true;
@@ -89,7 +89,6 @@ public abstract class Avatar implements Serializable{
      * @return
      */
     public Card draw(Deck deck) {
-        // TODO implement here
     	Card drown = deck.draw();
         return drown;
     }
@@ -99,7 +98,6 @@ public abstract class Avatar implements Serializable{
      * @return
      */
     public String move(Sector sector, int number) {
-        // TODO implement here
     	this.setCurrentSector(sector);
     	this.getMyMovements().add(new Movement(this.getCurrentSector(), number));
         return sector.getName();
@@ -114,7 +112,6 @@ public abstract class Avatar implements Serializable{
      * @return
      */
     public Card eliminateFromMyCards(Card card) {
-        // TODO implement here
     	this.getMyCards().remove(card);
         return card;
     }
@@ -124,7 +121,6 @@ public abstract class Avatar implements Serializable{
      * @return
      */
     public Boolean addCard(Card card) {
-        // TODO implement here
     	if(this.getMyCards().size()<3) {
     		this.getMyCards().add((ObjectCard)card);
     		return true;
@@ -143,14 +139,6 @@ public abstract class Avatar implements Serializable{
      * @param Sector sector 
      * @return
      */
-    
-    /*
-    public void attack(Sector sector) {
-        // TODO implement here
-    	
-    }
-    */
-    
     
     /**
      * return true se l'attacco va a buon fine false se non va a buon fine

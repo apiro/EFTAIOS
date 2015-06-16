@@ -6,13 +6,8 @@ import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
-import it.polimi.ingsw.cg_38.controller.action.InitGameAction;
 import it.polimi.ingsw.cg_38.controller.action.GameAction;
-import it.polimi.ingsw.cg_38.gameEvent.EventPlayerLooser;
-import it.polimi.ingsw.cg_38.gameEvent.EventPlayerWinner;
-import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
-import it.polimi.ingsw.cg_38.notifyEvent.EventNotYourTurn;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -92,20 +87,18 @@ public class ServerController extends Observable {
 					callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 				} else {
 					//se l'evento non viene dal gicatore del turno (qualcuno ha inviato un evento fuori turno)
-					if(msg instanceof EventPlayerLooser || msg instanceof EventPlayerWinner) {
+					/*if(msg instanceof EventPlayerLooser || msg instanceof EventPlayerWinner) {
 						callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 					} else {
 						NotifyEvent callbackError = new EventNotYourTurn(msg.getGenerator());
 						callbackEvent.add(callbackError);
-					}
+					}*/
 				}
 				for(NotifyEvent e:callbackEvent) {
 					gcFound.addEventToTheQueue(e);
 					this.setChanged();
 					this.notifyObservers(gcFound.getTopic());
 				}
-				/*this.setChanged();
-				this.notifyObservers(gcFound.getTopic());*/
 				
 				for(NotifyEvent e:callbackEvent) {
 					if(e.getType().equals(NotifyEventType.Added)) {

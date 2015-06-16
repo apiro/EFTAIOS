@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.controller.action;
 import java.util.ArrayList;
 
+import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
@@ -33,45 +34,40 @@ public class Attack extends GameAction {
     	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	ArrayList<Player> killed = model.getDesiredPlayers(this.getSectorToAttack());
     	Player p = null;
+    	ArrayList<NotifyEvent> defenseUseCard = new ArrayList<NotifyEvent>();
     	ArrayList<Player> hasDefense = new ArrayList<Player>();
+    	
     	//tolgo il giocatore che ha attaccato che è nel target sector
     	for(Player pl:killed) {
     		if(pl.getName().equals(super.getPlayer().getName())) {
     			p = pl;
     		} else if (pl.getAvatar().hasDefenseCard()) {
     			hasDefense.add(pl);
-    			callbackEvent.add(new EventCardUsed(pl, true));
+    			callbackEvent.add(new EventUseDefense(pl, true, ObjectCardType.Defense));
     		} else {
     			pl.getAvatar().attacked();
+    			model.getGamePlayers().remove(pl);
     			if(this.currentAvatarType(model).equals("Alien")) {
        				model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
        			}
     		}
     	}
-    	if(model.getActualTurn().getCurrentPlayer().getAvatar() instanceof Human) {
-    		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true));
-    	}
     	killed.remove(p);
     	for(Player pl:hasDefense) {
     		killed.remove(pl);
     	}
-    	if(killed != null) {
-    		callbackEvent.add(new EventSufferAttack(model.getActualTurn().getCurrentPlayer(), killed));
-    	}
+    	callbackEvent.add(new EventSufferAttack(model.getActualTurn().getCurrentPlayer(), killed));
     	
     	model.getActualTurn().setHasAttacked(true);
         
-        Boolean areAllAliens = true;
+        Boolean areThereOtherHumans = false;
         for(Player pl:model.getGamePlayers()) {
-        	if(pl.getAvatar() instanceof Human) {
-        		areAllAliens = false;
+        	if((pl.getAvatar() instanceof Human) && pl.getAvatar().getIsAlive().equals(LifeState.ALIVE)) {
+        		areThereOtherHumans = true;
         	}
         }
-        if(areAllAliens) {
-        	callbackEvent.add(new EventAttacked(model.getActualTurn().getCurrentPlayer(), false));
-        } else {
-        	callbackEvent.add(new EventAttacked(model.getActualTurn().getCurrentPlayer(), true));
-        }
+        
+        callbackEvent.add(new EventAttacked(model.getActualTurn().getCurrentPlayer(), areThereOtherHumans));
         return callbackEvent;
     }
 

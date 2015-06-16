@@ -3,17 +3,14 @@ package it.polimi.ingsw.cg_38.controller;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventAdren;
-import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttackCard;
-import it.polimi.ingsw.cg_38.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.gameEvent.EventFinishTurn;
 import it.polimi.ingsw.cg_38.gameEvent.EventLights;
 import it.polimi.ingsw.cg_38.gameEvent.EventMove;
 import it.polimi.ingsw.cg_38.gameEvent.EventSedat;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.gameEvent.EventTeleport;
-import it.polimi.ingsw.cg_38.model.Alien;
-import it.polimi.ingsw.cg_38.model.Human;
+import it.polimi.ingsw.cg_38.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.model.Movement;
 import it.polimi.ingsw.cg_38.model.ObjectCard;
 import it.polimi.ingsw.cg_38.model.ObjectCardType;
@@ -108,16 +105,6 @@ public class PlayerClient {
 
 	public void setMap(Map map) {
 		this.map = map;
-	}
-
-	
-	public void run() {
-		while(clientAlive) {
-			Event msg = toProcess.poll();
-			if(msg != null) {
-				this.process(msg);
-			}
-		}
 	}
 
 	public void loadInterface() {
@@ -239,6 +226,15 @@ public class PlayerClient {
 		}
 	}
 
+	public void run() {
+		while(clientAlive) {
+			Event msg = toProcess.poll();
+			if(msg != null) {
+				this.process(msg);
+			}
+		}
+	}
+	
 	public void process(Event msg) {
 		System.out.println("----------------------------------------------------------------------\n");
 		System.err.println("Recieving " + msg.toString() + " ...\n");
@@ -247,18 +243,25 @@ public class PlayerClient {
 		if(action.isPossible(this)) {
 			gamEvt = action.render(this);
 			if(gamEvt != null) {
+				if(gamEvt instanceof EventContinue) return;
 				this.toSend.add(gamEvt);
 			} else { 
-				if(!isInterfaceBlocked) {
+				if(!isInterfaceBlocked/* && toProcess.size() == 0*/) {
 					this.loadInterface();
 				} else return;
 			}
 		} else {
 			System.out.println("Error in parsing the notifyEvent ...");
 		}
-		
 	}
 
+	public static void main(String[] args) {
+		PlayerClient player;
+		Thread.currentThread().setName("Player-MainThread");
+		player = new PlayerClient();
+		player.run();
+	}
+	
 	public Boolean getIsInterfaceBlocked() {
 		return isInterfaceBlocked;
 	}

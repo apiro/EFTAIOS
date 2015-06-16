@@ -1,7 +1,9 @@
 package it.polimi.ingsw.cg_38.controller.action;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.gameEvent.EventAdren;
 import it.polimi.ingsw.cg_38.gameEvent.EventLights;
+import it.polimi.ingsw.cg_38.gameEvent.EventSedat;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDeclarePosition;
@@ -21,17 +23,17 @@ public class UseLightsCard extends GameAction {
      */
     public UseLightsCard(GameEvent evt) {
     	super(evt.getGenerator());
-    	this.setCard(((EventLights)evt).getCard());
+    	this.setCard(((ObjectCard)((EventLights)evt).getToUse()));
     	this.setTargetSector(((EventLights)evt).getTarget());
     }
 
-    private Card card;
+    private ObjectCard card;
     
-    public Card getCard() {
+    public ObjectCard getCard() {
 		return card;
 	}
 
-	public void setCard(Card card) {
+	public void setCard(ObjectCard card) {
 		this.card = card;
 	}
     
@@ -66,7 +68,7 @@ public class UseLightsCard extends GameAction {
     	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     	model.getActualTurn().setHasUsedObjectCard(true);
     	callbackEvent.add(new EventDeclarePosition(model.getActualTurn().getCurrentPlayer(), players));
-    	callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true));
+    	callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true, card.getType()));
     	return callbackEvent;
     }
 

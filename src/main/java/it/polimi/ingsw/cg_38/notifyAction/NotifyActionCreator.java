@@ -29,10 +29,6 @@ public class NotifyActionCreator {
     		action = new RenderDrown((NotifyEvent) evt);
     	if(type.equals(NotifyEventType.Noise)) 
     		action = new RenderNoise((NotifyEvent) evt);
-    	if(type.equals(NotifyEventType.notWin)) 
-    		action = new RenderWin((NotifyEvent) evt);
-    	if(type.equals(NotifyEventType.notLoose)) 
-    		action = new RenderLoose((NotifyEvent) evt);
     	if(type.equals(NotifyEventType.aliensWin))
     		action = new RenderAliensWin((NotifyEvent)evt);
     	if(type.equals(NotifyEventType.CardUsed))
@@ -41,7 +37,11 @@ public class NotifyActionCreator {
     		action = new RenderSpotlight((NotifyEvent)evt);
     	if(type.equals(NotifyEventType.sufferAttack)) 
     		action = new RenderAttackDamage((NotifyEvent)evt);
-		return action;
+		if(type.equals(NotifyEventType.useDefenseCard))
+			action = new RenderUseDefenseCard((NotifyEvent)evt);
+		if(type.equals(NotifyEventType.notTeleport)) 
+			action = new RenderTeleport((NotifyEvent)evt);
+    	return action;
 		
 	}
 	

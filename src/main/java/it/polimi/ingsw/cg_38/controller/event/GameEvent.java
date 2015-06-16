@@ -4,6 +4,10 @@ import it.polimi.ingsw.cg_38.model.Player;
 
 public class GameEvent extends Event {
 
+	@Override
+	public String toString() {
+		return "GameEvent [type=" + type + "]";
+	}
 	private Boolean notifyEventIsBroadcast;
 	public Boolean getNotifyEventIsBroadcast() {
 		return notifyEventIsBroadcast;

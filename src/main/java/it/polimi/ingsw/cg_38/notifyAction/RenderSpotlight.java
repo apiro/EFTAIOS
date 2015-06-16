@@ -3,13 +3,13 @@ package it.polimi.ingsw.cg_38.notifyAction;
 import it.polimi.ingsw.cg_38.controller.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.model.Card;
-import it.polimi.ingsw.cg_38.model.ObjectCard;
-import it.polimi.ingsw.cg_38.model.ObjectCardType;
+import it.polimi.ingsw.cg_38.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDeclarePosition;
 
 public class RenderSpotlight extends NotifyAction {
+
+	private static final long serialVersionUID = 1L;
 
 	public RenderSpotlight(NotifyEvent evt) {
 		super(evt.getGenerator(), evt);
@@ -37,7 +37,6 @@ public class RenderSpotlight extends NotifyAction {
 			client.setPlayer(evt.getGenerator());
 			System.out.println("Card used !");
 		}
-		return null;
+		return new EventContinue();
 	}
-
 }

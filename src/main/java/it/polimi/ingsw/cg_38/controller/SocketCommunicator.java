@@ -63,7 +63,7 @@ public class SocketCommunicator implements Communicator {
 	public SocketCommunicator(Socket socket) {
 
 		this.setSocket(socket);
-		System.out.println("Creating a new socket communicator !");
+		/*System.out.println("Creating a new socket communicator !");*/
 	}
 	
 	public Event recieveEvent() {

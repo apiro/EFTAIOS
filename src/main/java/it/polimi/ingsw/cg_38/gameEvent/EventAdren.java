@@ -11,7 +11,7 @@ public class EventAdren extends GameEvent {
 	private static final long serialVersionUID = 1L;
 	
 	public EventAdren(Player generator, Card card) {
-		super(generator, false);
+		super(generator, true);
 		this.setToUse(card);
 		super.setType(GameEventType.Adrenaline);
 	}

@@ -12,6 +12,8 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventMoved;
 
 public class RenderMoved extends NotifyAction {
 	
+	private static final long serialVersionUID = 1L;
+
 	public RenderMoved(NotifyEvent evt){
 		
 		super(evt.getGenerator() , evt);
@@ -50,6 +52,7 @@ public class RenderMoved extends NotifyAction {
 			}
 		} else if(((EventMoved)evt).getMoved().equals("Dangerous")) {
 			System.out.println("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?");
+			System.out.println("(If you activated the sedative card Type [D] to continue without drowing !");
 			String com = in.nextLine();
 			while(!com.equals("D") && !com.equals("A")) {
 				System.out.println("Command not valid retry !");

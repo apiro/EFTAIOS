@@ -27,8 +27,9 @@ public class WaitingRoomController extends Observable implements Runnable {
 	}
 	
 	public void run() {
-		
-		System.out.println("WAITING FOR OTHER PLAYERS IN ROOM: " + gc.getTopic() + " ...");
+		System.out.println("---------------------------------------------------------------------\n");
+		System.out.println("ACCEPTING: " + gc.getTopic() + " ...");
+		System.out.println("---------------------------------------------------------------------\n");
 		try {
 			Thread.sleep(30000);
 		} catch (InterruptedException e1) {

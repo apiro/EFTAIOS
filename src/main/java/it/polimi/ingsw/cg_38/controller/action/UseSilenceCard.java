@@ -9,9 +9,8 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventDeclareNoise;
 
 public class UseSilenceCard extends GameAction {
 
-    /**
-     * 
-     */
+	private static final long serialVersionUID = 1L;
+
     public UseSilenceCard(GameEvent evt) {
     	super(evt.getGenerator());
     }

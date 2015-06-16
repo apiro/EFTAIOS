@@ -6,30 +6,24 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventTeleport;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
-import it.polimi.ingsw.cg_38.notifyEvent.EventMoved;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTeleport;
 
-/**
- * 
- * anche questa perform è void in realta
- * 
- */
 public class UseTeleportCard extends GameAction {
 
-    /**
-     * 
-     */
+	private static final long serialVersionUID = 1L;
+
     public UseTeleportCard(GameEvent evt) {
     	super(evt.getGenerator());
-    	this.setCard(((EventTeleport)evt).getToUse());
+    	this.setCard(((ObjectCard)((EventTeleport)evt).getToUse()));
     }
 
-    private Card card;
+    private ObjectCard card;
     
-    public Card getCard() {
+    public ObjectCard getCard() {
 		return card;
 	}
 
-	public void setCard(Card card) {
+	public void setCard(ObjectCard card) {
 		this.card = card;
 	}
 
@@ -44,9 +38,9 @@ public class UseTeleportCard extends GameAction {
     	model.getActualTurn().getCurrentPlayer().setNumTurniGiocati(model.getActualTurn().getCurrentPlayer().getNumTurniGiocati()+1);
     	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     	model.getActualTurn().setHasUsedObjectCard(true);
-    	callbackEvent.add(new EventMoved(model.getActualTurn().getCurrentPlayer(), model.getActualTurn().getCurrentPlayer().
+    	callbackEvent.add(new EventNotifyTeleport(model.getActualTurn().getCurrentPlayer(), model.getActualTurn().getCurrentPlayer().
     			getAvatar().getCurrentSector().getName()));
-    	callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true));
+    	callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true, card.getType()));
     	return callbackEvent;
     }
 

@@ -16,5 +16,6 @@ public enum NotifyEventType {
 	notLoose, 
 	aliensWin,
 	sufferAttack, 
-	useDefenseCard
+	useDefenseCard, 
+	notTeleport
 }

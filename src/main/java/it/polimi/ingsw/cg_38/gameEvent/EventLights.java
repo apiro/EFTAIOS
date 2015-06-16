@@ -12,11 +12,11 @@ public class EventLights extends GameEvent{
 	private Card card;
 	private static final long serialVersionUID = 1L;
 	
-	public Card getCard() {
+	public Card getToUse() {
 		return card;
 	}
 
-	public void setCard(Card card) {
+	public void setToUse(Card card) {
 		this.card = card;
 	}
 
@@ -24,7 +24,7 @@ public class EventLights extends GameEvent{
 		super(generator, true);
 		super.setType(GameEventType.Lights);
 		this.setTarget(target);
-		this.setCard(card);
+		this.setToUse(card);
 	}
 
 	public Sector getTarget() {
