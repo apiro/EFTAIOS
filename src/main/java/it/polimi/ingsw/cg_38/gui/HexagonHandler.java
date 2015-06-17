@@ -2,7 +2,12 @@ package it.polimi.ingsw.cg_38.gui;
 
 
 
+import it.polimi.ingsw.cg_38.model.Map;
+import it.polimi.ingsw.cg_38.model.Sector;
+
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
  
 /* This is a companion class to hexgame.java. It handles all of the mechanics related to hexagon grids. */
@@ -143,22 +148,61 @@ The hexagon is drawn in the colour specified in hexgame.COLOURELL.
 		char c='o';
 		int x = i * (s+t);
 		int y = j * h + (i%2) * h/2;
-		if (n < 0) {
-			g2.setColor(GUI.COLOURONE);
+		if (n == -1 ) {
+			//empty
+			g2.setColor(GUI.COLOUREMPTY);
 			g2.fillPolygon(hex(x,y));
 			g2.setColor(GUI.COLOURONETXT);
-			c = (char)(-n);
+			c = 'E';
 			g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4); //FIXME: handle XYVertex
 			//g2.drawString(x+","+y, x+r+BORDERS, y+r+BORDERS+4);
 		}
-		if (n > 0) {
-			g2.setColor(GUI.COLOURTWO);
+		if (n == 0) {
+			//safe
+			g2.setColor(GUI.COLOURSAFE);
 			g2.fillPolygon(hex(x,y));
-			g2.setColor(GUI.COLOURTWOTXT);
-			c = (char)n;
+			g2.setColor(GUI.COLOURONETXT);
+			c = 'S';
 			g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4); //FIXME handle XYVertex
 			//g2.drawString(i+","+j, x+r+BORDERS, y+r+BORDERS+4);
 		}
+		if (n == 1) {
+			//dangerous
+			g2.setColor(GUI.COLOURDANGEROUS);
+			g2.fillPolygon(hex(x,y));
+			g2.setColor(GUI.COLOURONETXT);
+			c = 'D';
+			g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4); //FIXME: handle XYVertex
+			//g2.drawString(x+","+y, x+r+BORDERS, y+r+BORDERS+4);
+		}
+		if (n == 2) {
+			//hsp
+			g2.setColor(GUI.COLOURHSP);
+			g2.fillPolygon(hex(x,y));
+			g2.setColor(GUI.COLOURONETXT);
+			c = 'H';
+			g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4); //FIXME: handle XYVertex
+			//g2.drawString(x+","+y, x+r+BORDERS, y+r+BORDERS+4);
+		}
+		if (n == 3) {
+			//asp
+			g2.setColor(GUI.COLOURASP);
+			g2.fillPolygon(hex(x,y));
+			g2.setColor(GUI.COLOURONETXT);
+			c = 'A';
+			g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4); //FIXME: handle XYVertex
+			//g2.drawString(x+","+y, x+r+BORDERS, y+r+BORDERS+4);
+		}
+		if (n == 4) {
+			//hatch
+			g2.setColor(GUI.COLOURHATCH);
+			g2.fillPolygon(hex(x,y));
+			g2.setColor(GUI.COLOURONETXT);
+			c = 'G';
+			g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4); //FIXME: handle XYVertex
+			//g2.drawString(x+","+y, x+r+BORDERS, y+r+BORDERS+4);
+		}
+		
 	}
  
 	//This function changes pixel location from a mouse click to a hex grid location
@@ -221,6 +265,7 @@ The hexagon is drawn in the colour specified in hexgame.COLOURELL.
 		}
 		p.x=x;
 		p.y=y;
+		System.out.println(p);
 		return p;
 	}
 }

@@ -1,7 +1,12 @@
 package it.polimi.ingsw.cg_38.gui;
 import java.awt.*;
+
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
 import java.awt.event.*; 
+import java.util.ArrayList;
  
 /**********************************
   This is the main class of a Java program to play a game based on hexagonal tiles.
@@ -14,26 +19,34 @@ import java.awt.event.*;
  
 public class GUI
 {
-  public GUI() {
+	private String name;
+
+	public GUI() {
+		
 		initGame();
 		createAndShowGUI();
 	}
  
 	//constants and global variables
-	final static Color COLOURBACK =  Color.BLACK;
+	final static Color COLOUREMPTY = Color.WHITE;
+	final static Color COLOURSAFE = Color.LIGHT_GRAY;
+	final static Color COLOURDANGEROUS = Color.GRAY;
+	final static Color COLOURHSP = Color.ORANGE;
+	final static Color COLOURASP = Color.RED;
+	final static Color COLOURHATCH = Color.GREEN;
+	
+	final static Color COLOURBACK =  Color.DARK_GRAY;
 	final static Color COLOURCELL =  Color.GRAY;	 
-	final static Color COLOURGRID =  Color.DARK_GRAY;	 
-	final static Color COLOURONE = new Color(255,255,255,200);
+	final static Color COLOURGRID =  Color.BLUE;
 	final static Color COLOURONETXT = Color.BLUE;
-	final static Color COLOURTWO = new Color(0,0,0,200);
-	final static Color COLOURTWOTXT = new Color(255,100,255);
 	final static int EMPTY = 0;
-	final static int BSIZE = 15; //board size.
+	final static int BSIZE = 10; //board size.
 	final static int HEXSIZE = 60;	//hex size in pixels
 	final static int BORDERS = 15;  
 	final static int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3; //screen size (vertical dimension).
  
 	int[][] board = new int[BSIZE][BSIZE];
+	private ArrayList<JButton> buttons = new ArrayList<JButton>();
  
 	void initGame(){
  
@@ -52,18 +65,59 @@ public class GUI
 		board[3][3] = (int)'A';
 		board[4][3] = (int)'Q';
 		board[4][4] = -(int)'B';
+		board[4][2] = -(int)'B';
+		board[5][4] = -(int)'B';
+		board[2][4] = -(int)'B';
+		board[4][6] = -(int)'B';
+	}
+	
+    private void initializeToolBar(JToolBar tools){
+		
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("FINISH TURN");
+		commands.add("USE CARD");
+		
+		for(int i = 0; i < buttons.size(); i++) {
+			JButton b = new JButton(commands.get(i));
+			buttons.add(b);
+			tools.add(b);
+		}
+        
 	}
  
+    public void addButtonActionListener(ActionListener listener) {
+		for (int i = 0; i < buttons.size() ; i++ ){
+			buttons.get(i).addActionListener(listener);
+		}
+	}
+    
 	private void createAndShowGUI()
 	{
-		DrawingPanel panel = new DrawingPanel();
- 
- 
-		//JFrame.setDefaultLookAndFeelDecorated(true);
+		JFrame.setDefaultLookAndFeelDecorated(true);
 		JFrame frame = new JFrame("ESCAPE ALIENS FROM THE OUTER SPACE");
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		Container content = frame.getContentPane();
-		content.add(panel);
+		JPanel gui = new JPanel(); 
+		JToolBar tools = new JToolBar();
+		tools.setFloatable(false);
+	    gui.add(tools, BorderLayout.PAGE_START);
+	    this.initializeToolBar(tools);
+	    
+	    name = JOptionPane.showInputDialog(
+	           frame,
+	            "Choose a type of connection:",
+	            "Connection",
+	            JOptionPane.PLAIN_MESSAGE);
+		
+		DrawingPanel board = new DrawingPanel();
+		
+		board.setBorder(new LineBorder(Color.GREEN));
+		
+		gui.add(board);
+		
+		/*Container content = frame.getContentPane();
+		LayoutManager mgr = new 
+		content.setLayout(mgr);*/
+		frame.add(gui);
 		//this.add(panel);  -- cannot be done in a static context
 		//for hexes in the FLAT orientation, the height of a 10x10 grid is 1.1764 * the width. (from h / (s+t))
 		frame.setSize( (int)(SCRSIZE/1.23), SCRSIZE);
@@ -71,7 +125,7 @@ public class GUI
 		frame.setLocationRelativeTo( null );
 		frame.setVisible(true);
 	}
- 
+	
 	class DrawingPanel extends JPanel
 	{		
 		//mouse variables here
@@ -79,6 +133,8 @@ public class GUI
  
 		public DrawingPanel()
 		{	
+			/*super();
+			this.setBorder(new LineBorder(Color.BLACK));*/
 			setBackground(COLOURBACK);
  
 			MyMouseListener ml = new MyMouseListener();            

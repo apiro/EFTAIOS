@@ -10,10 +10,6 @@ public class Fermi extends Map {
     	this.fillTable(configuration);
     }
 
-    public int[] getConfiguration() {
-		return configuration;
-	}
-
     private final String name = "Fermi";
 
     private final int[] configuration = {-1,-1,-1,-1,-1,-1,-1,-1,-1,4,-1,-1,-1,4,-1,-1,-1,-1,-1,-1,-1,-1,-1
@@ -30,5 +26,10 @@ public class Fermi extends Map {
     									,-1,-1,-1,-1,-1,-1,-1,-1,1,0,-1,0,-1,1,0,-1,-1,-1,-1,-1,-1,-1,-1
     									,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
     									,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+
+    @Override 
+    public int[] getConfiguration() {
+    	return configuration;
+    }
 
 }

@@ -34,4 +34,8 @@ public class Galvani extends Map {
     									,-1,-1,1,-1,-1,-1,1,1,-1,-1,1,1,-1,-1,-1,-1,-1,1,1,-1,-1,1,1
     									,-1,-1,-1,-1,-1,-1,-1,-1,1,1,0,-1,0,1,0,1,0,1,1,1,1,-1,-1};
 
+   @Override 
+    public int[] getConfiguration() {
+    	return configuration;
+    }
 }

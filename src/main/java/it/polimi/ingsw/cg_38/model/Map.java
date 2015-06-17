@@ -37,6 +37,9 @@ public class Map implements Serializable {
     public int[] getConfiguration() {
 		return configuration;
 	}
+    
+    
+    
 	public void setConfiguration(int[] configuration) {
 		this.configuration = configuration;
 	}
