@@ -14,6 +14,8 @@ import it.polimi.ingsw.cg_38.model.Card;
 import it.polimi.ingsw.cg_38.model.Human;
 import it.polimi.ingsw.cg_38.model.Map;
 import it.polimi.ingsw.cg_38.model.Name;
+import it.polimi.ingsw.cg_38.model.ObjectCard;
+import it.polimi.ingsw.cg_38.model.ObjectCardType;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.Sector;
 import it.polimi.ingsw.cg_38.model.SectorCard;
@@ -87,14 +89,14 @@ public class NotifyActionCreatorTest {
 		killed.add(player);
 		allTopics = new ArrayList<String>();
 		added = new EventAddedToGame(player , true , true);
-		attacked = new EventAttacked(player , killed , true);
-		cardUsed = new EventCardUsed(player , true);
+		attacked = new EventAttacked(player , true);
+		cardUsed = new EventCardUsed(player , true , ObjectCardType.Adrenaline);
 		declareNoise = new EventDeclareNoise(player , sector);
 		declarePosition = new EventDeclarePosition(player , killed);
 		drown = new EventDrown(player , null , card);
 		finishedTurn = new EventFinishedTurn(player , true);
 		moved = new EventMoved(player , "moved");
-		aliensWin = new EventNotifyAliensWin(player , true , killed);
+		aliensWin = new EventNotifyAliensWin(player , killed);
 		environment = new EventNotifyEnvironment(killed , map);
 		error = new EventNotifyError(player , action);
 		loose = new EventNotifyLoose(player);
@@ -119,9 +121,7 @@ public class NotifyActionCreatorTest {
 	assertTrue(NotifyActionCreator.createNotifyAction(aliensWin) instanceof RenderAliensWin);
 	assertTrue(NotifyActionCreator.createNotifyAction(environment) instanceof RenderEnvironment);
 	assertTrue(NotifyActionCreator.createNotifyAction(error) instanceof RenderError);
-	assertTrue(NotifyActionCreator.createNotifyAction(loose) instanceof RenderLoose);
 	assertTrue(NotifyActionCreator.createNotifyAction(turn) instanceof RenderNotifyTurn);
-	assertTrue(NotifyActionCreator.createNotifyAction(win) instanceof RenderWin);
 	
 	}
 

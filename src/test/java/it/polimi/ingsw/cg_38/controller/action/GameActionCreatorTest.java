@@ -11,8 +11,6 @@ import it.polimi.ingsw.cg_38.gameEvent.EventLights;
 import it.polimi.ingsw.cg_38.gameEvent.EventMove;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseMySect;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseRandSect;
-import it.polimi.ingsw.cg_38.gameEvent.EventPlayerLooser;
-import it.polimi.ingsw.cg_38.gameEvent.EventPlayerWinner;
 import it.polimi.ingsw.cg_38.gameEvent.EventSedat;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.gameEvent.EventTeleport;
@@ -39,8 +37,6 @@ public class GameActionCreatorTest {
 	EventMove evtMove;
 	EventNoiseMySect evtNoiseMySect;
 	EventNoiseRandSect evtNoiseRandSect;
-	EventPlayerWinner evtPlayerWinner;
-	EventPlayerLooser evtPlayerLooser;
 	EventSedat evtSedat;
 	EventTeleport evtTeleport;
 	EventSubscribe evtSubscribe;
@@ -99,8 +95,6 @@ public class GameActionCreatorTest {
 		evtMove = new EventMove(player1 , sector1);
 		evtNoiseMySect = new EventNoiseMySect(player1);
 		evtNoiseRandSect = new EventNoiseRandSect(player1 , sector1);
-		evtPlayerLooser = new EventPlayerLooser(player1);
-		evtPlayerWinner = new EventPlayerWinner(player1);
 		evtSedat = new EventSedat(player1 , card1);
 		evtSubscribe = new EventSubscribe(player1 , room , map);
 		evtTeleport = new EventTeleport(player1 , card1);
@@ -120,8 +114,6 @@ public class GameActionCreatorTest {
 		assertTrue(GameActionCreator.createGameAction(evtMove) instanceof Move);
 		assertTrue(GameActionCreator.createGameAction(evtNoiseMySect) instanceof UseMySectorNoise);
 		assertTrue(GameActionCreator.createGameAction(evtNoiseRandSect) instanceof UseRandomSectorNoise);
-		assertTrue(GameActionCreator.createGameAction(evtPlayerLooser) instanceof Looser);
-		assertTrue(GameActionCreator.createGameAction(evtPlayerWinner) instanceof Winner);
 		assertTrue(GameActionCreator.createGameAction(evtSedat) instanceof UseSedativesCard);
 		assertTrue(GameActionCreator.createGameAction(evtSubscribe) instanceof Subscribe);
 		assertTrue(GameActionCreator.createGameAction(evtTeleport) instanceof UseTeleportCard);

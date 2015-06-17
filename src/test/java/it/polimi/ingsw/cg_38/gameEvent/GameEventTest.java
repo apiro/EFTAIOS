@@ -97,7 +97,6 @@ public class GameEventTest {
 		assertEquals(attackCard.getToUse() , card1);
 		assertEquals(attackCard.getTarget() , sector1);
 		
-		assertEquals(lights.getCard() , card1);
 		assertEquals(lights.getTarget() , sector1);
 		
 		assertEquals(move.getToMove() , sector1);

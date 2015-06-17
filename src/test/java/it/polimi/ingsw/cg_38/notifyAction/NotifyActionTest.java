@@ -11,8 +11,6 @@ import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseMySect;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseRandSect;
-import it.polimi.ingsw.cg_38.gameEvent.EventPlayerLooser;
-import it.polimi.ingsw.cg_38.gameEvent.EventPlayerWinner;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.model.Alien;
 import it.polimi.ingsw.cg_38.model.Avatar;
@@ -54,9 +52,7 @@ public class NotifyActionTest {
 	EventAddedToGame evtAddedToGame;
 	EventNoiseMySect evtNoiseMySect;
 	EventNoiseMySect evtNoiseMySect2;
-	EventPlayerWinner evtPlayerWinner;
 	EventAliensWinner evtAliensWinner;
-	EventPlayerLooser evtPlayerLooser;
 	PlayerClient client;
 	PlayerClient client2;
 	Player player1;
@@ -95,14 +91,12 @@ public class NotifyActionTest {
 		killed.add(player1);
 		killed.add(player3);
 		killed2.add(player2);
-		evtNotifyAliensWin = new EventNotifyAliensWin(player1 , true , winners);
+		evtNotifyAliensWin = new EventNotifyAliensWin(player1 , winners);
 		evtSubscribe = new EventSubscribe(player1 , "room1" , "Galilei");
-		evtAttacked = new EventAttacked(player1 , killed , true);
-		evtAttacked2 = new EventAttacked(player1 , killed2 , true);
+		evtAttacked = new EventAttacked(player1 , true);
+		evtAttacked2 = new EventAttacked(player1 , true);
 		evtDrown = new EventDrown(player1 , null , card);
 		evtDrown2 = new EventDrown(player1 , null , card2);
-		evtPlayerLooser = new EventPlayerLooser(player1);
-		evtPlayerWinner = new EventPlayerWinner(player1);
 		evtAliensWinner = new EventAliensWinner(player1);
 		evtNoiseMySect = new EventNoiseMySect(player1);
 		client = new PlayerClient("RMI" , evtSubscribe);
@@ -139,16 +133,13 @@ public class NotifyActionTest {
 		client.getPlayer().getAvatar().setIsWinner(EndState.PLAYING);
 		
 		assertEquals(renderAttacked.isPossible(client) , true);
-		assertEquals(renderAttacked.render(client).getGenerator() , evtPlayerLooser.getGenerator());
 		assertEquals(renderAttacked.render(client2) , null);
 		assertEquals(renderAttacked2.render(client) , null);
 		assertEquals(client.getIsInterfaceBlocked() , false);
 		evtAttacked2.setAreThereOtherHumans(false);
-		assertEquals(renderAttacked2.render(client).getGenerator() , evtAliensWinner.getGenerator());
 		evtAttacked2.getGenerator().setAvatar(avatar2);
 		assertEquals(renderAttacked2.render(client) , null);
 		assertEquals(client.getIsInterfaceBlocked() , false);
-		evtAttacked2.getKilled().remove(player2);
 		evtAttacked2.getGenerator().setAvatar(avatar1);
 		assertEquals(renderAttacked2.render(client) , null);
 		
@@ -162,7 +153,6 @@ public class NotifyActionTest {
 		assertEquals(renderDrown.render(client) , null);
 		assertEquals(client.getIsInterfaceBlocked() , false);
 		renderDrown = new RenderDrown(evtDrown2);
-		assertEquals(renderDrown.render(client).getGenerator() , evtPlayerWinner.getGenerator());
 		card2 = new HatchCard(HatchCardType.Red);
 		evtDrown2 = new EventDrown(player1 , null , card2);
 		renderDrown = new RenderDrown(evtDrown2);
