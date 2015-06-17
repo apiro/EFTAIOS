@@ -24,6 +24,8 @@ import it.polimi.ingsw.cg_38.model.HatchCardType;
 import it.polimi.ingsw.cg_38.model.Human;
 import it.polimi.ingsw.cg_38.model.LifeState;
 import it.polimi.ingsw.cg_38.model.Name;
+import it.polimi.ingsw.cg_38.model.ObjectCard;
+import it.polimi.ingsw.cg_38.model.ObjectCardType;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.Sector;
 import it.polimi.ingsw.cg_38.model.SectorCard;
@@ -56,7 +58,7 @@ public class NotifyActionTest {
 	EventAliensWinner evtAliensWinner;
 	EventPlayerLooser evtPlayerLooser;
 	PlayerClient client;
-	PlayerClient clien2;
+	PlayerClient client2;
 	Player player1;
 	Player player2;
 	Player player3;
@@ -66,6 +68,7 @@ public class NotifyActionTest {
 	Sector sector2;
 	SectorCard card;
 	HatchCard card2;
+	ObjectCard card3;
 	
 	ArrayList<Player> winners;
 	ArrayList<Player> killed;
@@ -104,6 +107,8 @@ public class NotifyActionTest {
 		evtNoiseMySect = new EventNoiseMySect(player1);
 		client = new PlayerClient("RMI" , evtSubscribe);
 		client.setPlayer(player1);
+		client2 = new PlayerClient("Socket" , evtSubscribe);
+		client2.setPlayer(player2);
 		renderAttacked = new RenderAttacked(evtAttacked);
 		renderAttacked2 = new RenderAttacked(evtAttacked2);
 		renderAliensWin = new RenderAliensWin(evtNotifyAliensWin);
@@ -114,7 +119,7 @@ public class NotifyActionTest {
 
 	@Test
 	public void test() {
-
+		
 		assertEquals(addedToGame.getEvt() , evtAddedToGame);
 		assertEquals(addedToGame.isPossible(client) , true);
 		System.out.println(addedToGame.getEvt().getGenerator().getName());
@@ -123,6 +128,9 @@ public class NotifyActionTest {
 		assertEquals(client.getPlayerClientState() , PlayerClientState.connected);
 		
 		assertEquals(renderAliensWin.isPossible(client) , true);
+		player1.setAvatar(avatar2);
+		assertEquals(renderAliensWin.isPossible(client) , false);
+		player1.setAvatar(avatar1);
 		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
 		client.getPlayer().getAvatar().setIsWinner(EndState.LOOSER);
 		assertEquals(renderAliensWin.isPossible(client) , false);
@@ -132,6 +140,7 @@ public class NotifyActionTest {
 		
 		assertEquals(renderAttacked.isPossible(client) , true);
 		assertEquals(renderAttacked.render(client).getGenerator() , evtPlayerLooser.getGenerator());
+		assertEquals(renderAttacked.render(client2) , null);
 		assertEquals(renderAttacked2.render(client) , null);
 		assertEquals(client.getIsInterfaceBlocked() , false);
 		evtAttacked2.setAreThereOtherHumans(false);
@@ -159,6 +168,9 @@ public class NotifyActionTest {
 		renderDrown = new RenderDrown(evtDrown2);
 		assertEquals(renderDrown.render(client) , null);
 		assertEquals(client.getIsInterfaceBlocked() , false);
+		card3 = new ObjectCard(ObjectCardType.Adrenaline);
+		evtDrown2 = new EventDrown(player1 , null , card3);
+		assertEquals(renderDrown.render(client) , null);
 	}
 
 }

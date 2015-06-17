@@ -41,6 +41,8 @@ import org.junit.Test;
 
 public class NotifyActionCreatorTest {
 
+	NotifyActionCreator notifyActionCreator;
+	
 	EventAddedToGame added;
 	EventAttacked attacked;
 	EventCardUsed cardUsed;
@@ -73,6 +75,7 @@ public class NotifyActionCreatorTest {
 	@Before
 	public void init() throws ParserConfigurationException, Exception{
 		
+		notifyActionCreator = new NotifyActionCreator();
 		avatar = new Human(Name.Human1 , sector);
 		player = new Player("reda");
 		player.setAvatar(avatar);
