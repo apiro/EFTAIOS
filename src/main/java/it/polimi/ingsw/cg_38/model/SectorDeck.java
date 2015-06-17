@@ -33,15 +33,6 @@ public class SectorDeck extends Deck {
     	}
     	this.shuffle();
     }
-
-    /*
-    public void printDeck() {
-		for (Card card: this.getSectorDeck()) {
-			System.out.println(card.toString());
-		}
-	}
-	
-	*/
     
     public void setRejectedSectorDeck(ArrayList<SectorCard> rejectedSectorDeck) {
 		this.rejectedSectorDeck = rejectedSectorDeck;
@@ -80,24 +71,10 @@ public class SectorDeck extends Deck {
 	/**
      * @return
      */
-    public Card draw() {
-        // TODO implement here
-    	
-    	
-    	Card extracted = this.getSectorDeck().get(0);
+    public Card draw() {Card extracted = this.getSectorDeck().get(0);
     	this.eliminateCard(extracted);
     	this.shuffle();
         return extracted;
-
-    	
-    	//questo metodo è modificato per far si che mi ritorni sempre una carta oggetto
-    	/*
-    	for(Card c:this.getSectorDeck()) {
-    		if(((SectorCard)c).getHasObjectIcon()) {
-    			return c;
-    		}
-    	}
-    	return null;*/
     }
 
     /**
