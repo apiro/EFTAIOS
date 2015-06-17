@@ -10,10 +10,15 @@ import org.junit.Test;
 public class AlienTest {
 
 	GameModel model;
+	GameModel model2;
 	Sector alienStartingPoint;
+	Sector sector;
+	Sector sector2;
 	Player player;
+	Player player2;
 	Turn actualTurn;
 	Avatar avatar;
+	Avatar avatar2;
 	Card drownSect; 
 	Card drownObj; 
 	Card drownHatch;
@@ -21,19 +26,22 @@ public class AlienTest {
 	@Before
 	public void init() throws ParserConfigurationException, Exception {
 		model = new GameModel("Galilei");
+		model2 = new GameModel("Galilei");
+		sector = model2.getGameMap().searchSectorByCoordinates(2, 1);
     	alienStartingPoint = model.getGameMap().searchSectorByName("AlienStartingPoint");
     	//asp 5,11
     	model.getGamePlayers().add(new Player("Alberto"));
     	player = model.getGamePlayers().get(0);
-    	Thread.sleep(3000);
     	model.getGamePlayers().get(0).setAvatar(new Alien(Name.Alien1, alienStartingPoint));
     	actualTurn = new Turn(player);
     	model.setActualTurn(actualTurn);
     	player.setNumTurniGiocati(player.getNumTurniGiocati());
     	avatar = model.getGamePlayers().get(0).getAvatar();
-    	System.out.println(avatar.getCurrentSector().toString());
     	drownSect = avatar.draw(model.getDeckSector());
     	drownHatch = avatar.draw(model.getDeckHatch());
+    	avatar2 = new Alien(Name.Alien1 , sector);
+    	player2 = new Player("reda");
+    	player2.setAvatar(avatar2);
 	}
 	
 	
@@ -130,6 +138,10 @@ public class AlienTest {
 		avatar.attacked();
 		assertEquals(avatar.getIsWinner(), EndState.LOOSER);
 		assertEquals(avatar.getIsAlive(), LifeState.DEAD);
+		
+		assertEquals(player2.getAvatar().canMove(alienStartingPoint) , false);
+		player2.getAvatar().setIsPowered(true);
+		assertEquals(player2.getAvatar().canMove(sector) , false);
 		
 		
 	}

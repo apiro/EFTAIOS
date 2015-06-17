@@ -125,7 +125,8 @@ public class GameModel {
     /**
      * @return
      */
-    public Player getNextPlayer() {
+    
+    public Player getNextPlayer() {/*{
         	for(int i = 0; i < this.getGamePlayers().size(); i++){
     	    	 if(this.getGamePlayers().get(i).equals(this.getActualTurn().getCurrentPlayer())) {
     	    		  if(i+1<=this.getGamePlayers().size()-1) {
@@ -135,8 +136,9 @@ public class GameModel {
         	} 
         	return null;
         }
+        */
     	
-    	/*for(int i = 0; i < this.getGamePlayers().size(); i++){
+    	for(int i = 0; i < this.getGamePlayers().size(); i++){
 	    	 if(this.getGamePlayers().get(i).equals(this.getActualTurn().getCurrentPlayer())) {
 	    		 for(int j = i+1; j != i; ){
 	    		  if(j<=this.getGamePlayers().size()-1 ){
@@ -150,7 +152,8 @@ public class GameModel {
 	    		 
 	    	 } 
     	}
-    	return null;*/
+    	return null;
+    }
 
 	public Turn getActualTurn() {
 		return actualTurn;

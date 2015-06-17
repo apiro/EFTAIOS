@@ -12,11 +12,16 @@ public class MapCreatorTest {
 
 	MapCreator mapCreator;
 	DeckCreator deckCreator;
+	Map map;
+	Map map1;
 	
 	@Before
 	public void init() {
 		mapCreator = new MapCreator();
 		deckCreator = new DeckCreator();
+		
+		map = new Galilei();
+		map1 = new Fermi();
 	}
 	
 	@Test
@@ -32,6 +37,11 @@ public class MapCreatorTest {
 		MapCreator.createMap("Fermi");
 		assertTrue(MapCreator.createMap("myMap") instanceof Map);
 		MapCreator.createMap("mymap");
+		
+		assertEquals(map.searchSectorByName("nothing") , null);
+		assertEquals(map.searchSectorByCoordinates(56, 12) , null);
+		map.readMap("Nothing");
+		map1.getConfiguration();
 	}
 
 }

@@ -29,6 +29,9 @@ public class GameModelTest {
 	Turn turn3;
 	Turn turn8;
 	Sector sector;
+	Sector sector2;
+	Sector sector3;
+	Hatch hatch;
 	int i;
 	
 	/*Deck deckSector11;
@@ -83,6 +86,10 @@ public class GameModelTest {
 		model1.setActualTurn(turn1);
 		model2.setActualTurn(turn2);
 		model3.setActualTurn(turn3);
+		sector2 = new Sector();
+		sector2.setName(null);
+		sector3 = new Dangerous();
+		hatch = new Hatch();
 	}
 	
 	
@@ -109,7 +116,12 @@ public class GameModelTest {
 		i = player11.getNumTurniGiocati();
 		player11.finishTurn();
 		assertEquals(player11.getNumTurniGiocati(), i+1);
-		
-	}
+		assertEquals(DeckCreator.createDeck("nothing") , null);
+
+		assertEquals(sector2.equals(null) , false);
+		assertEquals(sector2.equals(sector3) , false);
+		hatch.setIsOpen(true);
+		assertEquals(hatch.getIsOpen() , true);
+		}
 
 }

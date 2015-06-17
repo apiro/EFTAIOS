@@ -11,12 +11,16 @@ public class HumanTest {
 
 	GameModel model;
 	Sector humanStartingPoint;
+	Sector sector;
 	Player player;
+	Player player2;
 	Turn actualTurn;
 	Avatar avatar;
+	Avatar avatar2;
 	Card drownSect; 
 	Card drownObj; 
 	Card drownHatch;
+	Card card1;
 	
 	/**
 	 * setCurrentSector(sector) su avatar non setta il settore!
@@ -30,13 +34,17 @@ public class HumanTest {
     	//asp 5,11
     	model.getGamePlayers().add(new Player("Alberto"));
     	player = model.getGamePlayers().get(0);
+    	player2 = new Player("Alberto");
     	Thread.sleep(3000);
     	model.getGamePlayers().get(0).setAvatar(new Human(Name.Human1, humanStartingPoint));
     	actualTurn = new Turn(player);
     	model.setActualTurn(actualTurn);
     	player.setNumTurniGiocati(player.getNumTurniGiocati());
     	avatar = model.getGamePlayers().get(0).getAvatar();
-    	System.out.println(avatar.getCurrentSector().toString());
+    	card1 = new ObjectCard(ObjectCardType.Defense);
+    	sector = model.getGameMap().searchSectorByCoordinates(2, 1);
+    	avatar2 = new Human(Name.Human1 , sector);
+    	player2.setAvatar(avatar2);
     	drownSect = avatar.draw(model.getDeckSector());
     	drownHatch = avatar.draw(model.getDeckHatch());
 	}
@@ -135,7 +143,14 @@ public class HumanTest {
 		avatar.attacked();
 		assertEquals(avatar.getIsWinner(), EndState.LOOSER);
 		assertEquals(avatar.getIsAlive(), LifeState.DEAD);
-		
+
+		assertEquals(player2.getAvatar().hasDefenseCard() , false);
+    	player2.getAvatar().addCard(card1);
+		assertEquals(player2.getAvatar().hasDefenseCard() , true);
+		assertEquals(player2.getAvatar().canMove(humanStartingPoint) , false);
+		assertEquals(player2.getAvatar().canMove(sector) , false);
+		player2.getAvatar().setIsPowered(true);
+		assertEquals(player2.getAvatar().canMove(sector) , false);
 		
 	}
 

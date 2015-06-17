@@ -17,12 +17,13 @@ public class HatchDeckTest {
 	
 	@Test
 	public void test() {
-		Card hatchCard = deck.draw();
+		HatchCard hatchCard = (HatchCard)deck.draw();
 		if(!deck.getHatchDeck().contains(hatchCard)) {
 			contains = false;
 		} else {
 			contains = true;
 		}
 		assertEquals(contains, false);
+		assertEquals(hatchCard.toString() , "HatchCard [color=" + hatchCard.getColor() + "]");
 	}
 }

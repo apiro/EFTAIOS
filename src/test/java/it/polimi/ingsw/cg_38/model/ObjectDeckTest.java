@@ -8,23 +8,22 @@ import org.junit.Test;
 public class ObjectDeckTest {
 	
 	ObjectDeck deck;
-	private boolean contain;
+	ObjectCard objectCard;
+	int i;
 
 	@Before
 	public void init(){
-		deck = new ObjectDeck();
-		contain = false;
-		
+		deck = new ObjectDeck();		
 		
 	}
 	@Test
 	public void test() {
-		Card ObjectCardDraw = deck.draw();
-		if(deck.getObjectDeck().contains(ObjectCardDraw)){
-			contain = true;
-		}
-		
-		assertEquals(contain, false);
+
+		i = deck.getObjectDeck().size();
+		objectCard = (ObjectCard)deck.draw();
+		assertEquals(deck.getObjectDeck().size() ,  i-1);
+		assertEquals(objectCard.equals(null) , false);
+		assertEquals(objectCard.equals(new Sector()) , false);
 		
 	}
 
