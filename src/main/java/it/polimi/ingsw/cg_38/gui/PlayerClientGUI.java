@@ -65,6 +65,19 @@ public class PlayerClientGUI implements PlayerClient {
    public PlayerClientGUI(){
 	  alive[0] = true;
       prepareGUI();
+      logger = new LoggerCLI();
+      while(isInterfaceBlocked) {
+    	  try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+    	  System.out.println("Connecting...");
+    	  Event msg = toProcess.poll();
+    	  if(msg != null) {
+    		  this.process(msg);
+    	  }
+      }
       init();
       show();   
    }
@@ -106,19 +119,8 @@ public class PlayerClientGUI implements PlayerClient {
 	}
    
    public void init() {
-	   
-	   playerClientState = PlayerClientState.init;
-	   this.toProcess = new ConcurrentLinkedQueue<Event>();
-	   this.toSend = new ConcurrentLinkedQueue<Event>();
+	   	   
 	   this.logger = new LoggerGUI(text1);
-	   this.startSender();
-	   
-	   this.buttons.get(0).setEnabled(false);
-	   this.buttons.get(1).setEnabled(false);
-	   this.buttons.get(2).setEnabled(true);
-	   this.buttons.get(3).setEnabled(false);
-	   this.buttons.get(4).setEnabled(false);
-	   this.buttons.get(5).setEnabled(false);
 	   
 	   HexagonHandler.setXYasVertex(false);
 	   
@@ -166,6 +168,11 @@ public class PlayerClientGUI implements PlayerClient {
       this.player = this.getIdentity(); 
       
       evt = new EventSubscribe(player, room, nameMap);
+      
+      playerClientState = PlayerClientState.init;
+	  this.toProcess = new ConcurrentLinkedQueue<Event>();
+	  this.toSend = new ConcurrentLinkedQueue<Event>();
+	  this.startSender();
    }
 
    private Player getIdentity() {
@@ -211,6 +218,12 @@ public class PlayerClientGUI implements PlayerClient {
       buttons.add(new JButton("Use card 1"));
       buttons.add(new JButton("Use card 2"));
       buttons.add(new JButton("Use card 3"));
+      this.buttons.get(0).setEnabled(false);
+	  this.buttons.get(1).setEnabled(false);
+	  this.buttons.get(2).setEnabled(true);
+	  this.buttons.get(3).setEnabled(false);
+	  this.buttons.get(4).setEnabled(false);
+	  this.buttons.get(5).setEnabled(false);
       
       this.handlActionListeners();
       
@@ -231,7 +244,7 @@ public class PlayerClientGUI implements PlayerClient {
       panelDx.add(text1);
       panelDx.add(text2);
            
-      panelCentr = new HexGrid(this.board);
+      panelCentr = new HexGrid(this.board, this.toSend, this.player, this.map);
       panelCentr.setLayout(null);
       
       controlPanel.setLayout(layout);        

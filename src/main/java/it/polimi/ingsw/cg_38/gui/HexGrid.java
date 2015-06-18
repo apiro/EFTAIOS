@@ -1,5 +1,10 @@
 package it.polimi.ingsw.cg_38.gui;
 
+import it.polimi.ingsw.cg_38.controller.event.Event;
+import it.polimi.ingsw.cg_38.gameEvent.EventMove;
+import it.polimi.ingsw.cg_38.model.Map;
+import it.polimi.ingsw.cg_38.model.Player;
+
 import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.Shape;
@@ -11,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -24,11 +30,17 @@ public class HexGrid extends JPanel {
 	private final static Color COLOURBACK =  Color.DARK_GRAY;
 	private HashMap<String, ImageIcon> imgUrls = new HashMap<String, ImageIcon>();
 	private ArrayList<GraphicSector> sects = new ArrayList<GraphicSector>();
+	private ConcurrentLinkedQueue<Event> toSend;
+	private Player player;
+	private Map map;
 	
 	
-	public HexGrid(int[][] board) {
+	public HexGrid(int[][] board, ConcurrentLinkedQueue<Event> toSend, Player player, Map map) {
 	
 		this.board = board;
+		this.toSend = toSend;
+		this.player = player;
+		this.map = map;
 		
 		try {
 			this.loadResurces();
@@ -63,6 +75,10 @@ public class HexGrid extends JPanel {
 				gs.addMouseListener(new MouseAdapter() {	
 		        	public void mouseClicked(MouseEvent e) {
 		        		System.out.println("clicked: row: "+ gs.getRow() + "col: " + gs.getCol());
+		        		Event evt = new EventMove(player, map.searchSectorByCoordinates(gs.getRow(), gs.getCol()));
+		        		synchronized(toSend) {
+		        			toSend.add(evt);
+		        		}
 		        	}
 				});
 			}
