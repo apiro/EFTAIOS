@@ -20,6 +20,7 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 	private Event evt;
 	private HashMap<String, GameController> topics;
 	private ServerController server;
+	private Logger logger = new LoggerCLI();
 
 	public RegistrationView(ServerController server) throws RemoteException {
 		super();
@@ -41,7 +42,7 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 		 * 	   ho la possibilità di verificare se posso farlo . se posso invio al giocatore che si è registrato un evento di 
 		 * 	   addedToGame con true se no uno con false.
 		 * */
-		System.out.println("New Client is trying to connect using RMI ! ");
+		logger.print("New Client is trying to connect using RMI ! ");
 		ServerView view = null;
 		Communicator c = new RMICommunicator(clientView);
 		

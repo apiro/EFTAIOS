@@ -16,7 +16,8 @@ public class ClientSocket extends Client implements Runnable {
 	private ConcurrentLinkedQueue<Event> toSend;
 	private ConcurrentLinkedQueue<Event> toProcess;
 	private Thread pubSubReceiver;
-
+	private Logger logger = new LoggerCLI();
+	
 	/**
 	 * QUESTO OGGETTO INVIA AL SERVER I MESSAGGI CHE TROVA NELLA SUA CODA E GENERA IL THREAD DI RICEZIONE MESSAGGI
 	 * PUB SUB
@@ -55,7 +56,7 @@ public class ClientSocket extends Client implements Runnable {
 					}
 					communicator.closeCommunicator();
 				} catch (RemoteException e) {
-					System.out.println("Problems with socket connection ! Check if the server is online ...");
+					logger.print("Problems with socket connection ! Check if the server is online ...");
 				}
 			}
 		}

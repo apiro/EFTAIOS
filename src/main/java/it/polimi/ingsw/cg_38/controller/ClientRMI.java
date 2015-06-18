@@ -20,6 +20,7 @@ public class ClientRMI extends Client implements Runnable {
 	private Boolean clientAlive = true;
 	private ConcurrentLinkedQueue<Event> toSend;
 	private ConcurrentLinkedQueue<Event> toProcess;
+	private Logger logger = new LoggerCLI();
 
 	public ClientRMI(ConcurrentLinkedQueue<Event> toSend, ConcurrentLinkedQueue<Event> toProcess, EventSubscribe evt) {
 		this.evt = evt;
@@ -28,7 +29,7 @@ public class ClientRMI extends Client implements Runnable {
 		try {
 			this.initClientRMI();
 		} catch (RemoteException e) {
-			System.out.println("Problems with the RMI connection ! Check if the server is online ...");
+			logger.print("Problems with the RMI connection ! Check if the server is online ...");
 		}
 	}
 	
@@ -44,7 +45,7 @@ public class ClientRMI extends Client implements Runnable {
 			e.printStackTrace();
 		}
 		
-		System.out.println("RMI Connection Established !");
+		logger.print("RMI Connection Established !");
 		/*System.out.println(game.isLoginValid("albi"));
 		System.out.println(game.isLoginValid("test"));*/
 		

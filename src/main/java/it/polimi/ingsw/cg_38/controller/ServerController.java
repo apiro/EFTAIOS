@@ -32,6 +32,7 @@ public class ServerController extends Observable {
 	private ServerSocket serverSocketClientServer;
 	//mappa che segna il nome del player con il corrispondente gamecontroller per poter trovare il topic di un player facilmente
 	private HashMap<String, GameController> topics = new HashMap<String, GameController>();
+	private Logger logger = new LoggerCLI();
 	
 	public HashMap<String, GameController> getTopics() {
 		return topics;
@@ -67,7 +68,7 @@ public class ServerController extends Observable {
 
 	public void startServer() throws ParserConfigurationException, Exception {
 		
-		System.err.println("Starting the Server !");
+		logger.print("Starting the Server !");
 		
 		this.startRMIEnvironment();
 		
@@ -77,8 +78,8 @@ public class ServerController extends Observable {
 			Event msg = toDispatch.poll();
 			ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 			if(msg != null) {
-				System.err.println("Game Event arrived !\n");
-				System.out.println("Parsing Event... : " + msg.toString());
+				logger.print("Game Event arrived !\n");
+				logger.print("Parsing Event... : " + msg.toString());
 				GameController gcFound = null;
 				Action generatedAction = GameActionCreator.createGameAction(msg);
 				gcFound = topics.get(msg.getGenerator().getName());
@@ -110,8 +111,8 @@ public class ServerController extends Observable {
 					}
 				}
 				
-				System.err.println("Event parsed !");
-				System.out.println("---------------------------------------------------------------------\n");
+				logger.print("Event parsed !");
+				logger.print("---------------------------------------------------------------------\n");
 			} 
 		}
 	}
@@ -158,11 +159,11 @@ public class ServerController extends Observable {
 	    t1.setName("ServerSocketClientServer");
 	    t2.setName("ServerSocketPubSub");
 	    t1.start();
-	    System.out.println("ServerSocket Client/Server ready on " + socketPortNumber);
+	    logger.print("ServerSocket Client/Server ready on " + socketPortNumber);
 	    t2.start();
-	    System.out.println("ServerSocket Pub/Sub ready on " + socketPortNumber);
+	    logger.print("ServerSocket Pub/Sub ready on " + socketPortNumber);
 	   
-		System.out.println("Server ready");
+	    logger.print("Server ready");
 	}
 
 	public static void main(String[] args) throws ParserConfigurationException, Exception {

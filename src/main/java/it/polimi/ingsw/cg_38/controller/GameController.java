@@ -33,6 +33,8 @@ public class GameController implements Observer {
 	
     private String topic;
     
+    private Logger logger;
+    
 	public String getTopic() {
 		return topic;
 	}
@@ -102,7 +104,7 @@ public class GameController implements Observer {
 					this.getBuffer().wait();
 				}
 			} catch (InterruptedException e) {
-				System.err.println("Cannot wait on the queue!");
+				logger.print("Cannot wait on the queue!");
 			}
 		}
 	}

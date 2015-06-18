@@ -1,9 +1,14 @@
 package it.polimi.ingsw.cg_38.gui;
 
 import it.polimi.ingsw.cg_38.controller.Client;
+import it.polimi.ingsw.cg_38.controller.Logger;
+import it.polimi.ingsw.cg_38.controller.LoggerCLI;
+import it.polimi.ingsw.cg_38.controller.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.Event;
+import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
+import it.polimi.ingsw.cg_38.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.gameEvent.EventFinishTurn;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
@@ -12,6 +17,9 @@ import it.polimi.ingsw.cg_38.model.Map;
 import it.polimi.ingsw.cg_38.model.MapCreator;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.Safe;
+import it.polimi.ingsw.cg_38.model.Sector;
+import it.polimi.ingsw.cg_38.notifyAction.NotifyAction;
+import it.polimi.ingsw.cg_38.notifyAction.NotifyActionCreator;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -20,7 +28,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.swing.*;
 
-public class SwingLayoutDemo {
+public class PlayerClientGUI implements PlayerClient {
 	
    private JFrame mainFrame;
    private JPanel controlPanel;
@@ -38,6 +46,7 @@ public class SwingLayoutDemo {
    private Boolean clientAlive = true;
    private Boolean isInterfaceBlocked = true;
    private Thread gameEventSender;
+   private Logger logger;
 
    final Boolean[] alive = new Boolean[1];
    final static int BSIZEW = 23;
@@ -53,7 +62,7 @@ public class SwingLayoutDemo {
    private String room;
    private String nameMap;
    
-   public SwingLayoutDemo(){
+   public PlayerClientGUI(){
 	  alive[0] = true;
       prepareGUI();
       init();
@@ -62,32 +71,61 @@ public class SwingLayoutDemo {
    
    public static void main(String[] args){
 	  
-      SwingLayoutDemo swingLayoutDemo = new SwingLayoutDemo();     
+      PlayerClientGUI swingLayoutDemo = new PlayerClientGUI();     
       swingLayoutDemo.run();
    }
       
-   private void run() {
+    public void run() {
 	  while(alive[0]) {
 		  Event msg = toProcess.poll();
 			if(msg != null) {
+				this.process(msg);
 				text1.append(msg.toString() + "\n");
 			}
 	  }
    }
 
+   public void process(Event msg) {
+		System.out.println("----------------------------------------------------------------------\n");
+		System.err.println("Recieving " + msg.toString() + " ...\n");
+		NotifyAction action = (NotifyAction)NotifyActionCreator.createNotifyAction(msg);
+		GameEvent gamEvt = null;
+		if(action.isPossible(this)) {
+			gamEvt = action.render(this);
+			if(gamEvt != null) {
+				if(gamEvt instanceof EventContinue) return;
+				this.toSend.add(gamEvt);
+			} else { 
+				if(!isInterfaceBlocked) {
+					/*this.loadInterface();*/
+				} else return;
+			}
+		} else {
+			System.out.println("Error in parsing the notifyEvent ...");
+		}
+	}
+   
    public void init() {
 	   
 	   playerClientState = PlayerClientState.init;
 	   this.toProcess = new ConcurrentLinkedQueue<Event>();
 	   this.toSend = new ConcurrentLinkedQueue<Event>();
-	   client = Client.clientCreator(connection, toSend, toProcess, evt);
-	   gameEventSender = new Thread(client, "GameEventSender");
-	   gameEventSender.start();
+	   this.logger = new LoggerGUI(text1);
+	   this.startSender();
+	   
+	   this.buttons.get(0).setEnabled(false);
+	   this.buttons.get(1).setEnabled(false);
+	   this.buttons.get(2).setEnabled(true);
+	   this.buttons.get(3).setEnabled(false);
+	   this.buttons.get(4).setEnabled(false);
+	   this.buttons.get(5).setEnabled(false);
 	   
 	   HexagonHandler.setXYasVertex(false);
 	   
 	   HexagonHandler.setHeight(HEXSIZE);
 	   HexagonHandler.setBorders(BORDERS);
+	   
+	   
 	   
 	   for (int i=0;i<board.length;i++) {
 			for (int j=0;j<board[i].length;j++) {
@@ -96,7 +134,13 @@ public class SwingLayoutDemo {
 		}
    }
 
-   private void prepareGUI(){
+   public void startSender() {
+	   client = Client.clientCreator(connection, toSend, toProcess, evt);
+	   gameEventSender = new Thread(client, "GameEventSender");
+	   gameEventSender.start();
+   }
+
+  private void prepareGUI(){
 	 
       mainFrame = new JFrame("Game");
       mainFrame.setSize(1250, 680);
@@ -146,7 +190,6 @@ public class SwingLayoutDemo {
 		            "Map",
 		            JOptionPane.INFORMATION_MESSAGE);
     	
-		this.map = MapCreator.createMap(this.nameMap);
 	} catch (Exception e) {
 		System.out.println("Problems in creating the requestes map");
 	}
@@ -241,4 +284,68 @@ public class SwingLayoutDemo {
     		}
         });
    }
+
+	public Boolean getIsInterfaceBlocked() {
+		return isInterfaceBlocked;
+	}
+
+	public void setIsInterfaceBlocked(Boolean isInterfaceBlocked) {
+		this.isInterfaceBlocked = isInterfaceBlocked;
+	}
+
+	public Logger getLogger() {
+		return logger;
+	}
+
+	public it.polimi.ingsw.cg_38.model.Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayerClientState(PlayerClientState playerClientState) {
+		this.playerClientState = playerClientState;
+	}
+
+	@Override
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	@Override
+	public PlayerClientState getPlayerClientState() {
+		return playerClientState;
+	}
+
+	@Override
+	public void closeClient() {
+		
+	}
+
+	@Override
+	public void setMap(Map map) {
+		this.map = map;
+	}
+
+	@Override
+	public Sector askForMoveCoordinates() {
+		int x  = Integer.parseInt(JOptionPane.showInputDialog(
+		           mainFrame,
+		            "Choose a Room in the game:",
+		            "Room",
+		            JOptionPane.INFORMATION_MESSAGE));
+		
+		int y = Integer.parseInt(JOptionPane.showInputDialog(
+		           mainFrame,
+		            "Choose a Room in the game:",
+		            "Room",
+		            JOptionPane.INFORMATION_MESSAGE));
+		Sector toMove = map.searchSectorByCoordinates(x, y);
+		return toMove;
+	}
+
+	@Override
+	public Map getMap() {
+		return this.map;
+	}
+
+
 }

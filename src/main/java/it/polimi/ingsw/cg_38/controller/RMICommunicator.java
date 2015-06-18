@@ -18,6 +18,7 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 public class RMICommunicator implements Communicator {
 
 	private RMIRemoteObjectInterface remoteView;
+	private Logger logger = new LoggerCLI();
 	
 	public RMICommunicator(RMIRemoteObjectInterface remoteView) {
 		this.remoteView = remoteView;
@@ -27,7 +28,7 @@ public class RMICommunicator implements Communicator {
 	public void send(Event evt) throws RemoteException {
 		//CHI CHIAMA QUESTO METODO TRASMETTE UN EVENTO ALL'OGGETTO REMOTO
 		remoteView.trasmitEvent(evt);
-		System.out.println("Sending ... : " + evt.toString());
+		logger.print("Sending ... : " + evt.toString());
 	}
 
 	public Event recieveEvent() throws RemoteException {

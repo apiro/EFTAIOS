@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.notifyAction;
 
 import it.polimi.ingsw.cg_38.controller.PlayerClient;
+import it.polimi.ingsw.cg_38.controller.PlayerClientCLI;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventAliensWinner;
@@ -33,7 +34,7 @@ public class RenderAttacked extends NotifyAction {
 			client.setPlayer(evt.getGenerator());
 			
 			if(((EventAttacked)evt).getAreYouPowered()) {
-				System.out.println("You killed someone !");
+				client.getLogger().print("You killed someone !");
 				//verifico chi è stato a fare l'attacco
 				if(((EventAttacked)evt).getGenerator().getAvatar() instanceof Alien) {
 					
@@ -52,7 +53,7 @@ public class RenderAttacked extends NotifyAction {
 				}
 			} else {
 				
-				System.out.println("There are no players in the sector you have choosen !");
+				client.getLogger().print("There are no players in the sector you have choosen !");
 				client.setIsInterfaceBlocked(false);
 				return null;
 			}

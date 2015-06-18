@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg_38.notifyAction;
 
 import it.polimi.ingsw.cg_38.controller.Client;
 import it.polimi.ingsw.cg_38.controller.PlayerClient;
+import it.polimi.ingsw.cg_38.controller.PlayerClientCLI;
 import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
@@ -33,13 +34,13 @@ public class RenderEnvironment extends NotifyAction {
 		for(Player pl:((EventNotifyEnvironment)super.getEvt()).getMappingPlayerAvatar()) {
 			if(pl.getName().equals(client.getPlayer().getName())) {
 				client.setPlayer(pl);
-				System.out.println("The server assigned you : " + client.getPlayer().getAvatar().getName() + "...");
+				client.getLogger().print("The server assigned you : " + client.getPlayer().getAvatar().getName() + "...");
 			}
 		}
 		client.setMap(((EventNotifyEnvironment)evt).getMap());
 		client.setPlayerClientState(PlayerClientState.playing);
-		System.out.println("----------------------------------------------------------------------");
-		System.out.println("Starting Game : Waiting for the first turn message ...");
+		client.getLogger().print("----------------------------------------------------------------------");
+		client.getLogger().print("Starting Game : Waiting for the first turn message ...");
 		client.setIsInterfaceBlocked(true);
 		return null;
 	}

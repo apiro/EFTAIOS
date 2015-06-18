@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.notifyAction;
 
 import it.polimi.ingsw.cg_38.controller.PlayerClient;
+import it.polimi.ingsw.cg_38.controller.PlayerClientCLI;
 import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
@@ -24,12 +25,12 @@ public class RenderAttackDamage extends NotifyAction {
 	@Override
 	public GameEvent render(PlayerClient client) {
 		
-		System.out.println(evt.getGenerator().getName() + " has attacked in sector: row:" +
+		client.getLogger().print(evt.getGenerator().getName() + " has attacked in sector: row:" +
 				evt.getGenerator().getAvatar().getCurrentSector().getRow() + " , col: " +
 						evt.getGenerator().getAvatar().getCurrentSector().getCol() + " ...");
 		
 		for(Player pl:((EventSufferAttack)evt).getKilled()){
-			System.out.println("Player killed in sector: row: " + 
+			client.getLogger().print("Player killed in sector: row: " + 
 					evt.getGenerator().getAvatar().getCurrentSector().getRow() + " col: " + 
 					evt.getGenerator().getAvatar().getCurrentSector().getCol());
 			if(pl.getName().equals(client.getPlayer().getName())) {
@@ -42,7 +43,7 @@ public class RenderAttackDamage extends NotifyAction {
 
 	public void renderLoose(PlayerClient client) {
 		
-		System.out.println("YOU LOOSE !");
+		client.getLogger().print("YOU LOOSE !");
 		client.setIsInterfaceBlocked(true);
 		client.setPlayerClientState(PlayerClientState.looser);
 		client.closeClient();
