@@ -6,8 +6,13 @@ import it.polimi.ingsw.cg_38.model.Map;
 import it.polimi.ingsw.cg_38.model.Sector;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
  
 /* This is a companion class to hexgame.java. It handles all of the mechanics related to hexagon grids. */
@@ -90,7 +95,7 @@ and calculates all six of the points in the hexagon.
  
 		int[] cx,cy;
  
-//I think that this XYvertex stuff is taken care of in the int x line above. Why is it here twice?
+        //I think that this XYvertex stuff is taken care of in the int x line above. Why is it here twice?
 		if (XYVertex) 
 			cx = new int[] {x,x+s,x+s+t,x+s,x,x-t};  //this is for the top left vertex being at x,y. Which means that some of the hex is cutoff.
 		else
@@ -126,6 +131,24 @@ The hexagon is drawn in the colour specified in hexgame.COLOURELL.
 		Polygon poly = hex(x,y);
 		g2.setColor(GUI.COLOURCELL);
 		//g2.fillPolygon(hexmech.hex(x,y));
+		
+		URL url = null;
+		try {
+			url = new URL("https://www.willowandshea.com/images/resized/media/uploads/products/IMG_0102_200x174.jpg");
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        BufferedImage bi = null;
+		try {
+			bi = ImageIO.read(url);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        Shape hxgn = TexturedShape.getPointedShape(6, 100);
+        final BufferedImage txtr = TexturedShape.getTexturedImage(bi, hxgn);
+        
 		g2.fillPolygon(poly);
 		g2.setColor(GUI.COLOURGRID);
 		g2.drawPolygon(poly);
@@ -144,7 +167,7 @@ The hexagon is drawn in the colour specified in hexgame.COLOURELL.
 	  The colour is set by hexgame.COLOURONE and hexgame.COLOURTWO.
 	  The value of n is converted to letter and drawn in the hexagon.
 *****************************************************************************/
-	public static void fillHex(int i, int j, int n, Graphics2D g2) {
+	public static void fillHex(int i, int j, int n, Graphics2D g2){
 		char c='o';
 		int x = i * (s+t);
 		int y = j * h + (i%2) * h/2;
@@ -265,7 +288,6 @@ The hexagon is drawn in the colour specified in hexgame.COLOURELL.
 		}
 		p.x=x;
 		p.y=y;
-		System.out.println(p);
 		return p;
 	}
 }

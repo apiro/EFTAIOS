@@ -38,7 +38,7 @@ public class GUI
 	final static Color COLOURBACK =  Color.DARK_GRAY;
 	final static Color COLOURCELL =  Color.GRAY;	 
 	final static Color COLOURGRID =  Color.BLUE;
-	final static Color COLOURONETXT = Color.BLUE;
+	final static Color COLOURONETXT = Color.DARK_GRAY;
 	final static int EMPTY = 0;
 	final static int BSIZE = 10; //board size.
 	final static int HEXSIZE = 60;	//hex size in pixels

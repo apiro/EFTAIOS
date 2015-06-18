@@ -1,15 +1,10 @@
 package it.polimi.ingsw.cg_38.gui;
 
-import it.polimi.ingsw.cg_38.gui.GUI.DrawingPanel.MyMouseListener;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
@@ -17,6 +12,7 @@ public class MapPanel extends JPanel {
 	//mouse variables here
 	//Point mPt = new Point(0,0);
 
+	private static final long serialVersionUID = 1L;
 	private int[][] board;
 	private int BSIZEW;
 	private int BSIZEH;
@@ -53,9 +49,9 @@ public class MapPanel extends JPanel {
 				//if (board[i][j] < 0) hexmech.fillHex(i,j,COLOURONE,-board[i][j],g2);
 				//if (board[i][j] > 0) hexmech.fillHex(i,j,COLOURTWO, board[i][j],g2);
 				HexagonHandler.fillHex(i,j,board[i][j],g2);
+				repaint();
 			}
 		}
-
 		//g.setColor(Color.RED);
 		//g.drawLine(mPt.x,mPt.y, mPt.x,mPt.y);
 	}

@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.gameEvent.EventFinishTurn;
 import it.polimi.ingsw.cg_38.gameEvent.EventMove;
+import it.polimi.ingsw.cg_38.model.Fermi;
 import it.polimi.ingsw.cg_38.model.Galilei;
 import it.polimi.ingsw.cg_38.model.Map;
 import it.polimi.ingsw.cg_38.model.Player;
@@ -25,7 +26,7 @@ public class SwingLayoutDemo {
    private JPanel controlPanel;
    private JLabel msglabel;
    private Map map;
-   private MapPanel panelCentr; 
+   private JPanel panelCentr; 
 
    final static int EMPTY = 0;
    final static int BSIZEW = 23;
@@ -40,14 +41,14 @@ public class SwingLayoutDemo {
    private Player player;
    
    public SwingLayoutDemo(ConcurrentLinkedQueue<Event> toSend){
-	   this.toSend = toSend;
+	  this.toSend = toSend;
       prepareGUI();
    }
 
    public static void main(String[] args){
 	  
       SwingLayoutDemo swingLayoutDemo = new SwingLayoutDemo(new ConcurrentLinkedQueue<Event>()); 
-      swingLayoutDemo.init(new Galilei());
+      swingLayoutDemo.init(new Fermi());
       swingLayoutDemo.showBorderLayoutDemo();       
    }
       
@@ -64,15 +65,14 @@ public class SwingLayoutDemo {
 				board[i][j]=map.getConfiguration()[j + 14*i];
 			}
 		}
-	   
    }
 
    private void prepareGUI(){
 	 
       mainFrame = new JFrame("Game");
-      mainFrame.setSize(1250, 700);
+      mainFrame.setSize(1250, 680);
       /*mainFrame.setSize( (int)(SCRSIZE/1.23), SCRSIZE);*/
-      mainFrame.setResizable(false);
+      mainFrame.setResizable(true);
       
       mainFrame.addWindowListener(new WindowAdapter() {
          public void windowClosing(WindowEvent windowEvent){
@@ -120,15 +120,14 @@ public class SwingLayoutDemo {
       
       JTextArea text1 = new JTextArea("Informazioni di gioco");
       text1.setLineWrap(true);
-      JTextArea text2 = new JTextArea("Chat");
+      JTextArea text2 = new JTextArea("Movements");
       text2.setLineWrap(true);
-      
+      text1.setBounds(0, 0, 270, 300);
       panelDx.add(text1);
       panelDx.add(text2);
       
       
-      panelCentr = new MapPanel(this.BSIZEW, this.BSIZEH, this.board);
-      /*panelCentr.setSize( (int)(SCRSIZE/1.23), SCRSIZE);*/
+      /*panelCentr = new MapPanel(this.BSIZEW, this.BSIZEH, this.board);
       
       panelCentr.addMouseListener(new MouseAdapter() {	//inner class inside DrawingPanel 
 		public void mouseClicked(MouseEvent e) { 
@@ -139,15 +138,6 @@ public class SwingLayoutDemo {
 			Point p = new Point( HexagonHandler.pxtoHex(e.getX(),e.getY()) );
 			if (p.x < 0 || p.y < 0 || p.x >= BSIZEW || p.y >= BSIZEH) return;
 
-			//DEBUG: colour in the hex which is supposedly the one clicked on
-			//clear the whole screen first.
-			/* for (int i=0;i<BSIZE;i++) {
-				for (int j=0;j<BSIZE;j++) {
-					board[i][j]=EMPTY;
-				}
-			} */
-
-			//What do you want to do when a hexagon is clicked?
 			board[p.x][p.y] = (int)'X';
 			EventMove evt = new EventMove(player, map.searchSectorByCoordinates(p.x, p.y));
 			synchronized(toSend) {
@@ -156,7 +146,10 @@ public class SwingLayoutDemo {
 			System.out.println(evt.toString());
 			panelCentr.repaint();
 		  }
-      });
+      });*/
+      
+      panelCentr = new HexGrid(this.board);
+      panelCentr.setLayout(null);
       
       controlPanel.setLayout(layout);        
 	  
