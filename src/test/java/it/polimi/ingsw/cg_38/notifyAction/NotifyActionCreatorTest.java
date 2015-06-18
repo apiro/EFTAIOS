@@ -34,9 +34,12 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyEnvironment;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyError;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyLoose;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyPlayerState;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTeleport;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTopics;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTurn;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyWin;
+import it.polimi.ingsw.cg_38.notifyEvent.EventSufferAttack;
+import it.polimi.ingsw.cg_38.notifyEvent.EventUseDefense;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -51,19 +54,15 @@ public class NotifyActionCreatorTest {
 	EventDeclareNoise declareNoise;
 	EventDeclarePosition declarePosition;
 	EventDrown drown;
-	EventFinishedTurn finishedTurn;
 	EventMoved moved;
 	EventNotifyAliensWin aliensWin;
 	EventNotifyEnvironment environment;
 	EventNotifyError error;
-	EventNotifyLoose loose;
-	EventNotifyPlayerState playerState;
-	EventNotifyTopics topics;
 	EventNotifyTurn turn;
-	EventNotifyWin win;
-	EventNotYourTurn notYourTurn;
-	
+	EventNotifyTeleport teleport;
+	EventSufferAttack sufferAttack;
 	EventDraw draw;
+	EventUseDefense useDefense;
 	
 	Player player;
 	Avatar avatar;
@@ -87,24 +86,21 @@ public class NotifyActionCreatorTest {
 		card = new SectorCard(SectorCardType.RandomSectorNoise , false);
 		killed = new ArrayList<Player>();
 		killed.add(player);
-		allTopics = new ArrayList<String>();
+		
 		added = new EventAddedToGame(player , true , true);
 		attacked = new EventAttacked(player , true);
 		cardUsed = new EventCardUsed(player , true , ObjectCardType.Adrenaline);
 		declareNoise = new EventDeclareNoise(player , sector);
 		declarePosition = new EventDeclarePosition(player , killed);
 		drown = new EventDrown(player , null , card);
-		finishedTurn = new EventFinishedTurn(player , true);
 		moved = new EventMoved(player , "moved");
 		aliensWin = new EventNotifyAliensWin(player , killed);
 		environment = new EventNotifyEnvironment(killed , map);
 		error = new EventNotifyError(player , action);
-		loose = new EventNotifyLoose(player);
-		playerState = new EventNotifyPlayerState(player , true);
-		topics = new EventNotifyTopics(player , true , allTopics);
 		turn = new EventNotifyTurn(player);
-		win = new EventNotifyWin(player);
-		notYourTurn = new EventNotYourTurn(player);
+		sufferAttack = new EventSufferAttack(player , killed);
+		useDefense = new EventUseDefense(player , true , ObjectCardType.Defense);
+		teleport = new EventNotifyTeleport(player , "moved");
 		
 	}
 
@@ -122,7 +118,10 @@ public class NotifyActionCreatorTest {
 	assertTrue(NotifyActionCreator.createNotifyAction(environment) instanceof RenderEnvironment);
 	assertTrue(NotifyActionCreator.createNotifyAction(error) instanceof RenderError);
 	assertTrue(NotifyActionCreator.createNotifyAction(turn) instanceof RenderNotifyTurn);
-	
+	assertTrue(NotifyActionCreator.createNotifyAction(sufferAttack) instanceof RenderAttackDamage);
+	assertTrue(NotifyActionCreator.createNotifyAction(useDefense) instanceof RenderUseDefenseCard);
+	assertTrue(NotifyActionCreator.createNotifyAction(teleport) instanceof RenderTeleport);
+		
 	}
 
 }

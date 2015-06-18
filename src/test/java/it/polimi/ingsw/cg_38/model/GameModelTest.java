@@ -2,6 +2,8 @@ package it.polimi.ingsw.cg_38.model;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Before;
@@ -32,6 +34,7 @@ public class GameModelTest {
 	Sector sector2;
 	Sector sector3;
 	Hatch hatch;
+	ArrayList<Sector> neighboringSectors;
 	int i;
 	
 	/*Deck deckSector11;
@@ -86,10 +89,12 @@ public class GameModelTest {
 		model1.setActualTurn(turn1);
 		model2.setActualTurn(turn2);
 		model3.setActualTurn(turn3);
-		sector2 = new Sector();
+		sector2 = new Dangerous();
 		sector2.setName(null);
 		sector3 = new Dangerous();
 		hatch = new Hatch();
+		neighboringSectors = new ArrayList<Sector>();
+		neighboringSectors.add(sector);
 	}
 	
 	
@@ -120,6 +125,19 @@ public class GameModelTest {
 
 		assertEquals(sector2.equals(null) , false);
 		assertEquals(sector2.equals(sector3) , false);
+		sector2.setCol(7);
+		sector3.setCol(7);
+		assertEquals(sector2.equals(sector3) , false);
+		sector2.setName("Hatch");
+		assertEquals(sector2.equals(sector3) , false);
+		sector3.setName("Hatch");
+		sector2.setNeighboringSectors(null);
+		sector3.setNeighboringSectors(neighboringSectors);
+		assertEquals(sector2.equals(sector3) , false);
+		sector2.setNeighboringSectors(neighboringSectors);
+		sector2.setRow(5);
+		sector3.setRow(5);
+		assertEquals(sector2.equals(sector3) , true);
 		hatch.setIsOpen(true);
 		assertEquals(hatch.getIsOpen() , true);
 		}

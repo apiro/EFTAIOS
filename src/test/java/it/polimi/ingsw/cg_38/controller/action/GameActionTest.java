@@ -68,6 +68,8 @@ public class GameActionTest {
 	AliensWin aliensWin1;
 	AliensWin aliensWin2;	
 	Subscribe subscribe;
+	Winner winner;
+	Looser looser;
 
 	EventDraw evtDraw1;
 	EventDraw evtDraw2;
@@ -79,11 +81,13 @@ public class GameActionTest {
 	EventAttack evtAttack1;
 	EventAttack evtAttack2;
 	EventAttack evtAttack3;
+	EventAttack evtAttack4;
 	EventMove evtMove;
 	EventMove evtMove2;
 	EventMove evtMove3;
 	EventAliensWinner evtAliensWinner1;
 	EventAliensWinner evtAliensWinner2;
+	EventAliensWinner evtAliensWinner3;
 	
 	ArrayList<NotifyEvent> evtAttacked1;
 	ArrayList<NotifyEvent> evtAttacked2;
@@ -212,6 +216,7 @@ public class GameActionTest {
 		evtAttack1 = new EventAttack(player2 , sector2);
 		evtAttack2 = new EventAttack(player1 , sector1);
 		evtAttack3 = new EventAttack(player3 , sector3);
+		evtAttack4 = new EventAttack(player6 , sector3);
 		evtFinishTurn = new EventFinishTurn(player2);
 		evtFinishTurn2 = new EventFinishTurn(player4);
 		evtFinishTurn3 = new EventFinishTurn(player3);
@@ -220,6 +225,7 @@ public class GameActionTest {
 		evtMove3 = new EventMove(player2 , sector4);
 		evtAliensWinner1 = new EventAliensWinner(player3);
 		evtAliensWinner2 = new EventAliensWinner(player1);
+		evtAliensWinner3 = new EventAliensWinner(player6);
 		
 		draw1 = new Draw(evtDraw1);
 		draw2 = new Draw(evtDraw2);
@@ -236,6 +242,8 @@ public class GameActionTest {
 		move3 = new Move(evtMove3);
 		aliensWin1 = new AliensWin(evtAliensWinner1);
 		aliensWin2 = new AliensWin(evtAliensWinner2);
+		winner = new Winner(evtAliensWinner3);
+		looser = new Looser(evtAttack4);
 		
 		evtNotifyTopics = new EventNotifyTopics(player1 , true , topics);
 		
@@ -309,7 +317,18 @@ public class GameActionTest {
 			assertEquals(attack1.isPossible(model1) , false);
 			model1.setGameState(GameState.RUNNING);
 			assertEquals(attack1.isPossible(model1) , true);
+			System.out.println(model1.getGamePlayers());
+			model1.getGamePlayers().get(0).getAvatar().setIsAlive(LifeState.DEAD);
+			model1.getGamePlayers().get(1).getAvatar().setIsAlive(LifeState.DEAD);
+			model1.getGamePlayers().get(2).getAvatar().setIsAlive(LifeState.DEAD);
+			model1.getGamePlayers().get(3).getAvatar().setIsAlive(LifeState.DEAD);
+			model1.getGamePlayers().get(4).getAvatar().setIsAlive(LifeState.DEAD);
 			evtAttacked1 = attack1.perform(model1);
+			assertEquals(((EventAttacked)evtAttacked1.get(1)).getAreThereOtherHumans() , false);
+			model1.getGamePlayers().get(1).getAvatar().setIsAlive(LifeState.ALIVE);
+			model1.getGamePlayers().get(0).getAvatar().setIsAlive(LifeState.ALIVE);
+			model1.getGamePlayers().get(2).getAvatar().setIsAlive(LifeState.ALIVE);
+			model1.getGamePlayers().get(3).getAvatar().setIsAlive(LifeState.ALIVE);
 			
 			assertEquals(((EventSufferAttack)evtAttacked1.get(0)).getKilled() , killedPlayer);
 			model1.setGameState(GameState.ACCEPTING);
@@ -344,6 +363,10 @@ public class GameActionTest {
 			evtDrown4 = draw3.perform(model1);
 			assertEquals(((EventDrown)evtDrown4.get(0)).getDrown() , hatchCard1);
 			assertEquals(finishTurn2.isPossible(model1) , false);
+			model1.getActualTurn().setHasMoved(true);
+			model1.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
+			finishTurn2.perform(model1);
+			assertEquals(model1.getGamePlayers().get(2).getAvatar().getIsPowered() , false);
 			
 			model1.setActualTurn(turn5);
 			assertEquals((draw4.perform(model1)).size() , 0);
@@ -362,6 +385,15 @@ public class GameActionTest {
 			model1.getActualTurn().getCurrentPlayer().getAvatar().setCurrentSector(sector6);
 			assertEquals(draw4.isPossible(model1) , false);
 			
+			model1.setActualTurn(turn6);
+			
+			winner.perform(model1);
+			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsWinner() , EndState.WINNER);
+			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsAlive() , LifeState.ALIVE);
+			looser.perform(model1);
+			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsWinner() , EndState.LOOSER);
+			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsAlive() , LifeState.DEAD);
+						
 			
 	}
 } 

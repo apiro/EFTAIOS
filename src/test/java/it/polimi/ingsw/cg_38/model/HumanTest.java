@@ -35,7 +35,6 @@ public class HumanTest {
     	model.getGamePlayers().add(new Player("Alberto"));
     	player = model.getGamePlayers().get(0);
     	player2 = new Player("Alberto");
-    	Thread.sleep(3000);
     	model.getGamePlayers().get(0).setAvatar(new Human(Name.Human1, humanStartingPoint));
     	actualTurn = new Turn(player);
     	model.setActualTurn(actualTurn);
@@ -74,6 +73,7 @@ public class HumanTest {
     		assertEquals(avatar.getMyMovements().size(), 2);
 			
 		}
+		assertEquals(avatar.canMove(sector2) , false);
 		avatar.setIsPowered(true);
 		
 		assertEquals(avatar.getIsPowered(), true);
@@ -91,6 +91,7 @@ public class HumanTest {
 		}
 		
 		avatar.move(sector, player.getNumTurniGiocati()+1);
+		assertEquals(avatar.canMove(sector) , false);
 		
 		if(avatar.canMove(sector3)){
     		assertEquals(avatar.canMove(sector3), true);
@@ -151,6 +152,8 @@ public class HumanTest {
 		assertEquals(player2.getAvatar().canMove(sector) , false);
 		player2.getAvatar().setIsPowered(true);
 		assertEquals(player2.getAvatar().canMove(sector) , false);
+		
+		assertEquals(avatar.hasDefenseCard() , false);
 		
 	}
 

@@ -161,6 +161,11 @@ public class NotifyActionTest {
 		card3 = new ObjectCard(ObjectCardType.Adrenaline);
 		evtDrown2 = new EventDrown(player1 , null , card3);
 		assertEquals(renderDrown.render(client) , null);
+		client.getPlayer().getAvatar().setIsWinner(EndState.WINNER);
+		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
+		assertEquals(renderDrown.check(client) , true);
+		assertTrue(addedToGame.getEvt() instanceof EventAddedToGame);
+	
 	}
 
 }

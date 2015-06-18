@@ -69,8 +69,10 @@ public class AlienTest {
     		assertEquals(avatar.getMyMovements().size(), 2);
 			
 		}
-		avatar.setIsPowered(true);
 		
+		assertEquals(avatar.canMove(sector2) , false);
+		avatar.setIsPowered(true);
+		assertEquals(avatar.canMove(sector2) , false);	
 		assertEquals(avatar.getIsPowered(), true);
 		
 		avatar.move(sector, player.getNumTurniGiocati()+1);
