@@ -50,6 +50,10 @@ public class PlayerClient implements PlayerClientInterface {
 		toSend = new ConcurrentLinkedQueue<Event>();
 		connection = this.askForTypeOfConnection();
 		evt = this.askForEventSubscribe();
+		this.startSender();
+	}
+
+	private void startSender() {
 		client = Client.clientCreator(connection, toSend, toProcess, evt);
 		gameEventSender = new Thread(client, "GameEventSender");
 		gameEventSender.start();

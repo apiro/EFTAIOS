@@ -1,11 +1,7 @@
 package it.polimi.ingsw.cg_38.gui;
 
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Polygon;
-import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -18,15 +14,13 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 public class HexGrid extends JPanel {
 
-	private BufferedImage fromImageToShape;
+	private static final long serialVersionUID = 1L;
 	private int[][] board;
-	private int BSIZEW;
-	private int BSIZEH;
 	private final static Color COLOURBACK =  Color.DARK_GRAY;
 	private HashMap<String, ImageIcon> imgUrls = new HashMap<String, ImageIcon>();
 	private ArrayList<GraphicSector> sects = new ArrayList<GraphicSector>();
@@ -73,14 +67,6 @@ public class HexGrid extends JPanel {
 				});
 			}
 		}
-		
-		/*
-		for(int i = 0; i<board.length; i++) {
-			for(int j = 0;j<board[i].length; j++) {
-				this.sects.add(new GraphicSector(i, j, , , this.chooseImage(board[i][j])));
-			}
-		}
-		*/
 	}
 
 	public ImageIcon chooseImage(int i) {
@@ -118,25 +104,11 @@ public class HexGrid extends JPanel {
 		try {
 			bi = ImageIO.read(url);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Impossible to read the resource !");
 			e.printStackTrace();
 		}
 		Polygon poly = HexagonHandler.hex(0,0);
         Shape myShape = TexturedShape.fromPolygonToShape(poly);
         return new ImageIcon(TexturedShape.getTexturedImage(bi, myShape));
-	}
-
-	@Override
-	public void paintComponent(Graphics g){
-		
-		Graphics2D g2 = (Graphics2D)g;
-		g2.setRenderingHint(RenderingHints .KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-		super.paintComponent(g2);
-		g2.drawImage(fromImageToShape, null, 0, 0);
-		g2.drawImage(fromImageToShape, null, 0, 0+45);
-		g2.drawImage(fromImageToShape, null, 37, 23);
-		g2.drawImage(fromImageToShape, null, 37, 23+45);
-		
 	}
 }
