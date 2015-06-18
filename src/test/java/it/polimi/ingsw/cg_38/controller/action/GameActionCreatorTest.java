@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.controller.action;
 
 import static org.junit.Assert.*;
+import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventAdren;
 import it.polimi.ingsw.cg_38.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
@@ -57,6 +58,7 @@ public class GameActionCreatorTest {
 	UseSilenceCard silenceCard;
 	UseTeleportCard teleportCard;
 	Winner winner;
+	
 	
 	Player player1;
 	

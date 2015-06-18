@@ -6,7 +6,9 @@ import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import it.polimi.ingsw.cg_38.controller.Communicator;
 import it.polimi.ingsw.cg_38.controller.GameState;
+import it.polimi.ingsw.cg_38.controller.ServerController;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
@@ -65,6 +67,7 @@ public class GameActionTest {
 	Move move3;
 	AliensWin aliensWin1;
 	AliensWin aliensWin2;	
+	Subscribe subscribe;
 
 	EventDraw evtDraw1;
 	EventDraw evtDraw2;

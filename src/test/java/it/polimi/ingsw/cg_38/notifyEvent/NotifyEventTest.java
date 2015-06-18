@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import it.polimi.ingsw.cg_38.controller.action.Action;
+import it.polimi.ingsw.cg_38.controller.action.Attack;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
 import it.polimi.ingsw.cg_38.model.Alien;
 import it.polimi.ingsw.cg_38.model.Avatar;
@@ -18,6 +20,7 @@ import it.polimi.ingsw.cg_38.model.ObjectCard;
 import it.polimi.ingsw.cg_38.model.ObjectCardType;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.Sector;
+import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,6 +40,9 @@ public class NotifyEventTest {
 	EventNotifyPlayerState notifyPlayerState;
 	EventNotifyTurn notifyTurn;
 	EventNotYourTurn notYourTurn;
+	EventSufferAttack sufferAttack;
+	EventUseDefense useDefense;
+	Action action;
 	/*EventShowTopics showTopics;*/
 	
 	Player player1;
@@ -83,6 +89,8 @@ public class NotifyEventTest {
 		card1 = new HatchCard(HatchCardType.Red);
 		card2 = new ObjectCard(ObjectCardType.Adrenaline);
 		
+		action = new Attack(new EventAttack(player1 , sector1));
+		
 		map = new Map();
 				
 		added = true;
@@ -106,10 +114,12 @@ public class NotifyEventTest {
 		finishedTurn = new EventFinishedTurn(player1 , finished);
 		moved = new EventMoved(player1 , moved1);
 		notifyEnvironment = new EventNotifyEnvironment(toDeclare, map);
-		/*notifyError = new EventNotifyError(player1);*/
+		notifyError = new EventNotifyError(player1 , action);
 		notifyPlayerState = new EventNotifyPlayerState(player1, winner);
 		notifyTurn = new EventNotifyTurn(player1);
 		notYourTurn = new EventNotYourTurn(player1);
+		sufferAttack = new EventSufferAttack(player1 , toDeclare);
+		useDefense = new EventUseDefense(player1 , true , ObjectCardType.Defense);
 		/*showTopics = new EventShowTopics(topics);*/
 		
 	}
@@ -125,8 +135,10 @@ public class NotifyEventTest {
 		assertEquals(addedToGame.toString() , "EventAddedToGame [added=" + added + " player= " + player1.getName() + "]");	
 	
 		assertEquals(attacked.getAreYouPowered() , avatar1.getIsPowered());
+		assertEquals(attacked.getAreThereOtherHumans() , false);
 		
 		assertEquals(cardUsed.getPerformed() , performed);
+		assertEquals(cardUsed.toString() , "EventCardUsed [" + ObjectCardType.Attack.toString() + "]");
 		
 		assertEquals(declarePosition.getToDeclare() , toDeclare2);
 		
@@ -148,6 +160,16 @@ public class NotifyEventTest {
 		assertEquals(notifyTurn.toString() , "EventNotifyTurn [playerOfTurn= " + player1.getName() + "]");
 		
 		assertEquals(notYourTurn.getMessage() , "This is not your turn !");
+		
+		assertEquals(moved.toString() , "NotifyEvent [type=" + NotifyEventType.Moved + "]");
+		
+		assertEquals(notifyError.getRelatedAction() , action);
+		
+		assertEquals(sufferAttack.getKilled() , toDeclare);
+		sufferAttack.setKilled(toDeclare2);
+		assertEquals(sufferAttack.getKilled() , toDeclare2);
+		
+		assertEquals(useDefense.getTypeCard() , ObjectCardType.Defense);
 		
 		/*assertEquals(showTopics.getTopics() , topics);*/		
 	}

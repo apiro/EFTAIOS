@@ -33,6 +33,7 @@ public class GameEventTest {
 	EventNoiseMySect noiseMySect;
 	EventFinishTurn finishTurn;
 	EventRequestTopic requestTopic;
+	EventContinue continue1;
 	
 	Player player1;
 	
@@ -81,6 +82,7 @@ public class GameEventTest {
 		noiseMySect = new EventNoiseMySect(player1);
 		finishTurn = new EventFinishTurn(player1);
 		requestTopic = new EventRequestTopic(player1 , true);
+		continue1 = new EventContinue();
 		
 				
 	}
@@ -112,6 +114,8 @@ public class GameEventTest {
 		assertEquals(subscribe.toString() , "EventSubscribe [map=" + map + ", room=" + room + "]");
 		
 		assertEquals(teleport.getToUse() , card1);
+		
+		assertEquals(attack.toString() , "GameEvent [type=" + GameEventType.Attack + "]");
 	}
 	
 }

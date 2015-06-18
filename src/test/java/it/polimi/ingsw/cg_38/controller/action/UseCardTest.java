@@ -121,6 +121,7 @@ public class UseCardTest {
 	Card lightsCard2;
 	Card sedatCard;
 	Card teleportCard;
+	Card defenseCard;
 	
 	Avatar avatar1;
 	Avatar avatar2;
@@ -151,10 +152,12 @@ public class UseCardTest {
 		adrenalineCard1 = new ObjectCard(ObjectCardType.Adrenaline);
 		adrenalineCard2 = new ObjectCard(ObjectCardType.Adrenaline);
 		attackCard1 = new ObjectCard(ObjectCardType.Attack);
+		attackCard2 = new ObjectCard(ObjectCardType.Attack);
 		lightsCard1 = new ObjectCard(ObjectCardType.SpotLight);
 		lightsCard2 = new ObjectCard(ObjectCardType.SpotLight);
 		sedatCard = new ObjectCard(ObjectCardType.Sedatives);
 		teleportCard = new ObjectCard(ObjectCardType.Teleport);
+		defenseCard = new ObjectCard(ObjectCardType.Defense);
 		
 		model1 = new GameModel("Galvani");
 		
@@ -183,6 +186,7 @@ public class UseCardTest {
 		avatar3.addCard(lightsCard1);
 		avatar4.addCard(sedatCard);
 		avatar5.addCard(attackCard1);
+		avatar5.addCard(attackCard2);
 		avatar5.addCard(teleportCard);
 		avatar6.addCard(lightsCard2);
 		avatar6.addCard(attackCard2);
@@ -207,8 +211,8 @@ public class UseCardTest {
 		addPlayers.add(player4);
 		addPlayers.add(player5);
 		addPlayers.add(player6);
-		killedPlayer.add(player4);
 		model1.setGamePlayers(addPlayers);
+		killedPlayer.add(player4);
 		
 		model1.setActualTurn(turn1);
 		
@@ -322,6 +326,13 @@ public class UseCardTest {
 		model1.getActualTurn().getCurrentPlayer().getAvatar().addCard(attackCard1);
 		assertEquals(useAttackCard1.isPossible(model1) , true);
 		assertEquals(useAttackCard1.getCard() , attackCard1);
+		model1.getActualTurn().setHasAttacked(true);
+		assertEquals(useAttackCard1.perform(model1).size() , 1);
+		model1.getActualTurn().setHasAttacked(false);
+		model1.getGamePlayers().get(3).getAvatar().addCard(defenseCard);
+		assertTrue(useAttackCard1.perform(model1).get(0) instanceof EventCardUsed);
+		model1.getActualTurn().setHasAttacked(false);
+		model1.getGamePlayers().get(3).getAvatar().getMyCards().remove(0);
 		evtAttacked = useAttackCard1.perform(model1);
 		assertEquals(((EventSufferAttack)evtAttacked.get(0)).getKilled() , killedPlayer);
 		model1.setGameState(GameState.ACCEPTING);
