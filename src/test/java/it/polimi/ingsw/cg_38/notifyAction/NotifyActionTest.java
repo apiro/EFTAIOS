@@ -12,12 +12,10 @@ import it.polimi.ingsw.cg_38.controller.action.Draw;
 import it.polimi.ingsw.cg_38.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseMySect;
-import it.polimi.ingsw.cg_38.gameEvent.EventNoiseRandSect;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.model.Alien;
 import it.polimi.ingsw.cg_38.model.Avatar;
-import it.polimi.ingsw.cg_38.model.Card;
 import it.polimi.ingsw.cg_38.model.Dangerous;
 import it.polimi.ingsw.cg_38.model.EndState;
 import it.polimi.ingsw.cg_38.model.HatchCard;
@@ -38,11 +36,14 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDeclareNoise;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDeclarePosition;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDrown;
+import it.polimi.ingsw.cg_38.notifyEvent.EventMoved;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyAliensWin;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyEnvironment;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyError;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTeleport;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTurn;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyWin;
+import it.polimi.ingsw.cg_38.notifyEvent.EventSufferAttack;
 import it.polimi.ingsw.cg_38.notifyEvent.EventUseDefense;
 
 import org.junit.Before;
@@ -63,6 +64,9 @@ public class NotifyActionTest {
 	RenderNotifyTurn renderTurn;
 	RenderSpotlight renderSpotlight;
 	RenderEnvironment renderEnvironment;
+	RenderAttackDamage renderAttackDamage;
+	RenderMoved renderMoved;
+	RenderWin renderWin;
 	
 	EventNotifyAliensWin evtNotifyAliensWin;
 	EventAttacked evtAttacked;
@@ -82,6 +86,9 @@ public class NotifyActionTest {
 	EventNotifyTurn notifyTurn;
 	EventDeclarePosition declarePosition;
 	EventNotifyEnvironment environment;
+	EventSufferAttack sufferAttack;
+	EventMoved moved;
+	EventNotifyWin win;
 	
 	EventDraw evtDraw;
 	Draw draw;
@@ -101,6 +108,7 @@ public class NotifyActionTest {
 	ObjectCard card3;
 	
 	ArrayList<Player> winners;
+	ArrayList<Player> declared;
 	ArrayList<Player> killed;
 	ArrayList<Player> killed2;
 	
@@ -110,6 +118,7 @@ public class NotifyActionTest {
 		winners = new ArrayList<Player>();
 		killed = new ArrayList<Player>();
 		killed2 = new ArrayList<Player>();
+		declared = new ArrayList<Player>();
 		player1 = new Player("albi");
 		player2 = new Player("scimmiu");
 		player3 = new Player("reda");
@@ -144,6 +153,9 @@ public class NotifyActionTest {
 		notifyTurn = new EventNotifyTurn(player1);
 		declarePosition = new EventDeclarePosition(player1 , killed);
 		environment = new EventNotifyEnvironment(killed , new Galvani());
+		sufferAttack = new EventSufferAttack(player1 , killed2);
+		moved = new EventMoved(player1 , "moved");
+		win = new EventNotifyWin(player1);
 		
 		client = new PlayerClient("RMI" , evtSubscribe);
 		client.setPlayer(player1);
@@ -162,7 +174,9 @@ public class NotifyActionTest {
 		renderTurn = new RenderNotifyTurn(notifyTurn);
 		renderSpotlight = new RenderSpotlight(declarePosition);
 		renderEnvironment = new RenderEnvironment(environment);
-		
+		renderAttackDamage = new RenderAttackDamage(sufferAttack);
+		renderMoved = new RenderMoved(moved);
+		renderWin = new RenderWin(win);
 		evtAddedToGame = new EventAddedToGame(player1 , true , true);
 		addedToGame = new AddedToGame(evtAddedToGame);
 	}
@@ -183,29 +197,45 @@ public class NotifyActionTest {
 		assertTrue(renderEnvironment.isPossible(client));
 		assertEquals(renderEnvironment.render(client) , null);
 		assertEquals(client.getIsInterfaceBlocked() , true);
+		assertTrue(renderWin.isPossible(client));
+		assertTrue(!renderMoved.isPossible(client));
+		client.setPlayerClientState(PlayerClientState.isTurn);
+		assertTrue(renderMoved.isPossible(client));
+		assertEquals(renderMoved.render(client) , null);
+		assertTrue(renderAttackDamage.isPossible(client));
+		assertTrue(renderAttackDamage.render(client) instanceof EventContinue);
 		assertTrue(renderSpotlight.isPossible(client));
 		assertTrue(renderSpotlight.render(client) instanceof EventContinue);
+		assertTrue(renderSpotlight.render(client2) instanceof EventContinue);
 		assertTrue(renderTurn.isPossible(client));
 		assertEquals(renderTurn.render(client) , null);
 		assertEquals(client.getIsInterfaceBlocked() , false);
 		assertEquals(renderTurn.render(client2) , null);
 		assertEquals(client2.getIsInterfaceBlocked() , true);
 		assertTrue(renderError.isPossible(client));
+		assertEquals(renderError.render(client2) , null);
 		assertEquals(renderError.render(client) , null);
 		assertEquals(client.getIsInterfaceBlocked() , false);
 		assertTrue(renderUseDefenseCard.render(client) instanceof EventContinue);
+		assertTrue(renderUseDefenseCard.render(client2) instanceof EventContinue);
 		assertEquals(renderEffectCard.isPossible(client) , true);
 		assertEquals(renderEffectCard.render(client) , null);
+		assertEquals(renderEffectCard.render(client2) , null);
 		assertEquals(renderNoise.isPossible(client) , true);
 		assertEquals(renderNoise.render(client) , null);
 		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
 		client.getPlayer().getAvatar().setIsWinner(EndState.LOOSER);
+		assertTrue(!renderWin.isPossible(client));
+		assertEquals(renderAttackDamage.isPossible(client) , false);
 		assertEquals(renderSpotlight.isPossible(client) , false);
 		assertEquals(renderNoise.isPossible(client) , false);
 		assertEquals(renderEffectCard.isPossible(client) , false);
 		assertEquals(renderTurn.isPossible(client) , false);
 		client.getPlayer().getAvatar().setIsAlive(LifeState.ALIVE);
 		client.getPlayer().getAvatar().setIsWinner(EndState.PLAYING);
+		declarePosition = new EventDeclarePosition(player1 , declared);
+		renderSpotlight = new RenderSpotlight(declarePosition);
+		assertTrue(renderSpotlight.render(client) instanceof EventContinue);
 		assertEquals(renderAliensWin.isPossible(client) , true);
 		assertEquals(renderAliensWin.getEvt() , evtNotifyAliensWin);
 		player1.setAvatar(avatar2);
@@ -269,6 +299,8 @@ public class NotifyActionTest {
 		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
 		assertEquals(renderDrown.check(client) , true);
 		assertTrue(addedToGame.getEvt() instanceof EventAddedToGame);
+		client.setIsMyTurn(true);
+		assertTrue(client.getIsMyTurn());
 	
 	}
 

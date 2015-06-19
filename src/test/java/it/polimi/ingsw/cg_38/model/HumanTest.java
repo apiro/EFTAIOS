@@ -77,6 +77,7 @@ public class HumanTest {
 		avatar.setIsPowered(true);
 		
 		assertEquals(avatar.getIsPowered(), true);
+		assertTrue(!avatar.canMove(sector2));
 		
 		avatar.move(sector, player.getNumTurniGiocati()+1);
 		
