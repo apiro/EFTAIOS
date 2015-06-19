@@ -4,4 +4,6 @@ public interface Logger {
 
 	public void print(String message);
 	
+	public String showAndRead(String toShow);
+	
 }

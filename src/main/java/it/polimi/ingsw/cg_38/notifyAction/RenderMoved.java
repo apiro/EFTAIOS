@@ -34,15 +34,12 @@ public class RenderMoved extends NotifyAction {
 		
 		GameEvent evt1 = null;
 		
-		Scanner in = new Scanner(System.in);
 		client.setPlayer(evt.getGenerator());
 		if(((EventMoved)evt).getMoved().equals("Safe")) {
-			client.getLogger().print("You are in a SAFE sector ! Type attack or continue: [A] | [C]");
-			String com = in.nextLine();
+			String com = client.getLogger().showAndRead("You are in a SAFE sector ! Type attack or continue: [A] | [C]");
 			while(!com.equals("C") && !com.equals("A")) {
 				client.getLogger().print("Command not valid retry !");
-				client.getLogger().print("You are in a DANGEROUS sector ! Type draw or attack :[A] | [C] ?");
-				com = in.nextLine();
+				com = client.getLogger().showAndRead("You are in a SAFE sector ! Type attack or continue: [A] | [C]");
 			}
 			if(com.equals("C")) {
 				client.setIsInterfaceBlocked(false);
@@ -52,13 +49,12 @@ public class RenderMoved extends NotifyAction {
 				return evt1;
 			}
 		} else if(((EventMoved)evt).getMoved().equals("Dangerous")) {
-			client.getLogger().print("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?");
+			
+			String com = client.getLogger().showAndRead("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?");
 			client.getLogger().print("(If you activated the sedative card Type [D] to continue without drowing !");
-			String com = in.nextLine();
 			while(!com.equals("D") && !com.equals("A")) {
 				client.getLogger().print("Command not valid retry !");
-				client.getLogger().print("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?");
-				com = in.nextLine();
+				com = client.getLogger().showAndRead("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?");
 			}
 			if(com.equals("D")) {
 				evt1 = new EventDraw(client.getPlayer());
@@ -66,8 +62,8 @@ public class RenderMoved extends NotifyAction {
 				evt1 = new EventAttack(client.getPlayer(), client.getPlayer().getAvatar().getCurrentSector());
 			}
 		} else if(((EventMoved)evt).getMoved().equals("Hatch")) {
-			client.getLogger().print("You are in a HATCH sector ! Type [D]");
-			while(!in.nextLine().equals("D")){}
+			String com = client.getLogger().showAndRead("You are in a HATCH sector ! Type [D]");
+			while(!com.equals("D")){}
 			evt1 = new EventDraw(client.getPlayer());
 		}
 		return evt1;

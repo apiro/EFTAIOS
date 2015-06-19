@@ -37,9 +37,10 @@ public class RenderDrown extends NotifyAction {
 	public GameEvent render(PlayerClient client) {
 		
 		GameEvent evt1 = null;
-		Scanner in = new Scanner(System.in);
 		
 		client.setPlayer(evt.getGenerator());
+		client.updateCards();
+		
 		if(((EventDrown)evt).getDrown() instanceof SectorCard) {
 			SectorCard card = ((SectorCard)((EventDrown)evt).getDrown());
 			if(card.getType().equals(SectorCardType.MySectorNoise)) {
@@ -50,7 +51,6 @@ public class RenderDrown extends NotifyAction {
 				
 			} else if (card.getType().equals(SectorCardType.Silence)) {
 				client.setIsInterfaceBlocked(false);
-				in.close();
 				return null;
 			}
 			
@@ -61,7 +61,6 @@ public class RenderDrown extends NotifyAction {
 			} else if(card.getColor().equals(HatchCardType.Red)) {
 				client.setIsInterfaceBlocked(false);
 				client.getLogger().print("You can't escape frome the SpaceShip !");
-				in.close();
 				return null;
 			}
 		}

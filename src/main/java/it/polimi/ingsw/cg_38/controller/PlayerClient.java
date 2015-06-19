@@ -34,4 +34,8 @@ public interface PlayerClient {
 	public Sector askForMoveCoordinates();
 	
 	public Map getMap();
+	
+	public void updateCards();
+	
+	public void setIsMyTurn(Boolean b);
 }

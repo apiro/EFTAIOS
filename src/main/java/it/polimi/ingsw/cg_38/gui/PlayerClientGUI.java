@@ -7,14 +7,21 @@ import it.polimi.ingsw.cg_38.controller.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
+import it.polimi.ingsw.cg_38.gameEvent.EventAdren;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
+import it.polimi.ingsw.cg_38.gameEvent.EventAttackCard;
 import it.polimi.ingsw.cg_38.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.gameEvent.EventFinishTurn;
+import it.polimi.ingsw.cg_38.gameEvent.EventLights;
+import it.polimi.ingsw.cg_38.gameEvent.EventSedat;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
+import it.polimi.ingsw.cg_38.gameEvent.EventTeleport;
 import it.polimi.ingsw.cg_38.model.Galvani;
 import it.polimi.ingsw.cg_38.model.Map;
 import it.polimi.ingsw.cg_38.model.MapCreator;
+import it.polimi.ingsw.cg_38.model.ObjectCard;
+import it.polimi.ingsw.cg_38.model.ObjectCardType;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.Safe;
 import it.polimi.ingsw.cg_38.model.Sector;
@@ -32,7 +39,7 @@ public class PlayerClientGUI implements PlayerClient {
 	
    private JFrame mainFrame;
    private JPanel controlPanel;
-   private JPanel panelCentr;
+   private HexGrid panelCentr;
    private JPanel panelDx;
    private JPanel panelSx;
    private JTextArea text1;
@@ -66,26 +73,26 @@ public class PlayerClientGUI implements PlayerClient {
 	  alive[0] = true;
       prepareGUI();
       logger = new LoggerCLI();
-      while(isInterfaceBlocked) {
+      while(!isMyTurn) {
     	  try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-    	  System.out.println("Connecting...");
     	  Event msg = toProcess.poll();
     	  if(msg != null) {
     		  this.process(msg);
     	  }
       }
+      this.blockInterf(false);
       init();
       show();   
    }
    
    public static void main(String[] args){
 	  
-      PlayerClientGUI swingLayoutDemo = new PlayerClientGUI();     
-      swingLayoutDemo.run();
+      PlayerClientGUI gui = new PlayerClientGUI();     
+      gui.run();
    }
       
     public void run() {
@@ -94,8 +101,71 @@ public class PlayerClientGUI implements PlayerClient {
 			if(msg != null) {
 				this.process(msg);
 				text1.append(msg.toString() + "\n");
+				this.updateCards();
+			}
+			if(isInterfaceBlocked) {
+				this.blockInterf(true);
+			} else {
+				this.blockInterf(false);
 			}
 	  }
+   }
+    
+   private void blockInterf(boolean b) {
+		for(JButton butt:this.buttons) {
+			butt.setEnabled(b);
+		}
+		for(GraphicSector sec:this.panelCentr.getSects()) {
+			sec.setEnabled(b);
+		}
+	}
+
+public void updateCards() {
+	   int i = 3;
+	   if(player.getAvatar().getMyCards().size() == 4) {
+		   int cardSelected = Integer.parseInt(JOptionPane.showInputDialog(
+		           mainFrame,
+		            "DROWN 4TH CARD:",
+		            "You have 4 cards: you have to use one of them ! choose...",
+		            JOptionPane.INFORMATION_MESSAGE));
+		   try {
+				
+				if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Adrenaline)) {
+					
+					this.toSend.add(new EventAdren(player, player.getAvatar().getMyCards().get(cardSelected)));
+					
+				} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Attack)) {
+					
+					this.toSend.add(new EventAttackCard(player, player.getAvatar().getMyCards().get(cardSelected)));
+					
+				} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Defense)) {
+					
+					logger.print("---> You can't use defense card !");
+					this.getPlayer().getAvatar().getMyCards().remove(cardSelected);
+					
+				} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Sedatives)) {
+					
+					this.toSend.add(new EventSedat(player, player.getAvatar().getMyCards().get(cardSelected)));
+					
+				} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SpotLight)) {
+					
+					Sector toMove = this.askForMoveCoordinates();
+					this.toSend.add(new EventLights(player, toMove, player.getAvatar().getMyCards().get(cardSelected)));
+					
+				} else if (player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Teleport)) {
+					
+					this.toSend.add(new EventTeleport(player, player.getAvatar().getMyCards().get(cardSelected)));
+					
+				}
+				
+			} catch(IndexOutOfBoundsException e) {
+				logger.print("The requested card doesn't exist !");
+			}  
+	   }
+	   for(ObjectCard c:player.getAvatar().getMyCards()) {
+		   buttons.get(i).setText(c.getType().toString());
+		   i++;
+	   }
    }
 
    public void process(Event msg) {
@@ -119,8 +189,6 @@ public class PlayerClientGUI implements PlayerClient {
 	}
    
    public void init() {
-	   	   
-	   this.logger = new LoggerGUI(text1);
 	   
 	   HexagonHandler.setXYasVertex(false);
 	   
@@ -218,12 +286,6 @@ public class PlayerClientGUI implements PlayerClient {
       buttons.add(new JButton("Use card 1"));
       buttons.add(new JButton("Use card 2"));
       buttons.add(new JButton("Use card 3"));
-      this.buttons.get(0).setEnabled(false);
-	  this.buttons.get(1).setEnabled(false);
-	  this.buttons.get(2).setEnabled(true);
-	  this.buttons.get(3).setEnabled(false);
-	  this.buttons.get(4).setEnabled(false);
-	  this.buttons.get(5).setEnabled(false);
       
       this.handlActionListeners();
       
@@ -243,7 +305,8 @@ public class PlayerClientGUI implements PlayerClient {
       text1.setBounds(0, 0, 270, 300);
       panelDx.add(text1);
       panelDx.add(text2);
-           
+        
+      this.logger = new LoggerGUI(this.text1, mainFrame);
       panelCentr = new HexGrid(this.board, this.toSend, this.player, this.map);
       panelCentr.setLayout(null);
       
@@ -267,7 +330,6 @@ public class PlayerClientGUI implements PlayerClient {
   			synchronized(toSend) {
   				toSend.add(evt);
   			}
-  			System.out.println(evt.toString());
   		}
       	  
         });
@@ -280,7 +342,6 @@ public class PlayerClientGUI implements PlayerClient {
     			synchronized(toSend) {
     				toSend.add(evt);
     			}
-    			System.out.println(evt.toString());
     		}
         	  
           });
@@ -293,7 +354,6 @@ public class PlayerClientGUI implements PlayerClient {
     			synchronized(toSend) {
     				toSend.add(evt);
     			}
-    			System.out.println(evt.toString());
     		}
         });
    }
@@ -342,14 +402,14 @@ public class PlayerClientGUI implements PlayerClient {
 	public Sector askForMoveCoordinates() {
 		int x  = Integer.parseInt(JOptionPane.showInputDialog(
 		           mainFrame,
-		            "Choose a Room in the game:",
-		            "Room",
+		            "ASKING FOR MOVE COORDINATES:",
+		            "x?",
 		            JOptionPane.INFORMATION_MESSAGE));
 		
 		int y = Integer.parseInt(JOptionPane.showInputDialog(
 		           mainFrame,
-		            "Choose a Room in the game:",
-		            "Room",
+		            "ASKING FOR MOVE COORDINATES:",
+		            "y?",
 		            JOptionPane.INFORMATION_MESSAGE));
 		Sector toMove = map.searchSectorByCoordinates(x, y);
 		return toMove;
@@ -360,5 +420,8 @@ public class PlayerClientGUI implements PlayerClient {
 		return this.map;
 	}
 
-
+	@Override
+	public void setIsMyTurn(Boolean b) {
+		this.isMyTurn = b;
+	}
 }

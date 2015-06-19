@@ -25,12 +25,12 @@ public class RenderNotifyTurn extends NotifyAction {
 		if(((EventNotifyTurn)evt).getPlayerOfTurn().getName().equals(client.getPlayer().getName())) {
 			client.getLogger().print("IS YOUR TURN !");
 			client.setPlayerClientState(PlayerClientState.isTurn);
-			/*client.setIsMyTurn(true);*/
+			client.setIsMyTurn(true);
 			client.setIsInterfaceBlocked(false);
 		} else {
 			client.getLogger().print("NOT YOUR TURN !");
 			client.setPlayerClientState(PlayerClientState.playing);
-			/*client.setIsMyTurn(false);*/
+			client.setIsMyTurn(false);
 			client.setIsInterfaceBlocked(true);
 		}
 		return null;

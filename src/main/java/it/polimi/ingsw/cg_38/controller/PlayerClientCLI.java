@@ -111,7 +111,7 @@ public class PlayerClientCLI implements PlayerClient {
 	public void setMap(Map map) {
 		this.map = map;
 	}
-
+	
 	public void loadInterface() {
 		logger.print("Loading the map ...");
 		logger.print("GAME MAP:\n");
@@ -168,41 +168,7 @@ public class PlayerClientCLI implements PlayerClient {
 						this.loadInterface();
 					}
 					
-					try {
-						
-						if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Adrenaline)) {
-							
-							this.toSend.add(new EventAdren(player, player.getAvatar().getMyCards().get(cardSelected)));
-							
-						} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Attack)) {
-							
-							this.toSend.add(new EventAttackCard(player, player.getAvatar().getMyCards().get(cardSelected)));
-							
-						} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Defense)) {
-							
-							logger.print("---> You can't use defense card !");
-							this.getPlayer().getAvatar().getMyCards().remove(cardSelected);
-							this.loadInterface();
-							
-						} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Sedatives)) {
-							
-							this.toSend.add(new EventSedat(player, player.getAvatar().getMyCards().get(cardSelected)));
-							
-						} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SpotLight)) {
-							
-							Sector toMove = this.askForMoveCoordinates();
-							this.toSend.add(new EventLights(player, toMove, player.getAvatar().getMyCards().get(cardSelected)));
-							
-						} else if (player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Teleport)) {
-							
-							this.toSend.add(new EventTeleport(player, player.getAvatar().getMyCards().get(cardSelected)));
-							
-						}
-						
-					} catch(IndexOutOfBoundsException e) {
-						logger.print("The requested card doesn't exist !");
-						this.loadInterface();
-					}
+					this.useCard(cardSelected);
 				/*} else {
 					System.out.println("You are an Alien and you can't use Cards !");
 				}*/
@@ -213,6 +179,44 @@ public class PlayerClientCLI implements PlayerClient {
 				logger.print("ERROR IN TYPING ... RETRY !\n");
 				this.loadInterface();
 			}
+	}
+
+	private void useCard(int cardSelected) {
+		try {
+			
+			if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Adrenaline)) {
+				
+				this.toSend.add(new EventAdren(player, player.getAvatar().getMyCards().get(cardSelected)));
+				
+			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Attack)) {
+				
+				this.toSend.add(new EventAttackCard(player, player.getAvatar().getMyCards().get(cardSelected)));
+				
+			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Defense)) {
+				
+				logger.print("---> You can't use defense card !");
+				this.getPlayer().getAvatar().getMyCards().remove(cardSelected);
+				this.loadInterface();
+				
+			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Sedatives)) {
+				
+				this.toSend.add(new EventSedat(player, player.getAvatar().getMyCards().get(cardSelected)));
+				
+			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SpotLight)) {
+				
+				Sector toMove = this.askForMoveCoordinates();
+				this.toSend.add(new EventLights(player, toMove, player.getAvatar().getMyCards().get(cardSelected)));
+				
+			} else if (player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Teleport)) {
+				
+				this.toSend.add(new EventTeleport(player, player.getAvatar().getMyCards().get(cardSelected)));
+				
+			}
+			
+		} catch(IndexOutOfBoundsException e) {
+			logger.print("The requested card doesn't exist !");
+			this.loadInterface();
+		}
 	}
 
 	public Sector askForMoveCoordinates() {
@@ -282,6 +286,17 @@ public class PlayerClientCLI implements PlayerClient {
 
 	public Logger getLogger() {
 		return logger;
+	}
+
+	@Override
+	public void updateCards() {
+		
+		int i = 3;
+		if(player.getAvatar().getMyCards().size() == 4) {
+			logger.print("You have drown the 4th card !Choose the card you wanna use !");
+			int cardSelected = Integer.parseInt(in.nextLine());
+			this.useCard(cardSelected);
+		}
 	}
 	
 }

@@ -35,6 +35,10 @@ public class HexGrid extends JPanel {
 	private Map map;
 	
 	
+	public ArrayList<GraphicSector> getSects() {
+		return sects;
+	}
+
 	public HexGrid(int[][] board, ConcurrentLinkedQueue<Event> toSend, Player player, Map map) {
 	
 		this.board = board;
