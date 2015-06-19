@@ -5,12 +5,12 @@ import it.polimi.ingsw.cg_38.controller.event.GameEventType;
 import it.polimi.ingsw.cg_38.model.Card;
 import it.polimi.ingsw.cg_38.model.Player;
 
-public class EventAdren extends GameEvent {
+public class EventAdrenaline extends GameEvent {
 
 	private Card toUse;
 	private static final long serialVersionUID = 1L;
 	
-	public EventAdren(Player generator, Card card) {
+	public EventAdrenaline(Player generator, Card card) {
 		super(generator, true);
 		this.setToUse(card);
 		super.setType(GameEventType.Adrenaline);

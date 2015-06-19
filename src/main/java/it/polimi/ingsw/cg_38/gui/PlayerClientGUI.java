@@ -7,19 +7,19 @@ import it.polimi.ingsw.cg_38.controller.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
-import it.polimi.ingsw.cg_38.gameEvent.EventAdren;
+import it.polimi.ingsw.cg_38.gameEvent.EventAdrenaline;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttackCard;
 import it.polimi.ingsw.cg_38.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.gameEvent.EventFinishTurn;
-import it.polimi.ingsw.cg_38.gameEvent.EventLights;
-import it.polimi.ingsw.cg_38.gameEvent.EventSedat;
+import it.polimi.ingsw.cg_38.gameEvent.EventSedatives;
+import it.polimi.ingsw.cg_38.gameEvent.EventSpotLight;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.gameEvent.EventTeleport;
-import it.polimi.ingsw.cg_38.model.Galvani;
+import it.polimi.ingsw.cg_38.model.Card;
 import it.polimi.ingsw.cg_38.model.Map;
-import it.polimi.ingsw.cg_38.model.MapCreator;
+import it.polimi.ingsw.cg_38.model.Movement;
 import it.polimi.ingsw.cg_38.model.ObjectCard;
 import it.polimi.ingsw.cg_38.model.ObjectCardType;
 import it.polimi.ingsw.cg_38.model.Player;
@@ -30,6 +30,8 @@ import it.polimi.ingsw.cg_38.notifyAction.NotifyActionCreator;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -44,13 +46,15 @@ public class PlayerClientGUI implements PlayerClient {
    private JPanel panelSx;
    private JTextArea text1;
    private JTextArea text2;
+   private JScrollPane scroll1;
+   private JScrollPane scroll2;
    private Map map; 
    private EventSubscribe evt;
    private Client client;
    private PlayerClientState playerClientState;
    private it.polimi.ingsw.cg_38.model.Player player;
    private Boolean isMyTurn = false;
-   private Boolean clientAlive = true;
+   private Boolean clientAlive = false;
    private Boolean isInterfaceBlocked = true;
    private Thread gameEventSender;
    private Logger logger;
@@ -69,11 +73,15 @@ public class PlayerClientGUI implements PlayerClient {
    private String room;
    private String nameMap;
    
+   public Boolean getClientAlive() {
+	return clientAlive;
+   }
+
    public PlayerClientGUI(){
 	  alive[0] = true;
       prepareGUI();
       logger = new LoggerCLI();
-      while(!isMyTurn) {
+      while(!clientAlive) {
     	  try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -84,11 +92,14 @@ public class PlayerClientGUI implements PlayerClient {
     		  this.process(msg);
     	  }
       }
-      this.blockInterf(false);
       init();
       show();   
    }
    
+   public void setClientAlive(Boolean clientAlive) {
+	this.clientAlive = clientAlive;
+  }
+
    public static void main(String[] args){
 	  
       PlayerClientGUI gui = new PlayerClientGUI();     
@@ -113,10 +124,10 @@ public class PlayerClientGUI implements PlayerClient {
     
    private void blockInterf(boolean b) {
 		for(JButton butt:this.buttons) {
-			butt.setEnabled(b);
+			butt.setEnabled(!b);
 		}
 		for(GraphicSector sec:this.panelCentr.getSects()) {
-			sec.setEnabled(b);
+			sec.setEnabled(!b);
 		}
 	}
 
@@ -132,9 +143,9 @@ public void updateCards() {
 				
 				if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Adrenaline)) {
 					
-					this.toSend.add(new EventAdren(player, player.getAvatar().getMyCards().get(cardSelected)));
+					this.toSend.add(new EventAdrenaline(player, player.getAvatar().getMyCards().get(cardSelected)));
 					
-				} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Attack)) {
+				} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.AttackCard)) {
 					
 					this.toSend.add(new EventAttackCard(player, player.getAvatar().getMyCards().get(cardSelected)));
 					
@@ -145,12 +156,12 @@ public void updateCards() {
 					
 				} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Sedatives)) {
 					
-					this.toSend.add(new EventSedat(player, player.getAvatar().getMyCards().get(cardSelected)));
+					this.toSend.add(new EventSedatives(player, player.getAvatar().getMyCards().get(cardSelected)));
 					
 				} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SpotLight)) {
 					
 					Sector toMove = this.askForMoveCoordinates();
-					this.toSend.add(new EventLights(player, toMove, player.getAvatar().getMyCards().get(cardSelected)));
+					this.toSend.add(new EventSpotLight(player, toMove, player.getAvatar().getMyCards().get(cardSelected)));
 					
 				} else if (player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Teleport)) {
 					
@@ -300,11 +311,13 @@ public void updateCards() {
       
       text1 = new JTextArea("Informazioni di gioco\n");
       text1.setLineWrap(true);
+      scroll1 = new JScrollPane(text1);
       text2 = new JTextArea("Movements\n");
       text2.setLineWrap(true);
+      scroll2 = new JScrollPane(text2);
       text1.setBounds(0, 0, 270, 300);
-      panelDx.add(text1);
-      panelDx.add(text2);
+      panelDx.add(scroll1);
+      panelDx.add(scroll2);
         
       this.logger = new LoggerGUI(this.text1, mainFrame);
       panelCentr = new HexGrid(this.board, this.toSend, this.player, this.map);
@@ -356,6 +369,71 @@ public void updateCards() {
     			}
     		}
         });
+        
+        for(int i = 3; i<buttons.size();i++) {
+	        buttons.get(i).addActionListener(new ActionListener() {
+	
+	    		@Override
+	    		public void actionPerformed(ActionEvent e) {
+	    			int x;
+	    			int y;
+	    			Sector sec = null;
+	    			ObjectCard card = null;
+	    			String s = "it.polimi.ingsw.cg_38.gameEvent.Event" + ((JButton)e.getSource()).getText();
+	    			System.out.println(s);
+	    			Class<?> myClass = null;
+					try {
+						myClass = Class.forName(s);
+					} catch (ClassNotFoundException e1) {
+						logger.print("The requested Class is not available !");
+						e1.printStackTrace();
+					}
+	    			Constructor<?> constructor = null;
+					try {
+						for(ObjectCard c:player.getAvatar().getMyCards()) {
+							if(c.getType().equals(((JButton)e.getSource()).getText())) {
+								card = c;
+							}
+						}
+						if(s.equals("it.polimi.ingsw.cg_38.gameEvent.EventSpotLight")) {
+							sec = askForMoveCoordinates();
+							constructor = myClass.getConstructor(it.polimi.ingsw.cg_38.model.Player.class, 
+									it.polimi.ingsw.cg_38.model.Sector.class, 
+									it.polimi.ingsw.cg_38.model.Card.class );
+						} else {
+							constructor = myClass.getConstructor(it.polimi.ingsw.cg_38.model.Player.class, 
+									it.polimi.ingsw.cg_38.model.Card.class);
+						}
+					} catch (NoSuchMethodException e1) {
+						logger.print("The constructor is not available for the requested class !");
+						e1.printStackTrace();
+					} catch (SecurityException e1) {
+						e1.printStackTrace();
+					}
+	    			Object instance = null;
+					try {
+						if(s.equals("it.polimi.ingsw.cg_38.gameEvent.EventSpotLight")) {
+							instance = constructor.newInstance(player, sec, card);
+						} else {
+							instance = constructor.newInstance(player, card);
+						}
+					} catch (InstantiationException e1) {
+						logger.print("Problems with the instantiation of the object ...");
+						e1.printStackTrace();
+					} catch (IllegalAccessException e1) {
+						e1.printStackTrace();
+					} catch (IllegalArgumentException e1) {
+						e1.printStackTrace();
+					} catch (InvocationTargetException e1) {
+						e1.printStackTrace();
+					}
+	    			GameEvent evt = (GameEvent)instance;
+	    			synchronized(toSend) {
+	    				toSend.add(evt);
+	    			}
+	    		}
+	        });
+        }
    }
 
 	public Boolean getIsInterfaceBlocked() {
@@ -423,5 +501,15 @@ public void updateCards() {
 	@Override
 	public void setIsMyTurn(Boolean b) {
 		this.isMyTurn = b;
+	}
+
+	@Override
+	public void updateMovements() {
+		this.text2.setText(null);
+		int i = 0;
+		for(Movement m:player.getAvatar().getMyMovements()) {
+			this.text2.append(i + ")" + m.toString() + "\n");
+			i++;
+		}
 	}
 }

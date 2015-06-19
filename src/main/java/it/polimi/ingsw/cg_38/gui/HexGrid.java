@@ -62,8 +62,6 @@ public class HexGrid extends JPanel {
 
 	private void popolateGUI() {
 		
-		System.out.println(board.length);
-		System.out.println(board[0].length);
 		for(int j = 0; j<board.length; j++) {
 		for(int i=0; i<board[0].length; i++) {
 				final GraphicSector gs;

@@ -16,7 +16,7 @@ public class EventNotifyTurn extends NotifyEvent {
 	
 	@Override
 	public String toString() {
-		return "EventNotifyTurn [playerOfTurn= " + playerOfTurn.getName() + "]";
+		return "EventNotifyTurn [playerOfTurn= " + playerOfTurn.getName() + " ,faction: " + playerOfTurn.getAvatar().getName() + "]";
 	}
 
 	private Player playerOfTurn;

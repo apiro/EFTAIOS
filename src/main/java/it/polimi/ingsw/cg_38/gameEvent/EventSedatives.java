@@ -5,7 +5,7 @@ import it.polimi.ingsw.cg_38.controller.event.GameEventType;
 import it.polimi.ingsw.cg_38.model.Card;
 import it.polimi.ingsw.cg_38.model.Player;
 
-public class EventSedat extends GameEvent {
+public class EventSedatives extends GameEvent {
 
 	private Card toUse;
 	private static final long serialVersionUID = 1L;
@@ -18,7 +18,7 @@ public class EventSedat extends GameEvent {
 		this.toUse = toUse;
 	}
 
-	public EventSedat(Player generator, Card card) {
+	public EventSedatives(Player generator, Card card) {
 		super(generator, true);
 		super.setType(GameEventType.Sedatives);
 		this.setToUse(card);

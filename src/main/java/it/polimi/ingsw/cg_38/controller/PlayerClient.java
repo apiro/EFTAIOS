@@ -38,4 +38,8 @@ public interface PlayerClient {
 	public void updateCards();
 	
 	public void setIsMyTurn(Boolean b);
+	
+	public void updateMovements();
+	
+	public void setClientAlive(Boolean b);
 }

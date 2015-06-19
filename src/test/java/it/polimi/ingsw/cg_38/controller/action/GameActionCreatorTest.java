@@ -1,19 +1,19 @@
 package it.polimi.ingsw.cg_38.controller.action;
 
 import static org.junit.Assert.*;
-import it.polimi.ingsw.cg_38.gameEvent.EventAdren;
+import it.polimi.ingsw.cg_38.gameEvent.EventAdrenaline;
 import it.polimi.ingsw.cg_38.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttackCard;
 import it.polimi.ingsw.cg_38.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.gameEvent.EventFinishTurn;
-import it.polimi.ingsw.cg_38.gameEvent.EventLights;
+import it.polimi.ingsw.cg_38.gameEvent.EventSpotLight;
 import it.polimi.ingsw.cg_38.gameEvent.EventMove;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseMySect;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseRandSect;
 import it.polimi.ingsw.cg_38.gameEvent.EventPlayerLooser;
 import it.polimi.ingsw.cg_38.gameEvent.EventPlayerWinner;
-import it.polimi.ingsw.cg_38.gameEvent.EventSedat;
+import it.polimi.ingsw.cg_38.gameEvent.EventSedatives;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.gameEvent.EventTeleport;
 import it.polimi.ingsw.cg_38.model.Avatar;
@@ -30,18 +30,18 @@ import org.junit.Test;
 
 public class GameActionCreatorTest {
 	
-	EventAdren evtAdren;
+	EventAdrenaline evtAdren;
 	EventAttack evtAttack;
 	EventAttackCard evtAttackCard;
 	EventDraw evtDraw;
 	EventFinishTurn evtFinishTurn;
-	EventLights evtLights;
+	EventSpotLight evtLights;
 	EventMove evtMove;
 	EventNoiseMySect evtNoiseMySect;
 	EventNoiseRandSect evtNoiseRandSect;
 	EventPlayerWinner evtPlayerWinner;
 	EventPlayerLooser evtPlayerLooser;
-	EventSedat evtSedat;
+	EventSedatives evtSedat;
 	EventTeleport evtTeleport;
 	EventSubscribe evtSubscribe;
 	EventAliensWinner evtAliensWinner;
@@ -90,18 +90,18 @@ public class GameActionCreatorTest {
 		player1 = new Player("scimmiu");
 		player1.setAvatar(avatar1);
 		
-		evtAdren = new EventAdren(player1 , card1);
+		evtAdren = new EventAdrenaline(player1 , card1);
 		evtAttack = new EventAttack(player1 , sector1);
 		evtAttackCard = new EventAttackCard(player1 , card1);
 		evtDraw = new EventDraw(player1);
 		evtFinishTurn = new EventFinishTurn(player1);
-		evtLights = new EventLights(player1 , sector1 , card1);
+		evtLights = new EventSpotLight(player1 , sector1 , card1);
 		evtMove = new EventMove(player1 , sector1);
 		evtNoiseMySect = new EventNoiseMySect(player1);
 		evtNoiseRandSect = new EventNoiseRandSect(player1 , sector1);
 		evtPlayerLooser = new EventPlayerLooser(player1);
 		evtPlayerWinner = new EventPlayerWinner(player1);
-		evtSedat = new EventSedat(player1 , card1);
+		evtSedat = new EventSedatives(player1 , card1);
 		evtSubscribe = new EventSubscribe(player1 , room , map);
 		evtTeleport = new EventTeleport(player1 , card1);
 		evtAliensWinner = new EventAliensWinner(player1);

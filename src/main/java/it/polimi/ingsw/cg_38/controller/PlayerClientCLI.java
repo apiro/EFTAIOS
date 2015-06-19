@@ -2,12 +2,12 @@ package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
-import it.polimi.ingsw.cg_38.gameEvent.EventAdren;
+import it.polimi.ingsw.cg_38.gameEvent.EventAdrenaline;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttackCard;
 import it.polimi.ingsw.cg_38.gameEvent.EventFinishTurn;
-import it.polimi.ingsw.cg_38.gameEvent.EventLights;
+import it.polimi.ingsw.cg_38.gameEvent.EventSpotLight;
 import it.polimi.ingsw.cg_38.gameEvent.EventMove;
-import it.polimi.ingsw.cg_38.gameEvent.EventSedat;
+import it.polimi.ingsw.cg_38.gameEvent.EventSedatives;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.gameEvent.EventTeleport;
 import it.polimi.ingsw.cg_38.gameEvent.EventContinue;
@@ -113,20 +113,20 @@ public class PlayerClientCLI implements PlayerClient {
 	}
 	
 	public void loadInterface() {
-		logger.print("Loading the map ...");
-		logger.print("GAME MAP:\n");
-		logger.print("\n|_|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|");
+		System.out.println("Loading the map ...");
+		System.out.println("GAME MAP:\n");
+		System.out.println("\n|_|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|");
 		for(int i = 0; i < map.getHeight() ; i++) {
-			logger.print("|" + i + "|");
+			System.out.print("|" + i + "|");
 			for(int j = 0; j < map.getWidth() ; j++) {
 				if((map.getTable().get(i).get(j).getCol() == player.getAvatar().getCurrentSector().getCol()) &&
 						((map.getTable().get(i).get(j).getRow() == player.getAvatar().getCurrentSector().getRow()))) {
 					System.err.print(map.getTable().get(i).get(j).getName().substring(0, 1) + "|");
 				} else {
-					logger.print(map.getTable().get(i).get(j).getName().substring(0, 1) + "|");
+					System.out.print(map.getTable().get(i).get(j).getName().substring(0, 1) + "|");
 				}
 			}
-			logger.print("\n|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|");
+			System.out.println("\n|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|");
 		}
 		logger.print("\nHere are your movements : \n");
 		int i = 0;
@@ -186,9 +186,9 @@ public class PlayerClientCLI implements PlayerClient {
 			
 			if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Adrenaline)) {
 				
-				this.toSend.add(new EventAdren(player, player.getAvatar().getMyCards().get(cardSelected)));
+				this.toSend.add(new EventAdrenaline(player, player.getAvatar().getMyCards().get(cardSelected)));
 				
-			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Attack)) {
+			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.AttackCard)) {
 				
 				this.toSend.add(new EventAttackCard(player, player.getAvatar().getMyCards().get(cardSelected)));
 				
@@ -200,12 +200,12 @@ public class PlayerClientCLI implements PlayerClient {
 				
 			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Sedatives)) {
 				
-				this.toSend.add(new EventSedat(player, player.getAvatar().getMyCards().get(cardSelected)));
+				this.toSend.add(new EventSedatives(player, player.getAvatar().getMyCards().get(cardSelected)));
 				
 			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SpotLight)) {
 				
 				Sector toMove = this.askForMoveCoordinates();
-				this.toSend.add(new EventLights(player, toMove, player.getAvatar().getMyCards().get(cardSelected)));
+				this.toSend.add(new EventSpotLight(player, toMove, player.getAvatar().getMyCards().get(cardSelected)));
 				
 			} else if (player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Teleport)) {
 				
@@ -297,6 +297,16 @@ public class PlayerClientCLI implements PlayerClient {
 			int cardSelected = Integer.parseInt(in.nextLine());
 			this.useCard(cardSelected);
 		}
+	}
+
+	@Override
+	public void updateMovements() {
+		
+	}
+
+	@Override
+	public void setClientAlive(Boolean b) {
+		this.clientAlive = b;
 	}
 	
 }

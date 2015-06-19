@@ -66,6 +66,7 @@ public class RenderMoved extends NotifyAction {
 			while(!com.equals("D")){}
 			evt1 = new EventDraw(client.getPlayer());
 		}
+		client.updateMovements();
 		return evt1;
 	}
 }

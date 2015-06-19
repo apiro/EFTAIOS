@@ -6,7 +6,7 @@ public enum ObjectCardType {
     Defense,
     Sedatives,
     SpotLight,
-    Attack,
+    AttackCard,
     Adrenaline,
     Teleport
 }
