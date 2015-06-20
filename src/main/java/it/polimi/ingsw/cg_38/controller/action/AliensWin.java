@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg_38.controller.action;
 
 import java.util.ArrayList;
 
+import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.model.Alien;
@@ -28,6 +29,7 @@ public class AliensWin extends GameAction {
 				winners.add(pl);
 			}
 		}
+		model.setGameState(GameState.CLOSING);
 		callbackEvent.add(new EventNotifyAliensWin(model.getActualTurn().getCurrentPlayer(), winners));
 		return callbackEvent;
 	}

@@ -60,6 +60,7 @@ public class ObjectDeck extends Deck {
      * @return
      */
     public Card draw() {
+    	
     	Card extracted = this.getObjectDeck().get(0);
     	this.eliminateCard(extracted);
     	this.shuffle();

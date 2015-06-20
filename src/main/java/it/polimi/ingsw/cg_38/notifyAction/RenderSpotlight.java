@@ -36,6 +36,7 @@ public class RenderSpotlight extends NotifyAction {
 		}
 		if(client.getPlayer().getName().equals(evt.getGenerator().getName())) {
 			client.setPlayer(evt.getGenerator());
+			client.updateCards();
 			client.getLogger().print("Card used !");
 		}
 		return new EventContinue();
