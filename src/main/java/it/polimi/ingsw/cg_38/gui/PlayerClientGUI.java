@@ -33,6 +33,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -97,7 +99,11 @@ public class PlayerClientGUI implements PlayerClient {
       show();   
    }
    
-   public void setAlive(Boolean b) {
+   public void setClientAlive(Boolean clientAlive) {
+	   this.clientAlive = clientAlive;
+   }
+
+  public void setAlive(Boolean b) {
 	  this.alive[0] = b;
    }
 
@@ -135,7 +141,7 @@ public class PlayerClientGUI implements PlayerClient {
 	   if(player.getAvatar().getMyCards().size() == 4) {
 		   int cardSelected = Integer.parseInt(JOptionPane.showInputDialog(
 		           mainFrame,
-		            "DROWN 4TH CARD:",
+		            "DROWN 4TH CARD: type-> " + player.getAvatar().getMyCards().get(3).getType().toString(),
 		            "You have 4 cards: you have to use one of them ! choose...",
 		            JOptionPane.INFORMATION_MESSAGE));
 		   try {
@@ -171,6 +177,7 @@ public class PlayerClientGUI implements PlayerClient {
 				
 			} catch(IndexOutOfBoundsException e) {
 				logger.print("The requested card doesn't exist !");
+				this.updateCards();
 			}  
 	   }
 	   
@@ -519,5 +526,7 @@ public class PlayerClientGUI implements PlayerClient {
 			this.text2.append(i + ")" + m.toString() + "\n");
 			i++;
 		}
+		
+		panelCentr.slidePlayerPosition(player.getAvatar().getCurrentSector().getCol(), player.getAvatar().getCurrentSector().getRow());
 	}
 }

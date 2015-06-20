@@ -14,7 +14,6 @@ public class GraphicSector extends JLabel {
 	
 	public GraphicSector(int row, int col, int x, int y, ImageIcon i) {
 		super(i);
-		this.setText(col + " " + row);
 		this.x = x;
 		this.y = y;
 		this.row = row;

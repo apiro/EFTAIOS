@@ -41,5 +41,5 @@ public interface PlayerClient {
 	
 	public void updateMovements();
 	
-	public void setAlive(Boolean b);
+	public void setClientAlive(Boolean b);
 }

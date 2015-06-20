@@ -17,8 +17,11 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
  */
 public class UseAttackCard extends GameAction {
 
+	private Player generator;
+
 	public UseAttackCard(GameEvent evt) {
 		super(evt.getGenerator());
+		this.generator = evt.getGenerator();
 		this.setCard(((ObjectCard)((EventAttackCard)evt).getToUse()));
     	this.setSectorToAttack(((EventAttackCard)evt).getTarget());
     }
@@ -47,9 +50,16 @@ public class UseAttackCard extends GameAction {
      */
     public ArrayList<NotifyEvent> perform(GameModel model) {
     	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+    	
+    	if(this.currentAvatarType(model).equals("Alien")){
+    		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false, card.getType()));
+    		return callbackEvent;
+    	}
+    	
     	((Human)model.getActualTurn().getCurrentPlayer().getAvatar()).setCanAttack(true);
     	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
-    	GameAction humanAttackAction = new Attack(new EventAttack(model.getActualTurn().getCurrentPlayer(), this.getSectorToAttack()));
+    	GameAction humanAttackAction = new Attack(new EventAttack(generator, this.getSectorToAttack()));
     	
     	if(humanAttackAction.isPossible(model)) {
     		callbackEvent = humanAttackAction.perform(model);
@@ -63,12 +73,10 @@ public class UseAttackCard extends GameAction {
      * @return
      */
     public Boolean isPossible(GameModel model) {
-    	if(!this.currentAvatarType(model).equals("Alien") &&
-    			model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
-    			super.isPossible(model)) {
-        	return true;
-        }
-    	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
-        return false;
-    }
+	    if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
+	        		super.isPossible(model)) {
+	    	return true;
+	    }
+	    return false;
+	}
 }

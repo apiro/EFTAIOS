@@ -37,6 +37,7 @@ public class UseAdrenalineCard extends GameAction {
     public ArrayList<NotifyEvent> perform(GameModel model) {
     	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	if(model.getActualTurn().getCurrentPlayer().getAvatar() instanceof Alien) {
+    		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false, card.getType()));
     	} else {
     		model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
@@ -52,13 +53,9 @@ public class UseAdrenalineCard extends GameAction {
      * @return
      */
     public Boolean isPossible(GameModel model) {
-        if(!this.currentAvatarType(model).equals("Alien")) {
-        	if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
+        if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
             		super.isPossible(model)) {
-        		return true;
-        	}
-        } else {
-        	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+        	return true;
         }
         return false;
     }

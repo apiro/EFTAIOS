@@ -60,7 +60,15 @@ public class ObjectDeck extends Deck {
      * @return
      */
     public Card draw() {
-    	
+    	/*
+    	Card card= null;
+    	for(ObjectCard c:this.getObjectDeck()) {
+    		if(c.getType().equals(ObjectCardType.AttackCard)) {
+    			card = c;
+    		}
+    	}
+    	return card;
+    	*/
     	Card extracted = this.getObjectDeck().get(0);
     	this.eliminateCard(extracted);
     	this.shuffle();

@@ -41,7 +41,7 @@ public class GUI
 	final static Color COLOURONETXT = Color.DARK_GRAY;
 	final static int EMPTY = 0;
 	final static int BSIZE = 10; //board size.
-	final static int HEXSIZE = 60;	//hex size in pixels
+	final static int HEXSIZE = 45;	//hex size in pixels
 	final static int BORDERS = 15;  
 	final static int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3; //screen size (vertical dimension).
  

@@ -35,11 +35,11 @@ public class PlayerClientCLI implements PlayerClient {
 	private it.polimi.ingsw.cg_38.model.Player player;
 	private String connection;
 	private Boolean isMyTurn = false;
-	private Boolean[] alive = new Boolean[1];
 	private Boolean isInterfaceBlocked = true;
 	private Map map;
 	private Thread gameEventSender;
 	private Logger logger = new LoggerCLI();
+	private Boolean clientAlive = true;
 	
 	public PlayerClientCLI(String connection , EventSubscribe evt){
 		
@@ -50,6 +50,7 @@ public class PlayerClientCLI implements PlayerClient {
 	
 	public PlayerClientCLI() {
 		this.init();
+		this.run();
 	}
 
 	public void init() {
@@ -59,10 +60,6 @@ public class PlayerClientCLI implements PlayerClient {
 		connection = this.askForTypeOfConnection();
 		evt = this.askForEventSubscribe();
 		this.startSender();
-	}
-
-	public Boolean[] getAlive() {
-		return alive;
 	}
 
 	public void startSender() {
@@ -223,6 +220,7 @@ public class PlayerClientCLI implements PlayerClient {
 				this.toSend.add(new EventTeleport(player, player.getAvatar().getMyCards().get(cardSelected)));
 				
 			}
+			player.getAvatar().getMyCards().remove(cardSelected);
 			
 		} catch(IndexOutOfBoundsException e) {
 			logger.print("The requested card doesn't exist !");
@@ -248,7 +246,7 @@ public class PlayerClientCLI implements PlayerClient {
 	}
 
 	public void run() {
-		while(alive[0]) {
+		while(clientAlive) {
 			Event msg = toProcess.poll();
 			if(msg != null) {
 				this.process(msg);
@@ -317,8 +315,8 @@ public class PlayerClientCLI implements PlayerClient {
 		
 	}
 
-	public void setAlive(Boolean b) {
-		this.alive[0] = b;
+	public void setClientAlive(Boolean b) {
+		this.clientAlive = b;
 	}
 
 }

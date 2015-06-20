@@ -31,6 +31,11 @@ public class UseSedativesCard extends GameAction {
      */
     public ArrayList<NotifyEvent> perform(GameModel model) {
     	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+    	if(this.currentAvatarType(model).equals("Alien")){
+    		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false, card.getType()));
+    		return callbackEvent;
+    	}
     	model.getActualTurn().setHasDraw(true);
     	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     	model.getActualTurn().setHasUsedObjectCard(true);
@@ -42,17 +47,11 @@ public class UseSedativesCard extends GameAction {
      * @return
      */
     public Boolean isPossible(GameModel model) {
-    	if(!this.currentAvatarType(model).equals("Alien")){
-    		if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
-        			super.isPossible(model)){
-    	
-    			return true;
-    		}
-    	}else{
-    	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
-        
-    	}
-    		return false;
-    }
+	    if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
+	        		super.isPossible(model)) {
+	    	return true;
+	    }
+	     return false;
+	}
 
 }
