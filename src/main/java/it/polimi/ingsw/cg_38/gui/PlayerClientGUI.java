@@ -132,7 +132,7 @@ public class PlayerClientGUI implements PlayerClient {
 		}
 	}
 
-public void updateCards() {
+  public void updateCards() {
 	   int i = 3;
 	   if(player.getAvatar().getMyCards().size() == 4) {
 		   int cardSelected = Integer.parseInt(JOptionPane.showInputDialog(
@@ -174,6 +174,12 @@ public void updateCards() {
 				logger.print("The requested card doesn't exist !");
 			}  
 	   }
+	   
+	   for(ObjectCard c:player.getAvatar().getMyCards()) {
+		   buttons.get(i).setText("");
+		   i++;
+	   }
+	   
 	   for(ObjectCard c:player.getAvatar().getMyCards()) {
 		   buttons.get(i).setText(c.getType().toString());
 		   i++;
@@ -392,7 +398,7 @@ public void updateCards() {
 	    			Constructor<?> constructor = null;
 					try {
 						for(ObjectCard c:player.getAvatar().getMyCards()) {
-							if(c.getType().equals(((JButton)e.getSource()).getText())) {
+							if(c.getType().toString().equals(((JButton)e.getSource()).getText())) {
 								card = c;
 							}
 						}

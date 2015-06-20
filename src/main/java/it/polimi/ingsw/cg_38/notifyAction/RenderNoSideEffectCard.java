@@ -25,7 +25,10 @@ public class RenderNoSideEffectCard extends NotifyAction {
 
 	@Override
 	public GameEvent render(PlayerClient client) {
-		if(client.getPlayer().getName().equals(evt.getGenerator().getName())) client.setPlayer(evt.getGenerator());
+		if(client.getPlayer().getName().equals(evt.getGenerator().getName())) {
+			client.setPlayer(evt.getGenerator());
+			client.updateCards();
+		}
 		client.getLogger().print(((EventCardUsed)this.getEvt()).getTypeCard().toString() +
 				" card used by " + evt.getGenerator().getName() + " in sector: row: " +
 				evt.getGenerator().getAvatar().getCurrentSector().getRow() + " col:" + 

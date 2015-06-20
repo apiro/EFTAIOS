@@ -44,9 +44,11 @@ public class RenderMoved extends NotifyAction {
 			}
 			if(com.equals("C")) {
 				client.setIsInterfaceBlocked(false);
+				client.updateMovements();
 				return null;
 			} else if (com.equals("A")) {
 				evt1 = new EventAttack(client.getPlayer(), client.getPlayer().getAvatar().getCurrentSector());
+				client.updateMovements();
 				return evt1;
 			}
 		} else if(((EventMoved)evt).getMoved().equals("Dangerous")) {
