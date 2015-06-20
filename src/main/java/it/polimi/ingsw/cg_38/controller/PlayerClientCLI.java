@@ -35,7 +35,7 @@ public class PlayerClientCLI implements PlayerClient {
 	private it.polimi.ingsw.cg_38.model.Player player;
 	private String connection;
 	private Boolean isMyTurn = false;
-	private Boolean clientAlive = true;
+	private Boolean[] alive = new Boolean[1];
 	private Boolean isInterfaceBlocked = true;
 	private Map map;
 	private Thread gameEventSender;
@@ -59,6 +59,10 @@ public class PlayerClientCLI implements PlayerClient {
 		connection = this.askForTypeOfConnection();
 		evt = this.askForEventSubscribe();
 		this.startSender();
+	}
+
+	public Boolean[] getAlive() {
+		return alive;
 	}
 
 	public void startSender() {
@@ -244,12 +248,14 @@ public class PlayerClientCLI implements PlayerClient {
 	}
 
 	public void run() {
-		while(clientAlive) {
+		while(alive[0]) {
 			Event msg = toProcess.poll();
 			if(msg != null) {
 				this.process(msg);
 			}
 		}
+		logger.print("GoodBye !");
+		Thread.currentThread().interrupt();
 	}
 	
 	public void process(Event msg) {
@@ -311,9 +317,8 @@ public class PlayerClientCLI implements PlayerClient {
 		
 	}
 
-	@Override
-	public void setClientAlive(Boolean b) {
-		this.clientAlive = b;
+	public void setAlive(Boolean b) {
+		this.alive[0] = b;
 	}
 
 }

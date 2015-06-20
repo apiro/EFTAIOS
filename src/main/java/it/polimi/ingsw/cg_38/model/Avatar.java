@@ -122,12 +122,13 @@ public abstract class Avatar implements Serializable{
      * @return
      */
     public Boolean addCard(Card card) {
-    	if(this.getMyCards().size()<3) {
+    	/*if(this.getMyCards().size()<3) {*/
     		this.getMyCards().add((ObjectCard)card);
     		return true;
+    	/*	return true;
     	} else {
     		return false;
-    	}
+    	}*/
     }
 
     /**
@@ -156,7 +157,7 @@ public abstract class Avatar implements Serializable{
 	public Name getName() {
 		return name;
 	}
-
+	
 	public void setName(Name name) {
 		this.name = name;
 	}

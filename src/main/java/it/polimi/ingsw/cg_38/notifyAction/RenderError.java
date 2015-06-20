@@ -31,5 +31,4 @@ public class RenderError extends NotifyAction {
 		client.setIsInterfaceBlocked(false);
 		return null;
 	}
-
 }

@@ -18,6 +18,7 @@ public class RenderTeleport extends RenderMoved {
 	public GameEvent render(PlayerClient client) {
 		client.getLogger().print("* Teleported in HumanStartingPoint ! *");
 		client.updateCards();
+		client.updateMovements();
 		return new EventContinue();
 	}
 }

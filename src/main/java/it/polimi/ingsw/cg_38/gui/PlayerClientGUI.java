@@ -97,9 +97,9 @@ public class PlayerClientGUI implements PlayerClient {
       show();   
    }
    
-   public void setClientAlive(Boolean clientAlive) {
-	this.clientAlive = clientAlive;
-  }
+   public void setAlive(Boolean b) {
+	  this.alive[0] = b;
+   }
 
    public static void main(String[] args){
 	  
@@ -115,12 +115,10 @@ public class PlayerClientGUI implements PlayerClient {
 				text1.append(msg.toString() + "\n");
 				this.updateCards();
 			}
-			if(isInterfaceBlocked) {
-				this.blockInterf(true);
-			} else {
-				this.blockInterf(false);
-			}
+			this.blockInterf(isInterfaceBlocked);
 	  }
+	  logger.print("GoodBye !");
+	  Thread.currentThread().interrupt();
    }
     
    private void blockInterf(boolean b) {
@@ -169,15 +167,11 @@ public class PlayerClientGUI implements PlayerClient {
 					this.toSend.add(new EventTeleport(player, player.getAvatar().getMyCards().get(cardSelected)));
 					
 				}
+				this.resetButton(cardSelected);
 				
 			} catch(IndexOutOfBoundsException e) {
 				logger.print("The requested card doesn't exist !");
 			}  
-	   }
-	   
-	   for(ObjectCard c:player.getAvatar().getMyCards()) {
-		   buttons.get(i).setText("");
-		   i++;
 	   }
 	   
 	   for(ObjectCard c:player.getAvatar().getMyCards()) {
@@ -186,7 +180,12 @@ public class PlayerClientGUI implements PlayerClient {
 	   }
    }
 
-   public void process(Event msg) {
+   private void resetButton(int cardSelected) {
+	   buttons.get(cardSelected).setText("Use Card");
+		player.getAvatar().getMyCards().remove(cardSelected);
+  }
+
+  public void process(Event msg) {
 		System.out.println("----------------------------------------------------------------------\n");
 		System.err.println("Recieving " + msg.toString() + " ...\n");
 		NotifyAction action = (NotifyAction)NotifyActionCreator.createNotifyAction(msg);
@@ -301,9 +300,9 @@ public class PlayerClientGUI implements PlayerClient {
       buttons.add(new JButton("Attack"));
       buttons.add(new JButton("Draw"));
       buttons.add(new JButton("FinishTurn"));
-      buttons.add(new JButton("Use card 1"));
-      buttons.add(new JButton("Use card 2"));
-      buttons.add(new JButton("Use card 3"));
+      buttons.add(new JButton("Use card"));
+      buttons.add(new JButton("Use card"));
+      buttons.add(new JButton("Use card"));
       
       this.handlActionListeners();
       
@@ -434,6 +433,8 @@ public class PlayerClientGUI implements PlayerClient {
 					} catch (InvocationTargetException e1) {
 						e1.printStackTrace();
 					}
+					player.getAvatar().getMyCards().remove(card);
+					((JButton)e.getSource()).setText("Use Card");
 	    			GameEvent evt = (GameEvent)instance;
 	    			synchronized(toSend) {
 	    				toSend.add(evt);

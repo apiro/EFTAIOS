@@ -37,7 +37,7 @@ public class RenderEnvironment extends NotifyAction {
 				client.getLogger().print("The server assigned you : " + client.getPlayer().getAvatar().getName() + "...");
 			}
 		}
-		client.setClientAlive(true);
+		client.setAlive(true);
 		client.setMap(((EventNotifyEnvironment)evt).getMap());
 		client.setPlayerClientState(PlayerClientState.playing);
 		client.getLogger().print("----------------------------------------------------------------------");
