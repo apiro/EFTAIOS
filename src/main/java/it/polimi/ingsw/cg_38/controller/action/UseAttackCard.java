@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.gameEvent.EventAdren;
+import it.polimi.ingsw.cg_38.gameEvent.EventAdrenaline;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttackCard;
 import  it.polimi.ingsw.cg_38.model.*;

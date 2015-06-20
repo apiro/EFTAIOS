@@ -16,6 +16,7 @@ public class SocketCommunicator implements Communicator {
 	private Socket socket;
 	private ObjectInputStream inputStream;
 	private ObjectOutputStream outputStream;
+	private Logger logger = new LoggerCLI();
 	
 	public ObjectInputStream getInputStream() {
 		return inputStream;

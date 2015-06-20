@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg_38.controller.action;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.gameEvent.EventAdren;
-import it.polimi.ingsw.cg_38.gameEvent.EventLights;
-import it.polimi.ingsw.cg_38.gameEvent.EventSedat;
+import it.polimi.ingsw.cg_38.gameEvent.EventAdrenaline;
+import it.polimi.ingsw.cg_38.gameEvent.EventSpotLight;
+import it.polimi.ingsw.cg_38.gameEvent.EventSedatives;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDeclarePosition;
@@ -23,8 +23,8 @@ public class UseLightsCard extends GameAction {
      */
     public UseLightsCard(GameEvent evt) {
     	super(evt.getGenerator());
-    	this.setCard(((ObjectCard)((EventLights)evt).getToUse()));
-    	this.setTargetSector(((EventLights)evt).getTarget());
+    	this.setCard(((ObjectCard)((EventSpotLight)evt).getToUse()));
+    	this.setTargetSector(((EventSpotLight)evt).getTarget());
     }
 
     private ObjectCard card;

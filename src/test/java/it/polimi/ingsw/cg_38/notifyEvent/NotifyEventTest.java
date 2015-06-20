@@ -106,7 +106,7 @@ public class NotifyEventTest {
 		
 		addedToGame =  new EventAddedToGame(player1 , added , broadcast);
 		attacked = new EventAttacked(player2, false);
-		cardUsed = new EventCardUsed(player1 , performed , ObjectCardType.Attack);
+		cardUsed = new EventCardUsed(player1 , performed , ObjectCardType.AttackCard);
 		closingGame = new EventClosingGame(player1 , broadcast);
 		declarePosition = new EventDeclarePosition(player1 , toDeclare);
 		declarePosition.setToDeclare(toDeclare2);
@@ -138,7 +138,7 @@ public class NotifyEventTest {
 		assertEquals(attacked.getAreThereOtherHumans() , false);
 		
 		assertEquals(cardUsed.getPerformed() , performed);
-		assertEquals(cardUsed.toString() , "EventCardUsed [" + ObjectCardType.Attack.toString() + "]");
+		assertEquals(cardUsed.toString() , "EventCardUsed [" + ObjectCardType.AttackCard.toString() + "]");
 		
 		assertEquals(declarePosition.getToDeclare() , toDeclare2);
 		

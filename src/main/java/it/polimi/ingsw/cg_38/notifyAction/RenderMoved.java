@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_38.notifyAction;
 import java.util.Scanner;
 
 import it.polimi.ingsw.cg_38.controller.PlayerClient;
+import it.polimi.ingsw.cg_38.controller.PlayerClientCLI;
 import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
@@ -36,12 +37,10 @@ public class RenderMoved extends NotifyAction {
 		Scanner in = new Scanner(System.in);
 		client.setPlayer(evt.getGenerator());
 		if(((EventMoved)evt).getMoved().equals("Safe")) {
-			System.out.println("You are in a SAFE sector ! Type attack or continue: [A] | [C]");
-			String com = in.nextLine();
+			String com = client.getLogger().showAndRead("You are in a SAFE sector ! Type attack or continue: [A] | [C]");
 			while(!com.equals("C") && !com.equals("A")) {
-				System.out.println("Command not valid retry !");
-				System.out.println("You are in a DANGEROUS sector ! Type draw or attack :[A] | [C] ?");
-				com = in.nextLine();
+				client.getLogger().print("Command not valid retry !");
+				com = client.getLogger().showAndRead("You are in a SAFE sector ! Type attack or continue: [A] | [C]");
 			}
 			if(com.equals("C")) {
 				client.setIsInterfaceBlocked(false);
@@ -51,13 +50,11 @@ public class RenderMoved extends NotifyAction {
 				return evt1;
 			}
 		} else if(((EventMoved)evt).getMoved().equals("Dangerous")) {
-			System.out.println("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?");
-			System.out.println("(If you activated the sedative card Type [D] to continue without drowing !");
-			String com = in.nextLine();
+			String com = client.getLogger().showAndRead("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?");
+			client.getLogger().print("(If you activated the sedative card Type [D] to continue without drowing !");
 			while(!com.equals("D") && !com.equals("A")) {
-				System.out.println("Command not valid retry !");
-				System.out.println("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?");
-				com = in.nextLine();
+				client.getLogger().print("Command not valid retry !");
+				com = client.getLogger().showAndRead("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?");
 			}
 			if(com.equals("D")) {
 				evt1 = new EventDraw(client.getPlayer());
@@ -65,10 +62,11 @@ public class RenderMoved extends NotifyAction {
 				evt1 = new EventAttack(client.getPlayer(), client.getPlayer().getAvatar().getCurrentSector());
 			}
 		} else if(((EventMoved)evt).getMoved().equals("Hatch")) {
-			System.out.println("You are in a HATCH sector ! Type [D]");
-			while(!in.nextLine().equals("D")){}
+			String com = client.getLogger().showAndRead("You are in a HATCH sector ! Type [D]");
+			while(!com.equals("D")){}
 			evt1 = new EventDraw(client.getPlayer());
 		}
+		client.updateMovements();
 		return evt1;
 	}
 }

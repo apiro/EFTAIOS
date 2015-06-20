@@ -18,6 +18,7 @@ public class Subscriber implements Runnable {
 	private Boolean clientAlive = true;
 	private EventSubscribe evt;
 	private Communicator communicator;
+	private Logger logger = new LoggerCLI();
 	
 	public Subscriber(EventSubscribe evt, ConcurrentLinkedQueue<Event> toProcess) {
 		this.toProcess = toProcess;
@@ -33,13 +34,13 @@ public class Subscriber implements Runnable {
 		try {
 			socketPubSub = new Socket(host, portPubSub);
 			communicator = new SocketCommunicator(socketPubSub);
-			System.out.println("Creating a socket with the PUB/SUB serverSocket !");
+			logger.print("Creating a socket with the PUB/SUB serverSocket !");
 			((SocketCommunicator)communicator).initCommunicator();
-			System.out.println("Sending " + evt.toString() + " ...");
+			logger.print("Sending " + evt.toString() + " ...");
 			((SocketCommunicator)communicator).getOutputStream().writeObject(evt);
 			((SocketCommunicator)communicator).setOutputStream(null);
 		} catch (IOException e) {
-			System.out.println("Problems with socket connection ! Check if the server is online ...");
+			logger.print("Problems with socket connection ! Check if the server is online ...");
 		}
 	}
 	

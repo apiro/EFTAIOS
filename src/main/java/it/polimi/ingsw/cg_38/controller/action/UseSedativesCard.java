@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.gameEvent.EventSedat;
+import it.polimi.ingsw.cg_38.gameEvent.EventSedatives;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
 
@@ -13,7 +13,7 @@ public class UseSedativesCard extends GameAction {
 
     public UseSedativesCard(GameEvent evt) {
     	super(evt.getGenerator());
-    	this.setCard(((ObjectCard)((EventSedat)evt).getToUse()));
+    	this.setCard(((ObjectCard)((EventSedatives)evt).getToUse()));
     }
 
     private ObjectCard card;

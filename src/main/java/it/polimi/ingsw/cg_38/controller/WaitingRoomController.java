@@ -11,6 +11,7 @@ public class WaitingRoomController extends Observable implements Runnable {
 	
 	private GameController gc;
 	/*private final Boolean[] controllMyLoop = {true};*/
+	private Logger logger = new LoggerCLI();
 	
 	
 	public GameController getGc() {
@@ -27,9 +28,9 @@ public class WaitingRoomController extends Observable implements Runnable {
 	}
 	
 	public void run() {
-		System.out.println("---------------------------------------------------------------------\n");
-		System.out.println("ACCEPTING: " + gc.getTopic() + " ...");
-		System.out.println("---------------------------------------------------------------------\n");
+		logger.print("---------------------------------------------------------------------\n");
+		logger.print("ACCEPTING: " + gc.getTopic() + " ...");
+		logger.print("---------------------------------------------------------------------\n");
 		try {
 			Thread.sleep(30000);
 		} catch (InterruptedException e1) {
@@ -55,9 +56,9 @@ public class WaitingRoomController extends Observable implements Runnable {
 		
 		System.out.println("PRIMA DI INVIARE EVENTI");
 		*/
-		System.out.println("---------------------------------------------------------------------\n");
-		System.out.println("RUNNING: " + gc.getTopic() + " ...");
-		System.out.println("---------------------------------------------------------------------\n");
+		logger.print("---------------------------------------------------------------------\n");
+		logger.print("RUNNING: " + gc.getTopic() + " ...");
+		logger .print("---------------------------------------------------------------------\n");
 		//E' LA FASE DI SETTAGGIO A RUNNING DEL GIOCO
 		gc.assignAvatars();
 		gc.getBuffer().add(new EventNotifyEnvironment(gc.getGameModel().getGamePlayers(), gc.getGameModel().getGameMap()));

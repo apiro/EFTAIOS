@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import it.polimi.ingsw.cg_38.controller.PlayerClient;
+import it.polimi.ingsw.cg_38.controller.PlayerClientCLI;
 import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.action.Draw;
 import it.polimi.ingsw.cg_38.gameEvent.EventAliensWinner;
@@ -93,8 +93,8 @@ public class NotifyActionTest {
 	EventDraw evtDraw;
 	Draw draw;
 	
-	PlayerClient client;
-	PlayerClient client2;
+	PlayerClientCLI client;
+	PlayerClientCLI client2;
 	Player player1;
 	Player player2;
 	Player player3;
@@ -157,9 +157,9 @@ public class NotifyActionTest {
 		moved = new EventMoved(player1 , "moved");
 		win = new EventNotifyWin(player1);
 		
-		client = new PlayerClient("RMI" , evtSubscribe);
+		client = new PlayerClientCLI("RMI" , evtSubscribe);
 		client.setPlayer(player1);
-		client2 = new PlayerClient("Socket" , evtSubscribe);
+		client2 = new PlayerClientCLI("Socket" , evtSubscribe);
 		client2.setPlayer(player2);
 		
 		renderAttacked = new RenderAttacked(evtAttacked);

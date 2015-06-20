@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_38.notifyAction;
 import java.util.Scanner;
 
 import it.polimi.ingsw.cg_38.controller.PlayerClient;
+import it.polimi.ingsw.cg_38.controller.PlayerClientCLI;
 import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
@@ -36,20 +37,20 @@ public class RenderDrown extends NotifyAction {
 	public GameEvent render(PlayerClient client) {
 		
 		GameEvent evt1 = null;
-		Scanner in = new Scanner(System.in);
 		
 		client.setPlayer(evt.getGenerator());
+		client.updateCards();
+		
 		if(((EventDrown)evt).getDrown() instanceof SectorCard) {
 			SectorCard card = ((SectorCard)((EventDrown)evt).getDrown());
 			if(card.getType().equals(SectorCardType.MySectorNoise)) {
 				evt1 = new EventNoiseMySect(client.getPlayer());
 				
 			} else if (card.getType().equals(SectorCardType.RandomSectorNoise)) {
-				evt1 = new EventNoiseRandSect(client.getPlayer(), client.askForMoveCoordinates(in));
+				evt1 = new EventNoiseRandSect(client.getPlayer(), client.askForMoveCoordinates());
 				
 			} else if (card.getType().equals(SectorCardType.Silence)) {
 				client.setIsInterfaceBlocked(false);
-				in.close();
 				return null;
 			}
 			
@@ -59,8 +60,7 @@ public class RenderDrown extends NotifyAction {
 				this.renderWin(client);
 			} else if(card.getColor().equals(HatchCardType.Red)) {
 				client.setIsInterfaceBlocked(false);
-				System.out.println("You can't escape frome the SpaceShip !");
-				in.close();
+				client.getLogger().print("You can't escape frome the SpaceShip !");
 				return null;
 			}
 		}
@@ -68,7 +68,7 @@ public class RenderDrown extends NotifyAction {
 	}
 
 	private void renderWin(PlayerClient client) {
-		System.out.println("YOU WIN !");
+		client.getLogger().print("YOU WIN !");
 		client.setIsInterfaceBlocked(true);
 		client.setPlayerClientState(PlayerClientState.winner);
 		client.closeClient();

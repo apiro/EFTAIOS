@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.notifyAction;
 
 import it.polimi.ingsw.cg_38.controller.PlayerClient;
+import it.polimi.ingsw.cg_38.controller.PlayerClientCLI;
 import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
@@ -24,7 +25,7 @@ public class AddedToGame extends NotifyAction {
 
 	@Override
 	public GameEvent render(PlayerClient client) {
-		System.out.println(this.getEvt().getGenerator().getName() + " has been added to the choosen topic ! Enjoy");
+		client.getLogger().print(this.getEvt().getGenerator().getName() + " has been added to the choosen topic ! Enjoy");
 		client.setPlayerClientState(PlayerClientState.connected);
 		client.setIsInterfaceBlocked(true);
 		return null;		

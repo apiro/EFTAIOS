@@ -19,14 +19,14 @@ import org.junit.Test;
 
 public class GameEventTest {
 	
-	EventAdren adrenaline;
+	EventAdrenaline adrenaline;
 	EventAttack attack;
 	EventAttackCard attackCard;
-	EventLights lights;
+	EventSpotLight lights;
 	EventMove move;
 	EventNewGame newGame;
 	EventNoiseRandSect noiseRandSect;
-	EventSedat sedat;
+	EventSedatives sedat;
 	EventSubscribe subscribe;
 	EventTeleport teleport;
 	EventDraw draw;
@@ -68,14 +68,14 @@ public class GameEventTest {
 		
 		card1 = new ObjectCard(ObjectCardType.Adrenaline);
 			
-		adrenaline = new EventAdren(player1 , card1 );
+		adrenaline = new EventAdrenaline(player1 , card1 );
 		attack = new EventAttack(player1 , sector1);
 		attackCard = new EventAttackCard(player1 , card1);	
-		lights = new EventLights(player1 , sector1 , card1);
+		lights = new EventSpotLight(player1 , sector1 , card1);
 		move = new EventMove(player1 , sector1);
 		newGame = new EventNewGame(player1 , room);
 		noiseRandSect = new EventNoiseRandSect(player1 , sector1);
-		sedat = new EventSedat(player1 , card1);
+		sedat = new EventSedatives(player1 , card1);
 		subscribe = new EventSubscribe(player1 , room , map);
 		teleport = new EventTeleport(player1 , card1);
 		draw = new EventDraw(player1);

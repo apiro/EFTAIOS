@@ -9,12 +9,12 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.gameEvent.EventAdren;
+import it.polimi.ingsw.cg_38.gameEvent.EventAdrenaline;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttackCard;
-import it.polimi.ingsw.cg_38.gameEvent.EventLights;
+import it.polimi.ingsw.cg_38.gameEvent.EventSpotLight;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseMySect;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseRandSect;
-import it.polimi.ingsw.cg_38.gameEvent.EventSedat;
+import it.polimi.ingsw.cg_38.gameEvent.EventSedatives;
 import it.polimi.ingsw.cg_38.gameEvent.EventTeleport;
 import it.polimi.ingsw.cg_38.model.Alien;
 import it.polimi.ingsw.cg_38.model.Avatar;
@@ -62,21 +62,21 @@ public class UseCardTest {
 	UseTeleportCard useTeleportCard2;
 	UseTeleportCard useTeleportCard3;
 	
-	EventAdren evtAdren1;
-	EventAdren evtAdren2;
-	EventAdren evtAdren3;
+	EventAdrenaline evtAdren1;
+	EventAdrenaline evtAdren2;
+	EventAdrenaline evtAdren3;
 	EventAttackCard evtAttackCard1;
 	EventAttackCard evtAttackCard2;
 	EventAttackCard evtAttackCard3;
 	EventAttackCard evtAttackCard4;
-	EventLights evtLights1;
-	EventLights evtLights2;
-	EventLights evtLights3;
+	EventSpotLight evtLights1;
+	EventSpotLight evtLights2;
+	EventSpotLight evtLights3;
 	EventNoiseMySect evtNoiseMySect;
 	EventNoiseRandSect evtNoiseRandSect;
-	EventSedat evtSedat;
-	EventSedat evtSedat2;
-	EventSedat evtSedat3;
+	EventSedatives evtSedat;
+	EventSedatives evtSedat2;
+	EventSedatives evtSedat3;
 	EventTeleport evtTeleport;
 	EventTeleport evtTeleport2;
 	EventTeleport evtTeleport3;
@@ -151,8 +151,8 @@ public class UseCardTest {
 		
 		adrenalineCard1 = new ObjectCard(ObjectCardType.Adrenaline);
 		adrenalineCard2 = new ObjectCard(ObjectCardType.Adrenaline);
-		attackCard1 = new ObjectCard(ObjectCardType.Attack);
-		attackCard2 = new ObjectCard(ObjectCardType.Attack);
+		attackCard1 = new ObjectCard(ObjectCardType.AttackCard);
+		attackCard2 = new ObjectCard(ObjectCardType.AttackCard);
 		lightsCard1 = new ObjectCard(ObjectCardType.SpotLight);
 		lightsCard2 = new ObjectCard(ObjectCardType.SpotLight);
 		sedatCard = new ObjectCard(ObjectCardType.Sedatives);
@@ -216,21 +216,21 @@ public class UseCardTest {
 		
 		model1.setActualTurn(turn1);
 		
-		evtAdren1 = new EventAdren(player1 , adrenalineCard1);
-		evtAdren2 = new EventAdren(player2 , adrenalineCard2);
-		evtAdren3 = new EventAdren(player3 , adrenalineCard2);
+		evtAdren1 = new EventAdrenaline(player1 , adrenalineCard1);
+		evtAdren2 = new EventAdrenaline(player2 , adrenalineCard2);
+		evtAdren3 = new EventAdrenaline(player3 , adrenalineCard2);
 		evtAttackCard1 = new EventAttackCard(player5 , attackCard1);
 		evtAttackCard2 = new EventAttackCard(player6 , attackCard2);
 		evtAttackCard3 = new EventAttackCard(player4 , attackCard2);
 		evtAttackCard4 = new EventAttackCard(player1 , attackCard1);
-		evtLights1 = new EventLights(player3 , sector2 , lightsCard1);
-		evtLights2 = new EventLights(player6 , sector5 , lightsCard2);
-		evtLights3 = new EventLights(player2 , sector3 , lightsCard2);
+		evtLights1 = new EventSpotLight(player3 , sector2 , lightsCard1);
+		evtLights2 = new EventSpotLight(player6 , sector5 , lightsCard2);
+		evtLights3 = new EventSpotLight(player2 , sector3 , lightsCard2);
 		evtNoiseMySect = new EventNoiseMySect(player2);
 		evtNoiseRandSect = new EventNoiseRandSect(player3 , sector4);
-		evtSedat = new EventSedat(player4 , sedatCard);
-		evtSedat2 = new EventSedat(player6 , sedatCard);
-		evtSedat3 = new EventSedat(player5 , sedatCard);
+		evtSedat = new EventSedatives(player4 , sedatCard);
+		evtSedat2 = new EventSedatives(player6 , sedatCard);
+		evtSedat3 = new EventSedatives(player5 , sedatCard);
 		evtTeleport = new EventTeleport(player5 , teleportCard);
 		evtTeleport2 = new EventTeleport(player6 , teleportCard);
 		evtTeleport3 = new EventTeleport(player4 , teleportCard);

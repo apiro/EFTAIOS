@@ -15,7 +15,7 @@ public class ObjectDeck extends Deck {
     	for(int i = 0; i < 2; i++) {
     		this.getObjectDeck().add(new ObjectCard(ObjectCardType.Adrenaline));
     		this.getObjectDeck().add(new ObjectCard(ObjectCardType.Teleport));
-    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.Attack));
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.AttackCard));
     		this.getObjectDeck().add(new ObjectCard(ObjectCardType.SpotLight));
     		this.getObjectDeck().add(new ObjectCard(ObjectCardType.Sedatives));
     	}

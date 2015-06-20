@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.notifyAction;
 
 import it.polimi.ingsw.cg_38.controller.PlayerClient;
+import it.polimi.ingsw.cg_38.controller.PlayerClientCLI;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventContinue;
@@ -25,17 +26,17 @@ public class RenderSpotlight extends NotifyAction {
 		
 		/*client.setPlayer(evt.getGenerator());*/
 		if(((EventDeclarePosition)evt).getToDeclare().size() >= 1) {
-			System.out.println("Declared Light in sector: row: " + ((EventDeclarePosition)evt).getToDeclare().get(0).getAvatar().getCurrentSector().getRow() + 
+			client.getLogger().print("Declared Light in sector: row: " + ((EventDeclarePosition)evt).getToDeclare().get(0).getAvatar().getCurrentSector().getRow() + 
 				"col: " + ((EventDeclarePosition)evt).getToDeclare().get(0).getAvatar().getCurrentSector().getCol());
 			int i = 0;
 			for(Player pl:((EventDeclarePosition)evt).getToDeclare()) {
-				System.out.println(i + ") -> " + pl.getName());
+				client.getLogger().print(i + ") -> " + pl.getName());
 				i++;
 			}
 		}
 		if(client.getPlayer().getName().equals(evt.getGenerator().getName())) {
 			client.setPlayer(evt.getGenerator());
-			System.out.println("Card used !");
+			client.getLogger().print("Card used !");
 		}
 		return new EventContinue();
 	}
