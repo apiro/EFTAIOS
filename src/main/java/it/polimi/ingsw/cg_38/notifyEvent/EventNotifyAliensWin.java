@@ -13,7 +13,15 @@ public class EventNotifyAliensWin extends NotifyEvent {
 
 	public EventNotifyAliensWin(Player generator, ArrayList<Player> winners) {
 		super(generator, true);
-		this.winners = winners;
+		this.setWinners(winners);
 		super.setType(NotifyEventType.aliensWin);
+	}
+
+	public ArrayList<Player> getWinners() {
+		return winners;
+	}
+
+	public void setWinners(ArrayList<Player> winners) {
+		this.winners = winners;
 	}
 }

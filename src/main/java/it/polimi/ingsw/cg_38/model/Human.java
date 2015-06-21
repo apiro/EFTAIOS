@@ -39,11 +39,19 @@ public class Human extends Avatar implements Serializable {
     		return false;
     	}
     	if(this.getCurrentSector().getNeighboringSectors().contains(sector)) {
+
+        	if(sector.getName().equals("Hatch")) {
+        		return ((Hatch)sector).getIsOpen();
+        	}
     		return true;
     	} else if(this.getIsPowered()) {
         	for(Sector sec: this.getCurrentSector().getNeighboringSectors()){
         		for(Sector sec2: sec.getNeighboringSectors()){
 	        		if(sec2.equals(sector) && !(sec2.equals(this.getCurrentSector()))) {
+
+	        	    	if(sector.getName().equals("Hatch")) {
+	        	    		return ((Hatch)sector).getIsOpen();
+	        	    	}
 	        			return true;
 	        		}
         		}

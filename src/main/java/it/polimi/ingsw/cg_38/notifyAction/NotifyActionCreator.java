@@ -41,6 +41,10 @@ public class NotifyActionCreator {
 			action = new RenderUseDefenseCard((NotifyEvent)evt);
 		if(type.equals(NotifyEventType.notTeleport)) 
 			action = new RenderTeleport((NotifyEvent)evt);
+		if(type.equals(NotifyEventType.humanWin)) 
+			action = new RenderHumanWin((NotifyEvent)evt);
+		if(type.equals(NotifyEventType.hatchBlocked)) 
+			action = new RenderHatchBlocked((NotifyEvent)evt);
     	return action;
 		
 	}

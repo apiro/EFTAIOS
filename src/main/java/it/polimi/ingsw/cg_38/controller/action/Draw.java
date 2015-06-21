@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDrown;
+import it.polimi.ingsw.cg_38.notifyEvent.EventHatchBlocked;
 
 /**
  * 
@@ -45,6 +46,9 @@ public class Draw extends GameAction {
    		} else if (model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector() instanceof Hatch ) {
    			model.getActualTurn().setHasDraw(true);
    			HatchCard drown1 =  (HatchCard)model.getDeckHatch().draw();
+   			if(drown1.getColor().equals(HatchCardType.Red)) {
+   				((Hatch)model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()).setIsOpen(false);
+   			}
    			callbackEvent.add(new EventDrown(model.getActualTurn().getCurrentPlayer(), null, drown1));
    		} 
     	return callbackEvent;

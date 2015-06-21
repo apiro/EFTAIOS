@@ -27,6 +27,8 @@ public interface PlayerClient {
 	
 	public void closeClient();
 	
+	public void paintHatch(Boolean bool, Sector sec);
+	
 	public void setMap(Map map);
 	
 	public void setIsInterfaceBlocked(Boolean isInterfaceBlocked);

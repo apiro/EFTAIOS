@@ -16,5 +16,7 @@ public enum GameEventType {
 	finishTurn, 
 	winner, 
 	looser, 
-	aliensWin
+	aliensWin, 
+	humanWin, 
+	blockHatch
 }

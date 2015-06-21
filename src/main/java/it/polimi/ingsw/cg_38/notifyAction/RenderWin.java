@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg_38.controller.PlayerClientCLI;
 import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.gameEvent.EventFinishTurn;
 
 public class RenderWin extends NotifyAction {
 
@@ -24,8 +25,14 @@ public class RenderWin extends NotifyAction {
 		client.getLogger().print("YOU WIN !");
 		client.setIsInterfaceBlocked(true);
 		client.setPlayerClientState(PlayerClientState.winner);
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		client.paintHatch(true, evt.getGenerator().getAvatar().getCurrentSector());
 		client.closeClient();
-		return null;
+		return new EventFinishTurn(super.evt.getGenerator());
 	}
 
 }

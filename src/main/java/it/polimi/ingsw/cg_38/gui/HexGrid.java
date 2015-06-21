@@ -34,7 +34,10 @@ public class HexGrid extends JPanel {
 	private int[][] board;
 	private final static Color COLOURBACK =  Color.DARK_GRAY;
 	private HashMap<String, ImageIcon> imgUrls = new HashMap<String, ImageIcon>();
-	private ImageIcon playerPointer = null;
+	private ImageIcon playerPointerS = null;
+	private ImageIcon playerPointerD = null;
+	private ImageIcon hatchGreen = null;
+	private ImageIcon hatchRed = null;
 	private ArrayList<GraphicSector> sects = new ArrayList<GraphicSector>();
 	private ConcurrentLinkedQueue<Event> toSend;
 	private Player player;
@@ -49,9 +52,24 @@ public class HexGrid extends JPanel {
 	public ArrayList<GraphicSector> getSects() {
 		return sects;
 	}
+	
+	public void hatchPainter(int x, int y, Boolean available) {
+		for(GraphicSector sec:sects) {
+			if((sec.getCol() == x) && (sec.getRow() == y)) {
+				oldx = sec.getCol();
+				oldy = sec.getRow();
+				oldIcon = (ImageIcon) sec.getIcon();
+				if(available) {
+					sec.setIcon(hatchGreen);
+				}
+				else {
+					sec.setIcon(hatchRed);
+				}
+			}
+		}
+	}
 
-	public void slidePlayerPosition(int x, int y) {
-		
+	public void slidePlayerPosition(int x, int y, String type) {
 		for(GraphicSector sec:sects) {
 			if((sec.getCol() == oldx) && (sec.getRow() == oldy)) {
 				sec.setIcon(oldIcon);
@@ -60,7 +78,8 @@ public class HexGrid extends JPanel {
 				oldx = sec.getCol();
 				oldy = sec.getRow();
 				oldIcon = (ImageIcon) sec.getIcon();
-				sec.setIcon(playerPointer);
+				if(type.substring(34).equals("Dangerous")) sec.setIcon(playerPointerD);
+				if(type.substring(34).equals("Safe")) sec.setIcon(playerPointerS);
 			}
 		}
 	}
@@ -72,11 +91,7 @@ public class HexGrid extends JPanel {
 		this.player = player;
 		this.map = map;
 		
-		try {
-			this.loadResurces();
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
-		}
+		this.loadResurces();
 		
 		this.popolateGUI();
 		
@@ -131,30 +146,26 @@ public class HexGrid extends JPanel {
 		
 	}
 
-	public void loadResurces() throws MalformedURLException{
+	public void loadResurces() {
 		
-		try {
-			playerPointer = this.generateImageIcon(new URL("http://www.ifrc.org/Global/rw/red3/resources/20140314-international-red-twitter.jpg"));
-		} catch (MalformedURLException e) {
-			logger.print("url malformato");
-		}
-		imgUrls.put("Empty",this.generateImageIcon(new URL("http://www.blueskysports.com/image/cache/data/Colors/white-200x200.png")));
-		/*imgUrls.put("Safe",this.generateImageIcon(new URL("http://a1.mzstatic.com/eu/r30/Purple7/v4/10/1a/ac/101aac56-d71c-0108-426b-912aae214c4d/icon175x175.png")));*/
-		imgUrls.put("Safe", this.generateImageIconFromFS());
-		imgUrls.put("Dangerous",this.generateImageIcon(new URL("http://adoptusanimalrescue.org/wp-content/uploads/2013/04/2191109-184523-green-grass-texture-that-tiles-seamlessly-as-a-pattern-300x300.jpg")));
-		imgUrls.put("HSP",this.generateImageIcon(new URL("http://royalcovering.com/media/catalog/product/cache/1/image/991bf44e479402b25df0908fda8f5972/v/i/vinyl-carbone-bleu-ciel-royal-covering_1.jpg")));
-		imgUrls.put("ASP",this.generateImageIcon(new URL("http://akonder.org/wp-content/themes/allegro-theme/images/background-texture-4.jpg")));
-		imgUrls.put("H",this.generateImageIcon(new URL("http://fc08.deviantart.net/fs31/i/2008/193/a/7/Sun_comes_up_texture_by_iNeedChemicalX.jpg")));
-	
+		hatchGreen = this.generateImageIconFromFS("./res/hatchG.png");
+		hatchRed = this.generateImageIconFromFS("./res/hatchR.png");
+		playerPointerS = this.generateImageIconFromFS("./res/safeY.png");
+		playerPointerD = this.generateImageIconFromFS("./res/dangerousY.png");
+		imgUrls.put("Empty",this.generateImageIconFromFS("./res/empty.png"));
+		imgUrls.put("Safe", this.generateImageIconFromFS("./res/safe.png"));
+		imgUrls.put("Dangerous",this.generateImageIconFromFS("./res/dangerous.png"));
+		imgUrls.put("HSP",this.generateImageIconFromFS("./res/hsp.png"));
+		imgUrls.put("ASP",this.generateImageIconFromFS("./res/asp.png"));
+		imgUrls.put("H",this.generateImageIconFromFS("./res/hatch.png"));
 	}
 	
-	public ImageIcon generateImageIconFromFS() {
+	public ImageIcon generateImageIconFromFS(String path) {
 		BufferedImage bi = null;
 		try {
-			bi = ImageIO.read(new File("./res/safe.png"));
+			bi = ImageIO.read(new File(path));
 		} catch (IOException e) {
-			System.out.println("Impossible to read the resource !");
-			e.printStackTrace();
+			System.out.println("Impossible to read the resource ! " + path);
 		}
 		Polygon poly = HexagonHandler.hex(0,0);
         Shape myShape = TexturedShape.fromPolygonToShape(poly);

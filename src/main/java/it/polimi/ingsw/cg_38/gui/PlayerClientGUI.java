@@ -118,7 +118,7 @@ public class PlayerClientGUI implements PlayerClient {
 		  Event msg = toProcess.poll();
 			if(msg != null) {
 				this.process(msg);
-				text1.append(msg.toString() + "\n");
+				/*text1.append(msg.toString() + "\n");*/
 				this.updateCards();
 			}
 			this.blockInterf(isInterfaceBlocked);
@@ -192,7 +192,11 @@ public class PlayerClientGUI implements PlayerClient {
 		player.getAvatar().getMyCards().remove(cardSelected);
   }
 
-  public void process(Event msg) {
+  public HexGrid getPanelCentr() {
+	return panelCentr;
+}
+
+public void process(Event msg) {
 		System.out.println("----------------------------------------------------------------------\n");
 		System.err.println("Recieving " + msg.toString() + " ...\n");
 		NotifyAction action = (NotifyAction)NotifyActionCreator.createNotifyAction(msg);
@@ -527,6 +531,12 @@ public class PlayerClientGUI implements PlayerClient {
 			i++;
 		}
 		
-		panelCentr.slidePlayerPosition(player.getAvatar().getCurrentSector().getCol(), player.getAvatar().getCurrentSector().getRow());
+		panelCentr.slidePlayerPosition(player.getAvatar().getCurrentSector().getCol(), player.getAvatar().getCurrentSector().getRow(),
+				player.getAvatar().getCurrentSector().getClass().toString());
+	}
+
+	@Override
+	public void paintHatch(Boolean bool, Sector sec) {
+		panelCentr.hatchPainter(sec.getCol(), sec.getRow(), bool);
 	}
 }

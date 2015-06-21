@@ -77,6 +77,7 @@ public class PlayerClientCLI implements PlayerClient {
 
 	public EventSubscribe askForEventSubscribe() {
 		logger.print("INSERT  : \n\t1) YOUR USERNAME: \n\t2) THE ROOM YOU WANT TO ACCESS : \n\t3) THE MAP NAME: ");
+		logger.print("if you enter in an existing room type smth random");
 		String name = in.nextLine();
 		room = in.nextLine();
 		String map = in.nextLine();
@@ -317,6 +318,12 @@ public class PlayerClientCLI implements PlayerClient {
 
 	public void setClientAlive(Boolean b) {
 		this.clientAlive = b;
+	}
+	
+	@Override
+	public void paintHatch(Boolean bool, Sector sec) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
