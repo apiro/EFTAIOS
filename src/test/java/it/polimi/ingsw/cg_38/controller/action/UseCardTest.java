@@ -343,7 +343,9 @@ public class UseCardTest {
 		assertEquals(((EventMoved)evtMoved.get(0)).getMoved() , "HumanStartingPoint");
 		
 		model1.setActualTurn(turn6);
+		model1.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(lightsCard2);
 		assertEquals(useLightsCard2.isPossible(model1) , false);
+		model1.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(attackCard2);
 		assertEquals(useAttackCard2.isPossible(model1) , false);
 		assertEquals(useTeleportCard2.isPossible(model1) , false);
 		assertEquals(useSedativesCard2.isPossible(model1) , false);

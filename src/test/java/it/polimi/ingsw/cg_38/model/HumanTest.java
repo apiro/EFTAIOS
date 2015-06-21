@@ -119,11 +119,11 @@ public class HumanTest {
 		avatar.addCard(new ObjectCard(ObjectCardType.Adrenaline));
 		Boolean result = avatar.addCard(new ObjectCard(ObjectCardType.Adrenaline));
 		
-		assertEquals(result, false);
-		assertEquals(avatar.getMyCards().size(), 3);
+		assertEquals(result, true);
+		assertEquals(avatar.getMyCards().size(), 4);
 		
 		avatar.eliminateFromMyCards(drownObj);
-		assertEquals(avatar.getMyCards().size(), 2);
+		assertEquals(avatar.getMyCards().size(), 3);
 		
 		assertEquals(avatar.getName(), Name.Human1);
 		

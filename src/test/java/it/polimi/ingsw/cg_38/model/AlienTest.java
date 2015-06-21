@@ -115,10 +115,10 @@ public class AlienTest {
 		Boolean result = avatar.addCard(new ObjectCard(ObjectCardType.Adrenaline));
 		
 		assertEquals(result, true/*false*/);
-		assertEquals(avatar.getMyCards().size(), 3);
+		assertEquals(avatar.getMyCards().size(), 4);
 		
 		avatar.eliminateFromMyCards(drownObj);
-		assertEquals(avatar.getMyCards().size(), 2);
+		assertEquals(avatar.getMyCards().size(), 3);
 		
 		assertEquals(avatar.getName(), Name.Alien1);
 		

@@ -299,13 +299,14 @@ public class GameActionTest {
 			model1.getActualTurn().setHasAttacked(true);
 			assertEquals(attack2.isPossible(model1) , false);
 			aliensWin2.perform(model1);
+			assertEquals(model1.getGameState() , GameState.CLOSING);
 			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsWinner() , EndState.WINNER);
 			
 			model1.setActualTurn(turn2);
 			model1.getActualTurn().setHasMoved(false);
 			assertEquals(move3.isPossible(model1) , false);
 			model1.getActualTurn().setHasMoved(true);
-			
+			model1.setGameState(GameState.RUNNING);
 			assertEquals(draw1.isPossible(model1) , true);
 			model1.getActualTurn().setHasMoved(false);
 			assertEquals(attack1.isPossible(model1) , false);
