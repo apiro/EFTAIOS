@@ -1,15 +1,18 @@
 package it.polimi.ingsw.cg_38.notifyAction;
 
 import it.polimi.ingsw.cg_38.controller.PlayerClient;
-import it.polimi.ingsw.cg_38.controller.PlayerClientCLI;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.model.Alien;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyAliensWin;
 
 public class RenderAliensWin extends NotifyAction {
 
+	private static final long serialVersionUID = 1L;
+	private Boolean areWinner;
+
 	public RenderAliensWin(NotifyEvent evt) {
 		super(evt.getGenerator(), evt);
+		this.areWinner = ((EventNotifyAliensWin)evt).getAreWinner();
 	}
 
 	@Override
@@ -19,10 +22,13 @@ public class RenderAliensWin extends NotifyAction {
 
 	@Override
 	public GameEvent render(PlayerClient client) {
-		client.getLogger().print("ALIENS WON !!!");
-		client.setIsInterfaceBlocked(true);
-		client.setClientAlive(false);
+		if(areWinner) {
+			client.getLogger().print("ALIENS WON !!!");
+			client.setIsInterfaceBlocked(true);
+			client.setClientAlive(false);
+		} else {
+			client.setIsInterfaceBlocked(false);
+		}
 		return null;
 	}
-
 }

@@ -46,7 +46,6 @@ public class NotifyActionCreator {
 		if(type.equals(NotifyEventType.hatchBlocked)) 
 			action = new RenderHatchBlocked((NotifyEvent)evt);
     	return action;
-		
 	}
 	
 }

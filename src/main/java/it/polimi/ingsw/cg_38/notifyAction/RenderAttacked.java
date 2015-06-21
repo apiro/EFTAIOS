@@ -44,7 +44,7 @@ public class RenderAttacked extends NotifyAction {
 						return null;
 					} else {
 						
-						return new EventAliensWinner(client.getPlayer());
+						return new EventAliensWinner(client.getPlayer(), true);
 					}
 				} else {
 					

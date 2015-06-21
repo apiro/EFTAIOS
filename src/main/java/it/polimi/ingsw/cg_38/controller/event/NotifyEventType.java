@@ -19,5 +19,6 @@ public enum NotifyEventType {
 	useDefenseCard, 
 	notTeleport, 
 	humanWin, 
-	hatchBlocked
+	hatchBlocked, 
+	closingTopic
 }

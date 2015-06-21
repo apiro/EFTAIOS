@@ -1,13 +1,12 @@
 package it.polimi.ingsw.cg_38.controller.action;
 import java.util.ArrayList;
 
-import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAttacked;
-import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyClosingTopic;
 import it.polimi.ingsw.cg_38.notifyEvent.EventSufferAttack;
 import it.polimi.ingsw.cg_38.notifyEvent.EventUseDefense;
 
@@ -68,6 +67,7 @@ public class Attack extends GameAction {
         }
         
         callbackEvent.add(new EventAttacked(model.getActualTurn().getCurrentPlayer(), areThereOtherHumans));
+        if(!areThereOtherHumans) callbackEvent.add(new EventNotifyClosingTopic(model.getActualTurn().getCurrentPlayer()));
         return callbackEvent;
     }
 

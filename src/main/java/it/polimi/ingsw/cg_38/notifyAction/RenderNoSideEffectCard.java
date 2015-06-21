@@ -23,7 +23,8 @@ public class RenderNoSideEffectCard extends NotifyAction {
 		if(client.getPlayer().getName().equals(evt.getGenerator().getName())) {
 			client.setPlayer(evt.getGenerator());
 			client.updateCards();
-			return null;
+			client.setIsInterfaceBlocked(true);
+			client.setIsInterfaceBlocked(false);
 		}
 		client.getLogger().print(((EventCardUsed)this.getEvt()).getTypeCard().toString() +
 				" card used by " + evt.getGenerator().getName() + " in sector: row: " +

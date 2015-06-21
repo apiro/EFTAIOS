@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
 import it.polimi.ingsw.cg_38.controller.action.GameAction;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyClosingTopic;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -18,7 +19,6 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
-import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -38,7 +38,6 @@ public class ServerController extends Observable {
 		return topics;
 	}
 	
-	private Scanner in = new Scanner(System.in);
 	private ConcurrentLinkedQueue<Event> toDispatch;
 	
 	private Registry registry;
@@ -96,6 +95,9 @@ public class ServerController extends Observable {
 					}*/
 				}
 				for(NotifyEvent e:callbackEvent) {
+					if(e instanceof EventNotifyClosingTopic) {
+						this.removeTopic(gcFound);
+					}
 					gcFound.addEventToTheQueue(e);
 					this.setChanged();
 					this.notifyObservers(gcFound.getTopic());
@@ -117,6 +119,21 @@ public class ServerController extends Observable {
 		}
 	}
 	
+	public void removeTopic(GameController gcFound) {
+		ArrayList<String> toRemove = new ArrayList<String>();
+		for(String topic:topics.keySet()) {
+			if(topics.get(topic).getTopic().equals(gcFound.getTopic())) {
+				toRemove.add(topic);
+			}
+		}
+		for(String s:toRemove) {
+			topics.remove(s);
+			logger.print("---------------------------------------------------------------------\n");
+			logger.print(s + " removed from topic " + gcFound.getTopic() + " !");
+			logger.print("---------------------------------------------------------------------\n");
+		}
+	}
+
 	private void startRMIEnvironment() throws RemoteException, AlreadyBoundException {
 		
 		RMIRemoteObjectDetails serverView = new RMIRemoteObjectDetails("REGISTRATIONVIEW");

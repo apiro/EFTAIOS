@@ -3,6 +3,8 @@ package it.polimi.ingsw.cg_38.notifyAction;
 import it.polimi.ingsw.cg_38.controller.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.gameEvent.EventAliensWinner;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyHumanWin;
 
 public class RenderHumanWin extends NotifyAction {
 
@@ -29,6 +31,12 @@ public class RenderHumanWin extends NotifyAction {
 			client.setIsInterfaceBlocked(true);
 		} else {
 			client.setIsInterfaceBlocked(false);
+			if(((EventNotifyHumanWin)evt).getAreThereOtherHumans()) {
+				client.getLogger().print("There are other human in the map...Continue the game !");
+			} else {
+				client.getLogger().print("There are no other human in the map... !");
+				return new EventAliensWinner(client.getPlayer(), false);
+			}
 		}
 		return null;
 	}
