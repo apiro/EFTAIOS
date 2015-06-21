@@ -19,7 +19,7 @@ public class RenderHumanWin extends NotifyAction {
 
 	@Override
 	public GameEvent render(PlayerClient client) {
-		client.getLogger().print("Player " + super.player.getName() + " HAS LEFT THE SPACESHIP ! ");
+		client.getLogger().print("PLAYER " + super.player.getName() + " HAS LEFT THE SPACESHIP ! ");
 		if(client.getPlayer().getName().equals(super.player.getName())) {
 			try {
 				Thread.sleep(15000);
@@ -32,5 +32,4 @@ public class RenderHumanWin extends NotifyAction {
 		}
 		return null;
 	}
-
 }
