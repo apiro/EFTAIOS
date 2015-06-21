@@ -52,6 +52,10 @@ public class GameActionCreator {
     		action = new Looser((GameEvent)evt);
     	} else if (type.equals(GameEventType.aliensWin)) {
     		action = new AliensWin((GameEvent)evt);
+    	} else if (type.equals(GameEventType.humanWin)) {
+    		action = new HumanWin((GameEvent)evt);
+    	} else if (type.equals(GameEventType.blockHatch)) {
+    		action = new HatchBlocked((GameEvent)evt);
     	}
 		return action;
     }

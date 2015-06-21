@@ -1,12 +1,12 @@
 package it.polimi.ingsw.cg_38.notifyAction;
 
-import java.util.Scanner;
 
 import it.polimi.ingsw.cg_38.controller.PlayerClient;
-import it.polimi.ingsw.cg_38.controller.PlayerClientCLI;
 import it.polimi.ingsw.cg_38.controller.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.gameEvent.EventHatchBlocked;
+import it.polimi.ingsw.cg_38.gameEvent.EventHumanWin;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseMySect;
 import it.polimi.ingsw.cg_38.gameEvent.EventNoiseRandSect;
 import it.polimi.ingsw.cg_38.model.HatchCard;
@@ -57,11 +57,14 @@ public class RenderDrown extends NotifyAction {
 		} else if (((EventDrown)evt).getDrown() instanceof HatchCard) {
 			HatchCard card = ((HatchCard)((EventDrown)evt).getDrown());
 			if(card.getColor().equals(HatchCardType.Green)) {
+				client.paintHatch(true, evt.getGenerator().getAvatar().getCurrentSector());
 				this.renderWin(client);
+				evt1 = new EventHumanWin(client.getPlayer());
 			} else if(card.getColor().equals(HatchCardType.Red)) {
+				client.paintHatch(false, evt.getGenerator().getAvatar().getCurrentSector());
 				client.setIsInterfaceBlocked(false);
 				client.getLogger().print("You can't escape frome the SpaceShip !");
-				return null;
+				evt1 = new EventHatchBlocked(client.getPlayer());
 			}
 		}
 		return evt1;
@@ -71,6 +74,5 @@ public class RenderDrown extends NotifyAction {
 		client.getLogger().print("YOU WIN !");
 		client.setIsInterfaceBlocked(true);
 		client.setPlayerClientState(PlayerClientState.winner);
-		client.closeClient();
 	}
 }
