@@ -35,6 +35,7 @@ public class UseTeleportCard extends GameAction {
     	
     	if(this.currentAvatarType(model).equals("Alien")){
     		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    		model.getActualTurn().setHasUsedObjectCard(true);
     		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false, card.getType()));
     		return callbackEvent;
     	}
@@ -56,7 +57,8 @@ public class UseTeleportCard extends GameAction {
      */
     public Boolean isPossible(GameModel model) {
 	    if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
-	        		super.isPossible(model)) {
+	    		!model.getActualTurn().getHasUsedObjectCard() &&
+	    		super.isPossible(model)) {
 	    	return true;
 	    }
 	     return false;
