@@ -157,7 +157,9 @@ public class PlayerClientCLI implements PlayerClient {
 			if(command.equals("M")) {
 				
 				Sector toMove = this.askForMoveCoordinates();
-				this.toSend.add(new EventMove(player, toMove));
+				synchronized(this.toSend) {
+					this.toSend.add(new EventMove(player, toMove));
+				}
 				
 			} else if (command.equals("U")) {
 				
@@ -183,7 +185,9 @@ public class PlayerClientCLI implements PlayerClient {
 				}*/
 				
 			} else if (command.equals("F")) {
-				this.toSend.add(new EventFinishTurn(player));
+				synchronized(this.toSend) {
+					this.toSend.add(new EventFinishTurn(player));
+				}
 			} else {
 				logger.print("ERROR IN TYPING ... RETRY !\n");
 				this.loadInterface();
@@ -194,13 +198,13 @@ public class PlayerClientCLI implements PlayerClient {
 		try {
 			
 			if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Adrenaline)) {
-				
-				this.toSend.add(new EventAdrenaline(player, player.getAvatar().getMyCards().get(cardSelected)));
-				
+				synchronized(this.toSend) {
+					this.toSend.add(new EventAdrenaline(player, player.getAvatar().getMyCards().get(cardSelected)));
+				}
 			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.AttackCard)) {
-				
-				this.toSend.add(new EventAttackCard(player, player.getAvatar().getMyCards().get(cardSelected)));
-				
+				synchronized(this.toSend) {
+					this.toSend.add(new EventAttackCard(player, player.getAvatar().getMyCards().get(cardSelected)));
+				}
 			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Defense)) {
 				
 				logger.print("---> You can't use defense card !");
@@ -208,18 +212,19 @@ public class PlayerClientCLI implements PlayerClient {
 				this.loadInterface();
 				
 			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Sedatives)) {
-				
-				this.toSend.add(new EventSedatives(player, player.getAvatar().getMyCards().get(cardSelected)));
-				
+				synchronized(this.toSend) {
+					this.toSend.add(new EventSedatives(player, player.getAvatar().getMyCards().get(cardSelected)));
+				}
 			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SpotLight)) {
 				
 				Sector toMove = this.askForMoveCoordinates();
-				this.toSend.add(new EventSpotLight(player, toMove, player.getAvatar().getMyCards().get(cardSelected)));
-				
+				synchronized(this.toSend) {
+					this.toSend.add(new EventSpotLight(player, toMove, player.getAvatar().getMyCards().get(cardSelected)));
+				}
 			} else if (player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Teleport)) {
-				
-				this.toSend.add(new EventTeleport(player, player.getAvatar().getMyCards().get(cardSelected)));
-				
+				synchronized(this.toSend) {
+					this.toSend.add(new EventTeleport(player, player.getAvatar().getMyCards().get(cardSelected)));
+				}
 			}
 			player.getAvatar().getMyCards().remove(cardSelected);
 			
@@ -303,7 +308,6 @@ public class PlayerClientCLI implements PlayerClient {
 	@Override
 	public void updateCards() {
 		
-		int i = 3;
 		if(player.getAvatar().getMyCards().size() == 4) {
 			logger.print("You have drown the 4th card !Choose the card you wanna use !");
 			int cardSelected = Integer.parseInt(in.nextLine());

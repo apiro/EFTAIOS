@@ -3,7 +3,6 @@ package it.polimi.ingsw.cg_38.controller;
 import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
 import it.polimi.ingsw.cg_38.controller.action.Subscribe;
 import it.polimi.ingsw.cg_38.controller.event.Event;
-import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
@@ -43,7 +42,6 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 		 * 	   addedToGame con true se no uno con false.
 		 * */
 		logger.print("New Client is trying to connect using RMI ! ");
-		ServerView view = null;
 		Communicator c = new RMICommunicator(clientView);
 		
 		Subscribe subscribeAction = (Subscribe) GameActionCreator.createGameAction(subEvent);

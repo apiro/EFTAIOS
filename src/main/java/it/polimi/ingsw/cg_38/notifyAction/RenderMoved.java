@@ -34,7 +34,6 @@ public class RenderMoved extends NotifyAction {
 		
 		GameEvent evt1 = null;
 		
-		Scanner in = new Scanner(System.in);
 		client.setPlayer(evt.getGenerator());
 		if(((EventMoved)evt).getMoved().equals("Safe")) {
 			String com = client.getLogger().showAndRead("You are in a SAFE sector ! Type attack or continue: [A] | [C]");

@@ -356,7 +356,7 @@ public void process(Event msg) {
 
   		@Override
   		public void actionPerformed(ActionEvent e) {
-  			EventAttack evt = new EventAttack(player, new Safe());
+  			EventAttack evt = new EventAttack(player, player.getAvatar().getCurrentSector());
   			synchronized(toSend) {
   				toSend.add(evt);
   			}
@@ -368,9 +368,8 @@ public void process(Event msg) {
 
     		@Override
     		public void actionPerformed(ActionEvent e) {
-    			EventDraw evt = new EventDraw(player);
     			synchronized(toSend) {
-    				toSend.add(evt);
+    				toSend.add(new EventDraw(player));
     			}
     		}
         	  
@@ -380,9 +379,8 @@ public void process(Event msg) {
 
     		@Override
     		public void actionPerformed(ActionEvent e) {
-    			EventFinishTurn evt = new EventFinishTurn(player);
     			synchronized(toSend) {
-    				toSend.add(evt);
+    				toSend.add(new EventFinishTurn(player));
     			}
     		}
         });

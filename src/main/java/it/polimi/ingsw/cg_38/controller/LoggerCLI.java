@@ -15,5 +15,4 @@ public class LoggerCLI implements Logger {
 		this.print(toShow);
 		return in.nextLine();
 	}
-
 }
