@@ -14,6 +14,7 @@ public class MapCreatorTest {
 	DeckCreator deckCreator;
 	Map map;
 	Map map1;
+	Map map2;
 	
 	@Before
 	public void init() {
@@ -22,6 +23,8 @@ public class MapCreatorTest {
 		
 		map = new Galilei();
 		map1 = new Fermi();
+		map2 = new Galvani();
+	
 	}
 	
 	@Test
@@ -42,6 +45,8 @@ public class MapCreatorTest {
 		assertEquals(map.searchSectorByCoordinates(56, 12) , null);
 		map.readMap("Nothing");
 		map1.getConfiguration();
+		assertEquals(map.getConfiguration().length , 322);
+		map2.getConfiguration();
 	}
 
 }
