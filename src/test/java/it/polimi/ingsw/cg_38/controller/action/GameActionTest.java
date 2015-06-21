@@ -7,14 +7,17 @@ import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 
 import it.polimi.ingsw.cg_38.controller.Communicator;
+import it.polimi.ingsw.cg_38.controller.GameController;
 import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.ServerController;
+import it.polimi.ingsw.cg_38.controller.SocketCommunicator;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.gameEvent.EventFinishTurn;
 import it.polimi.ingsw.cg_38.gameEvent.EventMove;
+import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.model.Alien;
 import it.polimi.ingsw.cg_38.model.Avatar;
 import it.polimi.ingsw.cg_38.model.Card;
@@ -39,6 +42,7 @@ import it.polimi.ingsw.cg_38.model.SectorCard;
 import it.polimi.ingsw.cg_38.model.SectorCardType;
 import it.polimi.ingsw.cg_38.model.SectorDeck;
 import it.polimi.ingsw.cg_38.model.Turn;
+import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
 import it.polimi.ingsw.cg_38.notifyEvent.EventAttacked;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDrown;
 import it.polimi.ingsw.cg_38.notifyEvent.EventSufferAttack;
@@ -68,6 +72,7 @@ public class GameActionTest {
 	AliensWin aliensWin1;
 	AliensWin aliensWin2;	
 	Subscribe subscribe;
+	Subscribe subscribe2;
 	Winner winner;
 	Looser looser;
 
@@ -88,6 +93,8 @@ public class GameActionTest {
 	EventAliensWinner evtAliensWinner1;
 	EventAliensWinner evtAliensWinner2;
 	EventAliensWinner evtAliensWinner3;
+	EventSubscribe evtSubscribe;
+	EventSubscribe evtSubscribe2;
 	
 	ArrayList<NotifyEvent> evtAttacked1;
 	ArrayList<NotifyEvent> evtAttacked2;
@@ -100,6 +107,7 @@ public class GameActionTest {
 	ArrayList<NotifyEvent> evtNotifyTurn2;
 	ArrayList<NotifyEvent> evtNotifyAliensWin;
 	EventNotifyTopics evtNotifyTopics;
+	EventAddedToGame evtAddedToGame;
 	
 	Player player1;
 	Player player2;
@@ -148,6 +156,10 @@ public class GameActionTest {
 	
 	GameModel model1;
 	
+	ServerController server;
+	GameController gc;
+	Communicator c;
+	
 	SectorCard drown1;
 	
 	ObjectCard drown2;
@@ -165,6 +177,11 @@ public class GameActionTest {
 		player6 = new Player("piccio");
 		
 		model1 = new GameModel("Galvani");
+		
+		gc = new GameController("Galilei" , "room1");
+		server = new ServerController();
+		server.getTopics().put("room1", gc);
+		c = new SocketCommunicator(null);
 		
 		turn1 = new Turn(player1);
 		turn1.setHasMoved(true);
@@ -226,6 +243,8 @@ public class GameActionTest {
 		evtAliensWinner1 = new EventAliensWinner(player3);
 		evtAliensWinner2 = new EventAliensWinner(player1);
 		evtAliensWinner3 = new EventAliensWinner(player6);
+		evtSubscribe = new EventSubscribe(player1 , "room1" , "Galilei");
+		evtSubscribe2 = new EventSubscribe(player1 , "room2" , "Galvani");
 		
 		draw1 = new Draw(evtDraw1);
 		draw2 = new Draw(evtDraw2);
@@ -244,6 +263,8 @@ public class GameActionTest {
 		aliensWin2 = new AliensWin(evtAliensWinner2);
 		winner = new Winner(evtAliensWinner3);
 		looser = new Looser(evtAttack4);
+		subscribe = new Subscribe(evtSubscribe);
+		subscribe2 = new Subscribe(evtSubscribe2);
 		
 		evtNotifyTopics = new EventNotifyTopics(player1 , true , topics);
 		
@@ -277,6 +298,8 @@ public class GameActionTest {
 
 		killedPlayer.add(player1);
 		killedPlayer.add(player3);
+
+		evtAddedToGame = subscribe.generalEventGenerator(c, server);
 			
 	}
 	
@@ -285,6 +308,12 @@ public class GameActionTest {
 	@Test
 	public void test() {
 		
+			assertEquals(subscribe.getTopic() , "room1");
+			assertEquals(subscribe.getTypeMap() , "Galilei");
+			assertTrue(subscribe.isPossible(server));
+			assertTrue(!subscribe2.isPossible(server));
+			assertEquals(evtAddedToGame.getGenerator() , player1);
+			assertTrue(gc.getSubscribers().contains(c));
 			assertEquals(draw1.isPossible(model1) , false);
 			model1.setGameState(GameState.RUNNING);
 			assertEquals(draw1.isPossible(model1) , true);
@@ -343,6 +372,8 @@ public class GameActionTest {
 			model1.setActualTurn(turn3);
 			model1.setGameState(GameState.ACCEPTING);
 			assertEquals(move.isPossible(model1) , false);
+			((Human)model1.getActualTurn().getCurrentPlayer().getAvatar()).setCanAttack(true);
+			assertEquals(attack3.isPossible(model1) , false);
 			model1.setGameState(GameState.RUNNING);
 			assertEquals(move.isPossible(model1) , true);
 			evtMoved = move.perform(model1);
@@ -365,6 +396,10 @@ public class GameActionTest {
 			assertEquals(((EventDrown)evtDrown4.get(0)).getDrown() , hatchCard1);
 			assertEquals(finishTurn2.isPossible(model1) , false);
 			model1.getActualTurn().setHasMoved(true);
+			model1.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(false);
+			evtNotifyTurn2 = finishTurn2.perform(model1);
+			assertEquals(((EventNotifyTurn)evtNotifyTurn2.get(0)).getPlayerOfTurn() , player5);
+			model1.setActualTurn(turn4);
 			model1.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
 			finishTurn2.perform(model1);
 			assertEquals(model1.getGamePlayers().get(2).getAvatar().getIsPowered() , false);
