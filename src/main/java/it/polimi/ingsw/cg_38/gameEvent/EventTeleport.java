@@ -23,5 +23,4 @@ public class EventTeleport extends GameEvent {
 	public void setToUse(Card toUse) {
 		this.toUse = toUse;
 	}
-
 }

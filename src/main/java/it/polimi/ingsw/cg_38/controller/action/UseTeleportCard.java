@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.gameEvent.EventTeleport;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTeleport;
+import it.polimi.ingsw.cg_38.notifyEvent.EventRejectCard;
 
 public class UseTeleportCard extends GameAction {
 
@@ -36,6 +37,7 @@ public class UseTeleportCard extends GameAction {
     	if(this.currentAvatarType(model).equals("Alien")){
     		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     		model.getActualTurn().setHasUsedObjectCard(true);
+    		callbackEvent.add(new EventRejectCard(model.getActualTurn().getCurrentPlayer()));
     		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false, card.getType()));
     		return callbackEvent;
     	}

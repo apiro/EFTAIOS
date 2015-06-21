@@ -71,6 +71,7 @@ public class PlayerController extends Thread  {
 					 * buffer del server --> this.getEventsToProcess().add((Event) evt); se non lo è --> this.communicator.send(callbackEvent);
 					 * */
 					for(NotifyEvent e:callbackEvent) {
+						//un solo evento personale e quanti ne voglio broadcast ! per ogni evento arrivato
 						if(e.isBroadcast()) {
 							gcFound.addEventToTheQueue(e);
 							gcFound.sendNotifyEvent();

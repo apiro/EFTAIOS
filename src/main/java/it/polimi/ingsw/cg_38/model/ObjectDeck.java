@@ -69,6 +69,9 @@ public class ObjectDeck extends Deck {
     	}
     	return card;
     	*/
+    	if(this.getObjectDeck().size() == 0) {
+    		this.setObjectDeck(rejectedObjectDeck);
+    	}
     	Card extracted = this.getObjectDeck().get(0);
     	this.eliminateCard(extracted);
     	this.shuffle();

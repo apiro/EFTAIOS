@@ -45,6 +45,8 @@ public class NotifyActionCreator {
 			action = new RenderHumanWin((NotifyEvent)evt);
 		if(type.equals(NotifyEventType.hatchBlocked)) 
 			action = new RenderHatchBlocked((NotifyEvent)evt);
+		if(type.equals(NotifyEventType.rejectCard)) 
+			action = new RenderRejectCard((NotifyEvent)evt);
     	return action;
 	}
 	

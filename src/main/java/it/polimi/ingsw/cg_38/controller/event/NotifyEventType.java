@@ -20,5 +20,6 @@ public enum NotifyEventType {
 	notTeleport, 
 	humanWin, 
 	hatchBlocked, 
-	closingTopic
+	closingTopic, 
+	rejectCard
 }

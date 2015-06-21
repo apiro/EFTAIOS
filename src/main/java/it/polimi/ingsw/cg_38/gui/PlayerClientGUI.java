@@ -257,7 +257,8 @@ public void process(Event msg) {
       
       this.connection = JOptionPane.showInputDialog(
 	           mainFrame,
-	            "WELCOME TO THE GAME: \nChoose a type of connection:",
+	            "WELCOME TO THE GAME: \nChoose a type of connection:\n"
+	            + "Are available: [Socket] | [RMI] choose one of them !",
 	            "Connection",
 	            JOptionPane.INFORMATION_MESSAGE);
       
@@ -289,7 +290,7 @@ public void process(Event msg) {
       try {
     	this.nameMap = JOptionPane.showInputDialog(
 		           mainFrame,
-		            "Choose a Map:",
+		            "Choose a Map:\n (if you are joining an existing room you can type smth random)",
 		            "Map",
 		            JOptionPane.INFORMATION_MESSAGE);
     	
@@ -380,7 +381,8 @@ public void process(Event msg) {
     		@Override
     		public void actionPerformed(ActionEvent e) {
     			synchronized(toSend) {
-    				toSend.add(new EventFinishTurn(player));
+    				Event evt = new EventFinishTurn(player);
+    				toSend.add(evt);
     			}
     		}
         });
@@ -495,18 +497,32 @@ public void process(Event msg) {
 
 	@Override
 	public Sector askForMoveCoordinates() {
-		int x  = Integer.parseInt(JOptionPane.showInputDialog(
+		String x = JOptionPane.showInputDialog(
 		           mainFrame,
 		            "ASKING FOR MOVE COORDINATES:",
 		            "x?",
-		            JOptionPane.INFORMATION_MESSAGE));
-		
-		int y = Integer.parseInt(JOptionPane.showInputDialog(
+		            JOptionPane.INFORMATION_MESSAGE);
+		while(x == null) {
+			x = JOptionPane.showInputDialog(
+			           mainFrame,
+			            "ASKING FOR MOVE COORDINATES:",
+			            "x?",
+			            JOptionPane.INFORMATION_MESSAGE);
+		}
+		String y = JOptionPane.showInputDialog(
 		           mainFrame,
 		            "ASKING FOR MOVE COORDINATES:",
 		            "y?",
-		            JOptionPane.INFORMATION_MESSAGE));
-		Sector toMove = map.searchSectorByCoordinates(x, y);
+		            JOptionPane.INFORMATION_MESSAGE);
+		while(y == null) {
+			y = JOptionPane.showInputDialog(
+			           mainFrame,
+			            "ASKING FOR MOVE COORDINATES:",
+			            "y?",
+			            JOptionPane.INFORMATION_MESSAGE);
+		}
+		
+		Sector toMove = map.searchSectorByCoordinates(Integer.parseInt(x), Integer.parseInt(y));
 		return toMove;
 	}
 

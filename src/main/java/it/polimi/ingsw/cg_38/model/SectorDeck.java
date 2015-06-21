@@ -73,6 +73,10 @@ public class SectorDeck extends Deck {
      */
     public Card draw() {
     	
+    	if(this.getSectorDeck().size() == 0) {
+    		this.setSectorDeck(rejectedSectorDeck);
+    	}
+    	
     	SectorCard card = null;
     	for(SectorCard c:this.getSectorDeck()) {
     		if(c.getHasObjectIcon()) {

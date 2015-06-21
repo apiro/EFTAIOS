@@ -41,6 +41,9 @@ public class HatchDeck extends Deck {
     }
     
     public Card draw() {
+    	if(this.getHatchDeck().size() == 0) {
+    		this.setHatchDeck(rejectedHatchDeck);
+    	}
     	Card extracted = this.getHatchDeck().get(0);
     	this.eliminateCard(extracted);
     	this.shuffle();
