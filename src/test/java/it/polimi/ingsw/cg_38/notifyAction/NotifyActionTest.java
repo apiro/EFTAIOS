@@ -6,19 +6,22 @@ import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import it.polimi.ingsw.cg_38.client.PlayerClientCLI;
 import it.polimi.ingsw.cg_38.client.PlayerClientState;
+import it.polimi.ingsw.cg_38.client.cli.PlayerClientCLI;
 import it.polimi.ingsw.cg_38.client.notifyAction.AddedToGame;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderAliensWin;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderAttackDamage;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderAttacked;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderCardPerformed;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderDrown;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderEnvironment;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderError;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderHatchBlocked;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderMoved;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderNoSideEffectCard;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderNoise;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderNotifyTurn;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderRejectCard;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderSpotlight;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderTeleport;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderUseDefenseCard;
@@ -27,7 +30,9 @@ import it.polimi.ingsw.cg_38.controller.action.Draw;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventHumanWin;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseMySect;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseRandSect;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAddedToGame;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAttacked;
@@ -37,14 +42,16 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDeclarePosition;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDrown;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyAliensWin;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyCardPerformed;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyEnvironment;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyError;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTeleport;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyWin;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCard;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventUseDefense;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventHatchBlocked;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventHatchBlocked;
 import it.polimi.ingsw.cg_38.model.Alien;
 import it.polimi.ingsw.cg_38.model.Avatar;
 import it.polimi.ingsw.cg_38.model.EndState;
@@ -52,6 +59,7 @@ import it.polimi.ingsw.cg_38.model.Human;
 import it.polimi.ingsw.cg_38.model.LifeState;
 import it.polimi.ingsw.cg_38.model.Name;
 import it.polimi.ingsw.cg_38.model.Player;
+import it.polimi.ingsw.cg_38.model.deck.Card;
 import it.polimi.ingsw.cg_38.model.deck.HatchCard;
 import it.polimi.ingsw.cg_38.model.deck.HatchCardType;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
@@ -60,6 +68,7 @@ import it.polimi.ingsw.cg_38.model.deck.SectorCard;
 import it.polimi.ingsw.cg_38.model.deck.SectorCardType;
 import it.polimi.ingsw.cg_38.model.map.Dangerous;
 import it.polimi.ingsw.cg_38.model.map.Galvani;
+import it.polimi.ingsw.cg_38.model.map.Hatch;
 import it.polimi.ingsw.cg_38.model.map.Sector;
 
 import org.junit.Before;
@@ -83,8 +92,12 @@ public class NotifyActionTest {
 	RenderAttackDamage renderAttackDamage;
 	RenderMoved renderMoved;
 	RenderWin renderWin;
+	RenderCardPerformed renderCardPerformed;
+	RenderRejectCard renderRejectCard;
+	RenderHatchBlocked renderHatchBlocked;
 	
 	EventNotifyAliensWin evtNotifyAliensWin;
+	EventNotifyCardPerformed evtNotifyCardPerformed;
 	EventAttacked evtAttacked;
 	EventAttacked evtAttacked2;
 	EventDrown evtDrown;
@@ -105,6 +118,8 @@ public class NotifyActionTest {
 	EventSufferAttack sufferAttack;
 	EventMoved moved;
 	EventNotifyWin win;
+	EventRejectCard evtRejectCard;
+	EventHatchBlocked evtHatchBlocked;
 	
 	EventDraw evtDraw;
 	Draw draw;
@@ -119,9 +134,11 @@ public class NotifyActionTest {
 	Avatar avatar2;
 	Sector sector;
 	Sector sector2;
+	Hatch sector3;
 	SectorCard card;
 	HatchCard card2;
 	ObjectCard card3;
+	Card card4;
 	
 	ArrayList<Player> winners;
 	ArrayList<Player> declared;
@@ -140,6 +157,7 @@ public class NotifyActionTest {
 		player3 = new Player("reda");
 		sector = new Sector();
 		sector2 = new Dangerous();
+		sector3 = new Hatch();
 		card = new SectorCard(SectorCardType.MySectorNoise , false);
 		card2 = new HatchCard(HatchCardType.Green);
 		avatar1 = new Alien(Name.Alien1 , sector);
@@ -172,7 +190,9 @@ public class NotifyActionTest {
 		sufferAttack = new EventSufferAttack(player1 , killed2);
 		moved = new EventMoved(player1 , "moved");
 		win = new EventNotifyWin(player1);
-		
+		evtNotifyCardPerformed = new EventNotifyCardPerformed(player2);
+		evtRejectCard = new EventRejectCard(player1);
+		evtHatchBlocked = new EventHatchBlocked(player1 , sector3);
 		client = new PlayerClientCLI("RMI" , evtSubscribe);
 		client.setPlayer(player1);
 		client2 = new PlayerClientCLI("Socket" , evtSubscribe);
@@ -195,6 +215,9 @@ public class NotifyActionTest {
 		renderWin = new RenderWin(win);
 		evtAddedToGame = new EventAddedToGame(player1 , true , true);
 		addedToGame = new AddedToGame(evtAddedToGame);
+		renderCardPerformed = new RenderCardPerformed(evtNotifyCardPerformed);
+		renderRejectCard = new RenderRejectCard(evtRejectCard);
+		renderHatchBlocked = new RenderHatchBlocked(evtHatchBlocked);
 	}
 
 	@Test
@@ -204,9 +227,11 @@ public class NotifyActionTest {
 		assertEquals(addedToGame.isPossible(client) , true);
 		System.out.println(addedToGame.getEvt().getGenerator().getName());
 		assertEquals(addedToGame.render(client) , null);
-		assertEquals(client.getIsInterfaceBlocked() , true);
 		assertEquals(client.getPlayerClientState() , PlayerClientState.connected);
-		
+		evtAddedToGame = new EventAddedToGame(player1 , false , false);
+		addedToGame = new AddedToGame(evtAddedToGame);
+		assertEquals(addedToGame.render(client) , null);
+		assertEquals(client.getIsInterfaceBlocked() , true);
 		client.setMap(new Galvani());
 		assertEquals(renderEnvironment.isPossible(client) , false);
 		client.setMap(null);
@@ -216,10 +241,19 @@ public class NotifyActionTest {
 		assertTrue(renderWin.isPossible(client));
 		assertTrue(!renderMoved.isPossible(client));
 		client.setPlayerClientState(PlayerClientState.isTurn);
+		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
+		client.getPlayer().getAvatar().setIsWinner(EndState.LOOSER);
+		assertTrue(!renderMoved.isPossible(client));
+		client.getPlayer().getAvatar().setIsAlive(LifeState.ALIVE);
+		client.getPlayer().getAvatar().setIsWinner(EndState.PLAYING);
 		assertTrue(renderMoved.isPossible(client));
 		assertEquals(renderMoved.render(client) , null);
 		assertTrue(renderAttackDamage.isPossible(client));
 		assertTrue(renderAttackDamage.render(client) instanceof EventContinue);
+		killed2.add(player1);
+		sufferAttack = new EventSufferAttack(player1 , killed2);
+		renderAttackDamage = new RenderAttackDamage(sufferAttack);
+		
 		assertTrue(renderSpotlight.isPossible(client));
 		assertTrue(renderSpotlight.render(client) instanceof EventContinue);
 		assertTrue(renderSpotlight.render(client2) instanceof EventContinue);
@@ -241,6 +275,7 @@ public class NotifyActionTest {
 		assertEquals(renderNoise.render(client) , null);
 		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
 		client.getPlayer().getAvatar().setIsWinner(EndState.LOOSER);
+		assertTrue(!renderHatchBlocked.isPossible(client));
 		assertTrue(!renderWin.isPossible(client));
 		assertEquals(renderAttackDamage.isPossible(client) , false);
 		assertEquals(renderSpotlight.isPossible(client) , false);
@@ -249,6 +284,7 @@ public class NotifyActionTest {
 		assertEquals(renderTurn.isPossible(client) , false);
 		client.getPlayer().getAvatar().setIsAlive(LifeState.ALIVE);
 		client.getPlayer().getAvatar().setIsWinner(EndState.PLAYING);
+		assertTrue(renderHatchBlocked.isPossible(client));
 		declarePosition = new EventDeclarePosition(player1 , declared);
 		renderSpotlight = new RenderSpotlight(declarePosition);
 		assertTrue(renderSpotlight.render(client) instanceof EventContinue);
@@ -258,11 +294,18 @@ public class NotifyActionTest {
 		player1.setAvatar(avatar1);
 		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
 		client.getPlayer().getAvatar().setIsWinner(EndState.LOOSER);
+		assertTrue(!renderRejectCard.isPossible(client));
 		assertEquals(renderAliensWin.isPossible(client) , false);
+		assertTrue(!renderCardPerformed.isPossible(client));
 		assertEquals(renderAliensWin.render(client) , null);
+		evtNotifyAliensWin = new EventNotifyAliensWin(player1 , winners , false);
+		renderAliensWin = new RenderAliensWin(evtNotifyAliensWin);
+		assertEquals(renderAliensWin.render(client) , null);
+		assertTrue(!client.getIsInterfaceBlocked());
 		client.getPlayer().getAvatar().setIsAlive(LifeState.ALIVE);
 		client.getPlayer().getAvatar().setIsWinner(EndState.PLAYING);
-		
+		assertTrue(renderRejectCard.isPossible(client));
+		assertTrue(renderCardPerformed.isPossible(client));
 		assertEquals(renderAttacked.isPossible(client) , true);
 		evtAttacked.setAreYouPowered(true);
 		evtAttacked.setAreYouPowered(true);
@@ -305,16 +348,28 @@ public class NotifyActionTest {
 		card2 = new HatchCard(HatchCardType.Red);
 		evtDrown2 = new EventDrown(player1 , null , card2);
 		renderDrown = new RenderDrown(evtDrown2);
-		assertTrue(renderDrown.render(client) instanceof EventHatchBlocked);
-		assertEquals(client.getIsInterfaceBlocked() , false);
+		renderDrown.render(client);
+		card2 = new HatchCard(HatchCardType.Green);
+		evtDrown2 = new EventDrown(player1 , null , card2);
+		renderDrown = new RenderDrown(evtDrown2);
+		assertTrue(renderDrown.render(client) instanceof EventHumanWin);
+		assertEquals(client.getPlayerClientState() , PlayerClientState.winner);
+		assertTrue(client.getIsInterfaceBlocked());
+		assertTrue(client.getIsInterfaceBlocked());
 		card3 = new ObjectCard(ObjectCardType.Adrenaline);
 		evtDrown2 = new EventDrown(player1 , null , card3);
 		client.getPlayer().getAvatar().setIsWinner(EndState.WINNER);
 		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
 		assertEquals(renderDrown.check(client) , true);
 		assertTrue(addedToGame.getEvt() instanceof EventAddedToGame);
+		assertEquals(client.getPlayer() , player1);
+		assertEquals(renderHatchBlocked.render(client) , null);
 		client.setIsMyTurn(true);
 		assertTrue(client.getIsMyTurn());
+		killed2.add(player1);
+		sufferAttack = new EventSufferAttack(player1 , killed2);
+		renderAttackDamage = new RenderAttackDamage(sufferAttack);
+		assertTrue(client.getIsInterfaceBlocked());
 	
 	}
 

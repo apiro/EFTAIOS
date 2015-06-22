@@ -11,13 +11,17 @@ import it.polimi.ingsw.cg_38.client.notifyAction.NotifyActionCreator;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderAliensWin;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderAttackDamage;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderAttacked;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderCardPerformed;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderDrown;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderEnvironment;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderError;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderHatchBlocked;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderHumanWin;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderMoved;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderNoSideEffectCard;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderNoise;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderNotifyTurn;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderRejectCard;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderSpotlight;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderTeleport;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderUseDefenseCard;
@@ -30,12 +34,16 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDeclareNoise;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDeclarePosition;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDrown;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventHatchBlocked;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyAliensWin;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyCardPerformed;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyEnvironment;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyError;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyHumanWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTeleport;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCard;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventUseDefense;
 import it.polimi.ingsw.cg_38.model.Avatar;
@@ -46,6 +54,7 @@ import it.polimi.ingsw.cg_38.model.deck.Card;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
 import it.polimi.ingsw.cg_38.model.deck.SectorCard;
 import it.polimi.ingsw.cg_38.model.deck.SectorCardType;
+import it.polimi.ingsw.cg_38.model.map.Hatch;
 import it.polimi.ingsw.cg_38.model.map.Map;
 import it.polimi.ingsw.cg_38.model.map.Sector;
 
@@ -68,15 +77,20 @@ public class NotifyActionCreatorTest {
 	EventNotifyError error;
 	EventNotifyTurn turn;
 	EventNotifyTeleport teleport;
+	EventNotifyHumanWin humanWin;
 	EventSufferAttack sufferAttack;
 	EventDraw draw;
 	EventUseDefense useDefense;
+	EventHatchBlocked hatchBlocked;
+	EventRejectCard rejectCard;
+	EventNotifyCardPerformed notifyCardPerformed;
 	
 	Player player;
 	Avatar avatar;
 	ArrayList<Player> killed;
 	ArrayList<String> allTopics;
 	Sector sector;	
+	Hatch hatch;
 	Card card;
 	Map map;
 	Action action;
@@ -94,6 +108,7 @@ public class NotifyActionCreatorTest {
 		card = new SectorCard(SectorCardType.RandomSectorNoise , false);
 		killed = new ArrayList<Player>();
 		killed.add(player);
+		hatch = new Hatch();
 		
 		added = new EventAddedToGame(player , true , true);
 		attacked = new EventAttacked(player , true);
@@ -109,6 +124,10 @@ public class NotifyActionCreatorTest {
 		sufferAttack = new EventSufferAttack(player , killed);
 		useDefense = new EventUseDefense(player , true , ObjectCardType.Defense);
 		teleport = new EventNotifyTeleport(player , "moved");
+		humanWin = new EventNotifyHumanWin(player , true);
+		hatchBlocked = new EventHatchBlocked(player , hatch);
+		rejectCard = new EventRejectCard(player);
+		notifyCardPerformed = new EventNotifyCardPerformed(player);
 		
 	}
 
@@ -129,7 +148,11 @@ public class NotifyActionCreatorTest {
 	assertTrue(NotifyActionCreator.createNotifyAction(sufferAttack) instanceof RenderAttackDamage);
 	assertTrue(NotifyActionCreator.createNotifyAction(useDefense) instanceof RenderUseDefenseCard);
 	assertTrue(NotifyActionCreator.createNotifyAction(teleport) instanceof RenderTeleport);
-		
+	assertTrue(NotifyActionCreator.createNotifyAction(humanWin) instanceof RenderHumanWin);
+	assertTrue(NotifyActionCreator.createNotifyAction(hatchBlocked) instanceof RenderHatchBlocked);
+	assertTrue(NotifyActionCreator.createNotifyAction(rejectCard) instanceof RenderRejectCard);
+	assertTrue(NotifyActionCreator.createNotifyAction(notifyCardPerformed) instanceof RenderCardPerformed);
+	
 	}
 
 }

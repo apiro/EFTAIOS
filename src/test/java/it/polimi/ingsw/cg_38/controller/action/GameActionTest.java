@@ -63,6 +63,7 @@ public class GameActionTest {
 	Draw draw2;
 	Draw draw3;
 	Draw draw4;
+	Draw draw5;
 	Attack attack1;
 	Attack attack2;
 	Attack attack3;
@@ -86,6 +87,7 @@ public class GameActionTest {
 	EventDraw evtDraw2;
 	EventDraw evtDraw3;
 	EventDraw evtDraw4;
+	EventDraw evtDraw5;
 	EventFinishTurn evtFinishTurn;
 	EventFinishTurn evtFinishTurn2;
 	EventFinishTurn evtFinishTurn3;
@@ -150,6 +152,7 @@ public class GameActionTest {
 	Card sectorCard2;
 	Card objectCard1;
 	Card hatchCard1;
+	Card hatchCard2;
 	
 	Sector sector1;
 	Sector sector2;
@@ -242,11 +245,13 @@ public class GameActionTest {
 		sectorCard2 = new SectorCard(SectorCardType.MySectorNoise , true);
 		objectCard1 = new ObjectCard(ObjectCardType.SpotLight);
 		hatchCard1 = new HatchCard(HatchCardType.Green);
+		hatchCard2 = new HatchCard(HatchCardType.Red);
 		
 		evtDraw1 = new EventDraw(player1);
 		evtDraw2 = new EventDraw(player1);
 		evtDraw3 = new EventDraw(player4);
 		evtDraw4 = new EventDraw(player5);
+		evtDraw5 = new EventDraw(player7);
 		evtAttack1 = new EventAttack(player2 , sector2);
 		evtAttack2 = new EventAttack(player1 , sector1);
 		evtAttack3 = new EventAttack(player3 , sector3);
@@ -270,6 +275,7 @@ public class GameActionTest {
 		draw2 = new Draw(evtDraw2);
 		draw3 = new Draw(evtDraw3);
 		draw4 = new Draw(evtDraw4);
+		draw5 = new Draw(evtDraw5);
 		attack1 = new Attack(evtAttack1);
 		attack2 = new Attack(evtAttack2);
 		attack3 = new Attack(evtAttack3);
@@ -310,6 +316,7 @@ public class GameActionTest {
 		sectorList1.add((SectorCard)sectorCard2);
 		objectList1.add((ObjectCard)objectCard1);
 		hatchList1.add((HatchCard)hatchCard1);
+		hatchList1.add((HatchCard) hatchCard2);
 		
 		sectorDeck1.setSectorDeck(sectorList1);
 		objectDeck1.setObjectDeck(objectList1);
@@ -350,9 +357,8 @@ public class GameActionTest {
 			
 			assertEquals(sectorCard2 , ((EventDrown)evtDrown2.get(0)).getDrown());
 			evtDrown2 = draw2.perform(model1);
-			assertEquals(objectCard1 , model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().get(1));
 			assertEquals(objectCard1 , model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().get(0));
-			assertEquals(evtDrown2.toString() , "[EventDrown [added=" + objectCard1 + ", drown=" + sectorCard2 + "]]");
+			assertEquals(evtDrown2.toString() , "[EventDrown [added=" + ((EventDrown)evtDrown2.get(0)).getAdded() + ", drown=" + ((EventDrown)evtDrown2.get(0)).getDrown() + "]]");
 			model1.getActualTurn().setHasAttacked(true);
 			assertEquals(attack2.isPossible(model1) , false);
 			aliensWin2.perform(model1);
@@ -375,7 +381,6 @@ public class GameActionTest {
 			assertEquals(attack1.isPossible(model1) , false);
 			model1.setGameState(GameState.RUNNING);
 			assertEquals(attack1.isPossible(model1) , true);
-			System.out.println(model1.getGamePlayers());
 			model1.getGamePlayers().get(0).getAvatar().setIsAlive(LifeState.DEAD);
 			model1.getGamePlayers().get(1).getAvatar().setIsAlive(LifeState.DEAD);
 			model1.getGamePlayers().get(2).getAvatar().setIsAlive(LifeState.DEAD);
@@ -392,6 +397,9 @@ public class GameActionTest {
 			model1.setGameState(GameState.ACCEPTING);
 			assertEquals(finishTurn.isPossible(model1) , false);
 			model1.setGameState(GameState.RUNNING);
+			model1.getActualTurn().setHasMoved(false);
+			assertEquals(finishTurn.isPossible(model1) , false);
+			model1.getActualTurn().setHasMoved(true);
 			assertEquals(finishTurn.isPossible(model1) , true);
 			player7 = model1.getNextPlayer();
 			evtNotifyTurn = finishTurn.perform(model1);
@@ -431,9 +439,13 @@ public class GameActionTest {
 			model1.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
 			finishTurn2.perform(model1);
 			assertEquals(model1.getGamePlayers().get(2).getAvatar().getIsPowered() , false);
+			model1.setActualTurn(turn4);
+			model1.getGamePlayers().get(3).getAvatar().setIsWinner(EndState.PLAYING);
 			model1.getGamePlayers().get(2).getAvatar().setIsWinner(EndState.PLAYING);
+			model1.getGamePlayers().get(0).getAvatar().setIsWinner(EndState.PLAYING);
+			model1.getGamePlayers().get(1).getAvatar().setIsWinner(EndState.PLAYING);
 			evtNotifyTurn2 = humanWin2.perform(model1);
-			
+			assertEquals(((EventNotifyHumanWin)evtNotifyTurn2.get(0)).getAreThereOtherHumans() , false);
 			
 			model1.setActualTurn(turn5);
 			assertEquals((draw4.perform(model1)).size() , 0);
@@ -468,6 +480,9 @@ public class GameActionTest {
 			assertTrue(evtDrown1.get(1) instanceof EventNotifyClosingTopic);
 			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsWinner() , EndState.WINNER);
 			evtNotify = hatchBlocked.perform(model1).get(0);
+			model1.getActualTurn().getCurrentPlayer().getAvatar().setCurrentSector(sector7);
+			draw5.perform(model1);
+			assertTrue(!((Hatch)model1.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()).getIsOpen());
 				
 	}
 } 
