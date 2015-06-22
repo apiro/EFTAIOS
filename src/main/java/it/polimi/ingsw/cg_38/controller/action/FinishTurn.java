@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 import it.polimi.ingsw.cg_38.model.GameModel;
 import it.polimi.ingsw.cg_38.model.Human;
 import it.polimi.ingsw.cg_38.model.Turn;
-import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTurn;
 
 public class FinishTurn extends GameAction {
 

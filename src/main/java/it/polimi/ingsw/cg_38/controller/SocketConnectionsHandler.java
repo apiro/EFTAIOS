@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_38.controller;
 
+import it.polimi.ingsw.cg_38.controller.connection.SocketCommunicator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 
 import java.io.IOException;

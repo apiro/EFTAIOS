@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDeclareNoise;
 import it.polimi.ingsw.cg_38.model.GameModel;
-import it.polimi.ingsw.cg_38.notifyEvent.EventDeclareNoise;
 
 public class UseSilenceCard extends GameAction {
 

@@ -1,4 +1,10 @@
 package it.polimi.ingsw.cg_38.model;
+import it.polimi.ingsw.cg_38.model.deck.Card;
+import it.polimi.ingsw.cg_38.model.deck.Deck;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
+import it.polimi.ingsw.cg_38.model.map.Sector;
+
 import java.io.Serializable;
 import java.util.*;
 

@@ -1,12 +1,14 @@
 package it.polimi.ingsw.cg_38.controller.action;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.gameEvent.EventSpotLight;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDeclarePosition;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyCardPerformed;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCard;
 import  it.polimi.ingsw.cg_38.model.*;
-import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
-import it.polimi.ingsw.cg_38.notifyEvent.EventDeclarePosition;
-import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyCardPerformed;
-import it.polimi.ingsw.cg_38.notifyEvent.EventRejectCard;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
+import it.polimi.ingsw.cg_38.model.map.Sector;
 
 import java.util.*;
 

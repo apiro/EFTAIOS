@@ -3,13 +3,16 @@ package it.polimi.ingsw.cg_38.controller;
 import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.action.FinishTurn;
 import it.polimi.ingsw.cg_38.controller.action.GameAction;
+import it.polimi.ingsw.cg_38.controller.connection.Communicator;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.logger.Logger;
+import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyError;
 import it.polimi.ingsw.cg_38.model.Alien;
 import it.polimi.ingsw.cg_38.model.GameModel;
 import it.polimi.ingsw.cg_38.model.Human;
 import it.polimi.ingsw.cg_38.model.Name;
 import it.polimi.ingsw.cg_38.model.Turn;
-import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyError;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

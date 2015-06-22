@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyLoose;
 import it.polimi.ingsw.cg_38.model.EndState;
 import it.polimi.ingsw.cg_38.model.GameModel;
 import it.polimi.ingsw.cg_38.model.LifeState;
 import it.polimi.ingsw.cg_38.model.Player;
-import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyLoose;
 
 public class Looser extends GameAction {
 

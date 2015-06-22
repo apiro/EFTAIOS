@@ -1,7 +1,9 @@
 package it.polimi.ingsw.cg_38.controller;
 
-import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyEnvironment;
-import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTurn;
+import it.polimi.ingsw.cg_38.controller.logger.Logger;
+import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyEnvironment;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 
 import java.util.Observable;
 

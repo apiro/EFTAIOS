@@ -1,4 +1,7 @@
 package it.polimi.ingsw.cg_38.model;
+import it.polimi.ingsw.cg_38.model.map.Hatch;
+import it.polimi.ingsw.cg_38.model.map.Sector;
+
 import java.io.Serializable;
 
 /**

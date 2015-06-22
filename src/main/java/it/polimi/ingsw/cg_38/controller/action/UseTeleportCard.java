@@ -3,11 +3,12 @@ import java.util.ArrayList;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.gameEvent.EventTeleport;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventTeleport;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTeleport;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCard;
 import  it.polimi.ingsw.cg_38.model.*;
-import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
-import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTeleport;
-import it.polimi.ingsw.cg_38.notifyEvent.EventRejectCard;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 
 public class UseTeleportCard extends GameAction {
 

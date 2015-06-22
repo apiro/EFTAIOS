@@ -3,9 +3,10 @@ import java.util.ArrayList;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.gameEvent.EventMove;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventMove;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
 import  it.polimi.ingsw.cg_38.model.*;
-import it.polimi.ingsw.cg_38.notifyEvent.EventMoved;
+import it.polimi.ingsw.cg_38.model.map.Sector;
 
 /**
  * 

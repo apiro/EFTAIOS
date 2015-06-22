@@ -1,6 +1,10 @@
 package it.polimi.ingsw.cg_38.model;
 
 import static org.junit.Assert.*;
+import it.polimi.ingsw.cg_38.model.deck.DeckCreator;
+import it.polimi.ingsw.cg_38.model.map.Dangerous;
+import it.polimi.ingsw.cg_38.model.map.Hatch;
+import it.polimi.ingsw.cg_38.model.map.Sector;
 
 import java.util.ArrayList;
 

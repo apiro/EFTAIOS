@@ -3,8 +3,15 @@ import java.util.ArrayList;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDrown;
 import  it.polimi.ingsw.cg_38.model.*;
-import it.polimi.ingsw.cg_38.notifyEvent.EventDrown;
+import it.polimi.ingsw.cg_38.model.deck.HatchCard;
+import it.polimi.ingsw.cg_38.model.deck.HatchCardType;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
+import it.polimi.ingsw.cg_38.model.deck.SectorCard;
+import it.polimi.ingsw.cg_38.model.map.Dangerous;
+import it.polimi.ingsw.cg_38.model.map.Hatch;
+import it.polimi.ingsw.cg_38.model.map.Safe;
 
 /**
  * 

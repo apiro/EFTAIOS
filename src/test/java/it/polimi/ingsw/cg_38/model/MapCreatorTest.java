@@ -2,6 +2,12 @@
 package it.polimi.ingsw.cg_38.model;
 
 import static org.junit.Assert.*;
+import it.polimi.ingsw.cg_38.model.deck.DeckCreator;
+import it.polimi.ingsw.cg_38.model.map.Fermi;
+import it.polimi.ingsw.cg_38.model.map.Galilei;
+import it.polimi.ingsw.cg_38.model.map.Galvani;
+import it.polimi.ingsw.cg_38.model.map.Map;
+import it.polimi.ingsw.cg_38.model.map.MapCreator;
 
 import javax.xml.parsers.ParserConfigurationException;
 

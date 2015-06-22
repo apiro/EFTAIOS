@@ -1,8 +1,11 @@
 package it.polimi.ingsw.cg_38.controller;
 
 import static org.junit.Assert.*;
+import it.polimi.ingsw.cg_38.client.ClientView;
+import it.polimi.ingsw.cg_38.controller.connection.RMIRemoteObjectDetails;
+import it.polimi.ingsw.cg_38.controller.connection.RegistrationView;
 import it.polimi.ingsw.cg_38.controller.event.Event;
-import it.polimi.ingsw.cg_38.gameEvent.EventDraw;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.model.Player;
 
 import java.util.concurrent.ConcurrentLinkedQueue;

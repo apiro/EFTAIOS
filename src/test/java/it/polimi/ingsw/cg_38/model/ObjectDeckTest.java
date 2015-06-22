@@ -1,6 +1,9 @@
 package it.polimi.ingsw.cg_38.model;
 
 import static org.junit.Assert.*;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
+import it.polimi.ingsw.cg_38.model.deck.ObjectDeck;
+import it.polimi.ingsw.cg_38.model.map.Sector;
 
 import org.junit.Before;
 import org.junit.Test;

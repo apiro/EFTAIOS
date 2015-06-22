@@ -1,6 +1,8 @@
 package it.polimi.ingsw.cg_38.model;
 
 import static org.junit.Assert.*;
+import it.polimi.ingsw.cg_38.model.deck.HatchCard;
+import it.polimi.ingsw.cg_38.model.deck.HatchDeck;
 
 import org.junit.Before;
 import org.junit.Test;

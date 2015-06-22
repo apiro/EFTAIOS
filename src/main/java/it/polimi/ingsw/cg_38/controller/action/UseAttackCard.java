@@ -3,11 +3,13 @@ import java.util.ArrayList;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
-import it.polimi.ingsw.cg_38.gameEvent.EventAttackCard;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttackCard;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCard;
 import  it.polimi.ingsw.cg_38.model.*;
-import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
-import it.polimi.ingsw.cg_38.notifyEvent.EventRejectCard;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
+import it.polimi.ingsw.cg_38.model.map.Sector;
 
 /**
  * 

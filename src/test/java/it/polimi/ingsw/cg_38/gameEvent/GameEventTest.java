@@ -3,14 +3,29 @@ package it.polimi.ingsw.cg_38.gameEvent;
 
 import static org.junit.Assert.*;
 import it.polimi.ingsw.cg_38.controller.event.GameEventType;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventAdrenaline;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttackCard;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventMove;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventNewGame;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseMySect;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseRandSect;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventRequestTopic;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventSedatives;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventTeleport;
 import it.polimi.ingsw.cg_38.model.Avatar;
-import it.polimi.ingsw.cg_38.model.Card;
 import it.polimi.ingsw.cg_38.model.Human;
 import it.polimi.ingsw.cg_38.model.Name;
-import it.polimi.ingsw.cg_38.model.ObjectCard;
-import it.polimi.ingsw.cg_38.model.ObjectCardType;
 import it.polimi.ingsw.cg_38.model.Player;
-import it.polimi.ingsw.cg_38.model.Sector;
+import it.polimi.ingsw.cg_38.model.deck.Card;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
+import it.polimi.ingsw.cg_38.model.map.Sector;
 
 import javax.xml.parsers.ParserConfigurationException;
 

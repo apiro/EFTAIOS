@@ -4,11 +4,11 @@ import static org.junit.Assert.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import it.polimi.ingsw.cg_38.gameEvent.EventMove;
-import it.polimi.ingsw.cg_38.model.Dangerous;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventMove;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
 import it.polimi.ingsw.cg_38.model.Player;
-import it.polimi.ingsw.cg_38.model.Sector;
-import it.polimi.ingsw.cg_38.notifyEvent.EventMoved;
+import it.polimi.ingsw.cg_38.model.map.Dangerous;
+import it.polimi.ingsw.cg_38.model.map.Sector;
 
 import org.junit.Before;
 import org.junit.Test;

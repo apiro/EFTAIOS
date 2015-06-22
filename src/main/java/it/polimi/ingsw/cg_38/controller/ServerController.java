@@ -6,9 +6,15 @@ import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
+import it.polimi.ingsw.cg_38.controller.logger.Logger;
+import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAddedToGame;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
+import it.polimi.ingsw.cg_38.controller.pubsub.PubSubConnectionsHandler;
 import it.polimi.ingsw.cg_38.controller.action.GameAction;
-import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
-import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyClosingTopic;
+import it.polimi.ingsw.cg_38.controller.connection.RMIRegistrationInterface;
+import it.polimi.ingsw.cg_38.controller.connection.RMIRemoteObjectDetails;
+import it.polimi.ingsw.cg_38.controller.connection.RegistrationView;
 
 import java.io.IOException;
 import java.net.ServerSocket;

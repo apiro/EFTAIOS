@@ -2,14 +2,14 @@ package it.polimi.ingsw.cg_38.controller.action;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import it.polimi.ingsw.cg_38.controller.Communicator;
 import it.polimi.ingsw.cg_38.controller.GameController;
 import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.ServerController;
 import it.polimi.ingsw.cg_38.controller.WaitingRoomController;
+import it.polimi.ingsw.cg_38.controller.connection.Communicator;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
-import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
-import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAddedToGame;
 
 public class Subscribe extends Action {
 

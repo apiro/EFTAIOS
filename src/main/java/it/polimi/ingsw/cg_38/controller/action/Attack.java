@@ -3,12 +3,14 @@ import java.util.ArrayList;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAttacked;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventUseDefense;
 import it.polimi.ingsw.cg_38.model.*;
-import it.polimi.ingsw.cg_38.notifyEvent.EventAttacked;
-import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyClosingTopic;
-import it.polimi.ingsw.cg_38.notifyEvent.EventSufferAttack;
-import it.polimi.ingsw.cg_38.notifyEvent.EventUseDefense;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
+import it.polimi.ingsw.cg_38.model.map.Sector;
 
 /**
  * 
