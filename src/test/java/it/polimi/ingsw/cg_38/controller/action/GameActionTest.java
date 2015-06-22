@@ -240,9 +240,9 @@ public class GameActionTest {
 		evtMove = new EventMove(player3 , sector3);
 		evtMove2 = new EventMove(player3 , sector2);
 		evtMove3 = new EventMove(player2 , sector4);
-		evtAliensWinner1 = new EventAliensWinner(player3);
-		evtAliensWinner2 = new EventAliensWinner(player1);
-		evtAliensWinner3 = new EventAliensWinner(player6);
+		evtAliensWinner1 = new EventAliensWinner(player3 , false);
+		evtAliensWinner2 = new EventAliensWinner(player1 , true);
+		evtAliensWinner3 = new EventAliensWinner(player6 , true);
 		evtSubscribe = new EventSubscribe(player1 , "room1" , "Galilei");
 		evtSubscribe2 = new EventSubscribe(player1 , "room2" , "Galvani");
 		

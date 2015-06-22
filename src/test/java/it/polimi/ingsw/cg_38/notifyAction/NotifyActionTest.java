@@ -44,6 +44,7 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventUseDefense;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventHatchBlocked;
 import it.polimi.ingsw.cg_38.model.Alien;
 import it.polimi.ingsw.cg_38.model.Avatar;
 import it.polimi.ingsw.cg_38.model.EndState;
@@ -152,13 +153,13 @@ public class NotifyActionTest {
 		
 		evtDraw = new EventDraw(player1);
 		draw = new Draw(evtDraw);
-		evtNotifyAliensWin = new EventNotifyAliensWin(player1 , winners);
+		evtNotifyAliensWin = new EventNotifyAliensWin(player1 , winners , true);
 		evtSubscribe = new EventSubscribe(player1 , "room1" , "Galilei");
 		evtAttacked = new EventAttacked(player1 , true);
 		evtAttacked2 = new EventAttacked(player1 , true);
 		evtDrown = new EventDrown(player1 , null , card);
 		evtDrown2 = new EventDrown(player1 , null , card2);
-		evtAliensWinner = new EventAliensWinner(player1);
+		evtAliensWinner = new EventAliensWinner(player1 , true);
 		evtNoiseMySect = new EventNoiseMySect(player1);
 		evtNotifyTeleport = new EventNotifyTeleport(player1 , "moved");
 		evtDeclareNoise = new EventDeclareNoise(player1 , sector);
@@ -254,7 +255,6 @@ public class NotifyActionTest {
 		assertEquals(renderAliensWin.isPossible(client) , true);
 		assertEquals(renderAliensWin.getEvt() , evtNotifyAliensWin);
 		player1.setAvatar(avatar2);
-		assertEquals(renderAliensWin.isPossible(client) , false);
 		player1.setAvatar(avatar1);
 		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
 		client.getPlayer().getAvatar().setIsWinner(EndState.LOOSER);
@@ -305,11 +305,10 @@ public class NotifyActionTest {
 		card2 = new HatchCard(HatchCardType.Red);
 		evtDrown2 = new EventDrown(player1 , null , card2);
 		renderDrown = new RenderDrown(evtDrown2);
-		assertEquals(renderDrown.render(client) , null);
+		assertTrue(renderDrown.render(client) instanceof EventHatchBlocked);
 		assertEquals(client.getIsInterfaceBlocked() , false);
 		card3 = new ObjectCard(ObjectCardType.Adrenaline);
 		evtDrown2 = new EventDrown(player1 , null , card3);
-		assertEquals(renderDrown.render(client) , null);
 		client.getPlayer().getAvatar().setIsWinner(EndState.WINNER);
 		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
 		assertEquals(renderDrown.check(client) , true);

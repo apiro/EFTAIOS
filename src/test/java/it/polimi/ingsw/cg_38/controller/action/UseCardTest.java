@@ -36,6 +36,8 @@ import it.polimi.ingsw.cg_38.model.deck.ObjectDeck;
 import it.polimi.ingsw.cg_38.model.deck.SectorCard;
 import it.polimi.ingsw.cg_38.model.deck.SectorDeck;
 import it.polimi.ingsw.cg_38.model.map.Sector;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCard;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyCardPerformed;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -274,7 +276,7 @@ public class UseCardTest {
 		assertEquals(useAdrenalineCard1.isPossible(model1) , false);
 		model1.setGameState(GameState.RUNNING);
 		evtCardUsed = useAdrenalineCard1.perform(model1);
-		assertEquals(((EventCardUsed)evtCardUsed.get(0)).getPerformed() , false);
+		assertTrue(evtCardUsed.get(0) instanceof EventRejectCard);
 		assertEquals(useAttackCard4.isPossible(model1) , false);
 		
 		model1.setActualTurn(turn2);
@@ -300,7 +302,7 @@ public class UseCardTest {
 		assertEquals(useLightsCard1.isPossible(model1) , true);
 		evtDeclarePosition1 = useLightsCard1.perform(model1);
 		assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards() , new ArrayList<Card>());
-		assertEquals(((EventDeclarePosition)evtDeclarePosition1.get(0)).getToDeclare() , toDeclare);
+		assertTrue(evtDeclarePosition1.get(0) instanceof EventNotifyCardPerformed);
 		assertEquals(useSilenceCard.isPossible(model1) , true);
 		evtDeclareNoise3 = useSilenceCard.perform(model1);
 		assertEquals(((EventDeclareNoise)evtDeclareNoise3.get(0)).getSectorToNoise() , null);
@@ -334,12 +336,14 @@ public class UseCardTest {
 		model1.getGamePlayers().get(3).getAvatar().addCard(defenseCard);
 		assertTrue(useAttackCard1.perform(model1).get(0) instanceof EventCardUsed);
 		model1.getActualTurn().setHasAttacked(false);
-		model1.getGamePlayers().get(3).getAvatar().getMyCards().remove(0);
+		assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().size() , 2);
 		evtAttacked = useAttackCard1.perform(model1);
 		assertEquals(((EventSufferAttack)evtAttacked.get(0)).getKilled() , killedPlayer);
 		model1.setGameState(GameState.ACCEPTING);
 		assertEquals(useTeleportCard.isPossible(model1) , false);
 		model1.setGameState(GameState.RUNNING);
+		assertEquals(useTeleportCard.isPossible(model1) , false);
+		model1.getActualTurn().setHasUsedObjectCard(false);
 		assertEquals(useTeleportCard.isPossible(model1) , true);
 		evtMoved = useTeleportCard.perform(model1);
 		assertEquals(((EventMoved)evtMoved.get(0)).getMoved() , "HumanStartingPoint");

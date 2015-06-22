@@ -109,7 +109,7 @@ public class NotifyActionCreatorTest {
 		declarePosition = new EventDeclarePosition(player , killed);
 		drown = new EventDrown(player , null , card);
 		moved = new EventMoved(player , "moved");
-		aliensWin = new EventNotifyAliensWin(player , killed);
+		aliensWin = new EventNotifyAliensWin(player , killed , false);
 		environment = new EventNotifyEnvironment(killed , map);
 		error = new EventNotifyError(player , action);
 		turn = new EventNotifyTurn(player);
