@@ -27,5 +27,11 @@ public class HatchDeckTest {
 		}
 		assertEquals(contains, false);
 		assertEquals(hatchCard.toString() , "HatchCard [color=" + hatchCard.getColor() + "]");
+		deck.draw();
+		deck.draw();
+		deck.draw();
+		deck.draw();
+		deck.draw();
+		assertEquals(hatchCard , deck.draw());
 	}
 }

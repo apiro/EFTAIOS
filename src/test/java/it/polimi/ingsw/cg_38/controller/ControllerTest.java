@@ -70,7 +70,6 @@ public class ControllerTest {
 		assertEquals(boolean1 , true);
 		assertEquals(boolean2 , false);
 		assertEquals(details.getRMI_ID() , RMI_ID);
-		assertEquals(details.getRMI_PORT() , details.RMI_PORT);
 		
 		
 		

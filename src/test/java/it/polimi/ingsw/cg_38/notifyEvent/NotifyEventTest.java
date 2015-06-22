@@ -17,11 +17,15 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventClosingGame;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDeclarePosition;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDrown;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventFinishedTurn;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventHatchBlocked;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotYourTurn;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyAliensWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyEnvironment;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyError;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyHumanWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyPlayerState;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTopics;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventUseDefense;
@@ -34,6 +38,7 @@ import it.polimi.ingsw.cg_38.model.deck.HatchCard;
 import it.polimi.ingsw.cg_38.model.deck.HatchCardType;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
+import it.polimi.ingsw.cg_38.model.map.Hatch;
 import it.polimi.ingsw.cg_38.model.map.Map;
 import it.polimi.ingsw.cg_38.model.map.Sector;
 
@@ -57,6 +62,10 @@ public class NotifyEventTest {
 	EventNotYourTurn notYourTurn;
 	EventSufferAttack sufferAttack;
 	EventUseDefense useDefense;
+	EventNotifyAliensWin notifyAliens;
+	EventNotifyTopics notifyTopics;
+	EventHatchBlocked hatchBlocked;
+	EventNotifyHumanWin humanWin;
 	Action action;
 	/*EventShowTopics showTopics;*/
 	
@@ -68,6 +77,7 @@ public class NotifyEventTest {
 	Name name1;
 	
 	Sector sector1;
+	Hatch sector2;
 	
 	ArrayList<Player> toDeclare2;
 	
@@ -100,6 +110,8 @@ public class NotifyEventTest {
 		avatar1.setIsPowered(true);
 		
 		player2.setAvatar(avatar1);
+		
+		sector2 = new Hatch();
 		
 		card1 = new HatchCard(HatchCardType.Red);
 		card2 = new ObjectCard(ObjectCardType.Adrenaline);
@@ -135,7 +147,10 @@ public class NotifyEventTest {
 		notYourTurn = new EventNotYourTurn(player1);
 		sufferAttack = new EventSufferAttack(player1 , toDeclare);
 		useDefense = new EventUseDefense(player1 , true , ObjectCardType.Defense);
-		/*showTopics = new EventShowTopics(topics);*/
+		notifyAliens = new EventNotifyAliensWin(player1 , toDeclare , true);
+		notifyTopics = new EventNotifyTopics(player1 , false , topics);
+		hatchBlocked = new EventHatchBlocked(player1 , sector2);
+		humanWin = new EventNotifyHumanWin(player1 , true);
 		
 	}
 	
@@ -186,6 +201,13 @@ public class NotifyEventTest {
 		
 		assertEquals(useDefense.getTypeCard() , ObjectCardType.Defense);
 		
+		assertEquals(notifyAliens.getWinners() , toDeclare);
+		
+		assertEquals(notifyTopics.getTopics() , topics);
+		
+		assertEquals(hatchBlocked.getHatch() , sector2);
+		
+		assertEquals(humanWin.getAreThereOtherHumans() , true);
 		/*assertEquals(showTopics.getTopics() , topics);*/		
 	}
 

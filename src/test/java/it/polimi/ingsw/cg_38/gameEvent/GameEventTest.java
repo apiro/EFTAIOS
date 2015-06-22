@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttackCard;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventHumanWin;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventMove;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventNewGame;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseMySect;
@@ -49,6 +50,7 @@ public class GameEventTest {
 	EventFinishTurn finishTurn;
 	EventRequestTopic requestTopic;
 	EventContinue continue1;
+	EventHumanWin humanWin;
 	
 	Player player1;
 	
@@ -98,6 +100,7 @@ public class GameEventTest {
 		finishTurn = new EventFinishTurn(player1);
 		requestTopic = new EventRequestTopic(player1 , true);
 		continue1 = new EventContinue();
+		humanWin = new EventHumanWin(player1);
 		
 				
 	}
@@ -131,6 +134,8 @@ public class GameEventTest {
 		assertEquals(teleport.getToUse() , card1);
 		
 		assertEquals(attack.toString() , "GameEvent [type=" + GameEventType.Attack + "]");
+		
+		assertEquals(humanWin.getType() , GameEventType.humanWin);
 	}
 	
 }

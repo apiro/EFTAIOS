@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.model.deck.HatchCardType;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
 import it.polimi.ingsw.cg_38.model.deck.SectorCard;
+import it.polimi.ingsw.cg_38.model.map.Hatch;
 import it.polimi.ingsw.cg_38.model.map.Sector;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -63,6 +64,8 @@ public class HumanTest {
 		Sector sector1 = model.getGameMap().searchSectorByCoordinates(8, 11);
 		Sector sector2 = model.getGameMap().searchSectorByCoordinates(9, 11);
 		Sector sector3 = model.getGameMap().searchSectorByCoordinates(10, 11);
+		Hatch sector4 = (Hatch)model.getGameMap().searchSectorByCoordinates(1, 1);
+		Sector sector5 = model.getGameMap().searchSectorByCoordinates(1, 2);
 		
 		if(avatar.canMove(sector1)){
 			assertEquals(avatar.canMove(sector1), true);
@@ -162,7 +165,18 @@ public class HumanTest {
 		assertEquals(player2.getAvatar().canMove(sector) , false);
 		
 		assertEquals(avatar.hasDefenseCard() , false);
-		
-	}
+		player2.getAvatar().setCurrentSector(sector5);
+		sector4.setIsOpen(true);
+		assertEquals(sector4.getIsOpen() , true);
+		assertTrue(player2.getAvatar().canMove(sector4));
+		sector4.setIsOpen(false);
+		assertTrue(!player2.getAvatar().canMove(sector4));
+		sector5 = model.getGameMap().searchSectorByCoordinates(1, 3);
+		player2.getAvatar().setCurrentSector(sector5);
+		assertTrue(!player2.getAvatar().canMove(sector4));
+		sector4.setIsOpen(true);
+		assertTrue(player2.getAvatar().canMove(sector4));
+	
+		}
 
 }

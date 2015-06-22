@@ -3,7 +3,6 @@ package it.polimi.ingsw.cg_38.controller.action;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -16,10 +15,8 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseRandSect;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSedatives;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventTeleport;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAttacked;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDeclareNoise;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDeclarePosition;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
 import it.polimi.ingsw.cg_38.model.Alien;
@@ -286,6 +283,8 @@ public class UseCardTest {
 		assertEquals(useAdrenalineCard2.isPossible(model1) , false);
 		model1.setGameState(GameState.RUNNING);
 		assertEquals(useAdrenalineCard2.isPossible(model1) , true); 
+		model1.getActualTurn().setHasUsedObjectCard(true);
+		assertEquals(useAdrenalineCard2.isPossible(model1) , false);
 		useAdrenalineCard2.perform(model1);
 		assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsPowered() , true);
 		assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards() , new ArrayList<Card>());
@@ -300,6 +299,8 @@ public class UseCardTest {
 		assertEquals(useLightsCard1.isPossible(model1) , false);
 		model1.setGameState(GameState.RUNNING);
 		assertEquals(useLightsCard1.isPossible(model1) , true);
+		model1.getActualTurn().setHasUsedObjectCard(true);
+		assertEquals(useLightsCard1.isPossible(model1) , false);
 		evtDeclarePosition1 = useLightsCard1.perform(model1);
 		assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards() , new ArrayList<Card>());
 		assertTrue(evtDeclarePosition1.get(0) instanceof EventNotifyCardPerformed);
@@ -317,6 +318,8 @@ public class UseCardTest {
 		assertEquals(useSedativesCard.isPossible(model1) , false);
 		model1.setGameState(GameState.RUNNING);
 		assertEquals(useSedativesCard.isPossible(model1) , true);
+		model1.getActualTurn().setHasUsedObjectCard(true);
+		assertEquals(useSedativesCard.isPossible(model1) , false);
 		useSedativesCard.perform(model1);
 		assertEquals(model1.getActualTurn().getHasDraw() , true);
 		assertEquals(useAttackCard3.isPossible(model1) , false);
@@ -328,6 +331,9 @@ public class UseCardTest {
 		assertEquals(useAttackCard1.isPossible(model1) , false);
 		model1.setGameState(GameState.RUNNING);
 		model1.getActualTurn().getCurrentPlayer().getAvatar().addCard(attackCard1);
+		model1.getActualTurn().setHasUsedObjectCard(true);
+		assertEquals(useAttackCard1.isPossible(model1) , false);
+		model1.getActualTurn().setHasUsedObjectCard(false);
 		assertEquals(useAttackCard1.isPossible(model1) , true);
 		assertEquals(useAttackCard1.getCard() , attackCard1);
 		model1.getActualTurn().setHasAttacked(true);
@@ -340,11 +346,12 @@ public class UseCardTest {
 		evtAttacked = useAttackCard1.perform(model1);
 		assertEquals(((EventSufferAttack)evtAttacked.get(0)).getKilled() , killedPlayer);
 		model1.setGameState(GameState.ACCEPTING);
+		model1.getActualTurn().setHasUsedObjectCard(false);
 		assertEquals(useTeleportCard.isPossible(model1) , false);
 		model1.setGameState(GameState.RUNNING);
-		assertEquals(useTeleportCard.isPossible(model1) , false);
-		model1.getActualTurn().setHasUsedObjectCard(false);
 		assertEquals(useTeleportCard.isPossible(model1) , true);
+		model1.getActualTurn().setHasUsedObjectCard(true);
+		assertEquals(useTeleportCard.isPossible(model1) , false);
 		evtMoved = useTeleportCard.perform(model1);
 		assertEquals(((EventMoved)evtMoved.get(0)).getMoved() , "HumanStartingPoint");
 		

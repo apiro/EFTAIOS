@@ -1,13 +1,14 @@
 package it.polimi.ingsw.cg_38.controller.action;
 
 import static org.junit.Assert.*;
-import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAdrenaline;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttackCard;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventHatchBlocked;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventHumanWin;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventMove;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseMySect;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseRandSect;
@@ -42,8 +43,11 @@ public class GameActionCreatorTest {
 	EventTeleport evtTeleport;
 	EventSubscribe evtSubscribe;
 	EventAliensWinner evtAliensWinner;
+	EventHumanWin humanWin;
+	EventHatchBlocked hatchBlocked;
 	
 	Attack attack1;
+	AliensWin aliensWin;
 	Draw draw;
 	FinishTurn finishTurn;
 	Looser looser;
@@ -58,6 +62,7 @@ public class GameActionCreatorTest {
 	UseSilenceCard silenceCard;
 	UseTeleportCard teleportCard;
 	Winner winner;
+	HumanWin human;
 	
 	
 	Player player1;
@@ -101,6 +106,8 @@ public class GameActionCreatorTest {
 		evtSubscribe = new EventSubscribe(player1 , room , map);
 		evtTeleport = new EventTeleport(player1 , card1);
 		evtAliensWinner = new EventAliensWinner(player1, bool);
+		humanWin = new EventHumanWin(player1);
+		hatchBlocked = new EventHatchBlocked(player1);
 				
 	}
 
@@ -120,6 +127,8 @@ public class GameActionCreatorTest {
 		assertTrue(GameActionCreator.createGameAction(evtSubscribe) instanceof Subscribe);
 		assertTrue(GameActionCreator.createGameAction(evtTeleport) instanceof UseTeleportCard);
 		assertTrue(GameActionCreator.createGameAction(evtAliensWinner) instanceof AliensWin);
+		assertTrue(GameActionCreator.createGameAction(humanWin) instanceof HumanWin);
+		assertTrue(GameActionCreator.createGameAction(hatchBlocked) instanceof HatchBlocked);
 		
 	}
 

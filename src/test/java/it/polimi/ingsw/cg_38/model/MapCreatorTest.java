@@ -53,6 +53,9 @@ public class MapCreatorTest {
 		map1.getConfiguration();
 		assertEquals(map.getConfiguration().length , 322);
 		map2.getConfiguration();
+		assertEquals(((Galilei)map).getName() , "Galilei");
+		assertEquals(((Fermi)map1).getName() , "Fermi");
+		assertEquals(((Galvani)map2).getName() , "Galvani");
 	}
 
 }

@@ -16,16 +16,19 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventHatchBlocked;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventHumanWin;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventMove;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAddedToGame;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAttacked;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDrown;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyAliensWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTopics;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyHumanWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
 import it.polimi.ingsw.cg_38.model.Alien;
 import it.polimi.ingsw.cg_38.model.Avatar;
 import it.polimi.ingsw.cg_38.model.EndState;
@@ -66,6 +69,8 @@ public class GameActionTest {
 	FinishTurn finishTurn;
 	FinishTurn finishTurn2;
 	FinishTurn finishTurn3;
+	HumanWin humanWin;
+	HumanWin humanWin2;
 	Move move;
 	Move move2;
 	Move move3;
@@ -73,6 +78,7 @@ public class GameActionTest {
 	AliensWin aliensWin2;	
 	Subscribe subscribe;
 	Subscribe subscribe2;
+	HatchBlocked hatchBlocked;
 	Winner winner;
 	Looser looser;
 
@@ -90,11 +96,14 @@ public class GameActionTest {
 	EventMove evtMove;
 	EventMove evtMove2;
 	EventMove evtMove3;
+	EventHumanWin evtHuman;
+	EventHumanWin evtHuman2;
 	EventAliensWinner evtAliensWinner1;
 	EventAliensWinner evtAliensWinner2;
 	EventAliensWinner evtAliensWinner3;
 	EventSubscribe evtSubscribe;
 	EventSubscribe evtSubscribe2;
+	EventHatchBlocked evtHatch;
 	
 	ArrayList<NotifyEvent> evtAttacked1;
 	ArrayList<NotifyEvent> evtAttacked2;
@@ -108,6 +117,7 @@ public class GameActionTest {
 	ArrayList<NotifyEvent> evtNotifyAliensWin;
 	EventNotifyTopics evtNotifyTopics;
 	EventAddedToGame evtAddedToGame;
+	NotifyEvent evtNotify;
 	
 	Player player1;
 	Player player2;
@@ -123,6 +133,7 @@ public class GameActionTest {
 	Turn turn4;
 	Turn turn5;
 	Turn turn6;
+	Turn turn7;
 	
 	ArrayList<SectorCard> sectorList1;
 	ArrayList<ObjectCard> objectList1;
@@ -146,6 +157,7 @@ public class GameActionTest {
 	Sector sector4;
 	Sector sector5;
 	Sector sector6;
+	Hatch sector7;
 	
 	Avatar avatar1;
 	Avatar avatar2;
@@ -153,6 +165,7 @@ public class GameActionTest {
 	Avatar avatar4;
 	Avatar avatar5;
 	Avatar avatar6;
+	Avatar avatar7;
 	
 	GameModel model1;
 	
@@ -175,6 +188,7 @@ public class GameActionTest {
 		player4 = new Player("diffi");
 		player5 = new Player("reda");
 		player6 = new Player("piccio");
+		player7 = new Player("poldo");
 		
 		model1 = new GameModel("Galvani");
 		
@@ -191,6 +205,7 @@ public class GameActionTest {
 		turn4 = new Turn(player4);
 		turn5 = new Turn(player5);
 		turn6 = new Turn(player6);
+		turn7 = new Turn(player7);
 		
 		sector1 = new Dangerous();
 		sector1.setCol(5);
@@ -200,6 +215,7 @@ public class GameActionTest {
 		sector4 = new Hatch();
 		sector5 = new HumanStartingPoint();
 		sector6 = new Safe();
+		sector7 = new Hatch();
 		
 		avatar1 = new Alien(Name.Alien1 , sector2);
 		avatar2 = new Alien(Name.Alien2 , sector2);
@@ -207,6 +223,7 @@ public class GameActionTest {
 		avatar4 = new Human(Name.Human2 , sector4);
 		avatar5 = new Human(Name.Human3 , sector5);
 		avatar6 = new Alien(Name.Alien3 , sector4);
+		avatar7 = new Human(Name.Human4 , sector7);
 		
 		sectorList1 = new ArrayList<SectorCard>();
 		objectList1 = new ArrayList<ObjectCard>();
@@ -245,6 +262,9 @@ public class GameActionTest {
 		evtAliensWinner3 = new EventAliensWinner(player6 , true);
 		evtSubscribe = new EventSubscribe(player1 , "room1" , "Galilei");
 		evtSubscribe2 = new EventSubscribe(player1 , "room2" , "Galvani");
+		evtHuman = new EventHumanWin(player7);
+		evtHuman2 = new EventHumanWin(player4);
+		evtHatch = new EventHatchBlocked(player7);
 		
 		draw1 = new Draw(evtDraw1);
 		draw2 = new Draw(evtDraw2);
@@ -265,6 +285,9 @@ public class GameActionTest {
 		looser = new Looser(evtAttack4);
 		subscribe = new Subscribe(evtSubscribe);
 		subscribe2 = new Subscribe(evtSubscribe2);
+		humanWin = new HumanWin(evtHuman);
+		humanWin2 = new HumanWin(evtHuman2);
+		hatchBlocked = new HatchBlocked(evtHatch);
 		
 		evtNotifyTopics = new EventNotifyTopics(player1 , true , topics);
 		
@@ -274,6 +297,7 @@ public class GameActionTest {
 		player4.setAvatar(avatar4);
 		player5.setAvatar(avatar5);
 		player6.setAvatar(avatar6);
+		player7.setAvatar(avatar7);
 		addPlayers.add(player1);
 		addPlayers.add(player2);
 		addPlayers.add(player3);
@@ -321,8 +345,12 @@ public class GameActionTest {
 			evtDrown2 = draw2.perform(model1);
 		
 			assertEquals(sectorCard1 , ((EventDrown)evtDrown1.get(0)).getDrown());
+			evtDrown1 = draw1.perform(model1);
+			assertEquals(sectorCard1 , ((EventDrown)evtDrown1.get(0)).getDrown());
 			
 			assertEquals(sectorCard2 , ((EventDrown)evtDrown2.get(0)).getDrown());
+			evtDrown2 = draw2.perform(model1);
+			assertEquals(objectCard1 , model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().get(1));
 			assertEquals(objectCard1 , model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().get(0));
 			assertEquals(evtDrown2.toString() , "[EventDrown [added=" + objectCard1 + ", drown=" + sectorCard2 + "]]");
 			model1.getActualTurn().setHasAttacked(true);
@@ -403,6 +431,9 @@ public class GameActionTest {
 			model1.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
 			finishTurn2.perform(model1);
 			assertEquals(model1.getGamePlayers().get(2).getAvatar().getIsPowered() , false);
+			model1.getGamePlayers().get(2).getAvatar().setIsWinner(EndState.PLAYING);
+			evtNotifyTurn2 = humanWin2.perform(model1);
+			
 			
 			model1.setActualTurn(turn5);
 			assertEquals((draw4.perform(model1)).size() , 0);
@@ -429,7 +460,14 @@ public class GameActionTest {
 			looser.perform(model1);
 			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsWinner() , EndState.LOOSER);
 			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsAlive() , LifeState.DEAD);
-						
 			
+			model1.setActualTurn(turn7);
+			
+			evtDrown1 = humanWin.perform(model1);
+			assertEquals(((EventNotifyHumanWin)evtDrown1.get(0)).getAreThereOtherHumans() , false);
+			assertTrue(evtDrown1.get(1) instanceof EventNotifyClosingTopic);
+			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsWinner() , EndState.WINNER);
+			evtNotify = hatchBlocked.perform(model1).get(0);
+				
 	}
 } 

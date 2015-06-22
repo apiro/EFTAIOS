@@ -142,6 +142,7 @@ public class GameModelTest {
 		sector2.setRow(5);
 		sector3.setRow(5);
 		assertEquals(sector2.equals(sector3) , true);
+		assertEquals(sector3.toString() , "Sector [name=" + sector3.getName() + "row:" + sector3.getRow() + "col" + sector3.getCol() + "]");
 		hatch.setIsOpen(true);
 		assertEquals(hatch.getIsOpen() , true);
 		}
