@@ -50,7 +50,7 @@ public class ClientSocket extends Client implements Runnable {
 						communicator = new SocketCommunicator(socket);
 						 ((SocketCommunicator)communicator).initCommunicator(); 
 					} catch (IOException e) {
-						e.printStackTrace();
+						logger.print("Problems with the creation of a socket with the server ...");
 					}
 					communicator.send(msg);
 					if(!((GameEvent)msg).getNotifyEventIsBroadcast()) {

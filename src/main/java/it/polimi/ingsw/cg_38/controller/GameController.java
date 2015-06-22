@@ -55,7 +55,7 @@ public class GameController implements Observer {
 			try {
 				this.sendNotifyEvent();
 			} catch (RemoteException e) {
-				e.printStackTrace();
+				logger.print("Problems in sending broadcast message ...");
 			}
 		} 
 	}

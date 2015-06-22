@@ -34,28 +34,9 @@ public class WaitingRoomController extends Observable implements Runnable {
 		try {
 			Thread.sleep(30000);
 		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
-		/*
-		System.out.println("PRIMA DELLA TIMERTASK");
-    	timer.schedule(new TimerTask() {
-    		@Override
-    	    public void run() {
-    			controllMyLoop[0] = false;
-    			System.out.println("SETTATO A FALSE");
-    	    }
-    	} , 3000);
-    	System.out.println("DOPO LA TIMERTASK");
-		while(true) {
-			
-			if(controllMyLoop[0] == false) {
-				System.out.println("PRIMA DEL BREAK");
-				break;
-			}
+			logger.print("Problems during the rianimation of the room-handling-thread ...");
 		}
 		
-		System.out.println("PRIMA DI INVIARE EVENTI");
-		*/
 		logger.print("---------------------------------------------------------------------\n");
 		logger.print("RUNNING: " + gc.getTopic() + " ...");
 		logger .print("---------------------------------------------------------------------\n");

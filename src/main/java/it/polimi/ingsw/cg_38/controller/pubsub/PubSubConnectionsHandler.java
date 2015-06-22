@@ -2,6 +2,8 @@ package it.polimi.ingsw.cg_38.controller.pubsub;
 
 import it.polimi.ingsw.cg_38.controller.ServerController;
 import it.polimi.ingsw.cg_38.controller.connection.SocketCommunicator;
+import it.polimi.ingsw.cg_38.controller.logger.Logger;
+import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -12,6 +14,7 @@ public class PubSubConnectionsHandler extends Thread {
 	private ServerSocket serverSocketPubSub;
 	private Boolean serverAlive;
 	private ServerController server;
+	private Logger logger = new LoggerCLI();
 
 	public PubSubConnectionsHandler(ServerSocket serverSocketPubSub, Boolean serverAlive, ServerController server) {
 		this.serverSocketPubSub = serverSocketPubSub;
@@ -26,7 +29,7 @@ public class PubSubConnectionsHandler extends Thread {
 			try {
 				socket = serverSocketPubSub.accept();
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.print("Socket arrived but there were some problems with the creation of server side socket ...");
 			}
 			//qui creo un thread per gestire l'aggiunta del communicator alla lista del corretto topic. se non posso fare 
 			//questa cosa qui sotto aggiungo il communicator che mi è arrivato direttamente alla lista dei comm della 
@@ -39,8 +42,7 @@ public class PubSubConnectionsHandler extends Thread {
 	    try {
 			serverSocketPubSub.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.print("Problems during closing of the socket ... ");
 		}
-	}
-	
+	}	
 }

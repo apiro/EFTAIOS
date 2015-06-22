@@ -58,7 +58,7 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.print("Problems during trasmission of the event ... ");
 		}
 		
 		return new ServerView(server, clientView);
@@ -73,7 +73,7 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 		try {
 			server.getTopics().get(evt.getGenerator().getName()).sendNotifyEvent();
 		} catch (RemoteException e) {
-			e.printStackTrace();
+			logger.print("Problems with the trasmission of the event ... ");
 		}
 		synchronized(queue) {
 			queue.notify();

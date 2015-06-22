@@ -8,7 +8,24 @@ import java.util.*;
 public class Sector implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	@Override
+	
+	
+	
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + col;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime
+				* result
+				+ ((neighboringSectors == null) ? 0 : neighboringSectors
+						.hashCode());
+		result = prime * result + row;
+		return result;
+	}
+
+    @Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -33,10 +50,7 @@ public class Sector implements Serializable{
 		return true;
 	}
 
-	/**
-     * 
-     */
-    public Sector() {
+	public Sector() {
     	this.setNeighboringSectors(new ArrayList<Sector>());
     }
 
