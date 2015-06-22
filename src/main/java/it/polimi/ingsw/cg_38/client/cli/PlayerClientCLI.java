@@ -12,6 +12,7 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttackCard;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventMove;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventRejectCard;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSedatives;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
@@ -27,6 +28,8 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import javax.swing.JOptionPane;
 
 public class PlayerClientCLI implements PlayerClient {
 
@@ -94,6 +97,16 @@ public class PlayerClientCLI implements PlayerClient {
 		return evtSub;
 	}
 	
+	public String askForUseCardOrRejectCard() {
+		String choice = logger.showAndRead("Do you wanna Use [U] or Reject [R] the selected Card ?");
+		
+		while(!choice.equals("U") && !choice.equals("R")) {
+			choice = logger.showAndRead("Do you wanna Use [U] or Reject [R] the selected Card ?");
+		}
+		
+		return choice;
+	}
+	
 	public PlayerClientState getPlayerClientState() {
 		return playerClientState;
 	}
@@ -152,8 +165,6 @@ public class PlayerClientCLI implements PlayerClient {
 		logger.print("----------------------------------------------------------------------");
 		logger.print("Inserisci il tipo di azione da compiere: \n");
 		logger.print("\t 1) MOVE - M\n");
-		/*System.out.println("\t 2) DRAW - D\n");
-		System.out.println("\t 3) ATTACK - A\n");*/
 		logger.print("\t 2) USE CARD - U\n");
 		logger.print("\t 3) FINISH TURN - F\n");
 		logger.print("----------------------------------------------------------------------");
@@ -167,28 +178,26 @@ public class PlayerClientCLI implements PlayerClient {
 				}
 				
 			} else if (command.equals("U")) {
-				
-				/*if(player.getAvatar() instanceof Human) {*/
-				    logger.print("----------------------------------------------------------------------");
-				    logger.print("Which one? type the number ...");
-					int j = 1;
-					for(ObjectCard card:player.getAvatar().getMyCards()) {
-						logger.print(j + ")" + card.getType() + "\n");
-						j++;
-					}
-					int cardSelected = 0;
-					try {
-						cardSelected = Integer.parseInt(in.nextLine())-1;
-					} catch(NumberFormatException e) {
-						logger.print("You typed a word not a number !");
-						this.loadInterface();
-					}
-					
+				logger.print("----------------------------------------------------------------------");
+				logger.print("Which one? type the number ...");
+				int j = 1;
+				for(ObjectCard card:player.getAvatar().getMyCards()) {
+					logger.print(j + ")" + card.getType() + "\n");
+					j++;
+				}
+				int cardSelected = 0;
+				try {
+					cardSelected = Integer.parseInt(in.nextLine())-1;
+				} catch(NumberFormatException e) {
+					logger.print("You typed a word not a number !");
+					this.loadInterface();
+				}
+				if(this.askForUseCardOrRejectCard().equals("R") && cardSelected<player.getAvatar().getMyCards().size()) {
+					this.toSend.add(new EventRejectCard(player, player.getAvatar().getMyCards().get(cardSelected)));
+					player.getAvatar().getMyCards().remove(cardSelected);
+				} else {
 					this.useCard(cardSelected);
-				/*} else {
-					System.out.println("You are an Alien and you can't use Cards !");
-				}*/
-				
+				}
 			} else if (command.equals("F")) {
 				synchronized(this.toSend) {
 					this.toSend.add(new EventFinishTurn(player));

@@ -58,6 +58,8 @@ public class GameActionCreator {
     		action = new HatchBlocked((GameEvent)evt);
     	} else if (type.equals(GameEventType.Defense)) {
     		action = new Defense((GameEvent)evt);
+    	} else if (type.equals(GameEventType.rejectCard)) {
+    		action = new Reject((GameEvent)evt);
     	}
 		return action;
     }

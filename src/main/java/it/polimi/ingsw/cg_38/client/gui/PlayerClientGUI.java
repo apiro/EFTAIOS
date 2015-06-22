@@ -12,6 +12,7 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventRejectCard;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.controller.logger.Logger;
 import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
@@ -219,13 +220,13 @@ public class PlayerClientGUI implements PlayerClient {
             public void run() {
 	    	uxHandler.getUx().addButtonActionListener(0, new ActionListener() {
 	
-	  		@Override
-	  		public void actionPerformed(ActionEvent e) {
-	  			EventAttack evt = new EventAttack(player, player.getAvatar().getCurrentSector());
-	  			synchronized(toSend) {
-	  				toSend.add(evt);
-	  			}
-	  		}
+	    		@Override
+		  		public void actionPerformed(ActionEvent e) {
+		  			EventAttack evt = new EventAttack(player, player.getAvatar().getCurrentSector());
+		  			synchronized(toSend) {
+		  				toSend.add(evt);
+		  			}
+		  		}
 	      	  
 	        });
 	    	
@@ -257,6 +258,7 @@ public class PlayerClientGUI implements PlayerClient {
 		
 		    		@Override
 		    		public void actionPerformed(ActionEvent e) {
+		    			String choice = uxHandler.getUx().askForUseCardOrRejectCard();
 		    			Sector sec = null;
 		    			ObjectCard card = null;
 		    			String s = "it.polimi.ingsw.cg_38.controller.gameEvent.Event" + ((JButton)e.getSource()).getText();
@@ -274,6 +276,15 @@ public class PlayerClientGUI implements PlayerClient {
 								if(c.getType().toString().equals(((JButton)e.getSource()).getText())) {
 									card = c;
 								}
+							}
+							if(choice.equals("R")) {
+								player.getAvatar().getMyCards().remove(card);
+								uxHandler.getUx().updateCards(player, toSend, map);
+								((JButton)e.getSource()).setText("Use Card");
+				    			synchronized(toSend) {
+				    				toSend.add(new EventRejectCard(player, card));
+				    				return;
+				    			}
 							}
 							if(s.equals("it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight")) {
 								sec = uxHandler.getUx().askForMoveCoordinates(map);

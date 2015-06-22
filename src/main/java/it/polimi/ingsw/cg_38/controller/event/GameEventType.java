@@ -19,5 +19,6 @@ public enum GameEventType {
 	aliensWin, 
 	humanWin, 
 	blockHatch, 
-	Defense
+	Defense, 
+	rejectCard
 }

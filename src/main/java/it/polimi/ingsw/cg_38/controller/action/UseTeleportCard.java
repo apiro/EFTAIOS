@@ -6,7 +6,7 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventTeleport;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTeleport;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCard;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 
@@ -37,8 +37,9 @@ public class UseTeleportCard extends GameAction {
     	
     	if(this.currentAvatarType(model).equals("Alien")){
     		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    		model.handleRejectedCard(card);
     		model.getActualTurn().setHasUsedObjectCard(true);
-    		callbackEvent.add(new EventRejectCard(model.getActualTurn().getCurrentPlayer()));
+    		callbackEvent.add(new EventRejectCardAlien(model.getActualTurn().getCurrentPlayer()));
     		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false, card.getType()));
     		return callbackEvent;
     	}
@@ -48,6 +49,7 @@ public class UseTeleportCard extends GameAction {
     			model.getActualTurn().getCurrentPlayer().getNumTurniGiocati()+1);
     	model.getActualTurn().getCurrentPlayer().setNumTurniGiocati(model.getActualTurn().getCurrentPlayer().getNumTurniGiocati()+1);
     	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    	model.handleRejectedCard(card);
     	model.getActualTurn().setHasUsedObjectCard(true);
     	callbackEvent.add(new EventNotifyTeleport(model.getActualTurn().getCurrentPlayer(), model.getActualTurn().getCurrentPlayer().
     			getAvatar().getCurrentSector().getName()));

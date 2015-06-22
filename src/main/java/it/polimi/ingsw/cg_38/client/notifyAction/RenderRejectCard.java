@@ -25,5 +25,4 @@ public class RenderRejectCard extends NotifyAction {
 		client.updateCards();
 		return new EventContinue();
 	}
-
 }

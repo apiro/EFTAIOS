@@ -33,7 +33,7 @@ import it.polimi.ingsw.cg_38.model.deck.ObjectDeck;
 import it.polimi.ingsw.cg_38.model.deck.SectorCard;
 import it.polimi.ingsw.cg_38.model.deck.SectorDeck;
 import it.polimi.ingsw.cg_38.model.map.Sector;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCard;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyCardPerformed;
 
 import org.junit.Before;
@@ -273,7 +273,7 @@ public class UseCardTest {
 		assertEquals(useAdrenalineCard1.isPossible(model1) , false);
 		model1.setGameState(GameState.RUNNING);
 		evtCardUsed = useAdrenalineCard1.perform(model1);
-		assertTrue(evtCardUsed.get(0) instanceof EventRejectCard);
+		assertTrue(evtCardUsed.get(0) instanceof EventRejectCardAlien);
 		assertEquals(useAttackCard4.isPossible(model1) , false);
 		
 		model1.setActualTurn(turn2);

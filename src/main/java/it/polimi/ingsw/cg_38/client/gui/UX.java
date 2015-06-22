@@ -108,6 +108,22 @@ public class UX extends JFrame {
 		return new EventSubscribe(player, room, nameMap);
 	}
 	
+	public String askForUseCardOrRejectCard() {
+		String choice = JOptionPane.showInputDialog(
+		           this,
+		            "Do you wanna Use [U] or Reject [R] the selected Card ?",
+		            "Use or Reject",
+		            JOptionPane.INFORMATION_MESSAGE);
+	while(!choice.equals("U") && !choice.equals("R")) {
+		choice = JOptionPane.showInputDialog(
+		           this,
+		            "Do you wanna Use [U] or Reject [R] the selected Card ?",
+		            "Use or Reject",
+		            JOptionPane.INFORMATION_MESSAGE);
+		}
+	return choice;
+	}
+	
 	public Player getIdentity() {
 		   String name;
 		   
