@@ -26,7 +26,7 @@ public class HumanWin extends GameAction {
 		
 		Boolean areThereOtherHumans = false;
 		for(Player pl:model.getGamePlayers()) {
-			if((pl.getAvatar() instanceof Human) && pl.getAvatar().getIsAlive().equals(EndState.PLAYING)) {
+			if((pl.getAvatar() instanceof Human) && pl.getAvatar().getIsWinner().equals(EndState.PLAYING)) {
 				areThereOtherHumans = true;
 			}
 		}

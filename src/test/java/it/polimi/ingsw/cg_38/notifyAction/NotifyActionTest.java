@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import it.polimi.ingsw.cg_38.client.PlayerClientCLI;
 import it.polimi.ingsw.cg_38.client.PlayerClientState;
+import it.polimi.ingsw.cg_38.client.cli.PlayerClientCLI;
 import it.polimi.ingsw.cg_38.client.notifyAction.AddedToGame;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderAliensWin;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderAttackDamage;

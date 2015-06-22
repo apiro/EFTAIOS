@@ -1,5 +1,8 @@
-package it.polimi.ingsw.cg_38.client;
+package it.polimi.ingsw.cg_38.client.cli;
 
+import it.polimi.ingsw.cg_38.client.Client;
+import it.polimi.ingsw.cg_38.client.PlayerClient;
+import it.polimi.ingsw.cg_38.client.PlayerClientState;
 import it.polimi.ingsw.cg_38.client.notifyAction.NotifyAction;
 import it.polimi.ingsw.cg_38.client.notifyAction.NotifyActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
@@ -306,7 +309,6 @@ public class PlayerClientCLI implements PlayerClient {
 		return logger;
 	}
 
-	@Override
 	public void updateCards() {
 		
 		if(player.getAvatar().getMyCards().size() == 4) {
@@ -316,19 +318,13 @@ public class PlayerClientCLI implements PlayerClient {
 		}
 	}
 
-	@Override
-	public void updateMovements() {
-		
-	}
-
 	public void setClientAlive(Boolean b) {
 		this.clientAlive = b;
 	}
-	
-	@Override
-	public void paintHatch(Boolean bool, Sector sec) {
-		// TODO Auto-generated method stub
-		
-	}
 
+	@Override
+	public void paintHatch(Boolean bool, Sector sec) {}
+
+	@Override
+	public void updateMovements() {}
 }

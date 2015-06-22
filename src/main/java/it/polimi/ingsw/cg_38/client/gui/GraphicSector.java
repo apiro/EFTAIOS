@@ -1,12 +1,11 @@
 package it.polimi.ingsw.cg_38.client.gui;
 
-import java.awt.Font;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class GraphicSector extends JLabel {
 
+	private static final long serialVersionUID = 1L;
 	private int row;
 	private int col;
 	private int x;
