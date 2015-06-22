@@ -6,7 +6,7 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAdrenaline;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyCardPerformed;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCard;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 
@@ -41,12 +41,14 @@ public class UseAdrenalineCard extends GameAction {
     	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	if(model.getActualTurn().getCurrentPlayer().getAvatar() instanceof Alien) {
     		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    		model.handleRejectedCard(card);
     		model.getActualTurn().setHasUsedObjectCard(true);
-    		callbackEvent.add(new EventRejectCard(model.getActualTurn().getCurrentPlayer()));
+    		callbackEvent.add(new EventRejectCardAlien(model.getActualTurn().getCurrentPlayer()));
     		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false, card.getType()));
     	} else {
     		model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
     		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    		model.handleRejectedCard(card);
     		model.getActualTurn().setHasUsedObjectCard(true);
     		callbackEvent.add(new EventNotifyCardPerformed(model.getActualTurn().getCurrentPlayer()));
     		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true, card.getType()));	

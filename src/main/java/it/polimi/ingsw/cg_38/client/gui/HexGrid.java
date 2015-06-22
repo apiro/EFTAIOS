@@ -10,14 +10,11 @@ import it.polimi.ingsw.cg_38.model.map.Map;
 import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.Shape;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +23,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 public class HexGrid extends JPanel {
 
@@ -42,12 +38,10 @@ public class HexGrid extends JPanel {
 	private ConcurrentLinkedQueue<Event> toSend;
 	private Player player;
 	private Map map;
-	private GraphicSector gps = new GraphicSector( 30, 30, 30, 30, null);
 	private int oldx = 30;
 	private int oldy = 30;
 	private ImageIcon oldIcon = null;
 	private Logger logger = new LoggerCLI();
-	
 	
 	public ArrayList<GraphicSector> getSects() {
 		return sects;

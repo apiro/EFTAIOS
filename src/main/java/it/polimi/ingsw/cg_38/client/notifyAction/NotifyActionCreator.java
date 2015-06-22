@@ -49,6 +49,8 @@ public class NotifyActionCreator {
 			action = new RenderRejectCard((NotifyEvent)evt);
 		if(type.equals(NotifyEventType.cardPerformed)) 
 			action = new RenderCardPerformed((NotifyEvent)evt);
+		if(type.equals(NotifyEventType.rejectCardHuman))
+			action = new RenderRejectHumanCard((NotifyEvent)evt);
     	return action;
 	}
 	

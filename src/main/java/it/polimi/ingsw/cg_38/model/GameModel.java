@@ -1,7 +1,14 @@
 package it.polimi.ingsw.cg_38.model;
 import it.polimi.ingsw.cg_38.controller.GameState;
+import it.polimi.ingsw.cg_38.model.deck.Card;
 import it.polimi.ingsw.cg_38.model.deck.Deck;
 import it.polimi.ingsw.cg_38.model.deck.DeckCreator;
+import it.polimi.ingsw.cg_38.model.deck.HatchCard;
+import it.polimi.ingsw.cg_38.model.deck.HatchDeck;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
+import it.polimi.ingsw.cg_38.model.deck.ObjectDeck;
+import it.polimi.ingsw.cg_38.model.deck.SectorCard;
+import it.polimi.ingsw.cg_38.model.deck.SectorDeck;
 import it.polimi.ingsw.cg_38.model.map.Map;
 import it.polimi.ingsw.cg_38.model.map.MapCreator;
 import it.polimi.ingsw.cg_38.model.map.Sector;
@@ -167,6 +174,16 @@ public class GameModel {
 
 	public void setActualTurn(Turn actualTurn) {
 		this.actualTurn = actualTurn;
+	}
+
+	public void handleRejectedCard(Card eliminateFromMyCards) {
+		if(eliminateFromMyCards instanceof ObjectCard) {
+			((ObjectDeck)this.getDeckObject()).getRejectedObjectDeck().add((ObjectCard) eliminateFromMyCards);
+		} else if(eliminateFromMyCards instanceof SectorCard) {
+			((SectorDeck)this.getDeckSector()).getRejectedSectorDeck().add((SectorCard) eliminateFromMyCards);
+		} else if(eliminateFromMyCards instanceof HatchCard) {
+			((HatchDeck)this.getDeckHatch()).getRejectedHatchDeck().add((HatchCard) eliminateFromMyCards);
+		}
 	}
 
     

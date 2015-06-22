@@ -6,7 +6,7 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttackCard;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCard;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 import it.polimi.ingsw.cg_38.model.map.Sector;
@@ -56,14 +56,16 @@ public class UseAttackCard extends GameAction {
     	
     	if(this.currentAvatarType(model).equals("Alien")){
     		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    		model.handleRejectedCard(card);
     		model.getActualTurn().setHasUsedObjectCard(true);
-    		callbackEvent.add(new EventRejectCard(model.getActualTurn().getCurrentPlayer()));
+    		callbackEvent.add(new EventRejectCardAlien(model.getActualTurn().getCurrentPlayer()));
     		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false, card.getType()));
     		return callbackEvent;
     	}
     	
     	((Human)model.getActualTurn().getCurrentPlayer().getAvatar()).setCanAttack(true);
     	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
+    	model.handleRejectedCard(card);
     	GameAction humanAttackAction = new Attack(new EventAttack(generator, this.getSectorToAttack()));
     	
     	if(humanAttackAction.isPossible(model)) {
