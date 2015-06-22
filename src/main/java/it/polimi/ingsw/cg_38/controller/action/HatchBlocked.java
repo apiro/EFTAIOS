@@ -4,7 +4,6 @@ import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.model.GameModel;
 import it.polimi.ingsw.cg_38.model.Hatch;
-import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.notifyEvent.EventHatchBlocked;
 
 import java.util.ArrayList;

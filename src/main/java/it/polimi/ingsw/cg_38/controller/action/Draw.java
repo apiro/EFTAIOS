@@ -5,7 +5,6 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.notifyEvent.EventDrown;
-import it.polimi.ingsw.cg_38.notifyEvent.EventHatchBlocked;
 
 /**
  * 
@@ -22,9 +21,8 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventHatchBlocked;
  */
 public class Draw extends GameAction {
 
-    /**
-     * 
-     */
+	private static final long serialVersionUID = 1L;
+
     public Draw(GameEvent evt) {
     	super(evt.getGenerator());
     }

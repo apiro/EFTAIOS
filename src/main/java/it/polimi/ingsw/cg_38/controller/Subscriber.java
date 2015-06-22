@@ -1,9 +1,7 @@
 package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
-import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSubscribe;
-import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyEnvironment;
 
 import java.io.IOException;
 import java.net.Socket;

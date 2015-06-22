@@ -9,15 +9,12 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RegistrationView extends UnicastRemoteObject implements RMIRegistrationInterface {
 
 	private static final long serialVersionUID = 1L;
 	private ConcurrentLinkedQueue<NotifyEvent> queue = new ConcurrentLinkedQueue<NotifyEvent>();
-	private Event evt;
-	private HashMap<String, GameController> topics;
 	private ServerController server;
 	private Logger logger = new LoggerCLI();
 
@@ -27,8 +24,7 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 	}
 	
 	public RMIRemoteObjectInterface register(RMIRemoteObjectInterface clientView, EventSubscribe subEvent) throws RemoteException {
-		
-		this.evt = subEvent;
+
 		logger.print("---------------------------------------------------------------------");
 		/**
 		 * questo metodo prenderà come parametro la clientView e il topic a cui il client si vuole sottoscrivere, crea 

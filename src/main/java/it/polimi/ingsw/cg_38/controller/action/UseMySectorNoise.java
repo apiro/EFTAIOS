@@ -9,7 +9,9 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventDeclareNoise;
 
 public class UseMySectorNoise extends GameAction {
 
-    public UseMySectorNoise(GameEvent evt) {
+	private static final long serialVersionUID = 1L;
+
+	public UseMySectorNoise(GameEvent evt) {
     	super(evt.getGenerator());
     }
 

@@ -12,6 +12,8 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyWin;
 
 public class Winner extends GameAction {
 
+	private static final long serialVersionUID = 1L;
+
 	public Winner(GameEvent evt) {
 		super(evt.getGenerator());
 	}

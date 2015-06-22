@@ -8,6 +8,8 @@ import it.polimi.ingsw.cg_38.model.Player;
 
 public abstract class InitGameAction extends Action {
 	
+	private static final long serialVersionUID = 1L;
+
 	public InitGameAction(Player player) {
 		super(player);
     }

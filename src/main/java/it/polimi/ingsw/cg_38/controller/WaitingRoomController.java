@@ -4,8 +4,6 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyEnvironment;
 import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTurn;
 
 import java.util.Observable;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class WaitingRoomController extends Observable implements Runnable {
 	

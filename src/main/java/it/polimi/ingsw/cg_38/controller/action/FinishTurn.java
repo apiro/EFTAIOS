@@ -11,6 +11,8 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyTurn;
 
 public class FinishTurn extends GameAction {
 
+	private static final long serialVersionUID = 1L;
+
 	public FinishTurn(GameEvent evt) {
 		super(evt.getGenerator());
 		

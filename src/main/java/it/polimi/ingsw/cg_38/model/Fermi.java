@@ -14,7 +14,11 @@ public class Fermi extends Map {
 		return configuration;
 	}
 
-    private final String name = "Fermi";
+    public String getName() {
+		return name;
+	}
+
+	private final String name = "Fermi";
 
     private final int[] configuration = {-1,-1,-1,-1,-1,-1,-1,-1,-1,4,-1,-1,-1,4,-1,-1,-1,-1,-1,-1,-1,-1,-1
     									,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,0,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1

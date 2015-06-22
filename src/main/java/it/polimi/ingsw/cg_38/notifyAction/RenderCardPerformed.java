@@ -5,11 +5,11 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventContinue;
 
-public class RenderRejectCard extends NotifyAction {
+public class RenderCardPerformed extends NotifyAction {
 
 	private static final long serialVersionUID = 1L;
 
-	public RenderRejectCard(NotifyEvent evt) {
+	public RenderCardPerformed(NotifyEvent evt) {
 		super(evt.getGenerator(), evt);
 	}
 
@@ -20,10 +20,9 @@ public class RenderRejectCard extends NotifyAction {
 
 	@Override
 	public GameEvent render(PlayerClient client) {
-		client.getLogger().print("Rejected card !");
+		client.getLogger().print("The card's effect has been performed !");
 		client.setPlayer(evt.getGenerator());
 		client.updateCards();
 		return new EventContinue();
 	}
-
 }

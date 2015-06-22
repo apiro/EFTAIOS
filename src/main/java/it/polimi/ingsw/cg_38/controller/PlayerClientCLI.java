@@ -235,7 +235,6 @@ public class PlayerClientCLI implements PlayerClient {
 	}
 	
 	public Sector askForMoveCoordinates() {
-		Scanner in = new Scanner(System.in);
 		try {
 			logger.print("----------------------------------------------------------------------");
 			logger.print("Inserire la riga :");

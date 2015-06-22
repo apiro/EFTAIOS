@@ -21,5 +21,6 @@ public enum NotifyEventType {
 	humanWin, 
 	hatchBlocked, 
 	closingTopic, 
-	rejectCard
+	rejectCard, 
+	cardPerformed
 }

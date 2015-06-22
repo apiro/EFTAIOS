@@ -1,8 +1,6 @@
 package it.polimi.ingsw.cg_38.controller;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
-import it.polimi.ingsw.cg_38.controller.event.GameEvent;
-import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -46,7 +44,7 @@ public class SocketCommunicator implements Communicator {
 		try {
 			this.getOutputStream().writeObject(evt);
 			this.getOutputStream().reset();
-			System.out.println("Sending ... : " + evt.toString());
+			logger.print("Sending ... : " + evt.toString());
 			this.getOutputStream().flush();
 		} catch (IOException e) {
 			e.printStackTrace();

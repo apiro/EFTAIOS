@@ -11,6 +11,14 @@ public class EventNotifyTopics extends NotifyEvent {
 
 	public EventNotifyTopics(Player generator, Boolean broadcast, ArrayList<String> topics) {
 		super(generator, broadcast);
+		this.setTopics(topics);
+	}
+
+	public ArrayList<String> getTopics() {
+		return topics;
+	}
+
+	public void setTopics(ArrayList<String> topics) {
 		this.topics = topics;
 	}
 

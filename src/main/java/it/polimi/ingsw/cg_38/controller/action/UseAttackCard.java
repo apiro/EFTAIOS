@@ -3,7 +3,6 @@ import java.util.ArrayList;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.gameEvent.EventAdrenaline;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.gameEvent.EventAttackCard;
 import  it.polimi.ingsw.cg_38.model.*;
@@ -18,6 +17,7 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventRejectCard;
  */
 public class UseAttackCard extends GameAction {
 
+	private static final long serialVersionUID = 1L;
 	private Player generator;
 
 	public UseAttackCard(GameEvent evt) {

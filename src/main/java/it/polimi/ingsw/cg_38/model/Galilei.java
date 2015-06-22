@@ -30,5 +30,9 @@ public class Galilei extends Map {
 	public int[] getConfiguration() {
 		return configuration;
 	}
+
+	public String getName() {
+		return name;
+	}
     
 }

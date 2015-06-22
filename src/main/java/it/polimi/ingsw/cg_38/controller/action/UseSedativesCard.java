@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventSedatives;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyCardPerformed;
 import it.polimi.ingsw.cg_38.notifyEvent.EventRejectCard;
 
 public class UseSedativesCard extends GameAction {
@@ -42,6 +43,7 @@ public class UseSedativesCard extends GameAction {
     	model.getActualTurn().setHasDraw(true);
     	model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     	model.getActualTurn().setHasUsedObjectCard(true);
+    	callbackEvent.add(new EventNotifyCardPerformed(model.getActualTurn().getCurrentPlayer()));
     	callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true, card.getType()));
     	return callbackEvent;
     }

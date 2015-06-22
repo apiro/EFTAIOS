@@ -77,19 +77,10 @@ public class SectorDeck extends Deck {
     		this.setSectorDeck(rejectedSectorDeck);
     	}
     	
-    	SectorCard card = null;
-    	for(SectorCard c:this.getSectorDeck()) {
-    		if(c.getHasObjectIcon()) {
-    			card= c;
-    		}
-    	}
-    	return card;
-    	
-    	/*
     	Card extracted = this.getSectorDeck().get(0);
     	this.eliminateCard(extracted);
     	this.shuffle();
-        return extracted;*/
+        return extracted;
     }
 
     /**

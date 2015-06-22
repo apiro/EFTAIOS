@@ -12,7 +12,9 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventDeclareNoise;
 
 public class UseRandomSectorNoise extends GameAction {
 
-    public UseRandomSectorNoise(GameEvent evt) {
+	private static final long serialVersionUID = 1L;
+
+	public UseRandomSectorNoise(GameEvent evt) {
     	super(evt.getGenerator());
     	this.setToDeclare(((EventNoiseRandSect)evt).getToNoise());
     }

@@ -61,7 +61,7 @@ public class GameActionCreatorTest {
 	
 	
 	Player player1;
-	
+	Boolean bool;
 	Avatar avatar1;
 	
 	String room;
@@ -100,7 +100,7 @@ public class GameActionCreatorTest {
 		evtSedat = new EventSedatives(player1 , card1);
 		evtSubscribe = new EventSubscribe(player1 , room , map);
 		evtTeleport = new EventTeleport(player1 , card1);
-		evtAliensWinner = new EventAliensWinner(player1);
+		evtAliensWinner = new EventAliensWinner(player1, bool);
 				
 	}
 

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg_38.controller.action;
 
-
 import javax.xml.parsers.ParserConfigurationException;
 
 import it.polimi.ingsw.cg_38.controller.Communicator;
@@ -14,6 +13,7 @@ import it.polimi.ingsw.cg_38.notifyEvent.EventAddedToGame;
 
 public class Subscribe extends Action {
 
+	private static final long serialVersionUID = 1L;
 	private String topic;
 	private String typeMap;
 	

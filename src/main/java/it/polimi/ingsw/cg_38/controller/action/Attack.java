@@ -33,7 +33,6 @@ public class Attack extends GameAction {
     	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	ArrayList<Player> killed = model.getDesiredPlayers(this.getSectorToAttack());
     	Player p = null;
-    	ArrayList<NotifyEvent> defenseUseCard = new ArrayList<NotifyEvent>();
     	ArrayList<Player> hasDefense = new ArrayList<Player>();
     	
     	//tolgo il giocatore che ha attaccato che è nel target sector

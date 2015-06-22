@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.gameEvent.EventAdrenaline;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.notifyEvent.EventCardUsed;
+import it.polimi.ingsw.cg_38.notifyEvent.EventNotifyCardPerformed;
 import it.polimi.ingsw.cg_38.notifyEvent.EventRejectCard;
 
 /**
@@ -46,6 +47,7 @@ public class UseAdrenalineCard extends GameAction {
     		model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
     		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     		model.getActualTurn().setHasUsedObjectCard(true);
+    		callbackEvent.add(new EventNotifyCardPerformed(model.getActualTurn().getCurrentPlayer()));
     		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), true, card.getType()));	
     	}
     	/*callbackEvent.add(new EventUsedCard(model.getActualTurn().getCurrentPlayer(), ((ObjectCard)card).getType()));*/

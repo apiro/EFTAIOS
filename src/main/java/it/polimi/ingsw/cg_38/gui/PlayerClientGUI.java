@@ -445,6 +445,7 @@ public void process(Event msg) {
 						e1.printStackTrace();
 					}
 					player.getAvatar().getMyCards().remove(card);
+					updateCards();
 					((JButton)e.getSource()).setText("Use Card");
 	    			GameEvent evt = (GameEvent)instance;
 	    			synchronized(toSend) {

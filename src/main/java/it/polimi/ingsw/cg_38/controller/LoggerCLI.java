@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class LoggerCLI implements Logger {
 
+	private Scanner in = new Scanner(System.in);
+	
 	@Override
 	public void print(String message) {
 		System.out.println(message);
@@ -11,7 +13,6 @@ public class LoggerCLI implements Logger {
 
 	@Override
 	public String showAndRead(String toShow) {
-		Scanner in = new Scanner(System.in);
 		this.print(toShow);
 		return in.nextLine();
 	}

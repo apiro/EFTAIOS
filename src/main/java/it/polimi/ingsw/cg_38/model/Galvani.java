@@ -38,4 +38,8 @@ public class Galvani extends Map {
 		return configuration;
 	}
 
+	public String getName() {
+		return name;
+	}
+
 }
