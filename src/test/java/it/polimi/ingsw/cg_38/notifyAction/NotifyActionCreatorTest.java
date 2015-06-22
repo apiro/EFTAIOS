@@ -43,7 +43,7 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyError;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyHumanWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTeleport;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCard;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventUseDefense;
 import it.polimi.ingsw.cg_38.model.Avatar;
@@ -82,7 +82,7 @@ public class NotifyActionCreatorTest {
 	EventDraw draw;
 	EventUseDefense useDefense;
 	EventHatchBlocked hatchBlocked;
-	EventRejectCard rejectCard;
+	EventRejectCardAlien rejectCard;
 	EventNotifyCardPerformed notifyCardPerformed;
 	
 	Player player;
@@ -126,7 +126,7 @@ public class NotifyActionCreatorTest {
 		teleport = new EventNotifyTeleport(player , "moved");
 		humanWin = new EventNotifyHumanWin(player , true);
 		hatchBlocked = new EventHatchBlocked(player , hatch);
-		rejectCard = new EventRejectCard(player);
+		rejectCard = new EventRejectCardAlien(player);
 		notifyCardPerformed = new EventNotifyCardPerformed(player);
 		
 	}

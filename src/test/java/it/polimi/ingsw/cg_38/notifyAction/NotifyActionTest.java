@@ -32,7 +32,6 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventHumanWin;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseMySect;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseRandSect;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAddedToGame;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAttacked;
@@ -48,7 +47,7 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyError;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTeleport;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyWin;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCard;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventUseDefense;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventHatchBlocked;
@@ -118,7 +117,7 @@ public class NotifyActionTest {
 	EventSufferAttack sufferAttack;
 	EventMoved moved;
 	EventNotifyWin win;
-	EventRejectCard evtRejectCard;
+	EventRejectCardAlien evtRejectCard;
 	EventHatchBlocked evtHatchBlocked;
 	
 	EventDraw evtDraw;
@@ -191,7 +190,7 @@ public class NotifyActionTest {
 		moved = new EventMoved(player1 , "moved");
 		win = new EventNotifyWin(player1);
 		evtNotifyCardPerformed = new EventNotifyCardPerformed(player2);
-		evtRejectCard = new EventRejectCard(player1);
+		evtRejectCard = new EventRejectCardAlien(player1);
 		evtHatchBlocked = new EventHatchBlocked(player1 , sector3);
 		client = new PlayerClientCLI("RMI" , evtSubscribe);
 		client.setPlayer(player1);
