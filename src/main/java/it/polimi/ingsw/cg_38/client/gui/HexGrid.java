@@ -178,7 +178,6 @@ public class HexGrid extends JPanel {
 			bi = ImageIO.read(url);
 		} catch (IOException e) {
 			System.out.println("Impossible to read the resource !");
-			e.printStackTrace();
 		}
 		Polygon poly = HexagonHandler.hex(0,0);
         Shape myShape = TexturedShape.fromPolygonToShape(poly);

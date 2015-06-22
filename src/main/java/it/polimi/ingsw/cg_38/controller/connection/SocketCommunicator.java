@@ -49,7 +49,7 @@ public class SocketCommunicator implements Communicator {
 			logger.print("Sending ... : " + evt.toString());
 			this.getOutputStream().flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.print("Can't send the message ...");
 		}
 	}
 		
@@ -64,7 +64,6 @@ public class SocketCommunicator implements Communicator {
 	public SocketCommunicator(Socket socket) {
 
 		this.setSocket(socket);
-		/*System.out.println("Creating a new socket communicator !");*/
 	}
 	
 	public Event recieveEvent() {
@@ -72,9 +71,9 @@ public class SocketCommunicator implements Communicator {
 		try {
 			evt = (Event)this.getInputStream().readObject();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			logger.print("Event class not found ...");
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.print("Can't read the object ...");
 		}
 		return evt;
 	}
@@ -85,7 +84,7 @@ public class SocketCommunicator implements Communicator {
 			this.getInputStream().close();
 			this.getSocket().close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.print("Can't close the socket ...");
 		}
 		
 	}

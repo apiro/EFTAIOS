@@ -7,6 +7,8 @@ import it.polimi.ingsw.cg_38.controller.connection.SocketCommunicator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.logger.Logger;
+import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotYourTurn;
 
 import java.io.IOException;
@@ -30,6 +32,8 @@ public class PlayerController extends Thread  {
 	private ConcurrentLinkedQueue<Event> eventsToProcess;
 
 	private HashMap<String, GameController> topics;
+	
+	private Logger logger = new LoggerCLI();
 
 	public ConcurrentLinkedQueue<Event> getEventsToProcess() {
 		return eventsToProcess;
@@ -93,7 +97,7 @@ public class PlayerController extends Thread  {
 					return;
 				}
 			} catch (RemoteException e) {
-				e.printStackTrace();
+				logger.print("Problems in recieving the client message !");
 			}
 		}
 	}

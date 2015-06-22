@@ -24,14 +24,8 @@ public class RenderWin extends NotifyAction {
 		client.getLogger().print("YOU WIN !");
 		client.setIsInterfaceBlocked(true);
 		client.setPlayerClientState(PlayerClientState.winner);
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		client.paintHatch(true, evt.getGenerator().getAvatar().getCurrentSector());
 		client.closeClient();
 		return new EventFinishTurn(super.evt.getGenerator());
 	}
-
 }

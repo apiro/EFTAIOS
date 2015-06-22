@@ -48,12 +48,10 @@ public class ClientRMI extends Client implements Runnable {
 		try {
 			game = (RMIRegistrationInterface) registry.lookup("REGISTRATIONVIEW");
 		} catch (NotBoundException e) {
-			e.printStackTrace();
+			logger.print("Can't reach the remote object registration view ...");
 		}
 		
 		logger.print("RMI Connection Established !");
-		/*System.out.println(game.isLoginValid("albi"));
-		System.out.println(game.isLoginValid("test"));*/
 		
 
 		RMIRemoteObjectInterface clientView = new ClientView(toProcess);
@@ -70,14 +68,14 @@ public class ClientRMI extends Client implements Runnable {
 				try {
 					communicator.send(msg);
 				} catch (RemoteException e) {
-					e.printStackTrace();
+					logger.print("Can't send the message ...");
 				}
 			}
 		}
 		try {
 			communicator.closeCommunicator();
 		} catch (RemoteException e) {
-			e.printStackTrace();
+			logger.print("Can't close the communicator ... ");
 		}
 	}
 }

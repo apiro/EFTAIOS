@@ -58,7 +58,7 @@ public class Subscriber implements Runnable {
 					}
 				}
 			} catch (RemoteException e) {
-				e.printStackTrace();
+				logger.print("Problems in receiving the server message ...");
 			}
 		}
 	}

@@ -136,15 +136,13 @@ The hexagon is drawn in the colour specified in hexgame.COLOURELL.
 		try {
 			url = new URL("https://www.willowandshea.com/images/resized/media/uploads/products/IMG_0102_200x174.jpg");
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
         BufferedImage bi = null;
 		try {
 			bi = ImageIO.read(url);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
         Shape hxgn = TexturedShape.getPointedShape(6, 100);
         final BufferedImage txtr = TexturedShape.getTexturedImage(bi, hxgn);
