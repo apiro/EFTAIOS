@@ -24,5 +24,7 @@ public enum NotifyEventType {
 	rejectCard, 
 	cardPerformed, 
 	rejectCardHuman, 
-	closingGame
+	closingGame, 
+	chat, 
+	retired
 }

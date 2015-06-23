@@ -32,7 +32,7 @@ public class WaitingRoomController extends Observable implements Runnable {
 		logger.print("ACCEPTING: " + gc.getTopic() + " ...");
 		logger.print("---------------------------------------------------------------------\n");
 		try {
-			Thread.sleep(40000);
+			Thread.sleep(60000);
 		} catch (InterruptedException e1) {
 			logger.print("Problems during the rianimation of the room-handling-thread ...");
 		}

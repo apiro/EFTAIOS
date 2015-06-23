@@ -8,10 +8,12 @@ import it.polimi.ingsw.cg_38.client.notifyAction.NotifyActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventChat;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventRejectCard;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventRetired;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.controller.logger.Logger;
 import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
@@ -52,9 +54,11 @@ public class PlayerClientGUI implements PlayerClient {
    private ConcurrentLinkedQueue<Event> toSend;
    private ConcurrentLinkedQueue<Event> toProcess;
    private String connection;
+   private Logger loggerChat;
+   
    
    public Boolean getClientAlive() {
-	return clientAlive;
+	   return clientAlive;
    }
 
    public PlayerClientGUI(){
@@ -78,6 +82,7 @@ public class PlayerClientGUI implements PlayerClient {
       showGUI();
       this.handleActionListeners();
       logger = new LoggerGUI(uxHandler.getUx().getText1(), uxHandler.getUx());
+      loggerChat = new LoggerGUI(uxHandler.getUx().getText3(), uxHandler.getUx());
    }
 
    public void showGUI() {
@@ -221,27 +226,27 @@ public class PlayerClientGUI implements PlayerClient {
 	
 	    		@Override
 		  		public void actionPerformed(ActionEvent e) {
-		  			EventAttack evt = new EventAttack(player, player.getAvatar().getCurrentSector());
-		  			synchronized(toSend) {
-		  				toSend.add(evt);
-		  			}
+	    			synchronized(toSend) {
+						toSend.add(new EventFinishTurn(player));
+						toSend.add(new EventRetired(player));
+					}
 		  		}
 	      	  
 	        });
 	    	
+	    	uxHandler.getUx().getInput().addActionListener( new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					synchronized(toSend) {
+						toSend.add(new EventChat(player, ((JTextField)e.getSource()).getText()));
+					}
+					((JTextField)e.getSource()).setText("");
+				}
+
+	    	});
 	        
 	    	uxHandler.getUx().addButtonActionListener(1, new ActionListener() {
-	
-	    		@Override
-	    		public void actionPerformed(ActionEvent e) {
-	    			synchronized(toSend) {
-	    				toSend.add(new EventDraw(player));
-	    			}
-	    		}
-	        	  
-	          });
-	        
-	    	uxHandler.getUx().addButtonActionListener(2, new ActionListener() {
 	
 	    		@Override
 	    		public void actionPerformed(ActionEvent e) {
@@ -252,7 +257,7 @@ public class PlayerClientGUI implements PlayerClient {
 	    		}
 	        });
 	        
-	        for(int i = 3; i < 6; i++) {
+	        for(int i = 2; i < 5; i++) {
 	        	uxHandler.getUx().addButtonActionListener(i, new ActionListener() {
 		
 		    		@Override
@@ -453,5 +458,9 @@ public class PlayerClientGUI implements PlayerClient {
 
 	public Boolean getIsMyTurn() {
 		return isMyTurn;
+	}
+
+	public Logger getLoggerChat() {
+		return loggerChat;
 	}
 }

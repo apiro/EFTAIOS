@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAliensWinner;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventClosingGame;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyAliensWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
 import it.polimi.ingsw.cg_38.model.Alien;
@@ -38,6 +39,7 @@ public class AliensWin extends GameAction {
 		model.setGameState(GameState.CLOSING);
 		callbackEvent.add(new EventNotifyAliensWin(model.getActualTurn().getCurrentPlayer(), winners, areWinner));
 		callbackEvent.add(new EventNotifyClosingTopic(model.getActualTurn().getCurrentPlayer()));
+		callbackEvent.add(new EventClosingGame(model.getActualTurn().getCurrentPlayer(), model.areThereOtherHumans()));
 		return callbackEvent;
 	}
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_38.controller.action;
 import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventClosingGame;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyHumanWin;
 import it.polimi.ingsw.cg_38.model.EndState;
@@ -27,10 +28,10 @@ public class HumanWin extends GameAction {
 		callbackEvent.add(new EventNotifyHumanWin(model.getActualTurn().getCurrentPlayer()));
 		if(!model.areThereOtherHumans()) {
 			callbackEvent.add(new EventNotifyClosingTopic(model.getActualTurn().getCurrentPlayer()));
+			callbackEvent.add(new EventClosingGame(model.getActualTurn().getCurrentPlayer(), model.areThereOtherHumans()));
 			model.setGameState(GameState.CLOSING);
 		}
 		
 		return callbackEvent;
-		
 	}
 }

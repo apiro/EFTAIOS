@@ -18,6 +18,8 @@ public interface PlayerClient {
 	
 	public Logger getLogger();
 	
+	public Logger getLoggerChat();
+	
 	public Player getPlayer();
 	
 	public void setPlayer(Player player);

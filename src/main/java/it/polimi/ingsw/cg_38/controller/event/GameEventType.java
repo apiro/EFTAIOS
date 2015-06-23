@@ -20,5 +20,7 @@ public enum GameEventType {
 	humanWin, 
 	blockHatch, 
 	Defense, 
-	rejectCard
+	rejectCard, 
+	chat, 
+	retired
 }

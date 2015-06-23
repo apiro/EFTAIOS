@@ -46,7 +46,6 @@ public class Attack extends GameAction {
     		} else {
     			//qui setto il giocatore ucciso a dead e looser
     			pl.getAvatar().attacked();
-    			model.getGamePlayers().remove(pl);
     			if(this.currentAvatarType(model).equals("Alien")) {
        				model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
        			}

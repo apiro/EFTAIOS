@@ -4,11 +4,11 @@ import it.polimi.ingsw.cg_38.client.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 
-public class RenderHumanWin extends NotifyAction {
+public class RenderRetired extends NotifyAction {
 
 	private static final long serialVersionUID = 1L;
 
-	public RenderHumanWin(NotifyEvent evt) {
+	public RenderRetired(NotifyEvent evt) {
 		super(evt.getGenerator(), evt);
 	}
 
@@ -19,12 +19,8 @@ public class RenderHumanWin extends NotifyAction {
 
 	@Override
 	public GameEvent render(PlayerClient client) {
-		client.getLogger().print("PLAYER " + super.player.getName() + " HAS LEFT THE SPACESHIP ! ");
-		if(client.getPlayer().getName().equals(super.player.getName())) {
-			client.setIsInterfaceBlocked(true);
-		} else {
-			client.setIsInterfaceBlocked(false);
-		}
+		client.getLogger().print("Player: " + super.getPlayer().getName() + " left the Room...");
 		return null;
 	}
+
 }

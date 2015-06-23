@@ -9,10 +9,12 @@ import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAdrenaline;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttackCard;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventChat;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventMove;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventRejectCard;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventRetired;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSedatives;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
@@ -46,6 +48,7 @@ public class PlayerClientCLI implements PlayerClient {
 	private Map map;
 	private Thread gameEventSender;
 	private Logger logger = new LoggerCLI();
+	private Logger loggerChat = new LoggerCLI();
 	private Boolean clientAlive = true;
 	
 	public PlayerClientCLI(String connection , EventSubscribe evt){
@@ -164,8 +167,10 @@ public class PlayerClientCLI implements PlayerClient {
 		logger.print("----------------------------------------------------------------------");
 		logger.print("Inserisci il tipo di azione da compiere: \n");
 		logger.print("\t 1) MOVE - M\n");
-		logger.print("\t 2) USE CARD - U\n");
-		logger.print("\t 3) FINISH TURN - F\n");
+		logger.print("\t 2) SEND CHAT MESSAGE - C\n");
+		logger.print("\t 3) USE CARD - U\n");
+		logger.print("\t 4) FINISH TURN - F\n");
+		logger.print("\t 5) CLOSE CLIENT - CC\n");
 		logger.print("----------------------------------------------------------------------");
 		String command = in.nextLine();
 		
@@ -174,6 +179,17 @@ public class PlayerClientCLI implements PlayerClient {
 				Sector toMove = this.askForMoveCoordinates();
 				synchronized(this.toSend) {
 					this.toSend.add(new EventMove(player, toMove));
+				}
+				
+			} else if (command.equals("CC")) {
+				synchronized(this.toSend) {
+					this.toSend.add(new EventFinishTurn(player));
+					this.toSend.add(new EventRetired(player));
+				}
+			} else if (command.equals("C")) {
+				String chat = logger.showAndRead("Type the message ...");
+				synchronized(this.toSend) {
+					this.toSend.add(new EventChat(player, chat));
 				}
 				
 			} else if (command.equals("U")) {
@@ -341,4 +357,8 @@ public class PlayerClientCLI implements PlayerClient {
 
 	@Override
 	public void updateMovements() {}
+
+	public Logger getLoggerChat() {
+		return loggerChat;
+	}
 }

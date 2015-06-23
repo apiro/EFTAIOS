@@ -60,6 +60,10 @@ public class GameActionCreator {
     		action = new Defense((GameEvent)evt);
     	} else if (type.equals(GameEventType.rejectCard)) {
     		action = new Reject((GameEvent)evt);
+    	} else if (type.equals(GameEventType.chat)) {
+    		action = new Chat((GameEvent)evt);
+    	} else if (type.equals(GameEventType.retired)) {
+    		action = new Retire((GameEvent)evt);
     	}
 		return action;
     }

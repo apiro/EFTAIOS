@@ -53,6 +53,10 @@ public class NotifyActionCreator {
 			action = new RenderRejectHumanCard((NotifyEvent)evt);
 		if(type.equals(NotifyEventType.closingGame))
 			action = new RenderClosingGame((NotifyEvent)evt);
+		if(type.equals(NotifyEventType.chat))
+			action = new RenderChatMessage((NotifyEvent)evt);
+		if(type.equals(NotifyEventType.retired))
+			action = new RenderRetired((NotifyEvent)evt);
     	return action;
 	}
 	

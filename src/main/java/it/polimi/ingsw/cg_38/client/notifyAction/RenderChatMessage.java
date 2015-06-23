@@ -3,13 +3,16 @@ package it.polimi.ingsw.cg_38.client.notifyAction;
 import it.polimi.ingsw.cg_38.client.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyChatMessage;
 
-public class RenderHumanWin extends NotifyAction {
+public class RenderChatMessage extends NotifyAction {
 
 	private static final long serialVersionUID = 1L;
+	private String message;
 
-	public RenderHumanWin(NotifyEvent evt) {
+	public RenderChatMessage(NotifyEvent evt) {
 		super(evt.getGenerator(), evt);
+		this.message = ((EventNotifyChatMessage)evt).getMessage();
 	}
 
 	@Override
@@ -19,12 +22,7 @@ public class RenderHumanWin extends NotifyAction {
 
 	@Override
 	public GameEvent render(PlayerClient client) {
-		client.getLogger().print("PLAYER " + super.player.getName() + " HAS LEFT THE SPACESHIP ! ");
-		if(client.getPlayer().getName().equals(super.player.getName())) {
-			client.setIsInterfaceBlocked(true);
-		} else {
-			client.setIsInterfaceBlocked(false);
-		}
+		client.getLoggerChat().print(super.getPlayer().getName() + " says: " + message );
 		return null;
 	}
 }

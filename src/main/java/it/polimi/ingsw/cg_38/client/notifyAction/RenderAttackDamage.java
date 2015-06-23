@@ -46,6 +46,5 @@ public class RenderAttackDamage extends NotifyAction {
 		client.setIsInterfaceBlocked(true);
 		client.setClientAlive(false);
 		client.setPlayerClientState(PlayerClientState.looser);
-		client.closeClient();
 	}
 }

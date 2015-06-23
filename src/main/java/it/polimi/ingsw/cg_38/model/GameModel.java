@@ -141,7 +141,9 @@ public class GameModel {
     public Player getNextPlayer() {
     	
         	for(int i = 0; i < this.getGamePlayers().size(); i++){
-    	    	 if(this.getGamePlayers().get(i).equals(this.getActualTurn().getCurrentPlayer())) {
+    	    	 if(this.getGamePlayers().get(i).equals(this.getActualTurn().getCurrentPlayer()) && 
+    	    			 this.getGamePlayers().get(i).getAvatar().getIsAlive().equals(LifeState.ALIVE) &&
+    	    			 this.getGamePlayers().get(i).getAvatar().getIsWinner().equals(EndState.PLAYING)) {
     	    		  if(i+1<=this.getGamePlayers().size()-1) {
     	    			  return this.getGamePlayers().get(i+1);
     	    		  } else return this.getGamePlayers().get(0);

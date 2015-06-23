@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg_38.controller.action;
 
 import java.util.ArrayList;
 
+import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventClosingGame;
@@ -38,6 +39,7 @@ public class FinishTurn extends GameAction {
 			model.getActualTurn().getCurrentPlayer().finishTurn();
 			if(model.getActualTurn().getCurrentPlayer().getNumTurniGiocati() == 39 &&
 					model.getNextPlayer().getNumTurniGiocati()+1 == 40) {
+				model.setGameState(GameState.CLOSING);
 				callbackEvent.add(new EventNotifyClosingTopic(model.getActualTurn().getCurrentPlayer()));
 				callbackEvent.add(new EventClosingGame(model.getActualTurn().getCurrentPlayer(), model.areThereOtherHumans()));
 				return callbackEvent;

@@ -51,6 +51,10 @@ public class UX extends JFrame {
 	private JPanel panelChat;
 	private JTextField input;
 
+	public JTextField getInput() {
+		return input;
+	}
+
 	public UX (Logger logger) {
 		this.logger = logger;
 	}
@@ -63,10 +67,14 @@ public class UX extends JFrame {
 		return text1;
 	}
 
+	public JTextArea getText3() {
+		return text3;
+	}
+	
     public Player prepareGUI(){
 		 
 	    this.setTitle("Game");
-	    this.setSize(1250, 680);
+	    this.setSize(1285, 700);
 	    this.setResizable(false);
 	      
 	    this.addWindowListener(new WindowAdapter() {
@@ -148,7 +156,7 @@ public class UX extends JFrame {
 	}
 	
 	public void updateCards(Player player, ConcurrentLinkedQueue<Event> toSend, Map map) {
-		   int i = 3;
+		   int i = 2;
 		   if(player.getAvatar().getMyCards().size() == 4) {
 			   int cardSelected = Integer.parseInt(JOptionPane.showInputDialog(
 			           this,
@@ -222,9 +230,8 @@ public class UX extends JFrame {
 	      panelSx = new JPanel();
 	      
 	      panelSx.setBackground(Color.DARK_GRAY);
-	      panelSx.setLayout(new GridLayout(6,1));     
-	      buttons.add(new JButton("Attack"));
-	      buttons.add(new JButton("Draw"));
+	      panelSx.setLayout(new GridLayout(5,1));     
+	      buttons.add(new JButton("Close\nClient"));
 	      buttons.add(new JButton("FinishTurn"));
 	      buttons.add(new JButton("Use card"));
 	      buttons.add(new JButton("Use card"));
@@ -313,7 +320,7 @@ public class UX extends JFrame {
 	}
 	   
 	public void addButtonActionListener(int index, ActionListener listener) {
-		for (int i = 0; i < 6 ; i++ ){
+		for (int i = 0; i < 5 ; i++ ){
 			if(i == index) buttons.get(i).addActionListener(listener);
 		}
 	}
