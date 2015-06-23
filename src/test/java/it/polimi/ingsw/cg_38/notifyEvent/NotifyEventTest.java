@@ -27,6 +27,8 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyHumanWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyPlayerState;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTopics;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardHuman;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventUseDefense;
 import it.polimi.ingsw.cg_38.model.Alien;
@@ -67,6 +69,8 @@ public class NotifyEventTest {
 	EventHatchBlocked hatchBlocked;
 	EventNotifyHumanWin humanWin;
 	Action action;
+	EventRejectCardAlien rejectCardAlien;
+	EventRejectCardHuman rejectCardHuman;
 	/*EventShowTopics showTopics;*/
 	
 	Player player1;
@@ -151,6 +155,8 @@ public class NotifyEventTest {
 		notifyTopics = new EventNotifyTopics(player1 , false , topics);
 		hatchBlocked = new EventHatchBlocked(player1 , sector2);
 		humanWin = new EventNotifyHumanWin(player1 , true);
+		rejectCardAlien = new EventRejectCardAlien(player1);
+		rejectCardHuman = new EventRejectCardHuman(player1 , card2);
 		
 	}
 	
@@ -208,6 +214,10 @@ public class NotifyEventTest {
 		assertEquals(hatchBlocked.getHatch() , sector2);
 		
 		assertEquals(humanWin.getAreThereOtherHumans() , true);
+		
+		assertEquals(rejectCardAlien.getGenerator() , player1);
+		
+		assertEquals(rejectCardHuman.getCard() , card2);
 		/*assertEquals(showTopics.getTopics() , topics);*/		
 	}
 

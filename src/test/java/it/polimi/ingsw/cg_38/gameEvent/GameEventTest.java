@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventAdrenaline;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttackCard;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventDefense;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventHumanWin;
@@ -14,6 +15,7 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventMove;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventNewGame;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseMySect;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseRandSect;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventRejectCard;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventRequestTopic;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSedatives;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight;
@@ -51,6 +53,8 @@ public class GameEventTest {
 	EventRequestTopic requestTopic;
 	EventContinue continue1;
 	EventHumanWin humanWin;
+	EventDefense defense;
+	EventRejectCard rejectCard;
 	
 	Player player1;
 	
@@ -101,6 +105,8 @@ public class GameEventTest {
 		requestTopic = new EventRequestTopic(player1 , true);
 		continue1 = new EventContinue();
 		humanWin = new EventHumanWin(player1);
+		defense = new EventDefense(player1);
+		rejectCard = new EventRejectCard(player1 , (ObjectCard)card1);
 		
 				
 	}
@@ -136,6 +142,10 @@ public class GameEventTest {
 		assertEquals(attack.toString() , "GameEvent [type=" + GameEventType.Attack + "]");
 		
 		assertEquals(humanWin.getType() , GameEventType.humanWin);
+		
+		assertEquals(defense.getGenerator() , player1);
+		
+		assertEquals(rejectCard.getCard() , card1);
 	}
 	
 }

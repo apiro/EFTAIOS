@@ -132,8 +132,9 @@ public class GameModelTest {
 		sector2.setCol(7);
 		sector3.setCol(7);
 		assertEquals(sector2.equals(sector3) , false);
-		sector2.setName("Hatch");
+		sector2.setName(null);
 		assertEquals(sector2.equals(sector3) , false);
+		sector2.setName("Hatch");
 		sector3.setName("Hatch");
 		sector2.setNeighboringSectors(null);
 		sector3.setNeighboringSectors(neighboringSectors);
