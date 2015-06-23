@@ -14,11 +14,13 @@ import it.polimi.ingsw.cg_38.controller.connection.SocketCommunicator;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventDefense;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventHatchBlocked;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventHumanWin;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventMove;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventRejectCard;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAddedToGame;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAttacked;
@@ -27,6 +29,8 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTopics;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyHumanWin;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardHuman;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
 import it.polimi.ingsw.cg_38.model.Alien;
@@ -82,6 +86,9 @@ public class GameActionTest {
 	HatchBlocked hatchBlocked;
 	Winner winner;
 	Looser looser;
+	Defense defense;
+	Reject reject;
+	
 
 	EventDraw evtDraw1;
 	EventDraw evtDraw2;
@@ -106,6 +113,8 @@ public class GameActionTest {
 	EventSubscribe evtSubscribe;
 	EventSubscribe evtSubscribe2;
 	EventHatchBlocked evtHatch;
+	EventDefense evtDefense;
+	EventRejectCard evtRejectCard;
 	
 	ArrayList<NotifyEvent> evtAttacked1;
 	ArrayList<NotifyEvent> evtAttacked2;
@@ -179,6 +188,8 @@ public class GameActionTest {
 	SectorCard drown1;
 	
 	ObjectCard drown2;
+	ObjectCard card;
+	ObjectCard card2;
 	
 
 	@Before
@@ -247,6 +258,9 @@ public class GameActionTest {
 		hatchCard1 = new HatchCard(HatchCardType.Green);
 		hatchCard2 = new HatchCard(HatchCardType.Red);
 		
+		card = new ObjectCard(ObjectCardType.Defense);
+		card2 = new ObjectCard(ObjectCardType.Adrenaline);
+		
 		evtDraw1 = new EventDraw(player1);
 		evtDraw2 = new EventDraw(player1);
 		evtDraw3 = new EventDraw(player4);
@@ -270,6 +284,8 @@ public class GameActionTest {
 		evtHuman = new EventHumanWin(player7);
 		evtHuman2 = new EventHumanWin(player4);
 		evtHatch = new EventHatchBlocked(player7);
+		evtDefense = new EventDefense(player7);
+		evtRejectCard = new EventRejectCard(player7 , card2);
 		
 		draw1 = new Draw(evtDraw1);
 		draw2 = new Draw(evtDraw2);
@@ -294,6 +310,7 @@ public class GameActionTest {
 		humanWin = new HumanWin(evtHuman);
 		humanWin2 = new HumanWin(evtHuman2);
 		hatchBlocked = new HatchBlocked(evtHatch);
+		reject = new Reject(evtRejectCard);
 		
 		evtNotifyTopics = new EventNotifyTopics(player1 , true , topics);
 		
@@ -475,8 +492,27 @@ public class GameActionTest {
 			
 			model1.setActualTurn(turn7);
 			
+			model1.getActualTurn().getCurrentPlayer().getAvatar().addCard(card);
+			defense = new Defense(evtDefense);
+			evtDrown2 = defense.perform(model1);
+			assertTrue(!model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(card));
+			assertEquals(evtDrown2 , null);
+			assertTrue(!reject.isPossible(model1));
+			model1.getActualTurn().getCurrentPlayer().getAvatar().addCard(card2);
+			model1.setGameState(GameState.CLOSING);
+			assertTrue(!reject.isPossible(model1));
+			model1.setGameState(GameState.RUNNING);
+			assertTrue(reject.isPossible(model1));
+			assertEquals(reject.getCard() , card2);
+			assertTrue(reject.perform(model1).get(0)instanceof EventRejectCardHuman);
+			assertTrue(!model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(card2));
+			model1.getGamePlayers().get(3).getAvatar().setIsWinner(EndState.LOOSER);
+			model1.getGamePlayers().get(2).getAvatar().setIsWinner(EndState.WINNER);
+			model1.getGamePlayers().get(0).getAvatar().setIsWinner(EndState.LOOSER);
+			model1.getGamePlayers().get(1).getAvatar().setIsWinner(EndState.WINNER);
 			evtDrown1 = humanWin.perform(model1);
-			assertEquals(((EventNotifyHumanWin)evtDrown1.get(0)).getAreThereOtherHumans() , true);
+			assertEquals(((EventNotifyHumanWin)evtDrown1.get(0)).getAreThereOtherHumans() , false);
+			assertTrue(evtDrown1.get(1) instanceof EventNotifyClosingTopic);
 			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsWinner() , EndState.WINNER);
 			evtNotify = hatchBlocked.perform(model1).get(0);
 			model1.getActualTurn().getCurrentPlayer().getAvatar().setCurrentSector(sector7);

@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventAdrenaline;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttackCard;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventDefense;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventHatchBlocked;
@@ -12,15 +13,19 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventHumanWin;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventMove;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseMySect;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseRandSect;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventRejectCard;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSedatives;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventTeleport;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
 import it.polimi.ingsw.cg_38.model.Avatar;
 import it.polimi.ingsw.cg_38.model.Human;
 import it.polimi.ingsw.cg_38.model.Name;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.deck.Card;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
 import it.polimi.ingsw.cg_38.model.map.Sector;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -45,6 +50,8 @@ public class GameActionCreatorTest {
 	EventAliensWinner evtAliensWinner;
 	EventHumanWin humanWin;
 	EventHatchBlocked hatchBlocked;
+	EventDefense evtDefense;
+	EventRejectCard evtRejectCard;
 	
 	Attack attack1;
 	AliensWin aliensWin;
@@ -88,6 +95,8 @@ public class GameActionCreatorTest {
 		room = "room2";
 		map = "Galvani";
 		
+		card1 = new ObjectCard(ObjectCardType.Adrenaline);
+		
 		avatar1 = new Human(Name.Human1 , sector1);
 		
 		player1 = new Player("scimmiu");
@@ -108,7 +117,8 @@ public class GameActionCreatorTest {
 		evtAliensWinner = new EventAliensWinner(player1, bool);
 		humanWin = new EventHumanWin(player1);
 		hatchBlocked = new EventHatchBlocked(player1);
-				
+		evtDefense = new EventDefense(player1);
+		evtRejectCard = new EventRejectCard(player1 , (ObjectCard)card1);
 	}
 
 	@Test

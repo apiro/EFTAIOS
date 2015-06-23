@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.model.deck.HatchCardType;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
 import it.polimi.ingsw.cg_38.model.deck.SectorCard;
+import it.polimi.ingsw.cg_38.model.map.Hatch;
 import it.polimi.ingsw.cg_38.model.map.Sector;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,6 +22,7 @@ public class AlienTest {
 	Sector alienStartingPoint;
 	Sector sector;
 	Sector sector2;
+	Sector sector4;
 	Player player;
 	Player player2;
 	Turn actualTurn;
@@ -35,6 +37,7 @@ public class AlienTest {
 		model = new GameModel("Galilei");
 		model2 = new GameModel("Galilei");
 		sector = model2.getGameMap().searchSectorByCoordinates(2, 1);
+		sector4 = new Hatch();
     	alienStartingPoint = model.getGameMap().searchSectorByName("AlienStartingPoint");
     	//asp 5,11
     	model.getGamePlayers().add(new Player("Alberto"));
@@ -151,6 +154,19 @@ public class AlienTest {
 		assertEquals(player2.getAvatar().canMove(alienStartingPoint) , false);
 		player2.getAvatar().setIsPowered(true);
 		assertEquals(player2.getAvatar().canMove(sector) , false);
+		sector3.getNeighboringSectors().add(sector4);
+		player2.getAvatar().setCurrentSector(sector3);
+		assertTrue(!player2.getAvatar().canMove(sector4));
+		sector3.getNeighboringSectors().remove(sector4);
+		sector2.getNeighboringSectors().add(sector4);
+		sector3.getNeighboringSectors().add(sector2);
+		assertTrue(!player2.getAvatar().canMove(sector4));
+		player2.getAvatar().setIsPowered(true);
+		sector2.getNeighboringSectors().remove(sector4);
+		sector.getNeighboringSectors().add(sector4);
+		sector2.getNeighboringSectors().add(sector);
+		assertTrue(!player2.getAvatar().canMove(sector4));
+		
 		
 		
 	}

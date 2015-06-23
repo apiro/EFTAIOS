@@ -38,7 +38,7 @@ public class Alien extends Avatar implements Serializable {
     	if(this.getCurrentSector().getNeighboringSectors().contains(sector)) {
 
         	if(sector.getName().equals("Hatch")) {
-        		return ((Hatch)sector).getIsOpen();
+        		return false;
         	}
     		return true;
     	}
@@ -47,7 +47,7 @@ public class Alien extends Avatar implements Serializable {
         		if(sec2.equals(sector) && !(sec2.equals(this.getCurrentSector()))) {
 
         	    	if(sector.getName().equals("Hatch")) {
-        	    		return ((Hatch)sector).getIsOpen();
+        	    		return false;
         	    	}
         			return true;
         		}
@@ -60,7 +60,7 @@ public class Alien extends Avatar implements Serializable {
     	        		if(sec3.equals(sector) && !(sec3.equals(this.getCurrentSector()))) {
 
     	        	    	if(sector.getName().equals("Hatch")) {
-    	        	    		return ((Hatch)sector).getIsOpen();
+    	        	    		return false;
     	        	    	}
     	        			return true;
     	        		}

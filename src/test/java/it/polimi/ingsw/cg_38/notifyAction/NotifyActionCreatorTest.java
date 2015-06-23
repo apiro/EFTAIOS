@@ -22,6 +22,7 @@ import it.polimi.ingsw.cg_38.client.notifyAction.RenderNoSideEffectCard;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderNoise;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderNotifyTurn;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderRejectCard;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderRejectHumanCard;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderSpotlight;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderTeleport;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderUseDefenseCard;
@@ -44,6 +45,7 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyHumanWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTeleport;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardHuman;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventUseDefense;
 import it.polimi.ingsw.cg_38.model.Avatar;
@@ -51,6 +53,7 @@ import it.polimi.ingsw.cg_38.model.Human;
 import it.polimi.ingsw.cg_38.model.Name;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.deck.Card;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
 import it.polimi.ingsw.cg_38.model.deck.SectorCard;
 import it.polimi.ingsw.cg_38.model.deck.SectorCardType;
@@ -84,6 +87,7 @@ public class NotifyActionCreatorTest {
 	EventHatchBlocked hatchBlocked;
 	EventRejectCardAlien rejectCard;
 	EventNotifyCardPerformed notifyCardPerformed;
+	EventRejectCardHuman rejectCardHuman;
 	
 	Player player;
 	Avatar avatar;
@@ -94,6 +98,7 @@ public class NotifyActionCreatorTest {
 	Card card;
 	Map map;
 	Action action;
+	ObjectCard card1;
 	
 	@Before
 	public void init() throws ParserConfigurationException, Exception{
@@ -109,6 +114,7 @@ public class NotifyActionCreatorTest {
 		killed = new ArrayList<Player>();
 		killed.add(player);
 		hatch = new Hatch();
+		card1 = new ObjectCard(ObjectCardType.Adrenaline);
 		
 		added = new EventAddedToGame(player , true , true);
 		attacked = new EventAttacked(player , true);
@@ -128,6 +134,7 @@ public class NotifyActionCreatorTest {
 		hatchBlocked = new EventHatchBlocked(player , hatch);
 		rejectCard = new EventRejectCardAlien(player);
 		notifyCardPerformed = new EventNotifyCardPerformed(player);
+		rejectCardHuman = new EventRejectCardHuman(player , card1);
 		
 	}
 
@@ -152,6 +159,7 @@ public class NotifyActionCreatorTest {
 	assertTrue(NotifyActionCreator.createNotifyAction(hatchBlocked) instanceof RenderHatchBlocked);
 	assertTrue(NotifyActionCreator.createNotifyAction(rejectCard) instanceof RenderRejectCard);
 	assertTrue(NotifyActionCreator.createNotifyAction(notifyCardPerformed) instanceof RenderCardPerformed);
+	assertTrue(NotifyActionCreator.createNotifyAction(rejectCardHuman) instanceof RenderRejectHumanCard);
 	
 	}
 

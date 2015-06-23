@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import it.polimi.ingsw.cg_38.model.deck.Card;
 import it.polimi.ingsw.cg_38.model.deck.SectorCard;
 import it.polimi.ingsw.cg_38.model.deck.SectorCardType;
 import it.polimi.ingsw.cg_38.model.deck.SectorDeck;
@@ -56,6 +55,8 @@ public class SectorDeckTest {
 		assertEquals(deck.draw() , card1);
 		deck.eliminateCard(card2);/*
 		assertEquals(deck.getRejectedSectorDeck().size() , 3);
+		deck.draw();
+		assertEquals(deck.draw() , card1);
 	*/
 	}
 }

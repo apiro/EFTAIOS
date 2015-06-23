@@ -17,11 +17,13 @@ import it.polimi.ingsw.cg_38.client.notifyAction.RenderDrown;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderEnvironment;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderError;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderHatchBlocked;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderHumanWin;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderMoved;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderNoSideEffectCard;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderNoise;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderNotifyTurn;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderRejectCard;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderRejectHumanCard;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderSpotlight;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderTeleport;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderUseDefenseCard;
@@ -44,10 +46,12 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyAliensWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyCardPerformed;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyEnvironment;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyError;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyHumanWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTeleport;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardHuman;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventUseDefense;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventHatchBlocked;
@@ -94,6 +98,8 @@ public class NotifyActionTest {
 	RenderCardPerformed renderCardPerformed;
 	RenderRejectCard renderRejectCard;
 	RenderHatchBlocked renderHatchBlocked;
+	RenderHumanWin renderHumanWin;
+	RenderRejectHumanCard renderRejectHuman; 
 	
 	EventNotifyAliensWin evtNotifyAliensWin;
 	EventNotifyCardPerformed evtNotifyCardPerformed;
@@ -119,6 +125,8 @@ public class NotifyActionTest {
 	EventNotifyWin win;
 	EventRejectCardAlien evtRejectCard;
 	EventHatchBlocked evtHatchBlocked;
+	EventNotifyHumanWin evtHumanWin;
+	EventRejectCardHuman evtRejectCardHuman;
 	
 	EventDraw evtDraw;
 	Draw draw;
@@ -138,6 +146,7 @@ public class NotifyActionTest {
 	HatchCard card2;
 	ObjectCard card3;
 	Card card4;
+	ObjectCard card5;
 	
 	ArrayList<Player> winners;
 	ArrayList<Player> declared;
@@ -159,9 +168,11 @@ public class NotifyActionTest {
 		sector3 = new Hatch();
 		card = new SectorCard(SectorCardType.MySectorNoise , false);
 		card2 = new HatchCard(HatchCardType.Green);
+		card5 = new ObjectCard(ObjectCardType.Sedatives);
 		avatar1 = new Alien(Name.Alien1 , sector);
 		avatar2 = new Human(Name.Human1 , sector);
 		player1.setAvatar(avatar1);
+		player2.setAvatar(avatar2);
 		winners.add(player1);
 		winners.add(player2);
 		killed.add(player1);
@@ -192,6 +203,9 @@ public class NotifyActionTest {
 		evtNotifyCardPerformed = new EventNotifyCardPerformed(player2);
 		evtRejectCard = new EventRejectCardAlien(player1);
 		evtHatchBlocked = new EventHatchBlocked(player1 , sector3);
+		evtHumanWin = new EventNotifyHumanWin(player1 , true);
+		evtRejectCardHuman = new EventRejectCardHuman(player1 , card5);
+		
 		client = new PlayerClientCLI("RMI" , evtSubscribe);
 		client.setPlayer(player1);
 		client2 = new PlayerClientCLI("Socket" , evtSubscribe);
@@ -217,6 +231,9 @@ public class NotifyActionTest {
 		renderCardPerformed = new RenderCardPerformed(evtNotifyCardPerformed);
 		renderRejectCard = new RenderRejectCard(evtRejectCard);
 		renderHatchBlocked = new RenderHatchBlocked(evtHatchBlocked);
+		renderHumanWin = new RenderHumanWin(evtHumanWin);
+		renderRejectHuman = new RenderRejectHumanCard(evtRejectCardHuman);
+		
 	}
 
 	@Test
@@ -243,8 +260,10 @@ public class NotifyActionTest {
 		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
 		client.getPlayer().getAvatar().setIsWinner(EndState.LOOSER);
 		assertTrue(!renderMoved.isPossible(client));
+		assertTrue(!renderRejectHuman.isPossible(client));
 		client.getPlayer().getAvatar().setIsAlive(LifeState.ALIVE);
 		client.getPlayer().getAvatar().setIsWinner(EndState.PLAYING);
+		assertTrue(renderRejectHuman.isPossible(client));
 		assertTrue(renderMoved.isPossible(client));
 		assertEquals(renderMoved.render(client) , null);
 		assertTrue(renderAttackDamage.isPossible(client));
@@ -332,10 +351,12 @@ public class NotifyActionTest {
 		assertEquals(renderDrown.isPossible(client) , false);
 		client.setPlayerClientState(PlayerClientState.isTurn);
 		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
-		client.getPlayer().getAvatar().setIsWinner(EndState.LOOSER);		
+		client.getPlayer().getAvatar().setIsWinner(EndState.LOOSER);	
+		assertTrue(!renderHumanWin.isPossible(client));
 		assertEquals(renderDrown.isPossible(client) , false);
 		client.getPlayer().getAvatar().setIsAlive(LifeState.ALIVE);
 		client.getPlayer().getAvatar().setIsWinner(EndState.WINNER);	
+		assertTrue(renderHumanWin.isPossible(client));
 		assertEquals(renderDrown.isPossible(client) , true);		
 		assertEquals(renderDrown.render(client).getGenerator() , evtNoiseMySect.getGenerator());
 		card = new SectorCard(SectorCardType.Silence , false);
@@ -369,7 +390,15 @@ public class NotifyActionTest {
 		sufferAttack = new EventSufferAttack(player1 , killed2);
 		renderAttackDamage = new RenderAttackDamage(sufferAttack);
 		assertTrue(client.getIsInterfaceBlocked());
-	
+		evtDrown = new EventDrown(player1 , null , null);
+		renderDrown = new RenderDrown(evtDrown);
+		assertEquals(renderDrown.render(client) , null);
+		player2.getAvatar().getMyCards().add(card3);
+		assertTrue(renderCardPerformed.render(client2) instanceof EventContinue);
+		assertTrue(renderRejectCard.render(client) instanceof EventContinue);
+		assertEquals(renderRejectHuman.render(client) , null);
+		assertEquals(renderRejectHuman.render(client2) , null);
+				
 	}
 
 }
