@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg_38.client.gui;
 
-
 import it.polimi.ingsw.cg_38.client.Client;
 import it.polimi.ingsw.cg_38.client.PlayerClient;
 import it.polimi.ingsw.cg_38.client.PlayerClientState;

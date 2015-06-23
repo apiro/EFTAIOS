@@ -53,7 +53,6 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 			}
 		} else {
 			this.processEvent(evt);
-			
 		}
 	}
 	@Override

@@ -1,9 +1,8 @@
-package it.polimi.ingsw.cg_38.controller;
+package it.polimi.ingsw.cg_38.controller.connection;
+import it.polimi.ingsw.cg_38.controller.GameController;
 import it.polimi.ingsw.cg_38.controller.action.Action;
 import it.polimi.ingsw.cg_38.controller.action.GameAction;
 import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
-import it.polimi.ingsw.cg_38.controller.connection.Communicator;
-import it.polimi.ingsw.cg_38.controller.connection.SocketCommunicator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;

@@ -29,7 +29,6 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import javax.swing.JOptionPane;
 
 public class PlayerClientCLI implements PlayerClient {
 

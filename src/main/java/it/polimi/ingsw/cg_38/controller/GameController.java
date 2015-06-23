@@ -140,7 +140,7 @@ public class GameController implements Observer {
 	   	for(int i =0; i<this.getGameModel().getGamePlayers().size(); i++) {
 	   		int floor = this.getGameModel().getGamePlayers().size()/2;
 	   		if(i<floor) {
-	   			this.getGameModel().getGamePlayers().get(i).setAvatar(new Human(Name.valueOf("Human"+(i+1)), this.getGameModel().getGameMap().searchSectorByName("HumanStartingPoint")));
+	   			this.getGameModel().getGamePlayers().get(i).setAvatar(new Human(Name.valueOf("Human"+(i+1)), this.getGameModel().getGameMap().searchSectorByCoordinates(1, 1)/*searchSectorByName("HumanStartingPoint")*/));
 	    	} else {
 	    		this.getGameModel().getGamePlayers().get(i).setAvatar(new Alien(Name.valueOf("Alien"+(i-floor+1)), this.getGameModel().getGameMap().searchSectorByName("AlienStartingPoint")));
 	    	}
