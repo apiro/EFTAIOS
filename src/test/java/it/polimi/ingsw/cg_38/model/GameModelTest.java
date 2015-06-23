@@ -1,7 +1,17 @@
 package it.polimi.ingsw.cg_38.model;
 
 import static org.junit.Assert.*;
+import it.polimi.ingsw.cg_38.model.deck.Deck;
 import it.polimi.ingsw.cg_38.model.deck.DeckCreator;
+import it.polimi.ingsw.cg_38.model.deck.HatchCard;
+import it.polimi.ingsw.cg_38.model.deck.HatchCardType;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
+import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
+import it.polimi.ingsw.cg_38.model.deck.SectorCard;
+import it.polimi.ingsw.cg_38.model.deck.SectorCardType;
+import it.polimi.ingsw.cg_38.model.deck.SectorDeck;
+import it.polimi.ingsw.cg_38.model.deck.HatchDeck;
+import it.polimi.ingsw.cg_38.model.deck.ObjectDeck;
 import it.polimi.ingsw.cg_38.model.map.Dangerous;
 import it.polimi.ingsw.cg_38.model.map.Hatch;
 import it.polimi.ingsw.cg_38.model.map.Sector;
@@ -30,6 +40,9 @@ public class GameModelTest {
 	Avatar avatar12;
 	Avatar avatar22;
 	Avatar avatar32;
+	SectorCard card1;
+	ObjectCard card2;
+	HatchCard card3;
 	Turn turn1;
 	Turn turn2;
 	Turn turn3;
@@ -41,10 +54,10 @@ public class GameModelTest {
 	ArrayList<Sector> neighboringSectors;
 	int i;
 	
-	/*Deck deckSector11;
-	Deck deckObject12;
-	Deck deckHatch13;
-	Deck deckSector21;
+	Deck deckSector;
+	Deck deckObject;
+	Deck deckHatch;
+	/*Deck deckSector21;
 	Deck deckObject22;
 	Deck deckHatch23;
 	Deck deckSector31;
@@ -76,6 +89,9 @@ public class GameModelTest {
 		model1.getGamePlayers().add(new Player("Ermenegilda"));
 		model1.getGamePlayers().add(new Player("Candeloro"));
 		model1.getGamePlayers().get(0).setAvatar(avatar11);
+		card1 = new SectorCard(SectorCardType.MySectorNoise , false);
+		card2 = new ObjectCard(ObjectCardType.AttackCard);
+		card3 = new HatchCard(HatchCardType.Green);
 		player11 = model1.getGamePlayers().get(0);
 		player21 = model2.getGamePlayers().get(0);
 		player31 = model3.getGamePlayers().get(0);
@@ -126,17 +142,26 @@ public class GameModelTest {
 		player11.finishTurn();
 		assertEquals(player11.getNumTurniGiocati(), i+1);
 		assertEquals(DeckCreator.createDeck("nothing") , null);
-
+		
+		model1.handleRejectedCard(card1);
+		assertTrue(((SectorDeck)model1.getDeckSector()).getRejectedSectorDeck().contains(card1));
+		model1.handleRejectedCard(card2);
+		assertTrue(((ObjectDeck)model1.getDeckObject()).getRejectedObjectDeck().contains(card2));
+		model1.handleRejectedCard(card3);
+		assertTrue(((HatchDeck)model1.getDeckHatch()).getRejectedHatchDeck().contains(card3));
 		assertEquals(sector2.equals(null) , false);
 		assertEquals(sector2.equals(sector3) , false);
 		sector2.setCol(7);
 		sector3.setCol(7);
 		assertEquals(sector2.equals(sector3) , false);
 		sector2.setName(null);
+		sector3.setName("Hatch");
 		assertEquals(sector2.equals(sector3) , false);
 		sector2.setName("Hatch");
 		sector3.setName("Hatch");
 		sector2.setNeighboringSectors(null);
+		sector3.setNeighboringSectors(null);
+		assertEquals(sector2.equals(sector3) , true);
 		sector3.setNeighboringSectors(neighboringSectors);
 		assertEquals(sector2.equals(sector3) , false);
 		sector2.setNeighboringSectors(neighboringSectors);
