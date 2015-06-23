@@ -203,7 +203,7 @@ public class NotifyActionTest {
 		evtNotifyCardPerformed = new EventNotifyCardPerformed(player2);
 		evtRejectCard = new EventRejectCardAlien(player1);
 		evtHatchBlocked = new EventHatchBlocked(player1 , sector3);
-		evtHumanWin = new EventNotifyHumanWin(player1 , true);
+		evtHumanWin = new EventNotifyHumanWin(player1);
 		evtRejectCardHuman = new EventRejectCardHuman(player1 , card5);
 		
 		client = new PlayerClientCLI("RMI" , evtSubscribe);

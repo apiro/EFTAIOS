@@ -154,7 +154,7 @@ public class NotifyEventTest {
 		notifyAliens = new EventNotifyAliensWin(player1 , toDeclare , true);
 		notifyTopics = new EventNotifyTopics(player1 , false , topics);
 		hatchBlocked = new EventHatchBlocked(player1 , sector2);
-		humanWin = new EventNotifyHumanWin(player1 , true);
+		humanWin = new EventNotifyHumanWin(player1);
 		rejectCardAlien = new EventRejectCardAlien(player1);
 		rejectCardHuman = new EventRejectCardHuman(player1 , card2);
 		
@@ -212,8 +212,6 @@ public class NotifyEventTest {
 		assertEquals(notifyTopics.getTopics() , topics);
 		
 		assertEquals(hatchBlocked.getHatch() , sector2);
-		
-		assertEquals(humanWin.getAreThereOtherHumans() , true);
 		
 		assertEquals(rejectCardAlien.getGenerator() , player1);
 		

@@ -24,6 +24,7 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventRejectCard;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAddedToGame;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAttacked;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDrown;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTopics;
@@ -327,6 +328,7 @@ public class GameActionTest {
 		addPlayers.add(player4);
 		addPlayers.add(player5);
 		addPlayers.add(player6);
+		addPlayers.add(player7);
 		model1.setGamePlayers(addPlayers);
 		
 		sectorList1.add((SectorCard)sectorCard1);
@@ -403,6 +405,8 @@ public class GameActionTest {
 			model1.getGamePlayers().get(2).getAvatar().setIsAlive(LifeState.DEAD);
 			model1.getGamePlayers().get(3).getAvatar().setIsAlive(LifeState.DEAD);
 			model1.getGamePlayers().get(4).getAvatar().setIsAlive(LifeState.DEAD);
+			model1.getGamePlayers().get(5).getAvatar().setIsAlive(LifeState.DEAD);
+			model1.getGamePlayers().get(6).getAvatar().setIsAlive(LifeState.DEAD);
 			evtAttacked1 = attack1.perform(model1);
 			assertEquals(((EventAttacked)evtAttacked1.get(1)).getAreThereOtherHumans() , false);
 			model1.getGamePlayers().get(1).getAvatar().setIsAlive(LifeState.ALIVE);
@@ -462,7 +466,7 @@ public class GameActionTest {
 			model1.getGamePlayers().get(0).getAvatar().setIsWinner(EndState.PLAYING);
 			model1.getGamePlayers().get(1).getAvatar().setIsWinner(EndState.PLAYING);
 			evtNotifyTurn2 = humanWin2.perform(model1);
-			assertEquals(((EventNotifyHumanWin)evtNotifyTurn2.get(0)).getAreThereOtherHumans() , true);
+			assertEquals(((EventNotifyHumanWin)evtNotifyTurn2.get(0)).getGenerator() , player4);
 			
 			model1.setActualTurn(turn5);
 			assertEquals((draw4.perform(model1)).size() , 0);
@@ -496,7 +500,8 @@ public class GameActionTest {
 			defense = new Defense(evtDefense);
 			evtDrown2 = defense.perform(model1);
 			assertTrue(!model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(card));
-			assertEquals(evtDrown2 , null);
+			assertTrue(evtDrown2.get(0) instanceof EventRejectCardAlien);
+			assertTrue(evtDrown2.get(1) instanceof EventCardUsed);
 			assertTrue(!reject.isPossible(model1));
 			model1.getActualTurn().getCurrentPlayer().getAvatar().addCard(card2);
 			model1.setGameState(GameState.CLOSING);
@@ -511,7 +516,7 @@ public class GameActionTest {
 			model1.getGamePlayers().get(0).getAvatar().setIsWinner(EndState.LOOSER);
 			model1.getGamePlayers().get(1).getAvatar().setIsWinner(EndState.WINNER);
 			evtDrown1 = humanWin.perform(model1);
-			assertEquals(((EventNotifyHumanWin)evtDrown1.get(0)).getAreThereOtherHumans() , false);
+			assertTrue(evtDrown1.get(0) instanceof EventNotifyHumanWin);
 			assertTrue(evtDrown1.get(1) instanceof EventNotifyClosingTopic);
 			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsWinner() , EndState.WINNER);
 			evtNotify = hatchBlocked.perform(model1).get(0);

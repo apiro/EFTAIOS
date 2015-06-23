@@ -130,7 +130,7 @@ public class NotifyActionCreatorTest {
 		sufferAttack = new EventSufferAttack(player , killed);
 		useDefense = new EventUseDefense(player , true , ObjectCardType.Defense);
 		teleport = new EventNotifyTeleport(player , "moved");
-		humanWin = new EventNotifyHumanWin(player , true);
+		humanWin = new EventNotifyHumanWin(player);
 		hatchBlocked = new EventHatchBlocked(player , hatch);
 		rejectCard = new EventRejectCardAlien(player);
 		notifyCardPerformed = new EventNotifyCardPerformed(player);
