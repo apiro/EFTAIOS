@@ -92,7 +92,7 @@ public class PlayerClientGUI implements PlayerClient {
 	} catch (InvocationTargetException e) {
 		logger.print("Invocation Exception in PlayerClientGUI ...");
 	} catch (InterruptedException e) {
-		logger.print("Interrupted Exception in PlayerClientGUI ...");
+		return;
 	}
    }
    
@@ -117,7 +117,7 @@ public class PlayerClientGUI implements PlayerClient {
 	} catch (InvocationTargetException e) {
 		logger.print("Invocation Exception in PlayerClientGUI ...");
 	} catch (InterruptedException e) {
-		logger.print("Interrupted Exception in PlayerClientGUI ...");
+		return;
 	}
    }
 
@@ -154,7 +154,7 @@ public class PlayerClientGUI implements PlayerClient {
 	} catch (InvocationTargetException e) {
 		logger.print("Invocation Exception in PlayerClientGUI ...");
 	} catch (InterruptedException e) {
-		logger.print("Interrupted Exception in PlayerClientGUI ...");
+		return;
 	}
    }
    
@@ -334,7 +334,7 @@ public class PlayerClientGUI implements PlayerClient {
 		} catch (InvocationTargetException e) {
 			logger.print("Invocation Exception in PlayerClientGUI ...");
 		} catch (InterruptedException e) {
-			logger.print("Interrupted Exception in PlayerClientGUI ...");
+			return;
 		}
    }
 
@@ -370,7 +370,8 @@ public class PlayerClientGUI implements PlayerClient {
 
 	@Override
 	public void closeClient() {
-		
+		Thread.currentThread().interrupt();
+		return;
 	}
 
 	@Override
@@ -401,7 +402,7 @@ public class PlayerClientGUI implements PlayerClient {
 		} catch (InvocationTargetException e) {
 			logger.print("Invocation Exception in PlayerClientGUI ...");
 		} catch (InterruptedException e) {
-			logger.print("Interrupted Exception in PlayerClientGUI ...");
+			return;
 		}
 	}
 
@@ -423,7 +424,7 @@ public class PlayerClientGUI implements PlayerClient {
 		} catch (InvocationTargetException e) {
 			logger.print("Invocation Exception in PlayerClientGUI ...");
 		} catch (InterruptedException e) {
-			logger.print("Interrupted Exception in PlayerClientGUI ...");
+			return;
 		}
 	}
 
@@ -440,7 +441,7 @@ public class PlayerClientGUI implements PlayerClient {
 		} catch (InvocationTargetException e) {
 			logger.print("Invocation Exception in PlayerClientGUI ...");
 		} catch (InterruptedException e) {
-			logger.print("Interrupted Exception in PlayerClientGUI ...");
+			return;
 		}
 	}
 

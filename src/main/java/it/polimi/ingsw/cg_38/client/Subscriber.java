@@ -30,8 +30,6 @@ public class Subscriber implements Runnable {
 	
 	public void initSubscriber() {
 		Socket socketPubSub;
-		/*ObjectOutputStream out = null;
-		ObjectInputStream in = null;*/
 		
 		try {
 			socketPubSub = new Socket(host, portPubSub);

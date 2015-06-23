@@ -51,6 +51,8 @@ public class NotifyActionCreator {
 			action = new RenderCardPerformed((NotifyEvent)evt);
 		if(type.equals(NotifyEventType.rejectCardHuman))
 			action = new RenderRejectHumanCard((NotifyEvent)evt);
+		if(type.equals(NotifyEventType.closingGame))
+			action = new RenderClosingGame((NotifyEvent)evt);
     	return action;
 	}
 	

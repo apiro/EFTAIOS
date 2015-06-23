@@ -68,12 +68,13 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 	public void trasmitEventToPublisher(Event evt) {
 		
 		this.queue = server.getTopics().get(evt.getGenerator().getName()).getBuffer();
-		
-		queue.add((NotifyEvent)evt);
-		try {
-			server.getTopics().get(evt.getGenerator().getName()).sendNotifyEvent();
-		} catch (RemoteException e) {
-			logger.print("Problems with the trasmission of the event ... ");
+		synchronized(queue) {
+			queue.add((NotifyEvent)evt);
+			try {
+				server.getTopics().get(evt.getGenerator().getName()).sendNotifyEvent();
+			} catch (RemoteException e) {
+				logger.print("Problems with the trasmission of the event ... ");
+			}
 		}
 		synchronized(queue) {
 			queue.notify();

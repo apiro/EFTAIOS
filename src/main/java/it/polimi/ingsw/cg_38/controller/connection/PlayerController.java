@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.logger.Logger;
 import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotYourTurn;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -77,11 +78,21 @@ public class PlayerController extends Thread  {
 					 * */
 					for(NotifyEvent e:callbackEvent) {
 						//un solo evento personale e quanti ne voglio broadcast ! per ogni evento arrivato
-						if(e.isBroadcast()) {
-							gcFound.addEventToTheQueue(e);
-							gcFound.sendNotifyEvent();
+						if(e instanceof EventNotifyClosingTopic) {
+							synchronized(gcFound) {
+								this.removeTopic(gcFound);
+								gcFound.notify();
+							}
 						} else {
-							this.communicator.send(e);
+							if(e.isBroadcast()) {
+								synchronized(gcFound) {
+									gcFound.addEventToTheQueue(e);
+									gcFound.sendNotifyEvent();
+									gcFound.notify();
+								}
+							} else {
+								this.communicator.send(e);
+							}
 						}
 					}
 				} else {
@@ -100,13 +111,21 @@ public class PlayerController extends Thread  {
 			}
 		}
 	}
-
-	/**
-	 * StringTokenizer tokenizer = new StringTokenizer(String s);
-	 * 
-	 * tokenizer.nextToken(); ---> questo oggetto crea un oggetto wrapper alla stringa che gli passo e legge fino al primo 
-	 * 							   spazio. La prima stringa(il primo token) verra restituito con nextToken() poi se gfaccio
-	 * 							   ancora nextToken() mi rida la seconda parola della stringa.
-	 **/
 	
+	public void removeTopic(GameController gcFound) {
+		ArrayList<String> toRemove = new ArrayList<String>();
+		for(String topic:topics.keySet()) {
+			if(topics.get(topic).getTopic().equals(gcFound.getTopic())) {
+				toRemove.add(topic);
+			}
+		}
+		for(String s:toRemove) {
+			topics.remove(s);
+			logger.print("---------------------------------------------------------------------\n");
+			logger.print(s + " removed from topic " + gcFound.getTopic() + " !");
+			logger.print("---------------------------------------------------------------------\n");
+		}
+		logger.print("CLOSING: " + gcFound.getTopic());
+		logger.print("---------------------------------------------------------------------\n");
+	}
 }

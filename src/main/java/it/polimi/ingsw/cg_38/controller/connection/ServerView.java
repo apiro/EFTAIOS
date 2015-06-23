@@ -8,7 +8,10 @@ import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.logger.Logger;
+import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotYourTurn;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -28,6 +31,7 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 	private ConcurrentLinkedQueue<Event> queue;
 	private ServerController server;
 	private RMICommunicator communicator;
+	private Logger logger = new LoggerCLI();
 
 	public ServerView(ServerController server, RMIRemoteObjectInterface clientView) throws RemoteException {
 		super();
@@ -41,13 +45,16 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 		this.server = server;
 		this.queue = server.getToDispatch();
 	}
+	
 	@Override
 	public void trasmitEvent(Event evt) throws RemoteException {
 		if(((GameEvent)evt).getNotifyEventIsBroadcast()) {
 			//se l'evento che il client vuole aggiungere presuppone un evento di risposta
 			//di tipo broadcast allora lo aggiungo alla coda del topic per poi inviarlo
 			//via publish.
-			queue.add((GameEvent)evt);
+			synchronized(queue) {
+				queue.add((GameEvent)evt);
+			}
 			synchronized(queue) {
 				queue.notify();
 			}
@@ -55,6 +62,7 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 			this.processEvent(evt);
 		}
 	}
+	
 	@Override
 	public void processEvent(Event evt) throws RemoteException {
 		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
@@ -70,11 +78,21 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 			callbackEvent.add(callbackError);
 		}
 		for(NotifyEvent e:callbackEvent) {
-			if(e.isBroadcast()) {
-				gcFound.addEventToTheQueue(e);
-				gcFound.sendNotifyEvent();
+			if(e instanceof EventNotifyClosingTopic) {
+				synchronized(gcFound) {
+					server.removeTopic(gcFound);
+					gcFound.notify();
+				}
 			} else {
-				this.communicator.send(e);
+				if(e.isBroadcast()) {
+					synchronized(gcFound) {
+						gcFound.addEventToTheQueue(e);
+						gcFound.sendNotifyEvent();
+						gcFound.notify();
+					}
+				} else {
+					this.communicator.send(e);
+				}
 			}
 		}
 	}

@@ -23,5 +23,6 @@ public enum NotifyEventType {
 	closingTopic, 
 	rejectCard, 
 	cardPerformed, 
-	rejectCardHuman
+	rejectCardHuman, 
+	closingGame
 }

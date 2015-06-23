@@ -71,7 +71,7 @@ public class SocketCommunicator implements Communicator {
 		try {
 			evt = (Event)this.getInputStream().readObject();
 		} catch (ClassNotFoundException e) {
-			logger.print("Event class not found ...");
+			logger.print("Event class not found in socket parsing object from output stream ...");
 		} catch (IOException e) {
 			logger.print("Can't read the object ...");
 		}

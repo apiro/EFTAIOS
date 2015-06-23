@@ -23,5 +23,4 @@ public class RenderHatchBlocked extends NotifyAction {
 		client.getLogger().print("HATCH BLOCKED !");
 		return null;
 	}
-
 }

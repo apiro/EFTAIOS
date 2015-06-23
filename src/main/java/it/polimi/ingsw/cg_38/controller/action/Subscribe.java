@@ -56,9 +56,11 @@ public class Subscribe extends Action {
 		
 		for(GameController gc:server.getTopics().values()) {
 			if(gc.getGameModel().getGamePlayers().contains(super.getPlayer())) {
-				gc.getSubscribers().add(c);
-				server.getTopics().put(super.getPlayer().getName(), gc);
-				return new EventAddedToGame(super.getPlayer(), false, false);
+				synchronized(gc) {
+					gc.getSubscribers().add(c);
+					server.getTopics().put(super.getPlayer().getName(), gc);
+					return new EventAddedToGame(super.getPlayer(), false, false);
+				}
 			}
 		}
 		
@@ -67,28 +69,33 @@ public class Subscribe extends Action {
 			//E' LA FASE DI ACCEPTING
 			for(GameController gc:server.getTopics().values()) {
 				if(gc.getTopic().equals(this.getTopic())) {
-					if(/*gc.getGameModel().getGamePlayers().size()<8 &&
-							gc.getCanAcceptOtherPlayers()*/ gc.getGameModel().getGameState().equals(GameState.ACCEPTING) ) {
-						gc.getSubscribers().add(c);
-						gc.getGameModel().getGamePlayers().add(super.getPlayer());
-						server.getTopics().put(super.getPlayer().getName(), gc);
-						return new EventAddedToGame(super.getPlayer(), true, true);
-					}  else {
-						gc.getSubscribers().add(c);
-						server.getTopics().put(super.getPlayer().getName(), gc);
-						return new EventAddedToGame(super.getPlayer(), false, false);	
+					synchronized(gc) {
+						if(gc.getGameModel().getGameState().equals(GameState.ACCEPTING) ) {
+							gc.getSubscribers().add(c);
+							gc.getGameModel().getGamePlayers().add(super.getPlayer());
+							server.getTopics().put(super.getPlayer().getName(), gc);
+							return new EventAddedToGame(super.getPlayer(), true, true);
+						}  else {
+							gc.getSubscribers().add(c);
+							server.getTopics().put(super.getPlayer().getName(), gc);
+							return new EventAddedToGame(super.getPlayer(), false, false);	
+						}
 					}
 				}
 			}
 		}
 		//il topic proposto NON è tra le topic già presenti
 		//E' LA FASE DI INIT DEL GIOCO ! STATO 0 DEL GIOCO, QUANDO UN GIOCATORE RICHIEDE DI GIOCARE IN UNA ROOM NON PRESENTE
-		GameController newGc = server.initAndStartANewGame(this.getTypeMap(), this.getTopic());
-		server.addObserver(newGc);
-		newGc.getSubscribers().add(c);
-		newGc.getGameModel().getGamePlayers().add(super.getPlayer());
-		server.getTopics().put(super.getPlayer().getName(), newGc);
-		newGc.getGameModel().setGameState(GameState.ACCEPTING);
+		GameController newGc = null;
+		synchronized(server.getTopics()) {
+			newGc = server.initAndStartANewGame(this.getTypeMap(), this.getTopic());
+			server.addObserver(newGc);
+			newGc.getSubscribers().add(c);
+			newGc.getGameModel().getGamePlayers().add(super.getPlayer());
+			server.getTopics().put(super.getPlayer().getName(), newGc);
+			newGc.getGameModel().setGameState(GameState.ACCEPTING);
+			server.getTopics().notify();
+		}
 		
 		Thread waitingRoomController = new Thread(new WaitingRoomController(newGc), "WaitingRoomControllerThread");
 		waitingRoomController.start();

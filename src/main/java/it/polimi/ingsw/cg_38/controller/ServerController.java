@@ -17,11 +17,13 @@ import it.polimi.ingsw.cg_38.controller.connection.RMIRemoteObjectDetails;
 import it.polimi.ingsw.cg_38.controller.connection.RegistrationView;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
@@ -100,14 +102,22 @@ public class ServerController extends Observable {
 						callbackEvent.add(callbackError);
 					}*/
 				}
+				Event eR= null;
 				for(NotifyEvent e:callbackEvent) {
 					if(e instanceof EventNotifyClosingTopic) {
-						this.removeTopic(gcFound);
+						synchronized(gcFound) {
+							this.removeTopic(gcFound);
+						}
+						eR = e;
+					} else {
+						synchronized(gcFound) {
+							gcFound.addEventToTheQueue(e);
+							this.setChanged();
+							this.notifyObservers(gcFound.getTopic());
+						}
 					}
-					gcFound.addEventToTheQueue(e);
-					this.setChanged();
-					this.notifyObservers(gcFound.getTopic());
 				}
+				if(eR != null) callbackEvent.remove(eR);
 				
 				for(NotifyEvent e:callbackEvent) {
 					if(e.getType().equals(NotifyEventType.Added)) {
@@ -138,6 +148,8 @@ public class ServerController extends Observable {
 			logger.print(s + " removed from topic " + gcFound.getTopic() + " !");
 			logger.print("---------------------------------------------------------------------\n");
 		}
+		logger.print("CLOSING: " + gcFound.getTopic());
+		logger.print("---------------------------------------------------------------------\n");
 	}
 
 	private void startRMIEnvironment() throws RemoteException, AlreadyBoundException {
@@ -146,16 +158,18 @@ public class ServerController extends Observable {
 		
 		System.setProperty("java.rmi.server.hostname",this.IPAdress);
 		
-		this.registry = LocateRegistry.createRegistry(RMIRemoteObjectDetails.getRMI_PORT());
-		
-		//creo un oggetto i quali metodi potranno essere chiamati remotamente perche estende Remote
-		//gli passo il buffer cosi può aggiungere eventi al buffers
-		RMIRegistrationInterface registration = new RegistrationView(this);
-		
-		//registra lo stub sul registry con un nome tramite il quale potrà essere cercato
-		registry.bind(serverView.getRMI_ID(), registration);
-		
-		logger.print("Rmi registry ready on " + RMIRemoteObjectDetails.getRMI_PORT());
+		try{
+			this.registry = LocateRegistry.createRegistry(RMIRemoteObjectDetails.getRMI_PORT());
+			//creo un oggetto i quali metodi potranno essere chiamati remotamente perche estende Remote
+			//gli passo il buffer cosi può aggiungere eventi al buffers
+			RMIRegistrationInterface registration = new RegistrationView(this);
+			
+			//registra lo stub sul registry con un nome tramite il quale potrà essere cercato
+			registry.bind(serverView.getRMI_ID(), registration);
+			logger.print("Rmi registry ready on " + RMIRemoteObjectDetails.getRMI_PORT());
+		} catch(ExportException e) {
+			logger.print("The port you have choosen to instantiate an RMI registry is already bounded...\nClose the running server on this port or change port !"); 
+		}
 	}
 
 	public GameController initAndStartANewGame(String map, String topic) throws ParserConfigurationException, Exception {
@@ -173,20 +187,23 @@ public class ServerController extends Observable {
 	}
 
 	private void startSocketEnvironment() throws IOException {
+		try {
+			this.serverSocketClientServer = new ServerSocket(socketPortNumber);
+			this.serverSocketPubSub = new ServerSocket(portPublisherSubscriber);
 		
-		this.serverSocketClientServer = new ServerSocket(socketPortNumber);
-		this.serverSocketPubSub = new ServerSocket(portPublisherSubscriber);
-	
-	    Thread t1 = new SocketConnectionsHandler(this.serverSocketClientServer, this.getToDispatch(), this.serverAlive, this.getTopics());
-	    Thread t2 = new PubSubConnectionsHandler(this.serverSocketPubSub, this.serverAlive, this);
-	    t1.setName("ServerSocketClientServer");
-	    t2.setName("ServerSocketPubSub");
-	    t1.start();
-	    logger.print("ServerSocket Client/Server ready on " + socketPortNumber);
-	    t2.start();
-	    logger.print("ServerSocket Pub/Sub ready on " + socketPortNumber);
-	   
-	    logger.print("Server ready");
+		    Thread t1 = new SocketConnectionsHandler(this.serverSocketClientServer, this.getToDispatch(), this.serverAlive, this.getTopics());
+		    Thread t2 = new PubSubConnectionsHandler(this.serverSocketPubSub, this.serverAlive, this);
+		    t1.setName("ServerSocketClientServer");
+		    t2.setName("ServerSocketPubSub");
+		    t1.start();
+		    logger.print("ServerSocket Client/Server ready on " + socketPortNumber);
+		    t2.start();
+		    logger.print("ServerSocket Pub/Sub ready on " + socketPortNumber);
+		   
+		    logger.print("Server ready");
+		} catch(BindException e) {
+			logger.print("The socket address and the server socket port are already in use !");
+		}
 	}
 
 	public static void main(String[] args) throws ParserConfigurationException, Exception {

@@ -172,6 +172,15 @@ public class GameModel {
 		return actualTurn;
 	}
 
+	public Boolean areThereOtherHumans() {
+		for(Player pl:this.gamePlayers) {
+			if(pl.getAvatar().getIsAlive().equals(EndState.PLAYING)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void setActualTurn(Turn actualTurn) {
 		this.actualTurn = actualTurn;
 	}

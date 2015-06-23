@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventClosingGame;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 import it.polimi.ingsw.cg_38.model.GameModel;
 import it.polimi.ingsw.cg_38.model.Human;
@@ -34,6 +36,12 @@ public class FinishTurn extends GameAction {
 				model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(false);
 			}
 			model.getActualTurn().getCurrentPlayer().finishTurn();
+			if(model.getActualTurn().getCurrentPlayer().getNumTurniGiocati() == 39 &&
+					model.getNextPlayer().getNumTurniGiocati()+1 == 40) {
+				callbackEvent.add(new EventNotifyClosingTopic(model.getActualTurn().getCurrentPlayer()));
+				callbackEvent.add(new EventClosingGame(model.getActualTurn().getCurrentPlayer(), model.areThereOtherHumans()));
+				return callbackEvent;
+			}
 			Turn newTurn = new Turn(model.getNextPlayer());
 	    	model.setActualTurn(newTurn);
 	    	callbackEvent.add(new EventNotifyTurn(newTurn.getCurrentPlayer()));

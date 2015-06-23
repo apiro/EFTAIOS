@@ -32,7 +32,6 @@ public class Defense extends GameAction {
 		model.handleRejectedCard(model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(cardToRemove));
 		callbackEvent.add(new EventRejectCardAlien(model.getActualTurn().getCurrentPlayer()));
 		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false, ObjectCardType.Defense));
-		return null;
+		return callbackEvent;
 	}
-
 }

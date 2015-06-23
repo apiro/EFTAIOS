@@ -30,7 +30,9 @@ public class ClientView extends UnicastRemoteObject implements RMIRemoteObjectIn
 	@Override
 	public void trasmitEvent(Event evt) throws RemoteException {
 		
-		this.getQueue().add((Event)evt);
+		synchronized(queue) {
+			queue.add((Event)evt);
+		}
 		synchronized(queue) {
 			queue.notify();
 		}

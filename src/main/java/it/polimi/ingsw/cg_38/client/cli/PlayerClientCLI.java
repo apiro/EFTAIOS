@@ -310,7 +310,8 @@ public class PlayerClientCLI implements PlayerClient {
 	}
 
 	public void closeClient() {
-		this.gameEventSender.interrupt();
+		Thread.currentThread().interrupt();
+		return;
 	}
 	
 	public Logger getLogger() {

@@ -5,7 +5,6 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAttacked;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventUseDefense;
 import it.polimi.ingsw.cg_38.model.*;
@@ -45,6 +44,7 @@ public class Attack extends GameAction {
     			hasDefense.add(pl);
     			callbackEvent.add(new EventUseDefense(pl, true, ObjectCardType.Defense));
     		} else {
+    			//qui setto il giocatore ucciso a dead e looser
     			pl.getAvatar().attacked();
     			model.getGamePlayers().remove(pl);
     			if(this.currentAvatarType(model).equals("Alien")) {
@@ -68,7 +68,6 @@ public class Attack extends GameAction {
         }
         
         callbackEvent.add(new EventAttacked(model.getActualTurn().getCurrentPlayer(), areThereOtherHumans));
-        if(!areThereOtherHumans) callbackEvent.add(new EventNotifyClosingTopic(model.getActualTurn().getCurrentPlayer()));
         return callbackEvent;
     }
 

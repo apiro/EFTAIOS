@@ -4,11 +4,11 @@ import it.polimi.ingsw.cg_38.client.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 
-public class RenderHumanWin extends NotifyAction {
+public class RenderClosingGame extends NotifyAction {
 
 	private static final long serialVersionUID = 1L;
 
-	public RenderHumanWin(NotifyEvent evt) {
+	public RenderClosingGame(NotifyEvent evt) {
 		super(evt.getGenerator(), evt);
 	}
 
@@ -19,17 +19,11 @@ public class RenderHumanWin extends NotifyAction {
 
 	@Override
 	public GameEvent render(PlayerClient client) {
-		client.getLogger().print("PLAYER " + super.player.getName() + " HAS LEFT THE SPACESHIP ! ");
-		if(client.getPlayer().getName().equals(super.player.getName())) {
-			try {
-				Thread.sleep(15000);
-			} catch (InterruptedException e) {
-				System.out.println("Interrupted Exception !");
-			}
-			client.setIsInterfaceBlocked(true);
-		} else {
-			client.setIsInterfaceBlocked(false);
-		}
+		client.getLogger().print("REACHED THE MAX NUMBER OF TURNS:\n->ALIENS WON !!!");
+		client.setIsInterfaceBlocked(true);
+		client.setClientAlive(false);
+		client.closeClient();
 		return null;
 	}
 }
+

@@ -31,6 +31,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class UX extends JFrame {
 
@@ -45,6 +46,10 @@ public class UX extends JFrame {
 	private JScrollPane scroll2;
 	private Logger logger;
 	private HexGrid panelCentr;
+	private JTextArea text3;
+	private JScrollPane scroll3;
+	private JPanel panelChat;
+	private JTextField input;
 
 	public UX (Logger logger) {
 		this.logger = logger;
@@ -232,7 +237,7 @@ public class UX extends JFrame {
 	      panelDx = new JPanel();
 	      
 	      panelDx.setBackground(Color.DARK_GRAY);
-	      panelDx.setLayout(new GridLayout(2,1)); 
+	      panelDx.setLayout(new GridLayout(3,1)); 
 	      
 	      text1 = new JTextArea("Informazioni di gioco\n");
 	      text1.setLineWrap(true);
@@ -240,10 +245,20 @@ public class UX extends JFrame {
 	      text2 = new JTextArea("Movements\n");
 	      text2.setLineWrap(true);
 	      scroll2 = new JScrollPane(text2);
+	      panelChat = new JPanel();
+	      text3 = new JTextArea("Chat\n");
+	      text3.setLineWrap(true);
+	      scroll3 = new JScrollPane(text3);
+	      input = new JTextField();
+	      
+	      panelChat.setLayout(new BorderLayout());
+	      panelChat.add(scroll3, BorderLayout.CENTER);
+	      panelChat.add(input, BorderLayout.PAGE_END);
 	      text1.setBounds(0, 0, 270, 300);
 	      panelDx.add(scroll1);
 	      panelDx.add(scroll2);
-	        
+	      panelDx.add(panelChat);  
+	      
 	      this.logger = new LoggerGUI(this.text1, this);
 	      panelCentr = new HexGrid(board, toSend, player, map);
 	      panelCentr.setLayout(null);

@@ -26,6 +26,7 @@ public class RenderAliensWin extends NotifyAction {
 			client.getLogger().print("ALIENS WON !!!");
 			client.setIsInterfaceBlocked(true);
 			client.setClientAlive(false);
+			client.closeClient();
 		} else {
 			client.setIsInterfaceBlocked(false);
 		}
