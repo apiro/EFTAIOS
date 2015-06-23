@@ -68,12 +68,21 @@ public class HexGrid extends JPanel {
 			if((sec.getCol() == oldx) && (sec.getRow() == oldy)) {
 				sec.setIcon(oldIcon);
 			} 
+		}
+		for(GraphicSector sec:sects) {
 			if((sec.getCol() == x) && (sec.getRow() == y)) {
 				oldx = sec.getCol();
 				oldy = sec.getRow();
 				oldIcon = (ImageIcon) sec.getIcon();
-				if(type.substring(34).equals("Dangerous")) sec.setIcon(playerPointerD);
-				if(type.substring(34).equals("Safe")) sec.setIcon(playerPointerS);
+				System.out.println(type);
+				if(type.substring(38).equals("Dangerous")){
+					sec.setIcon(playerPointerD);
+					this.repaint();
+				}
+				if(type.substring(38).equals("Safe")){
+					sec.setIcon(playerPointerS);
+					this.repaint();
+				}
 			}
 		}
 	}

@@ -310,8 +310,13 @@ public class PlayerClientCLI implements PlayerClient {
 	}
 
 	public void closeClient() {
-		Thread.currentThread().interrupt();
-		return;
+		logger.print("CLOSING CLIENT TERMINAL ...");
+		try {
+			Thread.sleep(15000);
+		} catch (InterruptedException e) {
+			logger.print("Problems with interrupting process ...");
+		}
+		System.exit(0);
 	}
 	
 	public Logger getLogger() {
