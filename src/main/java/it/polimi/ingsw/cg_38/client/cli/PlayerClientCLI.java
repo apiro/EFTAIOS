@@ -375,8 +375,8 @@ public class PlayerClientCLI implements PlayerClient {
 	@Override
 	public void updateMovements() {}
 
-	@Override
-	public Logger getLoggerChat() {
+	
+	@Override public Logger getLoggerChat() {
 		return loggerChat;
 	}
 }

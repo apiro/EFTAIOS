@@ -38,11 +38,11 @@ public class RenderMoved extends NotifyAction {
 				client.getLogger().print("Command not valid retry !");
 				com = client.getLogger().showAndRead("You are in a SAFE sector ! Type attack or continue: [A] | [C]");
 			}
-			if(com.equals("C")) {
+			if(("C").equals(com)) {
 				client.setIsInterfaceBlocked(false);
 				client.updateMovements();
 				return null;
-			} else if (com.equals("A")) {
+			} else if (("A").equals(com)) {
 				evt1 = new EventAttack(client.getPlayer(), client.getPlayer().getAvatar().getCurrentSector());
 				client.updateMovements();
 				return evt1;
@@ -54,12 +54,12 @@ public class RenderMoved extends NotifyAction {
 				client.getLogger().print("Command not valid retry !");
 				com = client.getLogger().showAndRead("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?");
 			}
-			if(com.equals("D")) {
+			if(("D").equals(com)) {
 				evt1 = new EventDraw(client.getPlayer());
 			} else if (com.equals("A")) {
 				evt1 = new EventAttack(client.getPlayer(), client.getPlayer().getAvatar().getCurrentSector());
 			}
-		} else if(((EventMoved)evt).getMoved().equals("Hatch")) {
+		} else if(("Hatch").equals(((EventMoved)evt).getMoved())) {
 			String com = client.getLogger().showAndRead("You are in a HATCH sector ! Type [D]");
 			while(!com.equals("D")){}
 			evt1 = new EventDraw(client.getPlayer());

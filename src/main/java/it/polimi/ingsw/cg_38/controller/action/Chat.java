@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyChatMessage;
 import it.polimi.ingsw.cg_38.model.GameModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Chat extends GameAction {
 
