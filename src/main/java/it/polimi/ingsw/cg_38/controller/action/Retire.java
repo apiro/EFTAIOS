@@ -19,7 +19,7 @@ public class Retire extends GameAction {
 	public ArrayList<NotifyEvent> perform(GameModel model) {
 		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		if(model.getActualTurn().getHasMoved()) {
-			player.getAvatar().attacked();
+			model.getActualTurn().getCurrentPlayer().getAvatar().attacked();
 		}
 		callbackEvent.add(new EventNotifyRetired(model.getActualTurn().getCurrentPlayer()));
 		return callbackEvent;

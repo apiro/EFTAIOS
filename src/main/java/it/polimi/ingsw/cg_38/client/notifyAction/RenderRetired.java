@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_38.client.notifyAction;
 import it.polimi.ingsw.cg_38.client.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
 
 public class RenderRetired extends NotifyAction {
 
@@ -20,7 +21,12 @@ public class RenderRetired extends NotifyAction {
 	@Override
 	public GameEvent render(PlayerClient client) {
 		client.getLogger().print("Player: " + super.getPlayer().getName() + " left the Room...");
+		if(client.getPlayer().getName().equals(super.getPlayer().getName())) {
+			client.setPlayer(evt.getGenerator());
+			client.setIsInterfaceBlocked(true);
+			client.getLogger().print("GoodBye !");
+			return new EventFinishTurn(client.getPlayer());
+		}
 		return null;
 	}
-
 }

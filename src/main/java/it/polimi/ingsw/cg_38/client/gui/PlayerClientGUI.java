@@ -215,7 +215,6 @@ public class PlayerClientGUI implements PlayerClient {
 	   gameEventSender.start();
    }
 
-
     private void handleActionListeners() {
     	Runnable r = new Runnable() {
             @Override
@@ -226,7 +225,6 @@ public class PlayerClientGUI implements PlayerClient {
 		  		public void actionPerformed(ActionEvent e) {
 	    			synchronized(toSend) {
 						toSend.add(new EventRetired(player));
-						toSend.add(new EventFinishTurn(player));
 					}
 		  		}
 	      	  
