@@ -184,7 +184,6 @@ public class PlayerClientCLI implements PlayerClient {
 			} else if (command.equals("CC")) {
 				synchronized(this.toSend) {
 					this.toSend.add(new EventRetired(player));
-					this.toSend.add(new EventFinishTurn(player));
 				}
 			} else if (command.equals("C")) {
 				String chat = logger.showAndRead("Type the message ...");
