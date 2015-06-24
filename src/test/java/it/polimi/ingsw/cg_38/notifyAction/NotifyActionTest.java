@@ -421,7 +421,7 @@ public class NotifyActionTest {
 		assertTrue(renderRejectCard.render(client) instanceof EventContinue);
 		assertEquals(renderRejectHuman.render(client) , null);
 		assertEquals(renderRejectHuman.render(client2) , null);
-		assertEquals(renderHumanWin.render(client) , null);
+		assertTrue(renderHumanWin.render(client) instanceof EventFinishTurn);
 		assertTrue(client.getIsInterfaceBlocked());
 		assertEquals(renderHumanWin.render(client2) , null);
 		assertTrue(!client2.getIsInterfaceBlocked());
