@@ -1,14 +1,8 @@
 package it.polimi.ingsw.cg_38.model;
 import java.util.*;
 
-/**
- * 
- */
 public class GamesModel {
 
-    /**
-     * 
-     */
     public GamesModel() {
     }
 
@@ -20,9 +14,6 @@ public class GamesModel {
 		this.games = games;
 	}
 
-	/**
-     * 
-     */
     private ArrayList<GameModel> games;
 
 }

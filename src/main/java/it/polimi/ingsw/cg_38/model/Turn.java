@@ -1,40 +1,19 @@
 package it.polimi.ingsw.cg_38.model;
 
-/**
- * 
- */
 public class Turn {
 
-    /**
-     * 
-     */
     public Turn(Player currentPlayer) {
     	this.setCurrentPlayer(currentPlayer);
     }
 
-    /**
-     * 
-     */
     private Player currentPlayer;
 
-    /**
-     * 
-     */
     private Boolean hasMoved = false;
 
-    /**
-     * 
-     */
     private Boolean hasUsedObjectCard = false;
 
-    /**
-     * 
-     */
     private Boolean hasAttacked = false;
 
-    /**
-     * 
-     */
     private Boolean hasDraw = false;
 
     public Boolean getHasMoved() {

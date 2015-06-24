@@ -1,15 +1,9 @@
 package it.polimi.ingsw.cg_38.model.deck;
 
-/**
- * 
- */
 public class DeckCreator {
 
-    /**
-     * @param String nameDeck
-     */
+	/** create deck based to the required type */
     public static Deck createDeck(String nameDeck) {
-        // TODO implement here
     	Deck deck = null;
     	if(nameDeck == "SectorDeck") {
     		deck = new SectorDeck();

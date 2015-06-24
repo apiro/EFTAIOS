@@ -21,15 +21,13 @@ public class Alien extends Avatar implements Serializable {
     	this.setName(name);
     }
 
+    /** check if has defenseCard */
     @Override
 	public Boolean hasDefenseCard() {
 		return false;
 	}
 
-	/**
-     * @param Sector sector 
-     * @return 
-     */
+	/** check if avatar can move in target sector */
     public Boolean canMove(Sector sector) {
     	if(sector.getName().equals("AlienStartingPoint") || sector.getName().equals("Hatch")) {
     		return false;

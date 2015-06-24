@@ -1,23 +1,11 @@
 package it.polimi.ingsw.cg_38.model.deck;
 
-/**
- * 
- */
 public abstract class Deck {
 
-	/**
-     *
-     */
 	public abstract void shuffle();
 
-    /**
-     * costructor
-     */
     public abstract Card draw();
 
-    /**
-     * @param Card card 
-     */
     public abstract void eliminateCard(Card card);
     
     /*

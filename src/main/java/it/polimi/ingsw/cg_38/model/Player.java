@@ -14,31 +14,15 @@ public class Player implements Serializable {
 				+ avatar + "]";
 	}
 
-	/**
-     * 
-     */
     public Player(String name) {
     	this.setName(name);
     }
-    
-	/**
-     * 
-     */
+
     private int numTurniGiocati = 0;
-    
-    /**
-     * 
-     */
+
     private Avatar avatar;
 
-    /**
-     * 
-     */
     private String name;
-
-    /**
-     * getter e setter
-     * **/
 
     public int getNumTurniGiocati() {
 		return numTurniGiocati;
@@ -60,19 +44,11 @@ public class Player implements Serializable {
 		return name;
 	}
 
-
-    /**
-     * @param String name 
-     * @return
-     */
     public void setName(String name) {
-        // TODO implement here
     	this.name = name;
     }
 
-    /**
-     * @param String name
-     */
+    /** increase number of turn played */
     public void finishTurn(){
     	this.setNumTurniGiocati(this.getNumTurniGiocati()+1);
     }

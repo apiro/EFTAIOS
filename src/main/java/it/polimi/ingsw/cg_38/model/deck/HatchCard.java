@@ -1,8 +1,5 @@
 package it.polimi.ingsw.cg_38.model.deck;
 
-/**
- * 
- */
 public class HatchCard extends Card {
 	
 	private static final long serialVersionUID = 1L;
@@ -21,10 +18,7 @@ public class HatchCard extends Card {
 	}
 
 	private HatchCardType color;
-	
-    /**
-     * 
-     */
+
     public HatchCard(HatchCardType type) {
     	this.setColor(type);
     }

@@ -17,25 +17,13 @@ import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-/**
- * 
- */
 public class GameModel {
 
-    /**
-     * @throws Exception 
-     * @throws ParserConfigurationException 
-     * 
-     */
     public GameModel(String map) throws ParserConfigurationException, Exception {
     	this.init(map);
     }
 
-    /**
-     * @throws Exception 
-     * @throws ParserConfigurationException 
-     * 
-     */
+    /** initialize all variables needed to play */
     public void init(String map) throws ParserConfigurationException, Exception{
     	this.setGameMap(MapCreator.createMap(map));
     	this.setDeckObject(DeckCreator.createDeck("ObjectDeck"));
@@ -44,6 +32,7 @@ public class GameModel {
     	this.setGamePlayers(new ArrayList<Player>());
     }
     
+    /** return all players in target sector */
     public ArrayList<Player> getDesiredPlayers(Sector sectorToSearch){
     	ArrayList<Player> selected = new ArrayList<Player>();
     	for(Player pl:this.getGamePlayers()) {
@@ -64,6 +53,7 @@ public class GameModel {
 
 	private GameState gameState = GameState.INIT;
     
+	/** contain all players in game */
     public ArrayList<Player> getGamePlayers() {
 		return gamePlayers;
 	}
@@ -104,40 +94,19 @@ public class GameModel {
 		this.gameMap = gameMap;
 	}
 
-	/**
-     * 
-     */
     private ArrayList<Player> gamePlayers;
 
-    /**
-     * 
-     */
     private Map gameMap;
 
-    /**
-     * 
-     */
     private Deck deckSector;
 
-    /**
-     * 
-     */
     private Deck deckHatch;
 
-    /**
-     * 
-     */
     private Deck deckObject;
 
-    /**
-     * 
-     */
     private Turn actualTurn = null;
 
-    /**
-     * @return
-     */
-    
+    /** return the next player who is currently in game */   
     public Player getNextPlayer() {
     	/*
         	for(int i = 0; i < this.getGamePlayers().size(); i++){
@@ -175,6 +144,7 @@ public class GameModel {
 		return actualTurn;
 	}
 
+	/** check if are other human in game */
 	public Boolean areThereOtherHumans() {
 		for(Player pl:this.gamePlayers) {
 			if(pl.getAvatar() instanceof Human &&
@@ -190,6 +160,7 @@ public class GameModel {
 		this.actualTurn = actualTurn;
 	}
 
+	/** add target card to RejectedDeck */
 	public void handleRejectedCard(Card eliminateFromMyCards) {
 		if(eliminateFromMyCards instanceof ObjectCard) {
 			((ObjectDeck)this.getDeckObject()).getRejectedObjectDeck().add((ObjectCard) eliminateFromMyCards);

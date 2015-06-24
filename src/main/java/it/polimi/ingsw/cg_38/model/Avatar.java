@@ -1,4 +1,5 @@
 package it.polimi.ingsw.cg_38.model;
+
 import it.polimi.ingsw.cg_38.model.deck.Card;
 import it.polimi.ingsw.cg_38.model.deck.Deck;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
@@ -11,160 +12,107 @@ import java.util.*;
 /**
  * 
  */
-public abstract class Avatar implements Serializable{
+public abstract class Avatar implements Serializable {
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-     * 
-     */
-    private ArrayList<ObjectCard> myCards = new ArrayList<ObjectCard>();
+	/** show all avatar's card */
+	private ArrayList<ObjectCard> myCards = new ArrayList<ObjectCard>();
 
-    /**
-     * 
-     */
-    private Sector currentSector;
+	private Sector currentSector;
 
-    /*
-    @Override
-	public String toString() {
-    	String code = "name=" + name + "currentSector=" + currentSector
-				+ ", isPowered=" + isPowered + ", isAlive=" + isAlive
-				+ ", isWinner=" + isWinner + "\n \t ->MyMovements= ";
-    	
-    	for(Movement mv:this.getMyMovements()) {
-    		code = code + (mv.getTurnNumber() + " " + mv.getTargetsector() + " ");
-    	}
-    	
-    	code = code + "\n \t ->MyCards= ";
-    	
-    	for(Card cd:this.getMyCards()) {
-    		code = code + (cd.toString() + " ");
-    	}
-    	
-		return code;
-	}*/
+	/*
+	 * @Override public String toString() { String code = "name=" + name +
+	 * "currentSector=" + currentSector + ", isPowered=" + isPowered +
+	 * ", isAlive=" + isAlive + ", isWinner=" + isWinner +
+	 * "\n \t ->MyMovements= ";
+	 * 
+	 * for(Movement mv:this.getMyMovements()) { code = code +
+	 * (mv.getTurnNumber() + " " + mv.getTargetsector() + " "); }
+	 * 
+	 * code = code + "\n \t ->MyCards= ";
+	 * 
+	 * for(Card cd:this.getMyCards()) { code = code + (cd.toString() + " "); }
+	 * 
+	 * return code; }
+	 */
 
-    
-    
-	/**
-     * 
-     */
-    private Name name;
+	private Name name;
 
-    /**
-     * 
-     */
-    private Boolean isPowered = false;
+	private Boolean isPowered = false;
 
-    /**
-     * 
-     */
-    private LifeState isAlive = LifeState.ALIVE;
+	private LifeState isAlive = LifeState.ALIVE;
 
-    /**
-     * 
-     */
-    private EndState isWinner = EndState.PLAYING;
+	private EndState isWinner = EndState.PLAYING;
 
-    /**
-     * 
-     */
-    private ArrayList<Movement> myMovements = new ArrayList<Movement>();
+	/** show all avatar's movements */
+	private ArrayList<Movement> myMovements = new ArrayList<Movement>();
 
-	/**
-     * @param Name name
-     */
-    public Avatar() {
-    }
+	public Avatar() {
+	}
 
-    public Boolean hasDefenseCard(){
-    	
-    	for(int i = 0; i<myCards.size(); i++){
-    		if((myCards.get(i).getType()).equals(ObjectCardType.Defense)) {
-    			myCards.remove(i);
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-    
-    /**
-     * @param Deck deck 
-     * @return
-     */
-    public Card draw(Deck deck) {
-    	Card drown = deck.draw();
-        return drown;
-    }
+	/** check if has defense card */
+	public Boolean hasDefenseCard() {
 
-    /**
-     * @param Sector sector 
-     * @return
-     */
-    public String move(Sector sector, int number) {
-    	this.setCurrentSector(sector);
-    	this.getMyMovements().add(new Movement(this.getCurrentSector(), number));
-        return sector.getName();
-    }
+		for (int i = 0; i < myCards.size(); i++) {
+			if ((myCards.get(i).getType()).equals(ObjectCardType.Defense)) {
+				myCards.remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
 
-    public void setCurrentSector(Sector currentSector) {
+	/** draw a card from deck */
+	public Card draw(Deck deck) {
+		Card drown = deck.draw();
+		return drown;
+	}
+
+	/** move avatar in target sector and increases the number of turn */
+	public String move(Sector sector, int number) {
+		this.setCurrentSector(sector);
+		this.getMyMovements()
+				.add(new Movement(this.getCurrentSector(), number));
+		return sector.getName();
+	}
+
+	public void setCurrentSector(Sector currentSector) {
 		this.currentSector = currentSector;
 	}
 
-	/**
-     * @param Card card 
-     * @return
-     */
-    public Card eliminateFromMyCards(Card card) {
-    	this.getMyCards().remove(card);
-        return card;
-    }
-    
-    /**
-     * @param Card card 
-     * @return
-     */
-    public Boolean addCard(Card card) {
-    	/*if(this.getMyCards().size()<3) {*/
-    		this.getMyCards().add((ObjectCard)card);
-    		return true;
-    	/*	return true;
-    	} else {
-    		return false;
-    	}*/
-    }
+	/** delete a card from avatar's cards */
+	public Card eliminateFromMyCards(Card card) {
+		this.getMyCards().remove(card);
+		return card;
+	}
 
-    /**
-     * @param Sector sector 
-     * @return
-     */
-    public abstract Boolean canMove(Sector sector);
+	/** add card to avatar's cards */
+	public Boolean addCard(Card card) {
+		/* if(this.getMyCards().size()<3) { */
+		this.getMyCards().add((ObjectCard) card);
+		return true;
+		/*
+		 * return true; } else { return false; }
+		 */
+	}
 
-    /**
-     * @param Sector sector 
-     * @return
-     */
-    
-    /**
-     * return true se l'attacco va a buon fine false se non va a buon fine
-     * */
-    public void attacked() {
-    	this.setIsAlive(LifeState.DEAD);
-    	this.setIsWinner(EndState.LOOSER);
-    }
-    
-    /**
-     * getter e setter
-     * **/
+	/** check if avatar can move in target sector */
+	public abstract Boolean canMove(Sector sector);
+
+	/** change avatar's state when he was attacked */
+	public void attacked() {
+		this.setIsAlive(LifeState.DEAD);
+		this.setIsWinner(EndState.LOOSER);
+	}
 
 	public Name getName() {
 		return name;
 	}
-	
+
 	public void setName(Name name) {
 		this.name = name;
 	}

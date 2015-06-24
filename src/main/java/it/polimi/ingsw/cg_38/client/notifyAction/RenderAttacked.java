@@ -33,7 +33,6 @@ public class RenderAttacked extends NotifyAction {
 			client.setPlayer(evt.getGenerator());
 			
 			if(((EventAttacked)evt).getAreYouPowered()) {
-				client.getLogger().print("You killed someone !");
 				//verifico chi è stato a fare l'attacco
 				if(((EventAttacked)evt).getGenerator().getAvatar() instanceof Alien) {
 					

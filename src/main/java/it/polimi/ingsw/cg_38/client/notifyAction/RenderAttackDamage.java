@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
+import it.polimi.ingsw.cg_38.model.Human;
 import it.polimi.ingsw.cg_38.model.Player;
 
 public class RenderAttackDamage extends NotifyAction {
@@ -29,9 +30,14 @@ public class RenderAttackDamage extends NotifyAction {
 						evt.getGenerator().getAvatar().getCurrentSector().getCol() + " ...");
 		
 		for(Player pl:((EventSufferAttack)evt).getKilled()){
-			client.getLogger().print("Player killed in sector: row: " + 
+			client.getLogger().print(pl.getName() + " killed in sector: row: " + 
 					evt.getGenerator().getAvatar().getCurrentSector().getRow() + " col: " + 
-					evt.getGenerator().getAvatar().getCurrentSector().getCol());
+					evt.getGenerator().getAvatar().getCurrentSector().getCol() );
+			if(pl.getAvatar() instanceof Human)
+				client.getLogger().print("He was a Human");
+			else
+				client.getLogger().print("He was an Alien");
+			
 			if(pl.getName().equals(client.getPlayer().getName())) {
 				this.renderLoose(client);
 			}

@@ -4,19 +4,10 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 
 import java.io.Serializable;
 
-/**
- * 
- */
 public class Human extends Avatar implements Serializable {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-     * 
-     */
     public Human(Name name, Sector sector) {
     	this.setName(name);
     	this.setCurrentSector(sector);
@@ -32,10 +23,7 @@ public class Human extends Avatar implements Serializable {
 		this.canAttack = canAttack;
 	}
 
-	/**
-     * @param Sector sector 
-     * @return
-     */
+	/** check if human can move in target sector */
     public Boolean canMove(Sector sector) {
         // TODO implement here
     	if(sector.getName().equals("HumanStartingPoint")) {

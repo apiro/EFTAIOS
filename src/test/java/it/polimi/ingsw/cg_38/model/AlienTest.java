@@ -155,17 +155,17 @@ public class AlienTest {
 		player2.getAvatar().setIsPowered(true);
 		assertEquals(player2.getAvatar().canMove(sector) , false);
 		sector3.getNeighboringSectors().add(sector4);
-		player2.getAvatar().setCurrentSector(sector3);
-		assertTrue(!player2.getAvatar().canMove(sector4));
+		avatar2.setCurrentSector(sector3);
+		assertTrue(!avatar2.canMove(sector4));
 		sector3.getNeighboringSectors().remove(sector4);
 		sector2.getNeighboringSectors().add(sector4);
 		sector3.getNeighboringSectors().add(sector2);
-		assertTrue(!player2.getAvatar().canMove(sector4));
-		player2.getAvatar().setIsPowered(true);
+		assertTrue(!avatar2.canMove(sector4));
+		avatar2.setIsPowered(true);
 		sector2.getNeighboringSectors().remove(sector4);
 		sector.getNeighboringSectors().add(sector4);
 		sector2.getNeighboringSectors().add(sector);
-		assertTrue(!player2.getAvatar().canMove(sector4));
+		assertTrue(!avatar2.canMove(sector4));
 		
 		
 		

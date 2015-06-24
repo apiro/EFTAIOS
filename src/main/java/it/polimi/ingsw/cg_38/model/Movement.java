@@ -16,28 +16,15 @@ public class Movement implements Serializable {
 		return "Movement [ riga=" + targetsector.getRow() + ", colonna=" + targetsector.getCol() + "]";
 	}
 
-	/**
-     * @param Sector sector  
-     * @param int number
-     */
     public Movement(Sector sector , int number) {
         this.setTargetsector(sector);
         this.setTurnNumber(number);
     }
 
-    /**
-     * 
-     */
     public int turnNumber;
 
-    /**
-     * 
-     */
     public Sector targetsector;
 
-    /**
-     * getter e setter
-     */
 	public int getTurnNumber() {
 		return turnNumber;
 	}
