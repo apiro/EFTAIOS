@@ -32,6 +32,7 @@ public class SubscribeController extends Observable implements Runnable {
 		this.server = server;
 	}
 
+	@Override
 	public void run() {
 		EventSubscribe evt = (EventSubscribe) this.socketCommunicator.recieveEvent();
 		Action action = GameActionCreator.createGameAction(evt);

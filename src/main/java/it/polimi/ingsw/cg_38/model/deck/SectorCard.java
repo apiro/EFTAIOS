@@ -21,7 +21,6 @@ public class SectorCard extends Card {
      * @return
      */
     public SectorCard(SectorCardType type, Boolean hasIcon) {
-        // TODO implement here
     	this.setType(type);
     	if(hasIcon == true) {
     		this.setHasObjectIcon(true);

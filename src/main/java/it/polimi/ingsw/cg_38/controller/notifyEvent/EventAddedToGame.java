@@ -15,6 +15,7 @@ public class EventAddedToGame extends NotifyEvent {
 		return type;
 	}
 
+	@Override
 	public void setType(NotifyEventType type) {
 		this.type = type;
 	}

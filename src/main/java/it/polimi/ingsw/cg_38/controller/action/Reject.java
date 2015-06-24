@@ -36,6 +36,7 @@ public class Reject extends GameAction {
 		return callbackEvent;
 	}
 
+	@Override
 	public Boolean isPossible(GameModel model) {
 	    if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
 	    		super.isPossible(model)) {

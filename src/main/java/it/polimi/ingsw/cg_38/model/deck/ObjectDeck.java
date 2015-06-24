@@ -6,9 +6,6 @@ import java.util.*;
  */
 public class ObjectDeck extends Deck {
 
-    /**
-     * 
-     */
     public ObjectDeck() {
     	this.setObjectDeck(new ArrayList<ObjectCard>());
     	this.setRejectedObjectDeck(new ArrayList<ObjectCard>());
@@ -39,26 +36,14 @@ public class ObjectDeck extends Deck {
 		this.rejectedObjectDeck = rejectedObjectDeck;
 	}
 
-	/**
-     * 
-     */
     private ArrayList<ObjectCard> objectDeck;
 
-    /**
-     * 
-     */
     private ArrayList<ObjectCard> rejectedObjectDeck;
 
-    /**
-     *
-     */
     public void shuffle() {
     	Collections.shuffle(this.getObjectDeck());
     }
 
-    /**
-     * @return
-     */
     public Card draw() {
     	/*
     	Card card= null;
@@ -78,9 +63,6 @@ public class ObjectDeck extends Deck {
         return extracted;
     }
 
-    /**
-     * @param Card card 
-     */
     public void eliminateCard(Card card) {
     	this.getObjectDeck().remove(card);
     	this.getRejectedObjectDeck().add((ObjectCard) card);

@@ -45,7 +45,6 @@ public class ObjectCard extends Card {
      * @param ObjectCardType type 
      */
     public ObjectCard(ObjectCardType type) {
-        // TODO implement here
         this.setType(type);
     }
 

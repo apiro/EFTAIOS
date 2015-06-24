@@ -51,6 +51,7 @@ public class PlayerController extends Thread  {
 		this.setEventsToProcess(toDispatch);
 	}
 	
+	@Override
 	public void run() {
 		while(true) {
 			try {

@@ -63,6 +63,7 @@ public class PlayerClientCLI implements PlayerClient {
 		this.run();
 	}
 
+	@Override
 	public void init() {
 		playerClientState = PlayerClientState.init;
 		toProcess = new ConcurrentLinkedQueue<Event>();
@@ -72,6 +73,7 @@ public class PlayerClientCLI implements PlayerClient {
 		this.startSender();
 	}
 
+	@Override
 	public void startSender() {
 		client = Client.clientCreator(connection, toSend, toProcess, evt);
 		gameEventSender = new Thread(client, "GameEventSender");
@@ -109,18 +111,22 @@ public class PlayerClientCLI implements PlayerClient {
 		return choice;
 	}
 	
+	@Override
 	public PlayerClientState getPlayerClientState() {
 		return playerClientState;
 	}
 
+	@Override
 	public void setPlayerClientState(PlayerClientState playerClientState) {
 		this.playerClientState = playerClientState;
 	}
 
+	@Override
 	public it.polimi.ingsw.cg_38.model.Player getPlayer() {
 		return player;
 	}
 	
+	@Override
 	public void setPlayer(it.polimi.ingsw.cg_38.model.Player player) {
 		this.player = player;
 	}
@@ -129,14 +135,17 @@ public class PlayerClientCLI implements PlayerClient {
 		return isMyTurn;
 	}
 
+	@Override
 	public void setIsMyTurn(Boolean isMyTurn) {
 		this.isMyTurn = isMyTurn;
 	}
 	
+	@Override
 	public Map getMap() {
 		return map;
 	}
 
+	@Override
 	public void setMap(Map map) {
 		this.map = map;
 	}
@@ -174,7 +183,7 @@ public class PlayerClientCLI implements PlayerClient {
 		logger.print("----------------------------------------------------------------------");
 		String command = in.nextLine();
 		
-			if(command.equals("M")) {
+			if(("M").equals(command)) {
 				
 				Sector toMove = this.askForMoveCoordinates();
 				synchronized(this.toSend) {
@@ -262,6 +271,7 @@ public class PlayerClientCLI implements PlayerClient {
 		}
 	}
 	
+	@Override
 	public Sector askForMoveCoordinates() {
 		try {
 			logger.print("----------------------------------------------------------------------");
@@ -278,6 +288,7 @@ public class PlayerClientCLI implements PlayerClient {
 		}
 	}
 
+	@Override
 	public void run() {
 		while(clientAlive) {
 			Event msg = toProcess.poll();
@@ -289,6 +300,7 @@ public class PlayerClientCLI implements PlayerClient {
 		Thread.currentThread().interrupt();
 	}
 	
+	@Override
 	public void process(Event msg) {
 		logger.print("----------------------------------------------------------------------\n");
 		logger.print("Recieving " + msg.toString() + " ...\n");
@@ -297,7 +309,8 @@ public class PlayerClientCLI implements PlayerClient {
 		if(action.isPossible(this)) {
 			gamEvt = action.render(this);
 			if(gamEvt != null) {
-				if(gamEvt instanceof EventContinue) return;
+				if(gamEvt instanceof EventContinue) 
+					return;
 				this.toSend.add(gamEvt);
 			} else { 
 				if(!isInterfaceBlocked/* && toProcess.size() == 0*/) {
@@ -320,10 +333,12 @@ public class PlayerClientCLI implements PlayerClient {
 		return isInterfaceBlocked;
 	}
 
+	@Override
 	public void setIsInterfaceBlocked(Boolean isInterfaceBlocked) {
 		this.isInterfaceBlocked = isInterfaceBlocked;
 	}
 
+	@Override
 	public void closeClient() {
 		logger.print("CLOSING CLIENT TERMINAL ...");
 		try {
@@ -334,10 +349,12 @@ public class PlayerClientCLI implements PlayerClient {
 		System.exit(0);
 	}
 	
+	@Override
 	public Logger getLogger() {
 		return logger;
 	}
 
+	@Override
 	public void updateCards() {
 		
 		if(player.getAvatar().getMyCards().size() == 4) {
@@ -347,6 +364,7 @@ public class PlayerClientCLI implements PlayerClient {
 		}
 	}
 
+	@Override
 	public void setClientAlive(Boolean b) {
 		this.clientAlive = b;
 	}
@@ -357,6 +375,7 @@ public class PlayerClientCLI implements PlayerClient {
 	@Override
 	public void updateMovements() {}
 
+	@Override
 	public Logger getLoggerChat() {
 		return loggerChat;
 	}

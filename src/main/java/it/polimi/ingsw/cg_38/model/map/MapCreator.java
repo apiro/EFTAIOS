@@ -13,7 +13,6 @@ public class MapCreator {
      * @throws ParserConfigurationException 
      */
     public static Map createMap(String type) throws ParserConfigurationException, Exception {
-        // TODO implement here
     	Map creating;
     	if(type.equals("Galilei")) {
     		creating = new Galilei();
