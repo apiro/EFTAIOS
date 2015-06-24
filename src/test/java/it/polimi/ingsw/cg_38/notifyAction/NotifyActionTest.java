@@ -332,7 +332,6 @@ public class NotifyActionTest {
 		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
 		client.getPlayer().getAvatar().setIsWinner(EndState.LOOSER);
 		assertTrue(!renderRejectCard.isPossible(client));
-		assertEquals(renderAliensWin.isPossible(client) , false);
 		assertTrue(!renderCardPerformed.isPossible(client));
 		evtNotifyAliensWin = new EventNotifyAliensWin(player1 , winners , false);
 		renderAliensWin = new RenderAliensWin(evtNotifyAliensWin);
@@ -372,9 +371,7 @@ public class NotifyActionTest {
 		client.getPlayer().getAvatar().setIsWinner(EndState.LOOSER);	
 		assertTrue(!renderHumanWin.isPossible(client));
 		assertEquals(renderDrown.isPossible(client) , false);
-		assertTrue(!renderChatMessage.isPossible(client));
 		assertTrue(!renderRetired.isPossible(client));
-		assertTrue(!renderClosingGame.isPossible(client));
 		client.getPlayer().getAvatar().setIsAlive(LifeState.ALIVE);
 		client.getPlayer().getAvatar().setIsWinner(EndState.WINNER);	
 		assertTrue(renderRetired.isPossible(client));

@@ -30,6 +30,7 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventClosingGame;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDrown;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyAliensWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyChatMessage;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyRetired;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTopics;
@@ -499,8 +500,9 @@ public class GameActionTest {
 			model1.getActualTurn().setHasMoved(true);
 			evtNotifyTurn2 = finishTurn2.perform(model1);
 			assertTrue(model1.getGameState().equals(GameState.CLOSING));
-			assertTrue(evtNotifyTurn2.get(0) instanceof EventNotifyClosingTopic);
-			assertTrue(evtNotifyTurn2.get(1) instanceof EventClosingGame);
+			assertTrue(evtNotifyTurn2.get(0) instanceof EventNotifyAliensWin);
+			assertTrue(evtNotifyTurn2.get(1) instanceof EventNotifyClosingTopic);
+			assertTrue(evtNotifyTurn2.get(2) instanceof EventClosingGame);
 			
 			model1.setActualTurn(turn5);
 			assertEquals((draw4.perform(model1)).size() , 0);
