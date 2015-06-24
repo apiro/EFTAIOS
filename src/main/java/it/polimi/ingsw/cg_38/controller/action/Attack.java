@@ -27,9 +27,7 @@ public class Attack extends GameAction {
 	
     public Sector sectorToAttack;
 
-    /**
-     * @return
-     */
+    @Override
     public ArrayList<NotifyEvent> perform(GameModel model) { 
     	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	ArrayList<Player> killed = model.getDesiredPlayers(this.getSectorToAttack());
@@ -42,7 +40,7 @@ public class Attack extends GameAction {
     			p = pl;
     		} else if (pl.getAvatar().hasDefenseCard()) {
     			hasDefense.add(pl);
-    			callbackEvent.add(new EventUseDefense(pl, true, ObjectCardType.Defense));
+    			callbackEvent.add(new EventUseDefense(pl, true, ObjectCardType.DEFENSE));
     		} else {
     			//qui setto il giocatore ucciso a dead e looser
     			pl.getAvatar().attacked();
@@ -86,9 +84,7 @@ public class Attack extends GameAction {
 		this.sectorToAttack = sectorToAttack;
 	}
 	
-	/**
-     * @return
-     */
+	@Override
     public Boolean isPossible(GameModel model) {
         if(this.currentAvatarType(model).equals("Alien") &&
         		model.getActualTurn().getHasMoved() &&

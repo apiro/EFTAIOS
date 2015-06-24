@@ -10,6 +10,6 @@ public class EventHatchBlocked extends GameEvent {
 	
 	public EventHatchBlocked(Player generator) {
 		super(generator, true);
-		super.setType(GameEventType.blockHatch);
+		super.setType(GameEventType.BLOCKHATCH);
 	}
 }

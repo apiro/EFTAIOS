@@ -12,7 +12,7 @@ public class EventHatchBlocked extends NotifyEvent {
 
 	public EventHatchBlocked(Player generator, Hatch hatch) {
 		super(generator, true);
-		this.setType(NotifyEventType.hatchBlocked);
+		this.setType(NotifyEventType.HATCHBLOCKED);
 		this.setHatch(hatch);
 	}
 

@@ -12,7 +12,7 @@ public class EventRejectCardHuman extends NotifyEvent {
 
 	public EventRejectCardHuman(Player generator, ObjectCard card) {
 		super(generator, true);
-		super.setType(NotifyEventType.rejectCardHuman);
+		super.setType(NotifyEventType.REJECTCARDHUMAN);
 		this.setCard(card);
 	}
 

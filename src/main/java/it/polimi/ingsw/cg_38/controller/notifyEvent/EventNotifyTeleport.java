@@ -10,6 +10,6 @@ public class EventNotifyTeleport extends EventMoved {
 	public EventNotifyTeleport(Player generator, String moved) {
 		super(generator, moved);
 		super.setBroadcast(false);
-		super.setType(NotifyEventType.notTeleport);
+		super.setType(NotifyEventType.NOTTELEPORT);
 	}
 }

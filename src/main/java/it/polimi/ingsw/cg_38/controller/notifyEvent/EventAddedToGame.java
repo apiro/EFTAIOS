@@ -11,6 +11,7 @@ public class EventAddedToGame extends NotifyEvent {
 	private Boolean added;
 	private NotifyEventType type;
 	
+	@Override
 	public NotifyEventType getType() {
 		return type;
 	}
@@ -23,7 +24,7 @@ public class EventAddedToGame extends NotifyEvent {
 	public EventAddedToGame(Player generator, Boolean added, Boolean broadcast) {
 		super(generator, broadcast);
 		this.setAdded(added);
-		this.setType(NotifyEventType.Added);
+		this.setType(NotifyEventType.ADDED);
 	}
 
 	@Override

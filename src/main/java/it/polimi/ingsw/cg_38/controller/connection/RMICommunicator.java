@@ -26,6 +26,7 @@ public class RMICommunicator implements Communicator {
 		/*System.out.println("Creating a new RMI communicator !");*/
 	}
 	
+	@Override
 	public void send(Event evt) throws RemoteException {
 		//CHI CHIAMA QUESTO METODO TRASMETTE UN EVENTO ALL'OGGETTO REMOTO
 		remoteView.trasmitEvent(evt);

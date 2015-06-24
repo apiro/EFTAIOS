@@ -12,7 +12,7 @@ public class EventTeleport extends GameEvent {
 	
 	public EventTeleport(Player generator, Card card) {
 		super(generator, false);
-		super.setType(GameEventType.Teleport);
+		super.setType(GameEventType.TELEPORT);
 		this.setToUse(card);
 	}
 

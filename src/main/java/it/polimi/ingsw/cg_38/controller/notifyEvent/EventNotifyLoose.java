@@ -8,7 +8,7 @@ public class EventNotifyLoose extends NotifyEvent {
 
 	public EventNotifyLoose(Player generator) {
 		super(generator, true);
-		super.setType(NotifyEventType.notLoose);
+		super.setType(NotifyEventType.NOTLOOSE);
 	}
 
 	private static final long serialVersionUID = 1L;

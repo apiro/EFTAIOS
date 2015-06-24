@@ -58,7 +58,7 @@ public abstract class Avatar implements Serializable {
 	public Boolean hasDefenseCard() {
 
 		for (int i = 0; i < myCards.size(); i++) {
-			if ((myCards.get(i).getType()).equals(ObjectCardType.Defense)) {
+			if ((myCards.get(i).getType()).equals(ObjectCardType.DEFENSE)) {
 				myCards.remove(i);
 				return true;
 			}

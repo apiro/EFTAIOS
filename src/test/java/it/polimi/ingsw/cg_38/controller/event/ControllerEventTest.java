@@ -43,7 +43,7 @@ public class ControllerEventTest {
 	public void test() {
 		
 		assertEquals(move.getNotifyEventIsBroadcast() , false);
-		assertEquals(evtMoved.getType() , NotifyEventType.Moved);	
+		assertEquals(evtMoved.getType() , NotifyEventType.MOVED);	
 
 	}
 }

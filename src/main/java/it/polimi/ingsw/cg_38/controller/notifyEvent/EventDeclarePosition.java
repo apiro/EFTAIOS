@@ -14,7 +14,7 @@ public class EventDeclarePosition extends NotifyEvent {
 	
 	public EventDeclarePosition(Player generator, ArrayList<Player> toDeclare) {
 		super(generator, true);
-		super.setType(NotifyEventType.DeclarePosition);
+		super.setType(NotifyEventType.DECLAREPOSITION);
 		this.setToDeclare(toDeclare);
 	}
 

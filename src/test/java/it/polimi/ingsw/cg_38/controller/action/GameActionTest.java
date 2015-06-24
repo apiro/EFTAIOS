@@ -265,14 +265,14 @@ public class GameActionTest {
 		objectDeck1 = new ObjectDeck();
 		hatchDeck1 = new HatchDeck();
 		
-		sectorCard1 = new SectorCard(SectorCardType.Silence , false);
-		sectorCard2 = new SectorCard(SectorCardType.MySectorNoise , true);
-		objectCard1 = new ObjectCard(ObjectCardType.SpotLight);
-		hatchCard1 = new HatchCard(HatchCardType.Green);
-		hatchCard2 = new HatchCard(HatchCardType.Red);
+		sectorCard1 = new SectorCard(SectorCardType.SILENCE , false);
+		sectorCard2 = new SectorCard(SectorCardType.MYSECTORNOISE , true);
+		objectCard1 = new ObjectCard(ObjectCardType.SPOTLIGHT);
+		hatchCard1 = new HatchCard(HatchCardType.GREEN);
+		hatchCard2 = new HatchCard(HatchCardType.RED);
 		
-		card = new ObjectCard(ObjectCardType.Defense);
-		card2 = new ObjectCard(ObjectCardType.Adrenaline);
+		card = new ObjectCard(ObjectCardType.DEFENSE);
+		card2 = new ObjectCard(ObjectCardType.ADRENALINE);
 		
 		evtDraw1 = new EventDraw(player1);
 		evtDraw2 = new EventDraw(player1);
@@ -382,7 +382,7 @@ public class GameActionTest {
 			assertTrue(gc.getSubscribers().contains(c));
 			assertEquals(draw1.isPossible(model1) , false);
 			model1.setGameState(GameState.RUNNING);
-			assertEquals(draw1.isPossible(model1) , true);/*
+			assertEquals(draw1.isPossible(model1) , true);
 			evtDrown1 = draw1.perform(model1);	
 			evtDrown2 = draw2.perform(model1);
 		
@@ -390,7 +390,7 @@ public class GameActionTest {
 			evtDrown1 = draw1.perform(model1);
 			assertEquals(sectorCard1 , ((EventDrown)evtDrown1.get(0)).getDrown());
 			
-			assertEquals(sectorCard2 , ((EventDrown)evtDrown2.get(0)).getDrown());*/
+			assertEquals(sectorCard2 , ((EventDrown)evtDrown2.get(0)).getDrown());
 			evtDrown2 = draw2.perform(model1);
 			assertEquals(objectCard1 , model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().get(0));
 			assertEquals(evtDrown2.toString() , "[EventDrown [added=" + ((EventDrown)evtDrown2.get(0)).getAdded() + ", drown=" + ((EventDrown)evtDrown2.get(0)).getDrown() + "]]");

@@ -39,7 +39,7 @@ public class RenderEnvironment extends NotifyAction {
 		}
 		client.setClientAlive(true);
 		client.setMap(((EventNotifyEnvironment)evt).getMap());
-		client.setPlayerClientState(PlayerClientState.playing);
+		client.setPlayerClientState(PlayerClientState.PLAYING);
 		client.getLogger().print("----------------------------------------------------------------------");
 		client.getLogger().print("Starting Game : Waiting for the first turn message ...");
 		client.setIsInterfaceBlocked(true);

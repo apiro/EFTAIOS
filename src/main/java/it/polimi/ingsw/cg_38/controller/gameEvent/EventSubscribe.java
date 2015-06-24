@@ -17,7 +17,7 @@ public class EventSubscribe extends GameEvent implements Serializable{
 		super(generator, true);
 		this.setRoom(room);
 		this.setMap(map);
-		this.setType(GameEventType.subscribe);
+		this.setType(GameEventType.SUBSCRIBE);
 	}
 	
 	@Override

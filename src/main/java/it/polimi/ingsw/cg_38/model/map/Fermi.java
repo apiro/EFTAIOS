@@ -10,6 +10,7 @@ public class Fermi extends Map {
     	this.fillTable(configuration);
     }
 
+    @Override
     public int[] getConfiguration() {
 		return configuration;
 	}

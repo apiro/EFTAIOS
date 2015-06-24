@@ -51,6 +51,6 @@ public class RenderAttackDamage extends NotifyAction {
 		client.getLogger().print("YOU LOOSE !");
 		client.setIsInterfaceBlocked(true);
 		client.setClientAlive(false);
-		client.setPlayerClientState(PlayerClientState.looser);
+		client.setPlayerClientState(PlayerClientState.LOOSER);
 	}
 }

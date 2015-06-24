@@ -11,7 +11,7 @@ public class EventUseDefense extends EventCardUsed {
 
 	public EventUseDefense(Player generator, Boolean broadcast, ObjectCardType typeCard) {
 		super(generator, broadcast, typeCard);
-		super.setType(NotifyEventType.useDefenseCard);
+		super.setType(NotifyEventType.USEDEFENSECARD);
 		this.typeCard = typeCard;
 	}
 

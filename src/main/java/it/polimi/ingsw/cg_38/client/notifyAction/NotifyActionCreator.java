@@ -13,49 +13,49 @@ public class NotifyActionCreator {
 	public static Action createNotifyAction(Event evt) {
 		NotifyEventType type = ((NotifyEvent)evt).getType();
     	Action action = null;
-    	if(type.equals(NotifyEventType.Added)) 
+    	if(type.equals(NotifyEventType.ADDED)) 
     		action = new AddedToGame((NotifyEvent) evt);
-    	if(type.equals(NotifyEventType.environment))
+    	if(type.equals(NotifyEventType.ENVIRONMENT))
     		action = new RenderEnvironment((NotifyEvent) evt);
-    	if(type.equals(NotifyEventType.Attacked))
+    	if(type.equals(NotifyEventType.ATTACKED))
     		action = new RenderAttacked((NotifyEvent) evt);
-    	if(type.equals(NotifyEventType.notifyTurn))
+    	if(type.equals(NotifyEventType.NOTIFYTURN))
     		action = new RenderNotifyTurn((NotifyEvent) evt);
-    	if(type.equals(NotifyEventType.Error))
+    	if(type.equals(NotifyEventType.ERROR))
     		action = new RenderError((NotifyEvent) evt);
-    	if(type.equals(NotifyEventType.Moved))
+    	if(type.equals(NotifyEventType.MOVED))
     		action = new RenderMoved((NotifyEvent) evt);
-    	if(type.equals(NotifyEventType.Drown))
+    	if(type.equals(NotifyEventType.DROWN))
     		action = new RenderDrown((NotifyEvent) evt);
-    	if(type.equals(NotifyEventType.Noise)) 
+    	if(type.equals(NotifyEventType.NOISE)) 
     		action = new RenderNoise((NotifyEvent) evt);
-    	if(type.equals(NotifyEventType.aliensWin))
+    	if(type.equals(NotifyEventType.ALIENSWIN))
     		action = new RenderAliensWin((NotifyEvent)evt);
-    	if(type.equals(NotifyEventType.CardUsed))
+    	if(type.equals(NotifyEventType.CARDUSED))
     		action = new RenderNoSideEffectCard((NotifyEvent)evt);
-    	if(type.equals(NotifyEventType.DeclarePosition))
+    	if(type.equals(NotifyEventType.DECLAREPOSITION))
     		action = new RenderSpotlight((NotifyEvent)evt);
-    	if(type.equals(NotifyEventType.sufferAttack)) 
+    	if(type.equals(NotifyEventType.SUFFERATTACK)) 
     		action = new RenderAttackDamage((NotifyEvent)evt);
-		if(type.equals(NotifyEventType.useDefenseCard))
+		if(type.equals(NotifyEventType.USEDEFENSECARD))
 			action = new RenderUseDefenseCard((NotifyEvent)evt);
-		if(type.equals(NotifyEventType.notTeleport)) 
+		if(type.equals(NotifyEventType.NOTTELEPORT)) 
 			action = new RenderTeleport((NotifyEvent)evt);
-		if(type.equals(NotifyEventType.humanWin)) 
+		if(type.equals(NotifyEventType.HUMANWIN)) 
 			action = new RenderHumanWin((NotifyEvent)evt);
-		if(type.equals(NotifyEventType.hatchBlocked)) 
+		if(type.equals(NotifyEventType.HATCHBLOCKED)) 
 			action = new RenderHatchBlocked((NotifyEvent)evt);
-		if(type.equals(NotifyEventType.rejectCard)) 
+		if(type.equals(NotifyEventType.REJECTCARD)) 
 			action = new RenderRejectCard((NotifyEvent)evt);
-		if(type.equals(NotifyEventType.cardPerformed)) 
+		if(type.equals(NotifyEventType.CARDPERFORMED)) 
 			action = new RenderCardPerformed((NotifyEvent)evt);
-		if(type.equals(NotifyEventType.rejectCardHuman))
+		if(type.equals(NotifyEventType.REJECTCARDHUMAN))
 			action = new RenderRejectHumanCard((NotifyEvent)evt);
-		if(type.equals(NotifyEventType.closingGame))
+		if(type.equals(NotifyEventType.CLOSINGGAME))
 			action = new RenderClosingGame((NotifyEvent)evt);
-		if(type.equals(NotifyEventType.chat))
+		if(type.equals(NotifyEventType.CHAT))
 			action = new RenderChatMessage((NotifyEvent)evt);
-		if(type.equals(NotifyEventType.retired))
+		if(type.equals(NotifyEventType.RETIRED))
 			action = new RenderRetired((NotifyEvent)evt);
     	return action;
 	}

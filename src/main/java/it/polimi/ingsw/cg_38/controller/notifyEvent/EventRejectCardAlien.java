@@ -10,6 +10,6 @@ public class EventRejectCardAlien extends NotifyEvent {
 
 	public EventRejectCardAlien(Player generator) {
 		super(generator, false);
-		super.setType(NotifyEventType.rejectCard);
+		super.setType(NotifyEventType.REJECTCARD);
 	}
 }

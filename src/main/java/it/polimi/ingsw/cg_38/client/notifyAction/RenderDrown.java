@@ -27,7 +27,7 @@ public class RenderDrown extends NotifyAction {
 
 	@Override
 	public Boolean isPossible(PlayerClient client) {
-		if(client.getPlayerClientState().equals(PlayerClientState.isTurn) && 
+		if(client.getPlayerClientState().equals(PlayerClientState.ISTURN) && 
 				super.check(client)){
 			return true;
 		}
@@ -44,25 +44,25 @@ public class RenderDrown extends NotifyAction {
 		
 		if(((EventDrown)evt).getDrown() instanceof SectorCard) {
 			SectorCard card = ((SectorCard)((EventDrown)evt).getDrown());
-			if(card.getType().equals(SectorCardType.MySectorNoise)) {
+			if(card.getType().equals(SectorCardType.MYSECTORNOISE)) {
 				evt1 = new EventNoiseMySect(client.getPlayer());
 				
-			} else if (card.getType().equals(SectorCardType.RandomSectorNoise)) {
+			} else if (card.getType().equals(SectorCardType.RANDOMSECTORNOISE)) {
 				evt1 = new EventNoiseRandSect(client.getPlayer(), client.askForMoveCoordinates());
 				
-			} else if (card.getType().equals(SectorCardType.Silence)) {
+			} else if (card.getType().equals(SectorCardType.SILENCE)) {
 				client.setIsInterfaceBlocked(false);
 				return null;
 			}
 			
 		} else if (((EventDrown)evt).getDrown() instanceof HatchCard) {
 			HatchCard card = ((HatchCard)((EventDrown)evt).getDrown());
-			if(card.getColor().equals(HatchCardType.Green) && 
+			if(card.getColor().equals(HatchCardType.GREEN) && 
 					((Hatch)player.getAvatar().getCurrentSector()).getIsOpen()) {
 				client.paintHatch(true, evt.getGenerator().getAvatar().getCurrentSector());
 				this.renderWin(client);
 				evt1 = new EventHumanWin(client.getPlayer());
-			} else if(card.getColor().equals(HatchCardType.Red)) {
+			} else if(card.getColor().equals(HatchCardType.RED)) {
 				client.paintHatch(false, evt.getGenerator().getAvatar().getCurrentSector());
 				client.setIsInterfaceBlocked(false);
 				client.getLogger().print("You can't escape frome the SpaceShip !");
@@ -76,6 +76,7 @@ public class RenderDrown extends NotifyAction {
 
 	private void renderWin(PlayerClient client) {
 		client.getLogger().print("YOU WIN !");
-		client.setPlayerClientState(PlayerClientState.winner);
+		client.setIsInterfaceBlocked(true);
+		client.setPlayerClientState(PlayerClientState.WINNER);
 	}
 }

@@ -123,7 +123,7 @@ public class ServerController extends Observable {
 				if(eR != null) callbackEvent.remove(eR);
 				
 				for(NotifyEvent e:callbackEvent) {
-					if(e.getType().equals(NotifyEventType.Added)) {
+					if(e.getType().equals(NotifyEventType.ADDED)) {
 						if(((EventAddedToGame)e).getAdded() == false ) {
 							gcFound.getSubscribers().remove(msg.getGenerator().getName());
 							this.getTopics().remove(msg.getGenerator().getName());

@@ -11,7 +11,7 @@ public class EventClosingGame extends NotifyEvent {
 	public EventClosingGame(Player generator, Boolean areThereOtherHumans) {
 		super(generator, true);
 		this.setAreThereOtherHumans(areThereOtherHumans);
-		super.setType(NotifyEventType.closingGame);
+		super.setType(NotifyEventType.CLOSINGGAME);
 	}
 	
 	public Boolean getAreThereOtherHumans() {

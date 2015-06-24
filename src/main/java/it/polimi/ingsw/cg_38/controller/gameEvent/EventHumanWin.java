@@ -10,6 +10,6 @@ public class EventHumanWin extends GameEvent {
 
 	public EventHumanWin(Player generator) {
 		super(generator, true);
-		super.setType(GameEventType.humanWin);
+		super.setType(GameEventType.HUMANWIN);
 	}
 }

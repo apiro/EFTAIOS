@@ -11,10 +11,12 @@ public class AddedToGame extends NotifyAction {
 	private static final long serialVersionUID = 1L;
 	private NotifyEvent evt;
 	
+	@Override
 	public NotifyEvent getEvt() {
 		return evt;
 	}
 
+	@Override
 	public void setEvt(NotifyEvent evt) {
 		this.evt = evt;
 	}
@@ -27,7 +29,7 @@ public class AddedToGame extends NotifyAction {
 	public GameEvent render(PlayerClient client) {
 		client.getLogger().print(this.getEvt().getGenerator().getName() + " has been added ? " + ((EventAddedToGame)evt).getAdded());
 		if(((EventAddedToGame)evt).getAdded()) {
-			client.setPlayerClientState(PlayerClientState.connected);
+			client.setPlayerClientState(PlayerClientState.CONNECTED);
 			client.setIsInterfaceBlocked(true);
 		}
 		client.setIsInterfaceBlocked(true);

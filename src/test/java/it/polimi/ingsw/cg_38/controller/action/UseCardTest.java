@@ -148,15 +148,15 @@ public class UseCardTest {
 		player5 = new Player("piccio");
 		player6 = new Player("raf");
 		
-		adrenalineCard1 = new ObjectCard(ObjectCardType.Adrenaline);
-		adrenalineCard2 = new ObjectCard(ObjectCardType.Adrenaline);
-		attackCard1 = new ObjectCard(ObjectCardType.AttackCard);
-		attackCard2 = new ObjectCard(ObjectCardType.AttackCard);
-		lightsCard1 = new ObjectCard(ObjectCardType.SpotLight);
-		lightsCard2 = new ObjectCard(ObjectCardType.SpotLight);
-		sedatCard = new ObjectCard(ObjectCardType.Sedatives);
-		teleportCard = new ObjectCard(ObjectCardType.Teleport);
-		defenseCard = new ObjectCard(ObjectCardType.Defense);
+		adrenalineCard1 = new ObjectCard(ObjectCardType.ADRENALINE);
+		adrenalineCard2 = new ObjectCard(ObjectCardType.ADRENALINE);
+		attackCard1 = new ObjectCard(ObjectCardType.ATTACKCARD);
+		attackCard2 = new ObjectCard(ObjectCardType.ATTACKCARD);
+		lightsCard1 = new ObjectCard(ObjectCardType.SPOTLIGHT);
+		lightsCard2 = new ObjectCard(ObjectCardType.SPOTLIGHT);
+		sedatCard = new ObjectCard(ObjectCardType.SEDATIVES);
+		teleportCard = new ObjectCard(ObjectCardType.TELEPORT);
+		defenseCard = new ObjectCard(ObjectCardType.DEFENSE);
 		
 		model1 = new GameModel("Galvani");
 		

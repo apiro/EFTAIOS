@@ -20,7 +20,7 @@ public class EventSedatives extends GameEvent {
 
 	public EventSedatives(Player generator, Card card) {
 		super(generator, false);
-		super.setType(GameEventType.Sedatives);
+		super.setType(GameEventType.SEDATIVES);
 		this.setToUse(card);
 	}
 

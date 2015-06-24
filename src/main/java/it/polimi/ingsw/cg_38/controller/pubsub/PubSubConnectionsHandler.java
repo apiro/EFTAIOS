@@ -22,6 +22,7 @@ public class PubSubConnectionsHandler extends Thread {
 		this.server = server;
 	}
 	
+	@Override
 	public void run() {
 		serverAlive = true;
 		while(serverAlive) {

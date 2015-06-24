@@ -10,6 +10,6 @@ public class EventNotifyCardPerformed extends NotifyEvent {
 
 	public EventNotifyCardPerformed(Player generator) {
 		super(generator, false);
-		super.setType(NotifyEventType.cardPerformed);
+		super.setType(NotifyEventType.CARDPERFORMED);
 	}
 }

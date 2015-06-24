@@ -14,7 +14,7 @@ public class EventDeclareNoise extends NotifyEvent {
 	public EventDeclareNoise(Player generator , Sector sector){
 		super(generator , true);
 		this.setSectorToNoise(sector);
-		super.setType(NotifyEventType.Noise);
+		super.setType(NotifyEventType.NOISE);
 		
 	}
 

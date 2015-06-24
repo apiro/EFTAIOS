@@ -89,9 +89,9 @@ public class GameModelTest {
 		model1.getGamePlayers().add(new Player("Ermenegilda"));
 		model1.getGamePlayers().add(new Player("Candeloro"));
 		model1.getGamePlayers().get(0).setAvatar(avatar11);
-		card1 = new SectorCard(SectorCardType.MySectorNoise , false);
-		card2 = new ObjectCard(ObjectCardType.AttackCard);
-		card3 = new HatchCard(HatchCardType.Green);
+		card1 = new SectorCard(SectorCardType.MYSECTORNOISE , false);
+		card2 = new ObjectCard(ObjectCardType.ATTACKCARD);
+		card3 = new HatchCard(HatchCardType.GREEN);
 		player11 = model1.getGamePlayers().get(0);
 		player21 = model2.getGamePlayers().get(0);
 		player21.setAvatar(avatar22);

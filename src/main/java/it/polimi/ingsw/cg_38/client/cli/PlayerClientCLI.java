@@ -65,7 +65,7 @@ public class PlayerClientCLI implements PlayerClient {
 
 	@Override
 	public void init() {
-		playerClientState = PlayerClientState.init;
+		playerClientState = PlayerClientState.INIT;
 		toProcess = new ConcurrentLinkedQueue<Event>();
 		toSend = new ConcurrentLinkedQueue<Event>();
 		connection = this.askForTypeOfConnection();
@@ -97,7 +97,7 @@ public class PlayerClientCLI implements PlayerClient {
 		EventSubscribe evtSub = new EventSubscribe(player, room, map);
 		logger.print("----------------------------------------------------------------------");
 		logger.print("Connecting with the server... ");
-		playerClientState = PlayerClientState.connecting;
+		playerClientState = PlayerClientState.CONNECTING;
 		return evtSub;
 	}
 	
@@ -234,31 +234,31 @@ public class PlayerClientCLI implements PlayerClient {
 	private void useCard(int cardSelected) {
 		try {
 			
-			if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Adrenaline)) {
+			if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.ADRENALINE)) {
 				synchronized(this.toSend) {
 					this.toSend.add(new EventAdrenaline(player, player.getAvatar().getMyCards().get(cardSelected)));
 				}
-			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.AttackCard)) {
+			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.ATTACKCARD)) {
 				synchronized(this.toSend) {
 					this.toSend.add(new EventAttackCard(player, player.getAvatar().getMyCards().get(cardSelected)));
 				}
-			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Defense)) {
+			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.DEFENSE)) {
 				
 				logger.print("---> You can't use defense card !");
 				this.getPlayer().getAvatar().getMyCards().remove(cardSelected);
 				this.loadInterface();
 				
-			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Sedatives)) {
+			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SEDATIVES)) {
 				synchronized(this.toSend) {
 					this.toSend.add(new EventSedatives(player, player.getAvatar().getMyCards().get(cardSelected)));
 				}
-			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SpotLight)) {
+			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SPOTLIGHT)) {
 				
 				Sector toMove = this.askForMoveCoordinates();
 				synchronized(this.toSend) {
 					this.toSend.add(new EventSpotLight(player, toMove, player.getAvatar().getMyCards().get(cardSelected)));
 				}
-			} else if (player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Teleport)) {
+			} else if (player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.TELEPORT)) {
 				synchronized(this.toSend) {
 					this.toSend.add(new EventTeleport(player, player.getAvatar().getMyCards().get(cardSelected)));
 				}

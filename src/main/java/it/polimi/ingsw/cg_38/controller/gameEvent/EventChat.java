@@ -12,7 +12,7 @@ public class EventChat extends GameEvent {
 	public EventChat(Player generator, String message) {
 		super(generator, true);
 		this.setMessage(message);
-		super.setType(GameEventType.chat);
+		super.setType(GameEventType.CHAT);
 	}
 
 	public String getMessage() {

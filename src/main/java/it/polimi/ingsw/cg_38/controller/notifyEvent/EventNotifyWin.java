@@ -8,7 +8,7 @@ public class EventNotifyWin extends NotifyEvent {
 
 	public EventNotifyWin(Player generator) {
 		super(generator, true);
-		super.setType(NotifyEventType.notWin);
+		super.setType(NotifyEventType.NOTWIN);
 	}
 
 	private static final long serialVersionUID = 1L;
