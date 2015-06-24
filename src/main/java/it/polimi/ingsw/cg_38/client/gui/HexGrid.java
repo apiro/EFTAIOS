@@ -48,9 +48,9 @@ public class HexGrid extends JPanel {
 	public void hatchPainter(int x, int y, Boolean available) {
 		for(GraphicSector sec:sects) {
 			if((sec.getCol() == x) && (sec.getRow() == y)) {
-				oldx = sec.getCol();
+				/*oldx = sec.getCol();
 				oldy = sec.getRow();
-				oldIcon = (ImageIcon) sec.getIcon();
+				oldIcon = (ImageIcon) sec.getIcon();*/
 				if(available) {
 					sec.setIcon(hatchGreen);
 				}

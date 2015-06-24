@@ -93,6 +93,7 @@ public class ServerController extends Observable {
 				GameController gcFound = null;
 				Action generatedAction = GameActionCreator.createGameAction(msg);
 				gcFound = topics.get(msg.getGenerator().getName());
+				if(gcFound == null) break;
 				if( msg.getGenerator().getName().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer().getName()) ||
 						msg instanceof EventChat) {
 					//se l'evento viene dal giocatore del turno corrente

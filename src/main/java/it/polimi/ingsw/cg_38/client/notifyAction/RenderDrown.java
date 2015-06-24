@@ -62,12 +62,13 @@ public class RenderDrown extends NotifyAction {
 				client.paintHatch(true, evt.getGenerator().getAvatar().getCurrentSector());
 				this.renderWin(client);
 				evt1 = new EventHumanWin(client.getPlayer());
-			} else if((card.getColor().equals(HatchCardType.RED)) ||
-					!((Hatch)player.getAvatar().getCurrentSector()).getIsOpen()) {
+			} else if(card.getColor().equals(HatchCardType.RED)) {
 				client.paintHatch(false, evt.getGenerator().getAvatar().getCurrentSector());
 				client.setIsInterfaceBlocked(false);
 				client.getLogger().print("You can't escape frome the SpaceShip !");
 				evt1 = new EventHatchBlocked(client.getPlayer());
+			} else if (!((Hatch)player.getAvatar().getCurrentSector()).getIsOpen()) {
+				client.getLogger().print("You can't escape frome the SpaceShip !");
 			}
 		}
 		return evt1;
