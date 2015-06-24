@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventChat;
 import it.polimi.ingsw.cg_38.controller.logger.Logger;
 import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAddedToGame;
@@ -90,7 +91,8 @@ public class ServerController extends Observable {
 				GameController gcFound = null;
 				Action generatedAction = GameActionCreator.createGameAction(msg);
 				gcFound = topics.get(msg.getGenerator().getName());
-				if( msg.getGenerator().getName().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer().getName())) {
+				if( msg.getGenerator().getName().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer().getName()) ||
+						msg instanceof EventChat) {
 					//se l'evento viene dal giocatore del turno corrente
 					callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 				} else {

@@ -41,16 +41,19 @@ public class FinishTurn extends GameAction {
 				model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(false);
 			}
 			model.getActualTurn().getCurrentPlayer().finishTurn();
-			if(model.getActualTurn().getCurrentPlayer().getNumTurniGiocati() == 39 &&
+			/*if(model.getActualTurn().getCurrentPlayer().getNumTurniGiocati() == 39 &&
 					model.getNextPlayer().getNumTurniGiocati()+1 == 40) {
 				model.setGameState(GameState.CLOSING);
+				callbackEvent.add(new EventNotifyAliensWin(model.getActualTurn().getCurrentPlayer(), winners, true));
 				callbackEvent.add(new EventNotifyClosingTopic(model.getActualTurn().getCurrentPlayer()));
 				callbackEvent.add(new EventClosingGame(model.getActualTurn().getCurrentPlayer(), model.areThereOtherHumans()));
 				return callbackEvent;
-			}
-			if(!model.areThereOtherHumans()) {
+			}*/
+			if(!model.areThereOtherHumans() || 
+					(model.getActualTurn().getCurrentPlayer().getNumTurniGiocati() == 39 &&
+					model.getNextPlayer().getNumTurniGiocati()+1 == 40)) {
 				ArrayList<Player> winners = new ArrayList<Player>();
-				
+				model.setGameState(GameState.CLOSING);
 				for(Player pl:model.getGamePlayers()) {
 					if(pl.getAvatar() instanceof Alien) {
 						pl.getAvatar().setIsWinner(EndState.WINNER);
@@ -58,6 +61,8 @@ public class FinishTurn extends GameAction {
 					}
 				}
 				callbackEvent.add(new EventNotifyAliensWin(model.getActualTurn().getCurrentPlayer(), winners, true));
+				callbackEvent.add(new EventNotifyClosingTopic(model.getActualTurn().getCurrentPlayer()));
+				callbackEvent.add(new EventClosingGame(model.getActualTurn().getCurrentPlayer(), model.areThereOtherHumans()));
 				return callbackEvent;
 			}
 			Turn newTurn = new Turn(model.getNextPlayer());
