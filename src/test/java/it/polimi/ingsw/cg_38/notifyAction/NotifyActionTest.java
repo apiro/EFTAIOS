@@ -393,6 +393,8 @@ public class NotifyActionTest {
 		card2 = new HatchCard(HatchCardType.GREEN);
 		evtDrown2 = new EventDrown(player1 , null , card2);
 		renderDrown = new RenderDrown(evtDrown2);
+		client.getPlayer().getAvatar().setCurrentSector(sector3);
+		((Hatch)client.getPlayer().getAvatar().getCurrentSector()).setIsOpen(true);
 		assertTrue(renderDrown.render(client) instanceof EventHumanWin);
 		assertEquals(client.getPlayerClientState() , PlayerClientState.winner);
 		assertTrue(client.getIsInterfaceBlocked());

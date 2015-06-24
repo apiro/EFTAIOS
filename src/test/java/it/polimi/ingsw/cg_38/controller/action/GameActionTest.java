@@ -382,7 +382,7 @@ public class GameActionTest {
 			assertTrue(gc.getSubscribers().contains(c));
 			assertEquals(draw1.isPossible(model1) , false);
 			model1.setGameState(GameState.RUNNING);
-			assertEquals(draw1.isPossible(model1) , true);/*
+			assertEquals(draw1.isPossible(model1) , true);
 			evtDrown1 = draw1.perform(model1);	
 			evtDrown2 = draw2.perform(model1);
 		
@@ -390,7 +390,7 @@ public class GameActionTest {
 			evtDrown1 = draw1.perform(model1);
 			assertEquals(sectorCard1 , ((EventDrown)evtDrown1.get(0)).getDrown());
 			
-			assertEquals(sectorCard2 , ((EventDrown)evtDrown2.get(0)).getDrown());*/
+			assertEquals(sectorCard2 , ((EventDrown)evtDrown2.get(0)).getDrown());
 			evtDrown2 = draw2.perform(model1);
 			assertEquals(objectCard1 , model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().get(0));
 			assertEquals(evtDrown2.toString() , "[EventDrown [added=" + ((EventDrown)evtDrown2.get(0)).getAdded() + ", drown=" + ((EventDrown)evtDrown2.get(0)).getDrown() + "]]");
