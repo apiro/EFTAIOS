@@ -45,17 +45,9 @@ public class ObjectDeck extends Deck {
     }
 
     public Card draw() {
-    	/*
-    	Card card= null;
-    	for(ObjectCard c:this.getObjectDeck()) {
-    		if(c.getType().equals(ObjectCardType.AttackCard)) {
-    			card = c;
-    		}
-    	}
-    	return card;
-    	*/
     	if(this.getObjectDeck().size() == 0) {
     		this.setObjectDeck(rejectedObjectDeck);
+    		this.setRejectedObjectDeck(new ArrayList<ObjectCard>());
     	}
     	Card extracted = this.getObjectDeck().get(0);
     	this.eliminateCard(extracted);

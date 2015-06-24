@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyHumanWin;
 import it.polimi.ingsw.cg_38.model.EndState;
 import it.polimi.ingsw.cg_38.model.GameModel;
+import it.polimi.ingsw.cg_38.model.map.Hatch;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,8 @@ public class HumanWin extends GameAction {
 		
 		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		model.getActualTurn().getCurrentPlayer().getAvatar().setIsWinner(EndState.WINNER);
-
+		
+		((Hatch)model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()).setIsOpen(false);
 		callbackEvent.add(new EventNotifyHumanWin(model.getActualTurn().getCurrentPlayer()));
 		if(!model.areThereOtherHumans()) {
 			callbackEvent.add(new EventNotifyClosingTopic(model.getActualTurn().getCurrentPlayer()));
