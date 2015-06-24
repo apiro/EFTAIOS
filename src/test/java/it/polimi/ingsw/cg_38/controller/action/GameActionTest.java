@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_38.controller.action;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -126,16 +127,16 @@ public class GameActionTest {
 	EventRetired evtRetired;
 	EventChat evtChat;
 	
-	ArrayList<NotifyEvent> evtAttacked1;
-	ArrayList<NotifyEvent> evtAttacked2;
-	ArrayList<NotifyEvent> evtDrown1;
-	ArrayList<NotifyEvent> evtDrown2;
-	ArrayList<NotifyEvent> evtDrown3;
-	ArrayList<NotifyEvent> evtDrown4;
-	ArrayList<NotifyEvent> evtMoved;
-	ArrayList<NotifyEvent> evtNotifyTurn;
-	ArrayList<NotifyEvent> evtNotifyTurn2;
-	ArrayList<NotifyEvent> evtNotifyAliensWin;
+	List<NotifyEvent> evtAttacked1;
+	List<NotifyEvent> evtAttacked2;
+	List<NotifyEvent> evtDrown1;
+	List<NotifyEvent> evtDrown2;
+	List<NotifyEvent> evtDrown3;
+	List<NotifyEvent> evtDrown4;
+	List<NotifyEvent> evtMoved;
+	List<NotifyEvent> evtNotifyTurn;
+	List<NotifyEvent> evtNotifyTurn2;
+	List<NotifyEvent> evtNotifyAliensWin;
 	EventNotifyTopics evtNotifyTopics;
 	EventAddedToGame evtAddedToGame;
 	NotifyEvent evtNotify;
@@ -158,12 +159,12 @@ public class GameActionTest {
 	Turn turn6;
 	Turn turn7;
 	
-	ArrayList<SectorCard> sectorList1;
-	ArrayList<ObjectCard> objectList1;
-	ArrayList<HatchCard> hatchList1;
-	ArrayList<Player> killedPlayer;
-	ArrayList<Player> addPlayers;
-	ArrayList<String> topics;
+	List<SectorCard> sectorList1;
+	List<ObjectCard> objectList1;
+	List<HatchCard> hatchList1;
+	List<Player> killedPlayer;
+	List<Player> addPlayers;
+	List<String> topics;
 	
 	SectorDeck sectorDeck1;
 	ObjectDeck objectDeck1;

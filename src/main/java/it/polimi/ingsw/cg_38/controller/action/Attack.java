@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_38.controller.action;
 import java.util.ArrayList;
+import java.util.List;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
@@ -28,11 +29,11 @@ public class Attack extends GameAction {
     public Sector sectorToAttack;
 
     @Override
-    public ArrayList<NotifyEvent> perform(GameModel model) { 
-    	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
-    	ArrayList<Player> killed = model.getDesiredPlayers(this.getSectorToAttack());
+    public List<NotifyEvent> perform(GameModel model) { 
+    	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+    	List<Player> killed = model.getDesiredPlayers(this.getSectorToAttack());
     	Player p = null;
-    	ArrayList<Player> hasDefense = new ArrayList<Player>();
+    	List<Player> hasDefense = new ArrayList<Player>();
     	
     	//tolgo il giocatore che ha attaccato che è nel target sector
     	for(Player pl:killed) {

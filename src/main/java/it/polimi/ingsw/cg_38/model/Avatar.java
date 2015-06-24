@@ -20,7 +20,7 @@ public abstract class Avatar implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** show all avatar's card */
-	private ArrayList<ObjectCard> myCards = new ArrayList<ObjectCard>();
+	private List<ObjectCard> myCards = new ArrayList<ObjectCard>();
 
 	private Sector currentSector;
 
@@ -49,7 +49,7 @@ public abstract class Avatar implements Serializable {
 	private EndState isWinner = EndState.PLAYING;
 
 	/** show all avatar's movements */
-	private ArrayList<Movement> myMovements = new ArrayList<Movement>();
+	private List<Movement> myMovements = new ArrayList<Movement>();
 
 	public Avatar() {
 	}
@@ -141,7 +141,7 @@ public abstract class Avatar implements Serializable {
 		this.isWinner = isWinner;
 	}
 
-	public ArrayList<ObjectCard> getMyCards() {
+	public List<ObjectCard> getMyCards() {
 		return myCards;
 	}
 
@@ -149,7 +149,7 @@ public abstract class Avatar implements Serializable {
 		return currentSector;
 	}
 
-	public ArrayList<Movement> getMyMovements() {
+	public List<Movement> getMyMovements() {
 		return myMovements;
 	}
 }

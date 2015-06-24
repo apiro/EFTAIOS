@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.controller.action;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.event.Event;
@@ -25,9 +26,9 @@ public class AliensWin extends GameAction {
 	}
 
 	@Override
-	public ArrayList<NotifyEvent> perform(GameModel model) {
-		ArrayList<Player> winners = new ArrayList<Player>();
-		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+	public List<NotifyEvent> perform(GameModel model) {
+		List<Player> winners = new ArrayList<Player>();
+		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		
 		for(Player pl:model.getGamePlayers()) {
 			if(pl.getAvatar() instanceof Alien) {

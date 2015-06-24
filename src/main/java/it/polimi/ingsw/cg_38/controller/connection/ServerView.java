@@ -14,7 +14,8 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.List;
+import java.util.Queue;
 
 //l'oggetto SERVERVIEW che il server mette remotamente a disposizione dei client 
 //i metodi di SERVERVIEW possono essere chiamati dai client quando esportano l'oggetto
@@ -26,7 +27,7 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 	private static final long serialVersionUID = 1L;
 	//coda di eventi di gioco esportata in questa vista limitata del server
 	//aggiungendo un evento di gioco qui si aggiunge un evento da risolvere al server
-	private ConcurrentLinkedQueue<Event> queue;
+	private Queue<Event> queue;
 	private ServerController server;
 	private RMICommunicator communicator;
 
@@ -62,7 +63,7 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 	
 	@Override
 	public void processEvent(Event evt) throws RemoteException {
-		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		GameController gcFound = null;
 		Action generatedAction = GameActionCreator.createGameAction(evt);
 		gcFound = server.getTopics().get(evt.getGenerator().getName());

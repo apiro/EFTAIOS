@@ -1,5 +1,5 @@
 package it.polimi.ingsw.cg_38.controller.action;
-import java.util.ArrayList;
+import java.util.List;
 
 import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
@@ -21,7 +21,7 @@ public abstract class GameAction extends Action {
     	super(player);
     }
     
-    public abstract ArrayList<NotifyEvent> perform(GameModel model);
+    public abstract List<NotifyEvent> perform(GameModel model);
 
     public Boolean isPossible(GameModel model) {
     	if(model.getGameState().equals(GameState.RUNNING)) {

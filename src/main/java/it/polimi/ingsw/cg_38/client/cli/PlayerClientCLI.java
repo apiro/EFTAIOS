@@ -28,14 +28,15 @@ import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
 import it.polimi.ingsw.cg_38.model.map.Map;
 import it.polimi.ingsw.cg_38.model.map.Sector;
 
+import java.util.Queue;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 public class PlayerClientCLI implements PlayerClient {
 
-	private ConcurrentLinkedQueue<Event> toSend;
-	private ConcurrentLinkedQueue<Event> toProcess;
+	private Queue<Event> toSend;
+	private Queue<Event> toProcess;
 	private EventSubscribe evt;
 	private Client client;
 	private Scanner in = new Scanner(System.in);

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_38.controller.action;
 import java.util.ArrayList;
+import java.util.List;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
@@ -35,8 +36,8 @@ public class Draw extends GameAction {
     }
 
     @Override
-    public ArrayList<NotifyEvent> perform(GameModel model) {
-    	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+    public List<NotifyEvent> perform(GameModel model) {
+    	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	if(model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector() instanceof Dangerous ) {
     		SectorCard drown1 = (SectorCard)model.getDeckSector().draw();
     		ObjectCard drown2 = null;
@@ -60,7 +61,6 @@ public class Draw extends GameAction {
     @Override
     public Boolean isPossible(GameModel model) {
        
-    	// TODO implement here
     	if( model.getActualTurn().getHasMoved() &&
     		!model.getActualTurn().getHasAttacked() &&
     		!model.getActualTurn().getHasDraw() && 

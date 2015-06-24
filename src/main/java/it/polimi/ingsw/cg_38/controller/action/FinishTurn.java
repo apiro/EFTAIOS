@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.controller.action;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
@@ -33,8 +34,8 @@ public class FinishTurn extends GameAction {
 	}
 	
 	@Override
-	public ArrayList<NotifyEvent> perform(GameModel model) {
-		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+	public List<NotifyEvent> perform(GameModel model) {
+		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		if(model.getActualTurn().getHasMoved()) {
 			if(model.getActualTurn().getCurrentPlayer().getAvatar() instanceof Human 
 					&& model.getActualTurn().getCurrentPlayer().getAvatar().getIsPowered()) {
@@ -52,7 +53,7 @@ public class FinishTurn extends GameAction {
 			if(!model.areThereOtherHumans() || 
 					(model.getActualTurn().getCurrentPlayer().getNumTurniGiocati() == 39 &&
 					model.getNextPlayer().getNumTurniGiocati()+1 == 40)) {
-				ArrayList<Player> winners = new ArrayList<Player>();
+				List<Player> winners = new ArrayList<Player>();
 				model.setGameState(GameState.CLOSING);
 				for(Player pl:model.getGamePlayers()) {
 					if(pl.getAvatar() instanceof Alien) {

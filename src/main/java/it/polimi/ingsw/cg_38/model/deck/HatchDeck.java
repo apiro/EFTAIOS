@@ -16,23 +16,23 @@ public class HatchDeck extends Deck {
     	this.shuffle();
     }
 
-    public void setRejectedHatchDeck(ArrayList<HatchCard> rejectedHatchDeck) {
+    public void setRejectedHatchDeck(List<HatchCard> rejectedHatchDeck) {
 		this.rejectedHatchDeck = rejectedHatchDeck;
 	}
 
-	public void setHatchDeck(ArrayList<HatchCard> hatchDeck) {
+	public void setHatchDeck(List<HatchCard> hatchDeck) {
 		this.hatchDeck = hatchDeck;
 	}
 
-    private ArrayList<HatchCard> hatchDeck;
+    private List<HatchCard> hatchDeck;
 
-    private ArrayList<HatchCard> rejectedHatchDeck;
+    private List<HatchCard> rejectedHatchDeck;
     
-    public ArrayList<HatchCard> getHatchDeck() {
+    public List<HatchCard> getHatchDeck() {
 		return hatchDeck;
 	}
 
-	public ArrayList<HatchCard> getRejectedHatchDeck() {
+	public List<HatchCard> getRejectedHatchDeck() {
 		return rejectedHatchDeck;
 	}
 

@@ -10,9 +10,6 @@ import java.util.*;
  */
 public class SectorDeck extends Deck {
 
-    /**
-     * 
-     */
     public SectorDeck() {
     	this.setSectorDeck(new ArrayList<SectorCard>());
     	this.setRejectedSectorDeck(new ArrayList<SectorCard>());
@@ -34,35 +31,28 @@ public class SectorDeck extends Deck {
     	this.shuffle();
     }
     
-    public void setRejectedSectorDeck(ArrayList<SectorCard> rejectedSectorDeck) {
+    public void setRejectedSectorDeck(List<SectorCard> rejectedSectorDeck) {
 		this.rejectedSectorDeck = rejectedSectorDeck;
 	}
 
-	/**
-     * 
-     */
-    private ArrayList<SectorCard> gameSectorDeck;
+    private List<SectorCard> gameSectorDeck;
 
-    /**
-     * 
-     */
-    private ArrayList<SectorCard> rejectedSectorDeck;
+    private List<SectorCard> rejectedSectorDeck;
 
     @Override
     public void shuffle() {
-        // TODO implement here
     	Collections.shuffle(this.getSectorDeck());
     }
 
-    public ArrayList<SectorCard> getSectorDeck() {
+    public List<SectorCard> getSectorDeck() {
 		return gameSectorDeck;
 	}
 
-	public void setSectorDeck(ArrayList<SectorCard> sectorDeck) {
+	public void setSectorDeck(List<SectorCard> sectorDeck) {
 		this.gameSectorDeck = sectorDeck;
 	}
 
-	public ArrayList<SectorCard> getRejectedSectorDeck() {
+	public List<SectorCard> getRejectedSectorDeck() {
 		return rejectedSectorDeck;
 	}
 
@@ -81,7 +71,6 @@ public class SectorDeck extends Deck {
 
     @Override
     public void eliminateCard(Card card) {
-        // TODO implement here
     	this.getSectorDeck().remove(card);
     	this.getRejectedSectorDeck().add((SectorCard) card);
     }

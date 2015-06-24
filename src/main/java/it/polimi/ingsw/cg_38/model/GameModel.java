@@ -33,8 +33,8 @@ public class GameModel {
     }
     
     /** return all players in target sector */
-    public ArrayList<Player> getDesiredPlayers(Sector sectorToSearch){
-    	ArrayList<Player> selected = new ArrayList<Player>();
+    public List<Player> getDesiredPlayers(Sector sectorToSearch){
+    	List<Player> selected = new ArrayList<Player>();
     	for(Player pl:this.getGamePlayers()) {
     		if(pl.getAvatar().getCurrentSector().equals(sectorToSearch)) {
     			selected.add(pl);
@@ -54,11 +54,11 @@ public class GameModel {
 	private GameState gameState = GameState.INIT;
     
 	/** contain all players in game */
-    public ArrayList<Player> getGamePlayers() {
+    public List<Player> getGamePlayers() {
 		return gamePlayers;
 	}
 
-	public void setGamePlayers(ArrayList<Player> gamePlayers) {
+	public void setGamePlayers(List<Player> gamePlayers) {
 		this.gamePlayers = gamePlayers;
 	}
 
@@ -94,7 +94,7 @@ public class GameModel {
 		this.gameMap = gameMap;
 	}
 
-    private ArrayList<Player> gamePlayers;
+    private List<Player> gamePlayers;
 
     private Map gameMap;
 

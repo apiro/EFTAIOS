@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_38.controller.action;
 import java.util.ArrayList;
+import java.util.List;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
@@ -37,8 +38,8 @@ public class UseAdrenalineCard extends GameAction {
 	/**
      * @return
      */
-    public ArrayList<NotifyEvent> perform(GameModel model) {
-    	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+    public List<NotifyEvent> perform(GameModel model) {
+    	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	if(model.getActualTurn().getCurrentPlayer().getAvatar() instanceof Alien) {
     		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     		model.handleRejectedCard(card);

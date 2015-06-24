@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg_38.controller.notifyEvent;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
@@ -8,19 +8,19 @@ import it.polimi.ingsw.cg_38.model.Player;
 
 public class EventSufferAttack extends NotifyEvent {
 
-	private ArrayList<Player> killed;
+	private List<Player> killed;
 
-	public EventSufferAttack(Player generator, ArrayList<Player> killed) {
+	public EventSufferAttack(Player generator, List<Player> killed) {
 		super(generator, true);
 		this.killed = killed;
 		super.setType(NotifyEventType.SUFFERATTACK);
 	}
 
-	public ArrayList<Player> getKilled() {
+	public List<Player> getKilled() {
 		return killed;
 	}
 
-	public void setKilled(ArrayList<Player> killed) {
+	public void setKilled(List<Player> killed) {
 		this.killed = killed;
 	}
 

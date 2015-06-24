@@ -11,6 +11,7 @@ import it.polimi.ingsw.cg_38.model.GameModel;
 import it.polimi.ingsw.cg_38.model.map.Hatch;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HumanWin extends GameAction {
 
@@ -21,9 +22,9 @@ public class HumanWin extends GameAction {
 	}
 
 	@Override
-	public ArrayList<NotifyEvent> perform(GameModel model) {
+	public List<NotifyEvent> perform(GameModel model) {
 		
-		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		model.getActualTurn().getCurrentPlayer().getAvatar().setIsWinner(EndState.WINNER);
 		
 		((Hatch)model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()).setIsOpen(false);

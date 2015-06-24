@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.controller.notifyEvent;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
@@ -10,19 +11,19 @@ public class EventDeclarePosition extends NotifyEvent {
 
 	private static final long serialVersionUID = 1L;
 	
-	private ArrayList<Player> toDeclare = new ArrayList<Player>();
+	private List<Player> toDeclare = new ArrayList<Player>();
 	
-	public EventDeclarePosition(Player generator, ArrayList<Player> toDeclare) {
+	public EventDeclarePosition(Player generator, List<Player> toDeclare) {
 		super(generator, true);
 		super.setType(NotifyEventType.DECLAREPOSITION);
 		this.setToDeclare(toDeclare);
 	}
 
-	public ArrayList<Player> getToDeclare() {
+	public List<Player> getToDeclare() {
 		return toDeclare;
 	}
 
-	public void setToDeclare(ArrayList<Player> toDeclare) {
+	public void setToDeclare(List<Player> toDeclare) {
 		this.toDeclare = toDeclare;
 	}
 }

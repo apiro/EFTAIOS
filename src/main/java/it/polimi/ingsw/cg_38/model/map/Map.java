@@ -81,7 +81,7 @@ public class Map implements Serializable {
     /**
      * 
      */
-    public ArrayList<ArrayList<Sector>> table;
+    public List<ArrayList<Sector>> table;
 
 	public final int height = 14;
     public final int width = 23;
@@ -93,22 +93,22 @@ public class Map implements Serializable {
     			Sector mySector = null;
     			if(configuration[i*this.width+j]==-1) {
     				mySector = Sector.factoryCreator("Empty");
-    				((ArrayList <Sector>)(this.getTable().get(i))).add(j, mySector);
+    				((List <Sector>)(this.getTable().get(i))).add(j, mySector);
     			}if(configuration[i*this.width+j]==0) {
     				mySector = Sector.factoryCreator("Safe");
-    				((ArrayList <Sector>)(this.getTable().get(i))).add(j, mySector);
+    				((List <Sector>)(this.getTable().get(i))).add(j, mySector);
     			}if(configuration[i*this.width+j]==1) {
     				mySector = Sector.factoryCreator("Dangerous");
-    				((ArrayList <Sector>)(this.getTable().get(i))).add(j, mySector);
+    				((List <Sector>)(this.getTable().get(i))).add(j, mySector);
     			}if(configuration[i*this.width+j]==2) {
     				mySector = Sector.factoryCreator("HumanStartingPoint");
-    				((ArrayList <Sector>)(this.getTable().get(i))).add(j, mySector);
+    				((List <Sector>)(this.getTable().get(i))).add(j, mySector);
     			}if(configuration[i*this.width+j]==3) {
     				mySector = Sector.factoryCreator("AlienStartingPoint");
-    				((ArrayList <Sector>)(this.getTable().get(i))).add(j, mySector);
+    				((List <Sector>)(this.getTable().get(i))).add(j, mySector);
     			}if(configuration[i*this.width+j]==4) {
     				mySector = Sector.factoryCreator("Hatch");
-    				((ArrayList <Sector>)(this.getTable().get(i))).add(j, mySector);
+    				((List <Sector>)(this.getTable().get(i))).add(j, mySector);
     			}
     			mySector.setRow(i);
 				mySector.setCol(j);
@@ -121,8 +121,8 @@ public class Map implements Serializable {
 		return height;
 	}
 
-	private static void addNeighboringSectors(Sector mySector, ArrayList<ArrayList<Sector>> table){
-    	ArrayList<Sector> toAdd = new ArrayList<Sector>();
+	private static void addNeighboringSectors(Sector mySector, List<ArrayList<Sector>> table){
+    	List<Sector> toAdd = new ArrayList<Sector>();
     	if(mySector.getName() != "Empty") {
     		if(mySector.getRow()-1 !=-1) {
     			//limite superiore
@@ -156,7 +156,7 @@ public class Map implements Serializable {
     	Map.addMySectorToNeighboringSectors(toAdd, mySector);
     }
     
-    private static void addMySectorToNeighboringSectors(ArrayList<Sector> toAdd, Sector mySector){
+    private static void addMySectorToNeighboringSectors(List<Sector> toAdd, Sector mySector){
     	for(Sector selected: toAdd){
     		selected.getNeighboringSectors().add(mySector);
     	}
@@ -201,7 +201,7 @@ public class Map implements Serializable {
     	return null;
     }
     
-	public ArrayList<ArrayList<Sector>> getTable() {
+	public List<ArrayList<Sector>> getTable() {
 		return table;
 	}
 

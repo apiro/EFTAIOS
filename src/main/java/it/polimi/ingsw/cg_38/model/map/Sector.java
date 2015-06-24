@@ -54,7 +54,7 @@ public class Sector implements Serializable{
     	this.setNeighboringSectors(new ArrayList<Sector>());
     }
 
-    public void setNeighboringSectors(ArrayList<Sector> neighboringSectors) {
+    public void setNeighboringSectors(List<Sector> neighboringSectors) {
 		this.neighboringSectors = neighboringSectors;
 	}
 
@@ -68,19 +68,10 @@ public class Sector implements Serializable{
 		this.name = name;
 	}
 
-	/**
-     * 
-     */
-    private ArrayList<Sector> neighboringSectors;
+    private List<Sector> neighboringSectors;
 
-    /**
-     * 
-     */
     private int row;
 
-    /**
-     * 
-     */
     private int col;
 
     /**
@@ -88,7 +79,6 @@ public class Sector implements Serializable{
      * @return
      */
     public static Sector factoryCreator(String typeSector) {
-        // TODO implement here
     	Sector creatingSector = null;
     	if(typeSector == "Safe") {
     		creatingSector = new Safe();
@@ -127,7 +117,7 @@ public class Sector implements Serializable{
 		this.col = col;
 	}
 
-	public ArrayList<Sector> getNeighboringSectors() {
+	public List<Sector> getNeighboringSectors() {
 		return neighboringSectors;
 	}
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.controller.notifyEvent;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
@@ -13,7 +14,7 @@ public class EventNotifyEnvironment extends NotifyEvent {
 	public String toString() {
 		return "EventNotifyEnvironment [ ]";
 	}
-	public EventNotifyEnvironment(ArrayList<Player> mapping, Map map) {
+	public EventNotifyEnvironment(List<Player> mapping, Map map) {
 		super(null, true);
 		this.setMappingPlayerAvatar(mapping);
 		this.setMap(map);
@@ -21,7 +22,7 @@ public class EventNotifyEnvironment extends NotifyEvent {
 	}
 	
 	private static final long serialVersionUID = 1L;
-	private ArrayList<Player> mappingPlayerAvatar = new ArrayList<Player>();
+	private List<Player> mappingPlayerAvatar = new ArrayList<Player>();
 	private Map map;
 	
 	public Map getMap() {
@@ -30,10 +31,10 @@ public class EventNotifyEnvironment extends NotifyEvent {
 	public void setMap(Map map) {
 		this.map = map;
 	}
-	public ArrayList<Player> getMappingPlayerAvatar() {
+	public List<Player> getMappingPlayerAvatar() {
 		return mappingPlayerAvatar;
 	}
-	public void setMappingPlayerAvatar(ArrayList<Player> mappingPlayerAvatar) {
+	public void setMappingPlayerAvatar(List<Player> mappingPlayerAvatar) {
 		this.mappingPlayerAvatar = mappingPlayerAvatar;
 	}
 	

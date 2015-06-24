@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Defense extends GameAction {
 
@@ -19,8 +20,8 @@ public class Defense extends GameAction {
 	}
 
 	@Override
-	public ArrayList<NotifyEvent> perform(GameModel model) {
-		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+	public List<NotifyEvent> perform(GameModel model) {
+		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		int i = 0;
 		for(ObjectCard c:model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards()) {
 			if(c.getType().equals(ObjectCardType.DEFENSE)) {

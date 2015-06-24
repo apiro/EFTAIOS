@@ -27,7 +27,9 @@ import java.rmi.registry.Registry;
 import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Observable;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -47,7 +49,7 @@ public class ServerController extends Observable {
 		return topics;
 	}
 	
-	private ConcurrentLinkedQueue<Event> toDispatch;
+	private Queue<Event> toDispatch;
 	
 	private Registry registry;
 	private Boolean serverAlive = true;
@@ -84,7 +86,7 @@ public class ServerController extends Observable {
 		
 		while(serverAlive) {
 			Event msg = toDispatch.poll();
-			ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+			List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 			if(msg != null) {
 				logger.print("Game Event arrived !\n");
 				logger.print("Parsing Event... : " + msg.toString());
@@ -138,7 +140,7 @@ public class ServerController extends Observable {
 	}
 	
 	public void removeTopic(GameController gcFound) {
-		ArrayList<String> toRemove = new ArrayList<String>();
+		List<String> toRemove = new ArrayList<String>();
 		for(String topic:topics.keySet()) {
 			if(topics.get(topic).getTopic().equals(gcFound.getTopic())) {
 				toRemove.add(topic);
@@ -180,7 +182,7 @@ public class ServerController extends Observable {
     	return generalController;
     }
 	
-	public ConcurrentLinkedQueue<Event> getToDispatch() {
+	public Queue<Event> getToDispatch() {
 		return toDispatch;
 	}
 

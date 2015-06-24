@@ -13,7 +13,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Queue;
 
 public class ClientRMI extends Client implements Runnable {
 
@@ -24,11 +24,11 @@ public class ClientRMI extends Client implements Runnable {
 	private Registry registry;
 	private EventSubscribe evt;
 	private Boolean clientAlive = true;
-	private ConcurrentLinkedQueue<Event> toSend;
-	private ConcurrentLinkedQueue<Event> toProcess;
+	private Queue<Event> toSend;
+	private Queue<Event> toProcess;
 	private Logger logger = new LoggerCLI();
 
-	public ClientRMI(ConcurrentLinkedQueue<Event> toSend, ConcurrentLinkedQueue<Event> toProcess, EventSubscribe evt) {
+	public ClientRMI(Queue<Event> toSend, Queue<Event> toProcess, EventSubscribe evt) {
 		this.evt = evt;
 		this.toSend = toSend;
 		this.toProcess = toProcess;

@@ -13,12 +13,13 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAddedToGame;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RegistrationView extends UnicastRemoteObject implements RMIRegistrationInterface {
 
 	private static final long serialVersionUID = 1L;
-	private ConcurrentLinkedQueue<NotifyEvent> queue = new ConcurrentLinkedQueue<NotifyEvent>();
+	private Queue<NotifyEvent> queue = new ConcurrentLinkedQueue<NotifyEvent>();
 	private ServerController server;
 	private Logger logger = new LoggerCLI();
 

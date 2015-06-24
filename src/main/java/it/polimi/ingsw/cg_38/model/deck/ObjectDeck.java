@@ -32,13 +32,13 @@ public class ObjectDeck extends Deck {
 	*/
     
     
-    public void setRejectedObjectDeck(ArrayList<ObjectCard> rejectedObjectDeck) {
+    public void setRejectedObjectDeck(List<ObjectCard> rejectedObjectDeck) {
 		this.rejectedObjectDeck = rejectedObjectDeck;
 	}
 
-    private ArrayList<ObjectCard> objectDeck;
+    private List<ObjectCard> objectDeck;
 
-    private ArrayList<ObjectCard> rejectedObjectDeck;
+    private List<ObjectCard> rejectedObjectDeck;
 
     @Override
     public void shuffle() {
@@ -63,15 +63,15 @@ public class ObjectDeck extends Deck {
     	this.getRejectedObjectDeck().add((ObjectCard) card);
     }
 
-    public ArrayList<ObjectCard> getObjectDeck() {
+    public List<ObjectCard> getObjectDeck() {
 		return objectDeck;
 	}
 
-	public void setObjectDeck(ArrayList<ObjectCard> objectDeck) {
+	public void setObjectDeck(List<ObjectCard> objectDeck) {
 		this.objectDeck = objectDeck;
 	}
 
-	public ArrayList<ObjectCard> getRejectedObjectDeck() {
+	public List<ObjectCard> getRejectedObjectDeck() {
 		return rejectedObjectDeck;
 	}
 }

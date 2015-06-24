@@ -20,8 +20,8 @@ public class Chat extends GameAction {
 	}
 
 	@Override
-	public ArrayList<NotifyEvent> perform(GameModel model) {
-		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+	public List<NotifyEvent> perform(GameModel model) {
+		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		callbackEvent.add(new EventNotifyChatMessage(model.getActualTurn().getCurrentPlayer(), message));
 		return callbackEvent;
 	}

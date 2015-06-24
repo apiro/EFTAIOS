@@ -17,17 +17,19 @@ import it.polimi.ingsw.cg_38.model.Turn;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 public class GameController implements Observer {
 
-	private ArrayList<Communicator> subscribers = new ArrayList<Communicator>();
+	private List<Communicator> subscribers = new ArrayList<Communicator>();
 	
-	private ConcurrentLinkedQueue<NotifyEvent> buffer;
+	private Queue<NotifyEvent> buffer;
 
 	private GameModel gameModel;
 	
@@ -60,7 +62,7 @@ public class GameController implements Observer {
 		} 
 	}
 	
-	public ArrayList<Communicator> getSubscribers() {
+	public List<Communicator> getSubscribers() {
 		return subscribers;
 	}
 
@@ -77,8 +79,8 @@ public class GameController implements Observer {
 		}
 	}
 	
-	public ArrayList<NotifyEvent> performUserCommands(GameAction action) throws RemoteException {
-		ArrayList<NotifyEvent> notifyEvent = new ArrayList<NotifyEvent>();
+	public List<NotifyEvent> performUserCommands(GameAction action) throws RemoteException {
+		List<NotifyEvent> notifyEvent = new ArrayList<NotifyEvent>();
 		if(action instanceof FinishTurn) {
 			//l'oggetto action viene gestito diversamente dalle altre action. ritorno l'evento di 
 			//callback in ogni caso !
@@ -109,11 +111,11 @@ public class GameController implements Observer {
 		}
 	}
 
-	public ConcurrentLinkedQueue<NotifyEvent> getBuffer() {
+	public Queue<NotifyEvent> getBuffer() {
 		return buffer;
 	}
 
-	public void setBuffer(ConcurrentLinkedQueue<NotifyEvent> buffer) {
+	public void setBuffer(Queue<NotifyEvent> buffer) {
 		this.buffer = buffer;
 	}
 

@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -33,8 +34,8 @@ public class GameControllerTest {
 	Player player2;
 	Player player3;
 	
-	ArrayList<Player> add;
-	ArrayList<NotifyEvent> notifyEvents;
+	List<Player> add;
+	List<NotifyEvent> notifyEvents;
 	
 	FinishTurn finishTurn;
 	Draw draw;

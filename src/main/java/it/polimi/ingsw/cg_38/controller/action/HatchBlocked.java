@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.model.GameModel;
 import it.polimi.ingsw.cg_38.model.map.Hatch;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HatchBlocked extends GameAction {
 
@@ -17,8 +18,8 @@ public class HatchBlocked extends GameAction {
 	}
 
 	@Override
-	public ArrayList<NotifyEvent> perform(GameModel model) {
-		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+	public List<NotifyEvent> perform(GameModel model) {
+		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		((Hatch)model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()).setIsOpen(false);
 		callbackEvent.add(new EventHatchBlocked(model.getActualTurn().getCurrentPlayer(), 
    						(Hatch)model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()));

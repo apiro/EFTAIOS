@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.imageio.ImageIO;
@@ -33,7 +34,7 @@ public class HexGrid extends JPanel {
 	private ImageIcon hatchGreen = null;
 	private ImageIcon hatchRed = null;
 	private ArrayList<GraphicSector> sects = new ArrayList<GraphicSector>();
-	private ConcurrentLinkedQueue<Event> toSend;
+	private Queue<Event> toSend;
 	private Player player;
 	private Map map;
 	private int oldx = 30;
@@ -84,7 +85,7 @@ public class HexGrid extends JPanel {
 		}
 	}
 	
-	public HexGrid(int[][] board, ConcurrentLinkedQueue<Event> toSend, Player player, Map map) {
+	public HexGrid(int[][] board, Queue<Event> toSend, Player player, Map map) {
 	
 		this.board = board;
 		this.toSend = toSend;

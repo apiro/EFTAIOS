@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_38.controller.action;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
@@ -19,9 +20,9 @@ public class Looser extends GameAction {
 	}
 
 	@Override
-	public ArrayList<NotifyEvent> perform(GameModel model) {
+	public List<NotifyEvent> perform(GameModel model) {
 		
-		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		for(Player pl:model.getGamePlayers()) {
 			if(pl.getName().equals(super.getPlayer().getName())) {
 				pl.getAvatar().setIsAlive(LifeState.DEAD);

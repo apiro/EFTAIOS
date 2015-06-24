@@ -4,13 +4,14 @@ import it.polimi.ingsw.cg_38.controller.connection.Communicator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
 
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Client implements Runnable {
 
 	protected Communicator communicator;
 	
-	public static Client clientCreator(String type, ConcurrentLinkedQueue<Event> toSend, ConcurrentLinkedQueue<Event> toProcess, EventSubscribe evt) {
+	public static Client clientCreator(String type, Queue<Event> toSend, Queue<Event> toProcess, EventSubscribe evt) {
 		if(type.equals("RMI")) {
 			return new ClientRMI(toSend, toProcess, evt);
 		} else if(type.equals("Socket")) {

@@ -51,8 +51,8 @@ public class UseLightsCard extends GameAction {
 	/**
      * @return
      */
-    public ArrayList<NotifyEvent> perform(GameModel model) {
-    	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+    public List<NotifyEvent> perform(GameModel model) {
+    	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	
     	if(this.currentAvatarType(model).equals("Alien")){
     		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
@@ -63,7 +63,7 @@ public class UseLightsCard extends GameAction {
     		return callbackEvent;
     	}
     	
-    	ArrayList<Player> players = new ArrayList<Player>();
+    	List<Player> players = new ArrayList<Player>();
     	for(Player pl:model.getDesiredPlayers(this.getTargetSector())) {
     		
     			players.add(pl);

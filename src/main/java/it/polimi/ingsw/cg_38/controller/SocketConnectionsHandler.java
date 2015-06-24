@@ -12,7 +12,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Queue;
 
 public class SocketConnectionsHandler extends Thread implements Observer {
 	
@@ -22,11 +22,11 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 	 **/
 	private Boolean alive;
 	private ServerSocket serverSocket;
-	private ConcurrentLinkedQueue<Event> queue;
+	private Queue<Event> queue;
 	private HashMap<String, GameController> topics;
 	private Logger logger = new LoggerCLI();
 	
-	public SocketConnectionsHandler(ServerSocket serverSocket, ConcurrentLinkedQueue<Event> queue, Boolean alive, HashMap<String, GameController> topics) {
+	public SocketConnectionsHandler(ServerSocket serverSocket, Queue<Event> queue, Boolean alive, HashMap<String, GameController> topics) {
 		this.topics = topics;
 		this.alive = alive;
 		this.serverSocket = serverSocket;

@@ -10,19 +10,19 @@ import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Queue;
 
 public class Subscriber implements Runnable {
 
 	private int portPubSub = 3111;
 	private String host = "127.0.0.1";
-	private ConcurrentLinkedQueue<Event> toProcess;
+	private Queue<Event> toProcess;
 	private Boolean clientAlive = true;
 	private EventSubscribe evt;
 	private Communicator communicator;
 	private Logger logger = new LoggerCLI();
 	
-	public Subscriber(EventSubscribe evt, ConcurrentLinkedQueue<Event> toProcess) {
+	public Subscriber(EventSubscribe evt, Queue<Event> toProcess) {
 		this.toProcess = toProcess;
 		this.evt = evt;
 		this.initSubscriber();

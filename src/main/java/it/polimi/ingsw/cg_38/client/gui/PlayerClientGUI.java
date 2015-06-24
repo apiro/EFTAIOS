@@ -24,6 +24,7 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 import java.awt.event.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.swing.*;
@@ -49,8 +50,8 @@ public class PlayerClientGUI implements PlayerClient {
 	final static int BORDERS = 15;
 
 	private int[][] board = new int[BSIZEH][BSIZEW];
-	private ConcurrentLinkedQueue<Event> toSend;
-	private ConcurrentLinkedQueue<Event> toProcess;
+	private Queue<Event> toSend;
+	private Queue<Event> toProcess;
 	private String connection;
 	private Logger loggerChat;
 

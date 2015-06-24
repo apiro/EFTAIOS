@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_38.controller.action;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -81,13 +82,13 @@ public class UseCardTest {
 	EventTeleport evtTeleport3;
 	
 	
-	ArrayList<NotifyEvent> evtAttacked;
-	ArrayList<NotifyEvent> evtDeclarePosition1;
-	ArrayList<NotifyEvent> evtDeclareNoise1;
-	ArrayList<NotifyEvent> evtDeclareNoise2;
-	ArrayList<NotifyEvent> evtDeclareNoise3;
-	ArrayList<NotifyEvent> evtMoved;
-	ArrayList<NotifyEvent> evtCardUsed;
+	List<NotifyEvent> evtAttacked;
+	List<NotifyEvent> evtDeclarePosition1;
+	List<NotifyEvent> evtDeclareNoise1;
+	List<NotifyEvent> evtDeclareNoise2;
+	List<NotifyEvent> evtDeclareNoise3;
+	List<NotifyEvent> evtMoved;
+	List<NotifyEvent> evtCardUsed;
 	
 	Player player1;
 	Player player2;
@@ -103,11 +104,11 @@ public class UseCardTest {
 	Turn turn5;
 	Turn turn6;
 	
-	ArrayList<SectorCard> sectorList1;
-	ArrayList<ObjectCard> objectList1;
-	ArrayList<Player> killedPlayer;
-	ArrayList<Player> addPlayers;
-	ArrayList<Player> toDeclare;
+	List<SectorCard> sectorList1;
+	List<ObjectCard> objectList1;
+	List<Player> killedPlayer;
+	List<Player> addPlayers;
+	List<Player> toDeclare;
 	
 	SectorDeck sectorDeck1;
 	ObjectDeck objectDeck1;

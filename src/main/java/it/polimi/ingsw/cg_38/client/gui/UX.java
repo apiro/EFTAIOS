@@ -23,6 +23,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.swing.JButton;
@@ -155,7 +156,7 @@ public class UX extends JFrame {
 	      return new Player(name);
 	}
 	
-	public void updateCards(Player player, ConcurrentLinkedQueue<Event> toSend, Map map) {
+	public void updateCards(Player player, Queue<Event> toSend, Map map) {
 		   int i = 2;
 		   if(player.getAvatar().getMyCards().size() == 4) {
 			   int cardSelected = Integer.parseInt(JOptionPane.showInputDialog(
@@ -223,7 +224,7 @@ public class UX extends JFrame {
 		 player.getAvatar().getMyCards().remove(cardSelected);
 	}
 	
-	public void showUX(int[][] board, ConcurrentLinkedQueue<Event> toSend, it.polimi.ingsw.cg_38.model.Player player, Map map){
+	public void showUX(int[][] board, Queue<Event> toSend, it.polimi.ingsw.cg_38.model.Player player, Map map){
 	      controlPanel.setBackground(Color.DARK_GRAY);
 	      BorderLayout layout = new BorderLayout();
 	      

@@ -15,7 +15,8 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.List;
+import java.util.Queue;
 
 public class PlayerController extends Thread  {
 
@@ -29,21 +30,21 @@ public class PlayerController extends Thread  {
 	 * invierà il messaggio con le modalita prevista dal Communicator che ho scelto.
 	 * */
 
-	private ConcurrentLinkedQueue<Event> eventsToProcess;
+	private Queue<Event> eventsToProcess;
 
 	private HashMap<String, GameController> topics;
 	
 	private Logger logger = new LoggerCLI();
 
-	public ConcurrentLinkedQueue<Event> getEventsToProcess() {
+	public Queue<Event> getEventsToProcess() {
 		return eventsToProcess;
 	}
 
-	public void setEventsToProcess(ConcurrentLinkedQueue<Event> eventsToProcess) {
+	public void setEventsToProcess(Queue<Event> eventsToProcess) {
 		this.eventsToProcess = eventsToProcess;
 	}
 	
-	public PlayerController(Communicator communicator, ConcurrentLinkedQueue<Event> toDispatch, HashMap<String, GameController> topics) throws IOException {
+	public PlayerController(Communicator communicator, Queue<Event> toDispatch, HashMap<String, GameController> topics) throws IOException {
 		//a questo passo la lista di topic(arraylist di gamecontroller)
 		this.topics = topics;
 		this.communicator = communicator;
@@ -60,7 +61,7 @@ public class PlayerController extends Thread  {
 				//è personale lo processa direttmente qui e invia l'evento di risposta !
 				Event evt = this.communicator.recieveEvent();
 				if(!((GameEvent)evt).getNotifyEventIsBroadcast()){
-					ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+					List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 					GameController gcFound = null;
 					Action generatedAction = GameActionCreator.createGameAction(evt);
 					gcFound = topics.get(evt.getGenerator().getName());
@@ -114,7 +115,7 @@ public class PlayerController extends Thread  {
 	}
 	
 	public void removeTopic(GameController gcFound) {
-		ArrayList<String> toRemove = new ArrayList<String>();
+		List<String> toRemove = new ArrayList<String>();
 		for(String topic:topics.keySet()) {
 			if(topics.get(topic).getTopic().equals(gcFound.getTopic())) {
 				toRemove.add(topic);

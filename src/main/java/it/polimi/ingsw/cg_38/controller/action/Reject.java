@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg_38.model.GameModel;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Reject extends GameAction {
 
@@ -21,8 +22,8 @@ public class Reject extends GameAction {
 	}
 
 	@Override
-	public ArrayList<NotifyEvent> perform(GameModel model) {
-		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
+	public List<NotifyEvent> perform(GameModel model) {
+		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		int i=0;
 		for(ObjectCard c:model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards()) {
 			if(c.getType().equals(card.getType())) {

@@ -6,7 +6,7 @@ public class GamesModel {
     public GamesModel() {
     }
 
-    public ArrayList<GameModel> getGames() {
+    public List<GameModel> getGames() {
 		return games;
 	}
 
@@ -14,6 +14,6 @@ public class GamesModel {
 		this.games = games;
 	}
 
-    private ArrayList<GameModel> games;
+    private List<GameModel> games;
 
 }

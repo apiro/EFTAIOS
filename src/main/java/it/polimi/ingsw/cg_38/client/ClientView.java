@@ -1,27 +1,27 @@
 package it.polimi.ingsw.cg_38.client;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Queue;
 
 import it.polimi.ingsw.cg_38.controller.connection.RMIRemoteObjectInterface;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 
 public class ClientView extends UnicastRemoteObject implements RMIRemoteObjectInterface {
 	
-	private ConcurrentLinkedQueue<Event> queue;
+	private Queue<Event> queue;
 
-	public ClientView(ConcurrentLinkedQueue<Event> queue) throws RemoteException {
+	public ClientView(Queue<Event> queue) throws RemoteException {
 		
 		super();
 		this.setQueue(queue);
 		
 	}
 
-	public ConcurrentLinkedQueue<Event> getQueue() {
+	public Queue<Event> getQueue() {
 		return queue;
 	}
 
-	public void setQueue(ConcurrentLinkedQueue<Event> queue) {
+	public void setQueue(Queue<Event> queue) {
 		this.queue = queue;
 	}
 	
