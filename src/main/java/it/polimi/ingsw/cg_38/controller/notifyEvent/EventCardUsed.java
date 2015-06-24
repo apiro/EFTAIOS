@@ -15,7 +15,7 @@ public class EventCardUsed extends NotifyEvent {
 	
 	public EventCardUsed(Player generator, Boolean performed, ObjectCardType typeCard) {
 		super(generator, true);
-		super.setType(NotifyEventType.CardUsed);
+		super.setType(NotifyEventType.CARDUSED);
 		this.setPerformed(performed);
 		this.typeCard = typeCard;
 	}

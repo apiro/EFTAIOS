@@ -13,7 +13,7 @@ public class EventAdrenaline extends GameEvent {
 	public EventAdrenaline(Player generator, Card card) {
 		super(generator, false);
 		this.setToUse(card);
-		super.setType(GameEventType.Adrenaline);
+		super.setType(GameEventType.ADRENALINE);
 	}
 
 	public Card getToUse() {

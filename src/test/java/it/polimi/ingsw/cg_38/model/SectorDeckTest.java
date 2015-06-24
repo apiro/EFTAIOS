@@ -30,8 +30,8 @@ public class SectorDeckTest {
 		contain = false;
 		
 		rejected = new ArrayList<SectorCard>();
-		card1 = new SectorCard(SectorCardType.MySectorNoise , true);
-		card2 = new SectorCard(SectorCardType.RandomSectorNoise , false);
+		card1 = new SectorCard(SectorCardType.MYSECTORNOISE , true);
+		card2 = new SectorCard(SectorCardType.RANDOMSECTORNOISE , false);
 		rejected.add(card1);
 		rejected.add(card2);
 		

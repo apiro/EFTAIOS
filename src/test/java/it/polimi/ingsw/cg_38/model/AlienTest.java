@@ -120,9 +120,9 @@ public class AlienTest {
 		}
 		
 		avatar.addCard(drownObj);
-		avatar.addCard(new ObjectCard(ObjectCardType.Adrenaline));
-		avatar.addCard(new ObjectCard(ObjectCardType.Adrenaline));
-		Boolean result = avatar.addCard(new ObjectCard(ObjectCardType.Adrenaline));
+		avatar.addCard(new ObjectCard(ObjectCardType.ADRENALINE));
+		avatar.addCard(new ObjectCard(ObjectCardType.ADRENALINE));
+		Boolean result = avatar.addCard(new ObjectCard(ObjectCardType.ADRENALINE));
 		
 		assertEquals(result, true/*false*/);
 		assertEquals(avatar.getMyCards().size(), 4);

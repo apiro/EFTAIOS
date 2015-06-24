@@ -101,7 +101,7 @@ public class GameActionCreatorTest {
 		map = "Galvani";
 		message = "Welcome";
 		
-		card1 = new ObjectCard(ObjectCardType.Adrenaline);
+		card1 = new ObjectCard(ObjectCardType.ADRENALINE);
 		
 		avatar1 = new Human(Name.Human1 , sector1);
 		

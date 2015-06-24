@@ -10,7 +10,7 @@ public class EventNoiseMySect extends GameEvent {
 
 	public EventNoiseMySect(Player generator) {
 		super(generator, true);
-		super.setType(GameEventType.NoiseMySect);
+		super.setType(GameEventType.NOISEMYSECT);
 	}
 
 }

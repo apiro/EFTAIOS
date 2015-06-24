@@ -21,48 +21,48 @@ public class GameActionCreator {
     	GameEventType type = ((GameEvent)evt).getType();
     	Action action = null;
     	/*InitGameAction action2 = null;*/
-    	if(type.equals(GameEventType.Attack)) {
+    	if(type.equals(GameEventType.ATTACK)) {
     		action = new Attack(((GameEvent)evt));
-    	} else if (type.equals(GameEventType.Draw)) {
+    	} else if (type.equals(GameEventType.DRAW)) {
     		action = new Draw(((GameEvent)evt));
-    	} else if (type.equals(GameEventType.Move)) {
+    	} else if (type.equals(GameEventType.MOVE)) {
     		action = new Move(((GameEvent)evt));
-    	}  else if (type.equals(GameEventType.Adrenaline)) {
+    	}  else if (type.equals(GameEventType.ADRENALINE)) {
     		action = new UseAdrenalineCard(((GameEvent)evt));
-    	} else if (type.equals(GameEventType.AttackCard)) {
+    	} else if (type.equals(GameEventType.ATTACKCARD)) {
     		action = new UseAttackCard(((GameEvent)evt));
-    	} else if (type.equals(GameEventType.Lights)) {
+    	} else if (type.equals(GameEventType.LIGHTS)) {
     		action = new UseLightsCard(((GameEvent)evt));
-    	} else if (type.equals(GameEventType.Sedatives)) {
+    	} else if (type.equals(GameEventType.SEDATIVES)) {
     		action = new UseSedativesCard(((GameEvent)evt));
-    	} else if (type.equals(GameEventType.NoiseRandSect)) {
+    	} else if (type.equals(GameEventType.NOISERANDSECT)) {
     		action = new UseRandomSectorNoise(((GameEvent)evt));
-    	} else if (type.equals(GameEventType.NoiseMySect)) {
+    	} else if (type.equals(GameEventType.NOISEMYSECT)) {
     		action = new UseMySectorNoise(((GameEvent)evt));
-    	} else if (type.equals(GameEventType.Teleport)) {
+    	} else if (type.equals(GameEventType.TELEPORT)) {
     		action = new UseTeleportCard(((GameEvent)evt));
-    	} else if (type.equals(GameEventType.finishTurn)) {
+    	} else if (type.equals(GameEventType.FINISHTURN)) {
     		action = new FinishTurn((GameEvent)evt);
     		return action;
-    	} else if (type.equals(GameEventType.subscribe)) {
+    	} else if (type.equals(GameEventType.SUBSCRIBE)) {
     		action = new Subscribe((GameEvent)evt);
-    	} else if (type.equals(GameEventType.winner)) {
+    	} else if (type.equals(GameEventType.WINNER)) {
     		action = new Winner((GameEvent)evt);
-    	} else if (type.equals(GameEventType.looser)) {
+    	} else if (type.equals(GameEventType.LOOSER)) {
     		action = new Looser((GameEvent)evt);
-    	} else if (type.equals(GameEventType.aliensWin)) {
+    	} else if (type.equals(GameEventType.ALIENSWIN)) {
     		action = new AliensWin((GameEvent)evt);
-    	} else if (type.equals(GameEventType.humanWin)) {
+    	} else if (type.equals(GameEventType.HUMANWIN)) {
     		action = new HumanWin((GameEvent)evt);
-    	} else if (type.equals(GameEventType.blockHatch)) {
+    	} else if (type.equals(GameEventType.BLOCKHATCH)) {
     		action = new HatchBlocked((GameEvent)evt);
-    	} else if (type.equals(GameEventType.Defense)) {
+    	} else if (type.equals(GameEventType.DEFENSE)) {
     		action = new Defense((GameEvent)evt);
-    	} else if (type.equals(GameEventType.rejectCard)) {
+    	} else if (type.equals(GameEventType.REJECTCARD)) {
     		action = new Reject((GameEvent)evt);
-    	} else if (type.equals(GameEventType.chat)) {
+    	} else if (type.equals(GameEventType.CHAT)) {
     		action = new Chat((GameEvent)evt);
-    	} else if (type.equals(GameEventType.retired)) {
+    	} else if (type.equals(GameEventType.RETIRED)) {
     		action = new Retire((GameEvent)evt);
     	}
 		return action;

@@ -20,7 +20,7 @@ public class EventMoved extends NotifyEvent {
 
 	public EventMoved(Player generator, String moved) {
 		super(generator, false);
-		super.setType(NotifyEventType.Moved);
+		super.setType(NotifyEventType.MOVED);
 		this.setMoved(moved);
 	}
 

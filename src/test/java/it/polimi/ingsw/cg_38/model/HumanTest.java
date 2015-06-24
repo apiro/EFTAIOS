@@ -48,7 +48,7 @@ public class HumanTest {
     	model.setActualTurn(actualTurn);
     	player.setNumTurniGiocati(player.getNumTurniGiocati());
     	avatar = model.getGamePlayers().get(0).getAvatar();
-    	card1 = new ObjectCard(ObjectCardType.Defense);
+    	card1 = new ObjectCard(ObjectCardType.DEFENSE);
     	sector = model.getGameMap().searchSectorByCoordinates(2, 1);
     	avatar2 = new Human(Name.Human1 , sector);
     	player2.setAvatar(avatar2);
@@ -125,9 +125,9 @@ public class HumanTest {
 		}
 		
 		avatar.addCard(drownObj);
-		avatar.addCard(new ObjectCard(ObjectCardType.Adrenaline));
-		avatar.addCard(new ObjectCard(ObjectCardType.Adrenaline));
-		Boolean result = avatar.addCard(new ObjectCard(ObjectCardType.Adrenaline));
+		avatar.addCard(new ObjectCard(ObjectCardType.ADRENALINE));
+		avatar.addCard(new ObjectCard(ObjectCardType.ADRENALINE));
+		Boolean result = avatar.addCard(new ObjectCard(ObjectCardType.ADRENALINE));
 		
 		assertEquals(result, true);
 		assertEquals(avatar.getMyCards().size(), 4);

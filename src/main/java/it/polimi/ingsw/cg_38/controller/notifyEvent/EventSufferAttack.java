@@ -13,7 +13,7 @@ public class EventSufferAttack extends NotifyEvent {
 	public EventSufferAttack(Player generator, ArrayList<Player> killed) {
 		super(generator, true);
 		this.killed = killed;
-		super.setType(NotifyEventType.sufferAttack);
+		super.setType(NotifyEventType.SUFFERATTACK);
 	}
 
 	public ArrayList<Player> getKilled() {

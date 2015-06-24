@@ -29,7 +29,7 @@ public class EventAttacked extends NotifyEvent {
 	public EventAttacked(Player generator, Boolean areThereOtherHumans) {
 		super(generator, false);
 		this.setAreThereOtherHumans(areThereOtherHumans);
-		super.setType(NotifyEventType.Attacked);
+		super.setType(NotifyEventType.ATTACKED);
 		this.setAreYouPowered(generator.getAvatar().getIsPowered());
 	}
 

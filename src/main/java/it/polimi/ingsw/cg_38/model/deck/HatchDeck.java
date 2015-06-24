@@ -10,8 +10,8 @@ public class HatchDeck extends Deck {
     	this.setHatchDeck(new ArrayList<HatchCard>());
     	this.setRejectedHatchDeck(new ArrayList<HatchCard>());
     	for(int i = 0; i<3; i++) {
-    		this.getHatchDeck().add(new HatchCard(HatchCardType.Red));
-    		this.getHatchDeck().add(new HatchCard(HatchCardType.Green));
+    		this.getHatchDeck().add(new HatchCard(HatchCardType.RED));
+    		this.getHatchDeck().add(new HatchCard(HatchCardType.GREEN));
     	}
     	this.shuffle();
     }

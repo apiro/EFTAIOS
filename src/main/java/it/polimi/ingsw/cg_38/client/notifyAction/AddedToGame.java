@@ -15,6 +15,7 @@ public class AddedToGame extends NotifyAction {
 		return evt;
 	}
 
+	@Override
 	public void setEvt(NotifyEvent evt) {
 		this.evt = evt;
 	}

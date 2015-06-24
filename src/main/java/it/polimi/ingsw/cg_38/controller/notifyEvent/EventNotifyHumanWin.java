@@ -10,6 +10,6 @@ public class EventNotifyHumanWin extends NotifyEvent {
 
 	public EventNotifyHumanWin(Player generator) {
 		super(generator, true);
-		super.setType(NotifyEventType.humanWin);
+		super.setType(NotifyEventType.HUMANWIN);
 	}
 }

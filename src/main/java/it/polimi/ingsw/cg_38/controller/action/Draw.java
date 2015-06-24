@@ -34,9 +34,7 @@ public class Draw extends GameAction {
     	super(evt.getGenerator());
     }
 
-    /**
-     * @return
-     */
+    @Override
     public ArrayList<NotifyEvent> perform(GameModel model) {
     	ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	if(model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector() instanceof Dangerous ) {
@@ -51,7 +49,7 @@ public class Draw extends GameAction {
    		} else if (model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector() instanceof Hatch ) {
    			model.getActualTurn().setHasDraw(true);
    			HatchCard drown1 =  (HatchCard)model.getDeckHatch().draw();
-   			if(drown1.getColor().equals(HatchCardType.Red)) {
+   			if(drown1.getColor().equals(HatchCardType.RED)) {
    				((Hatch)model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()).setIsOpen(false);
    			}
    			callbackEvent.add(new EventDrown(model.getActualTurn().getCurrentPlayer(), null, drown1));
@@ -59,9 +57,7 @@ public class Draw extends GameAction {
     	return callbackEvent;
     }
 
-    /**
-     * @return
-     */
+    @Override
     public Boolean isPossible(GameModel model) {
        
     	// TODO implement here

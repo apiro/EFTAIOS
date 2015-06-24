@@ -22,7 +22,7 @@ public class EventSpotLight extends GameEvent{
 
 	public EventSpotLight(Player generator, Sector target, Card card) {
 		super(generator, false);
-		super.setType(GameEventType.Lights);
+		super.setType(GameEventType.LIGHTS);
 		this.setTarget(target);
 		this.setToUse(card);
 	}

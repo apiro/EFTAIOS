@@ -162,6 +162,7 @@ public class PlayerClientGUI implements PlayerClient {
 		}
 	}
 
+	@Override
 	public void run() {
 		while (alive[0]) {
 			Event msg = toProcess.poll();

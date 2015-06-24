@@ -121,8 +121,8 @@ public class NotifyEventTest {
 		
 		sector2 = new Hatch();
 		
-		card1 = new HatchCard(HatchCardType.Red);
-		card2 = new ObjectCard(ObjectCardType.Adrenaline);
+		card1 = new HatchCard(HatchCardType.RED);
+		card2 = new ObjectCard(ObjectCardType.ADRENALINE);
 		
 		action = new Attack(new EventAttack(player1 , sector1));
 		
@@ -141,7 +141,7 @@ public class NotifyEventTest {
 		
 		addedToGame =  new EventAddedToGame(player1 , added , broadcast);
 		attacked = new EventAttacked(player2, false);
-		cardUsed = new EventCardUsed(player1 , performed , ObjectCardType.AttackCard);
+		cardUsed = new EventCardUsed(player1 , performed , ObjectCardType.ATTACKCARD);
 		closingGame = new EventClosingGame(player1 , broadcast);
 		declarePosition = new EventDeclarePosition(player1 , toDeclare);
 		declarePosition.setToDeclare(toDeclare2);
@@ -154,7 +154,7 @@ public class NotifyEventTest {
 		notifyTurn = new EventNotifyTurn(player1);
 		notYourTurn = new EventNotYourTurn(player1);
 		sufferAttack = new EventSufferAttack(player1 , toDeclare);
-		useDefense = new EventUseDefense(player1 , true , ObjectCardType.Defense);
+		useDefense = new EventUseDefense(player1 , true , ObjectCardType.DEFENSE);
 		notifyAliens = new EventNotifyAliensWin(player1 , toDeclare , true);
 		notifyTopics = new EventNotifyTopics(player1 , false , topics);
 		hatchBlocked = new EventHatchBlocked(player1 , sector2);
@@ -174,7 +174,7 @@ public class NotifyEventTest {
 		assertTrue(closingGame.getAreThereOtherHumans());
 		assertEquals(notifyChatMessage.getMessage() , "Welcome");
 		assertEquals(addedToGame.getGenerator() , player1);
-		assertEquals(addedToGame.getType() , NotifyEventType.Added);
+		assertEquals(addedToGame.getType() , NotifyEventType.ADDED);
 		assertEquals(addedToGame.getAdded() , added);
 		assertEquals(addedToGame.isBroadcast() , broadcast);
 		assertEquals(addedToGame.toString() , "EventAddedToGame [added=" + added + " player= " + player1.getName() + "]");	
@@ -183,7 +183,7 @@ public class NotifyEventTest {
 		assertEquals(attacked.getAreThereOtherHumans() , false);
 		
 		assertEquals(cardUsed.getPerformed() , performed);
-		assertEquals(cardUsed.toString() , "EventCardUsed [" + ObjectCardType.AttackCard.toString() + "]");
+		assertEquals(cardUsed.toString() , "EventCardUsed [" + ObjectCardType.ATTACKCARD.toString() + "]");
 		
 		assertEquals(declarePosition.getToDeclare() , toDeclare2);
 		
@@ -206,7 +206,7 @@ public class NotifyEventTest {
 		
 		assertEquals(notYourTurn.getMessage() , "This is not your turn !");
 		
-		assertEquals(moved.toString() , "NotifyEvent [type=" + NotifyEventType.Moved + "]");
+		assertEquals(moved.toString() , "NotifyEvent [type=" + NotifyEventType.MOVED + "]");
 		
 		assertEquals(notifyError.getRelatedAction() , action);
 		
@@ -214,7 +214,7 @@ public class NotifyEventTest {
 		sufferAttack.setKilled(toDeclare2);
 		assertEquals(sufferAttack.getKilled() , toDeclare2);
 		
-		assertEquals(useDefense.getTypeCard() , ObjectCardType.Defense);
+		assertEquals(useDefense.getTypeCard() , ObjectCardType.DEFENSE);
 		
 		assertEquals(notifyAliens.getWinners() , toDeclare);
 		

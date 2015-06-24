@@ -10,7 +10,7 @@ public class EventDraw extends GameEvent {
 
 	public EventDraw(Player generator) {
 		super(generator, false);
-		super.setType(GameEventType.Draw);
+		super.setType(GameEventType.DRAW);
 	}
 
 }

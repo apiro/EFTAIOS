@@ -17,7 +17,7 @@ public class EventNotifyEnvironment extends NotifyEvent {
 		super(null, true);
 		this.setMappingPlayerAvatar(mapping);
 		this.setMap(map);
-		this.setType(NotifyEventType.environment);
+		this.setType(NotifyEventType.ENVIRONMENT);
 	}
 	
 	private static final long serialVersionUID = 1L;

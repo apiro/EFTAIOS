@@ -11,7 +11,7 @@ public class EventNotifyTurn extends NotifyEvent {
 	public EventNotifyTurn(Player playerOfTurn) {
 		super(null, true);
 		this.setPlayerOfTurn(playerOfTurn);
-		this.setType(NotifyEventType.notifyTurn);
+		this.setType(NotifyEventType.NOTIFYTURN);
 	}
 	
 	@Override

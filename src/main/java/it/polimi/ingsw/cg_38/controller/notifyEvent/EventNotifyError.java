@@ -10,7 +10,7 @@ public class EventNotifyError extends NotifyEvent {
 	public EventNotifyError(Player generator, Action action) {
 		super(generator, false);
 		this.relatedAction = action;
-		this.setType(NotifyEventType.Error);
+		this.setType(NotifyEventType.ERROR);
 	}
 
 	public Action getRelatedAction() {

@@ -10,6 +10,6 @@ public class EventDefense extends GameEvent {
 
 	public EventDefense(Player generator) {
 		super(generator, false);
-		super.setType(GameEventType.Defense);
+		super.setType(GameEventType.DEFENSE);
 	}
 }

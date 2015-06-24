@@ -12,7 +12,7 @@ public class EventNotifyChatMessage extends NotifyEvent {
 	public EventNotifyChatMessage(Player generator, String message) {
 		super(generator, true);
 		this.setMessage(message);
-		super.setType(NotifyEventType.chat);
+		super.setType(NotifyEventType.CHAT);
 	}
 
 	public String getMessage() {

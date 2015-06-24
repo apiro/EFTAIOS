@@ -21,8 +21,8 @@ public class ObjectDeckTest {
 	@Before
 	public void init(){
 		deck = new ObjectDeck();		
-		objectCard2 = new ObjectCard(ObjectCardType.Adrenaline);
-		objectCard3 = new ObjectCard(ObjectCardType.AttackCard);
+		objectCard2 = new ObjectCard(ObjectCardType.ADRENALINE);
+		objectCard3 = new ObjectCard(ObjectCardType.ATTACKCARD);
 		objectCard4 = objectCard2;
 		
 	}
@@ -36,16 +36,16 @@ public class ObjectDeckTest {
 		*/
 		assertEquals(objectCard.equals(null) , false);
 		assertEquals(objectCard.equals(new Sector()) , false);
-		assertEquals(objectCard2.hashCode() - ObjectCardType.Adrenaline.hashCode() , 31);
+		assertEquals(objectCard2.hashCode() - ObjectCardType.ADRENALINE.hashCode() , 31);
 		assertTrue(objectCard2.equals(objectCard4));
 		objectCard4 = null;
 		assertTrue(!objectCard2.equals(objectCard4));
 		assertTrue(!objectCard2.equals(deck));
 		assertTrue(!objectCard2.equals(objectCard3));
-		objectCard4 = new ObjectCard(ObjectCardType.Adrenaline);
+		objectCard4 = new ObjectCard(ObjectCardType.ADRENALINE);
 		assertTrue(objectCard2.equals(objectCard4));
-		assertEquals(objectCard4.getType() , ObjectCardType.Adrenaline);
-		assertEquals(objectCard4.toString() , "ObjectCard [type=" + ObjectCardType.Adrenaline + "]");
+		assertEquals(objectCard4.getType() , ObjectCardType.ADRENALINE);
+		assertEquals(objectCard4.toString() , "ObjectCard [type=" + ObjectCardType.ADRENALINE + "]");
 		
 	}
 

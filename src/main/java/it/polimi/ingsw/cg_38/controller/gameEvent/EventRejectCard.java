@@ -13,7 +13,7 @@ public class EventRejectCard extends GameEvent {
 	public EventRejectCard(Player generator, ObjectCard card) {
 		super(generator, true);
 		this.setCard(card);
-		super.setType(GameEventType.rejectCard);
+		super.setType(GameEventType.REJECTCARD);
 	}
 
 	public ObjectCard getCard() {

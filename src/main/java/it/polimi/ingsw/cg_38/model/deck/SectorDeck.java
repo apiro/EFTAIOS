@@ -18,18 +18,18 @@ public class SectorDeck extends Deck {
     	this.setRejectedSectorDeck(new ArrayList<SectorCard>());
     	for(int i = 0; i < 5; i++) {
     		if(i<2){
-    			this.getSectorDeck().add(new SectorCard(SectorCardType.RandomSectorNoise, true ));
-    			this.getSectorDeck().add(new SectorCard(SectorCardType.RandomSectorNoise, true ));
-    			this.getSectorDeck().add(new SectorCard(SectorCardType.MySectorNoise, true ));
-    			this.getSectorDeck().add(new SectorCard(SectorCardType.MySectorNoise, true ));
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.RANDOMSECTORNOISE, true ));
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.RANDOMSECTORNOISE, true ));
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.MYSECTORNOISE, true ));
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.MYSECTORNOISE, true ));
     		}
     		else {
-    			this.getSectorDeck().add(new SectorCard(SectorCardType.RandomSectorNoise, false ));
-    			this.getSectorDeck().add(new SectorCard(SectorCardType.RandomSectorNoise, false ));
-    			this.getSectorDeck().add(new SectorCard(SectorCardType.MySectorNoise, false ));
-    			this.getSectorDeck().add(new SectorCard(SectorCardType.MySectorNoise, false ));
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.RANDOMSECTORNOISE, false ));
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.RANDOMSECTORNOISE, false ));
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.MYSECTORNOISE, false ));
+    			this.getSectorDeck().add(new SectorCard(SectorCardType.MYSECTORNOISE, false ));
     		}
-    		this.getSectorDeck().add(new SectorCard(SectorCardType.Silence, false ));
+    		this.getSectorDeck().add(new SectorCard(SectorCardType.SILENCE, false ));
     	}
     	this.shuffle();
     }
@@ -48,9 +48,7 @@ public class SectorDeck extends Deck {
      */
     private ArrayList<SectorCard> rejectedSectorDeck;
 
-    /**
-     * @return
-     */
+    @Override
     public void shuffle() {
         // TODO implement here
     	Collections.shuffle(this.getSectorDeck());
@@ -68,9 +66,7 @@ public class SectorDeck extends Deck {
 		return rejectedSectorDeck;
 	}
 
-	/**
-     * @return
-     */
+	@Override
     public Card draw() {
     	
     	if(this.getSectorDeck().size() == 0) {

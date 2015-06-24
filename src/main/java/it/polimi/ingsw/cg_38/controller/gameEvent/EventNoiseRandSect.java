@@ -20,7 +20,7 @@ public class EventNoiseRandSect extends GameEvent {
 
 	public EventNoiseRandSect(Player generator, Sector toNoise) {
 		super(generator, true);
-		super.setType(GameEventType.NoiseRandSect);
+		super.setType(GameEventType.NOISERANDSECT);
 		this.setToNoise(toNoise);
 	}
 }

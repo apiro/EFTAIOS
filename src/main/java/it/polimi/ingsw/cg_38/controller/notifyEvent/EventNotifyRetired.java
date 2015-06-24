@@ -10,6 +10,6 @@ public class EventNotifyRetired extends NotifyEvent {
 
 	public EventNotifyRetired(Player generator) {
 		super(generator, true);
-		super.setType(NotifyEventType.retired);
+		super.setType(NotifyEventType.RETIRED);
 	}
 }

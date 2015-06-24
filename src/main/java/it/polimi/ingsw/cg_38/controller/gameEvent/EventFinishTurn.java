@@ -8,7 +8,7 @@ public class EventFinishTurn extends GameEvent {
 
 	public EventFinishTurn(Player generator) {
 		super(generator, true);
-		super.setType(GameEventType.finishTurn);
+		super.setType(GameEventType.FINISHTURN);
 	}
 	
 	private static final long serialVersionUID = 1L;

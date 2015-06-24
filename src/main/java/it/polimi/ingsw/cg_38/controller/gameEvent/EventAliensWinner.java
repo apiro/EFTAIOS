@@ -12,7 +12,7 @@ public class EventAliensWinner extends GameEvent {
 	public EventAliensWinner(Player generator, Boolean areWinner) {
 		super(generator, true);
 		this.setAreWinner(areWinner);
-		super.setType(GameEventType.aliensWin);
+		super.setType(GameEventType.ALIENSWIN);
 	}
 
 	public Boolean getAreWinner() {

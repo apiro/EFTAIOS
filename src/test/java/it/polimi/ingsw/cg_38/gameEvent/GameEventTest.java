@@ -93,7 +93,7 @@ public class GameEventTest {
 		
 		map = "Galvani";
 		
-		card1 = new ObjectCard(ObjectCardType.Adrenaline);
+		card1 = new ObjectCard(ObjectCardType.ADRENALINE);
 			
 		adrenaline = new EventAdrenaline(player1 , card1 );
 		attack = new EventAttack(player1 , sector1);
@@ -122,11 +122,11 @@ public class GameEventTest {
 	@Test
 	public void test(){
 		
-		assertTrue(retired.getType().equals(GameEventType.retired));
+		assertTrue(retired.getType().equals(GameEventType.RETIRED));
 		assertTrue(chat.getMessage().equals(message));
 		
 		assertEquals(adrenaline.getToUse() , card1);
-		assertEquals(adrenaline.getType() , GameEventType.Adrenaline);
+		assertEquals(adrenaline.getType() , GameEventType.ADRENALINE);
 		assertEquals(adrenaline.getGenerator() , player1);
 		
 		assertEquals(attack.getTarget() , sector1);
@@ -150,9 +150,9 @@ public class GameEventTest {
 		
 		assertEquals(teleport.getToUse() , card1);
 		
-		assertEquals(attack.toString() , "GameEvent [type=" + GameEventType.Attack + "]");
+		assertEquals(attack.toString() , "GameEvent [type=" + GameEventType.ATTACK + "]");
 		
-		assertEquals(humanWin.getType() , GameEventType.humanWin);
+		assertEquals(humanWin.getType() , GameEventType.HUMANWIN);
 		
 		assertEquals(defense.getGenerator() , player1);
 		

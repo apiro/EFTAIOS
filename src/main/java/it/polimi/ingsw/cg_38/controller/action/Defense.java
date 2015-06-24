@@ -23,7 +23,7 @@ public class Defense extends GameAction {
 		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		int i = 0;
 		for(ObjectCard c:model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards()) {
-			if(c.getType().equals(ObjectCardType.Defense)) {
+			if(c.getType().equals(ObjectCardType.DEFENSE)) {
 				break;
 			}
 			i++;
@@ -31,7 +31,7 @@ public class Defense extends GameAction {
 		ObjectCard cardToRemove = model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().get(i);
 		model.handleRejectedCard(model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(cardToRemove));
 		callbackEvent.add(new EventRejectCardAlien(model.getActualTurn().getCurrentPlayer()));
-		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false, ObjectCardType.Defense));
+		callbackEvent.add(new EventCardUsed(model.getActualTurn().getCurrentPlayer(), false, ObjectCardType.DEFENSE));
 		return callbackEvent;
 	}
 }

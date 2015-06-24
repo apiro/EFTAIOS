@@ -265,14 +265,14 @@ public class GameActionTest {
 		objectDeck1 = new ObjectDeck();
 		hatchDeck1 = new HatchDeck();
 		
-		sectorCard1 = new SectorCard(SectorCardType.Silence , false);
-		sectorCard2 = new SectorCard(SectorCardType.MySectorNoise , true);
-		objectCard1 = new ObjectCard(ObjectCardType.SpotLight);
-		hatchCard1 = new HatchCard(HatchCardType.Green);
-		hatchCard2 = new HatchCard(HatchCardType.Red);
+		sectorCard1 = new SectorCard(SectorCardType.SILENCE , false);
+		sectorCard2 = new SectorCard(SectorCardType.MYSECTORNOISE , true);
+		objectCard1 = new ObjectCard(ObjectCardType.SPOTLIGHT);
+		hatchCard1 = new HatchCard(HatchCardType.GREEN);
+		hatchCard2 = new HatchCard(HatchCardType.RED);
 		
-		card = new ObjectCard(ObjectCardType.Defense);
-		card2 = new ObjectCard(ObjectCardType.Adrenaline);
+		card = new ObjectCard(ObjectCardType.DEFENSE);
+		card2 = new ObjectCard(ObjectCardType.ADRENALINE);
 		
 		evtDraw1 = new EventDraw(player1);
 		evtDraw2 = new EventDraw(player1);

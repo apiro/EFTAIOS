@@ -12,7 +12,7 @@ public class EventMove extends GameEvent {
 	
 	public EventMove(Player generator, Sector toMove) {
 		super(generator, false);
-		super.setType(GameEventType.Move);
+		super.setType(GameEventType.MOVE);
 		this.setToMove(toMove);
 	}
 

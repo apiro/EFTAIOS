@@ -119,15 +119,15 @@ public class NotifyActionCreatorTest {
 		draw = new EventDraw(player);
 		action = new Draw(draw);
 		map = new Map("Galvani");
-		card = new SectorCard(SectorCardType.RandomSectorNoise , false);
+		card = new SectorCard(SectorCardType.RANDOMSECTORNOISE , false);
 		killed = new ArrayList<Player>();
 		killed.add(player);
 		hatch = new Hatch();
-		card1 = new ObjectCard(ObjectCardType.Adrenaline);
+		card1 = new ObjectCard(ObjectCardType.ADRENALINE);
 		
 		added = new EventAddedToGame(player , true , true);
 		attacked = new EventAttacked(player , true);
-		cardUsed = new EventCardUsed(player , true , ObjectCardType.Adrenaline);
+		cardUsed = new EventCardUsed(player , true , ObjectCardType.ADRENALINE);
 		declareNoise = new EventDeclareNoise(player , sector);
 		declarePosition = new EventDeclarePosition(player , killed);
 		drown = new EventDrown(player , null , card);
@@ -137,7 +137,7 @@ public class NotifyActionCreatorTest {
 		error = new EventNotifyError(player , action);
 		turn = new EventNotifyTurn(player);
 		sufferAttack = new EventSufferAttack(player , killed);
-		useDefense = new EventUseDefense(player , true , ObjectCardType.Defense);
+		useDefense = new EventUseDefense(player , true , ObjectCardType.DEFENSE);
 		teleport = new EventNotifyTeleport(player , "moved");
 		humanWin = new EventNotifyHumanWin(player);
 		hatchBlocked = new EventHatchBlocked(player , hatch);

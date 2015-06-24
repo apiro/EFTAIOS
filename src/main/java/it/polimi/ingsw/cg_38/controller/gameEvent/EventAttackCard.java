@@ -32,6 +32,6 @@ public class EventAttackCard extends GameEvent {
 		super(generator, false);
 		this.setTarget(super.getGenerator().getAvatar().getCurrentSector());
 		this.setToUse(card);
-		super.setType(GameEventType.AttackCard);
+		super.setType(GameEventType.ATTACKCARD);
 	}
 }

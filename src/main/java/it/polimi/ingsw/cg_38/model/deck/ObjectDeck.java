@@ -10,14 +10,14 @@ public class ObjectDeck extends Deck {
     	this.setObjectDeck(new ArrayList<ObjectCard>());
     	this.setRejectedObjectDeck(new ArrayList<ObjectCard>());
     	for(int i = 0; i < 2; i++) {
-    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.Adrenaline));
-    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.Teleport));
-    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.AttackCard));
-    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.SpotLight));
-    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.Sedatives));
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.ADRENALINE));
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.TELEPORT));
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.ATTACKCARD));
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.SPOTLIGHT));
+    		this.getObjectDeck().add(new ObjectCard(ObjectCardType.SEDATIVES));
     	}
-    	this.getObjectDeck().add(new ObjectCard(ObjectCardType.Sedatives));
-    	this.getObjectDeck().add(new ObjectCard(ObjectCardType.Defense));
+    	this.getObjectDeck().add(new ObjectCard(ObjectCardType.SEDATIVES));
+    	this.getObjectDeck().add(new ObjectCard(ObjectCardType.DEFENSE));
     	this.shuffle();
     }
 
@@ -43,7 +43,8 @@ public class ObjectDeck extends Deck {
     public void shuffle() {
     	Collections.shuffle(this.getObjectDeck());
     }
-
+    
+    @Override
     public Card draw() {
     	/*
     	Card card= null;
@@ -62,7 +63,8 @@ public class ObjectDeck extends Deck {
     	this.shuffle();
         return extracted;
     }
-
+    
+    @Override
     public void eliminateCard(Card card) {
     	this.getObjectDeck().remove(card);
     	this.getRejectedObjectDeck().add((ObjectCard) card);

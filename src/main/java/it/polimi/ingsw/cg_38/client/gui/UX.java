@@ -165,29 +165,29 @@ public class UX extends JFrame {
 			            JOptionPane.INFORMATION_MESSAGE));
 			   try {
 					
-					if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Adrenaline)) {
+					if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.ADRENALINE)) {
 						
 						toSend.add(new EventAdrenaline(player, player.getAvatar().getMyCards().get(cardSelected)));
 						
-					} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.AttackCard)) {
+					} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.ATTACKCARD)) {
 						
 						toSend.add(new EventAttackCard(player, player.getAvatar().getMyCards().get(cardSelected)));
 						
-					} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Defense)) {
+					} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.DEFENSE)) {
 						
 						logger.print("---> You can't use defense card !");
 						player.getAvatar().getMyCards().remove(cardSelected);
 						
-					} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Sedatives)) {
+					} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SEDATIVES)) {
 						
 						toSend.add(new EventSedatives(player, player.getAvatar().getMyCards().get(cardSelected)));
 						
-					} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SpotLight)) {
+					} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SPOTLIGHT)) {
 						
 						Sector toMove = this.askForMoveCoordinates(map);
 						toSend.add(new EventSpotLight(player, toMove, player.getAvatar().getMyCards().get(cardSelected)));
 						
-					} else if (player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.Teleport)) {
+					} else if (player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.TELEPORT)) {
 						
 						toSend.add(new EventTeleport(player, player.getAvatar().getMyCards().get(cardSelected)));
 						

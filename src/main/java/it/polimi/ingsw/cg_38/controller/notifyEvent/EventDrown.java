@@ -20,7 +20,7 @@ public class EventDrown extends NotifyEvent {
 	
 	public EventDrown(Player generator, ObjectCard added, Card card) {
 		super(generator, false);
-		super.setType(NotifyEventType.Drown);
+		super.setType(NotifyEventType.DROWN);
 		this.setAdded(added);
 		this.setDrown(card);
 	}
