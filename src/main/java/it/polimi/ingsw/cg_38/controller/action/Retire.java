@@ -16,11 +16,14 @@ public class Retire extends GameAction {
 	}
 
 	@Override
+	public Boolean isPossible(GameModel model) {
+		return model.getActualTurn().getHasMoved();
+	}
+	
+	@Override
 	public ArrayList<NotifyEvent> perform(GameModel model) {
 		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
-		if(model.getActualTurn().getHasMoved()) {
-			model.getActualTurn().getCurrentPlayer().getAvatar().attacked();
-		}
+		model.getActualTurn().getCurrentPlayer().getAvatar().attacked();
 		callbackEvent.add(new EventNotifyRetired(model.getActualTurn().getCurrentPlayer()));
 		return callbackEvent;
 	}

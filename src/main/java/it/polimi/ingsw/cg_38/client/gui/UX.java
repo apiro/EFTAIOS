@@ -219,7 +219,7 @@ public class UX extends JFrame {
 	}
 	
 	public void resetButton(int cardSelected, Player player) {
-		 buttons.get(cardSelected).setText("Use Card");
+		 buttons.get(cardSelected + buttons.size()).setText("Use Card");
 		 player.getAvatar().getMyCards().remove(cardSelected);
 	}
 	

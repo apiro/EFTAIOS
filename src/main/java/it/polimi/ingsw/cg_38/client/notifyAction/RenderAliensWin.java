@@ -12,21 +12,22 @@ public class RenderAliensWin extends NotifyAction {
 
 	public RenderAliensWin(NotifyEvent evt) {
 		super(evt.getGenerator(), evt);
+		
 		this.areWinner = ((EventNotifyAliensWin)evt).getAreWinner();
 	}
 
 	@Override
 	public Boolean isPossible(PlayerClient client) {
-		return super.check(client);
+		return true;
 	}
 
 	@Override
 	public GameEvent render(PlayerClient client) {
 		if(areWinner) {
-			client.getLogger().print("ALIENS WON !!!");
+			client.getLogger().print("ALIENS WIN !!!");
 			client.setIsInterfaceBlocked(true);
 			client.setClientAlive(false);
-			client.closeClient();
+			/*client.closeClient();*/
 		} else {
 			client.setIsInterfaceBlocked(false);
 		}

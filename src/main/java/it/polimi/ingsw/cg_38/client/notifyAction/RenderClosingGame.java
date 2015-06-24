@@ -14,14 +14,14 @@ public class RenderClosingGame extends NotifyAction {
 
 	@Override
 	public Boolean isPossible(PlayerClient client) {
-		return super.check(client);
+		return true;
 	}
 
 	@Override
 	public GameEvent render(PlayerClient client) {
-		client.getLogger().print("REACHED THE MAX NUMBER OF TURNS:\n->ALIENS WON !!!");
-		client.setIsInterfaceBlocked(true);
-		client.setClientAlive(false);
+		client.getLogger().print("Game closing ... ");
+		/*client.setIsInterfaceBlocked(true);
+		client.setClientAlive(false);*/
 		client.closeClient();
 		return null;
 	}

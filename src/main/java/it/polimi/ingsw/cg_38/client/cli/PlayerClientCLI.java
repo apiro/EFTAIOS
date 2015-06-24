@@ -305,7 +305,7 @@ public class PlayerClientCLI implements PlayerClient {
 				} else return;
 			}
 		} else {
-			logger.print("Error in parsing the notifyEvent ...");
+			logger.print("Error in parsing the notifyEvent, you are DEAD or OUT OF TURN ...");
 		}
 	}
 

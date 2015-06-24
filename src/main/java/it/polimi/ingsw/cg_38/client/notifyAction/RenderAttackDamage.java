@@ -30,7 +30,7 @@ public class RenderAttackDamage extends NotifyAction {
 						evt.getGenerator().getAvatar().getCurrentSector().getCol() + " ...");
 		
 		for(Player pl:((EventSufferAttack)evt).getKilled()){
-			client.getLogger().print(pl.getName() + " killed in sector: row: " + 
+			client.getLogger().print(pl.getName() + " has been killed in sector: row: " + 
 					evt.getGenerator().getAvatar().getCurrentSector().getRow() + " col: " + 
 					evt.getGenerator().getAvatar().getCurrentSector().getCol() );
 			if(pl.getAvatar() instanceof Human)

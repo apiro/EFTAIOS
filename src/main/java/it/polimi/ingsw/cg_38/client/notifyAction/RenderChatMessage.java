@@ -17,7 +17,7 @@ public class RenderChatMessage extends NotifyAction {
 
 	@Override
 	public Boolean isPossible(PlayerClient client) {
-		return super.check(client);
+		return true;
 	}
 
 	@Override
