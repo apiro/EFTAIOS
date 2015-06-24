@@ -14,6 +14,7 @@ import it.polimi.ingsw.cg_38.controller.connection.SocketCommunicator;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventChat;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDefense;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
@@ -21,12 +22,16 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventHatchBlocked;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventHumanWin;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventMove;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventRejectCard;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventRetired;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAddedToGame;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAttacked;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventClosingGame;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDrown;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyChatMessage;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyRetired;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTopics;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyHumanWin;
@@ -89,7 +94,8 @@ public class GameActionTest {
 	Looser looser;
 	Defense defense;
 	Reject reject;
-	
+	Retire retire;
+	Chat chat;	
 
 	EventDraw evtDraw1;
 	EventDraw evtDraw2;
@@ -116,6 +122,8 @@ public class GameActionTest {
 	EventHatchBlocked evtHatch;
 	EventDefense evtDefense;
 	EventRejectCard evtRejectCard;
+	EventRetired evtRetired;
+	EventChat evtChat;
 	
 	ArrayList<NotifyEvent> evtAttacked1;
 	ArrayList<NotifyEvent> evtAttacked2;
@@ -138,6 +146,8 @@ public class GameActionTest {
 	Player player5;
 	Player player6;
 	Player player7;
+	
+	String message;
 	
 	Turn turn1;
 	Turn turn2;
@@ -196,6 +206,7 @@ public class GameActionTest {
 	@Before
 	public void init() throws ParserConfigurationException, Exception {
 		
+		message = "Welcome";
 		player1 = new Player("albi");
 		player2 = new Player("scimmiu");
 		player2.getAvatar();
@@ -287,6 +298,8 @@ public class GameActionTest {
 		evtHatch = new EventHatchBlocked(player7);
 		evtDefense = new EventDefense(player7);
 		evtRejectCard = new EventRejectCard(player7 , card2);
+		evtRetired = new EventRetired(player7);
+		evtChat = new EventChat(player7 , message);
 		
 		draw1 = new Draw(evtDraw1);
 		draw2 = new Draw(evtDraw2);
@@ -312,6 +325,8 @@ public class GameActionTest {
 		humanWin2 = new HumanWin(evtHuman2);
 		hatchBlocked = new HatchBlocked(evtHatch);
 		reject = new Reject(evtRejectCard);
+		retire = new Retire(evtRetired);
+		chat = new Chat(evtChat);
 		
 		evtNotifyTopics = new EventNotifyTopics(player1 , true , topics);
 		
@@ -454,6 +469,8 @@ public class GameActionTest {
 			assertEquals(finishTurn2.isPossible(model1) , false);
 			model1.getActualTurn().setHasMoved(true);
 			model1.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(false);
+			player5.getAvatar().setIsWinner(EndState.PLAYING);
+			player5.getAvatar().setIsAlive(LifeState.ALIVE);
 			evtNotifyTurn2 = finishTurn2.perform(model1);
 			assertEquals(((EventNotifyTurn)evtNotifyTurn2.get(0)).getPlayerOfTurn() , player5);
 			model1.setActualTurn(turn4);
@@ -467,6 +484,23 @@ public class GameActionTest {
 			model1.getGamePlayers().get(1).getAvatar().setIsWinner(EndState.PLAYING);
 			evtNotifyTurn2 = humanWin2.perform(model1);
 			assertEquals(((EventNotifyHumanWin)evtNotifyTurn2.get(0)).getGenerator() , player4);
+			model1.getGamePlayers().get(3).getAvatar().setIsWinner(EndState.LOOSER);
+			model1.getGamePlayers().get(2).getAvatar().setIsWinner(EndState.LOOSER);
+			model1.getGamePlayers().get(0).getAvatar().setIsWinner(EndState.LOOSER);
+			model1.getGamePlayers().get(1).getAvatar().setIsWinner(EndState.LOOSER);
+			model1.getGamePlayers().get(4).getAvatar().setIsWinner(EndState.LOOSER);
+			assertEquals(humanWin2.perform(model1).size() , 3);
+			model1.getGamePlayers().get(3).getAvatar().setIsWinner(EndState.PLAYING);
+			model1.getGamePlayers().get(2).getAvatar().setIsWinner(EndState.PLAYING);
+			model1.getGamePlayers().get(0).getAvatar().setIsWinner(EndState.PLAYING);
+			model1.getGamePlayers().get(1).getAvatar().setIsWinner(EndState.PLAYING);
+			model1.getActualTurn().getCurrentPlayer().setNumTurniGiocati(38);
+			model1.getNextPlayer().setNumTurniGiocati(39);
+			model1.getActualTurn().setHasMoved(true);
+			evtNotifyTurn2 = finishTurn2.perform(model1);
+			assertTrue(model1.getGameState().equals(GameState.CLOSING));
+			assertTrue(evtNotifyTurn2.get(0) instanceof EventNotifyClosingTopic);
+			assertTrue(evtNotifyTurn2.get(1) instanceof EventClosingGame);
 			
 			model1.setActualTurn(turn5);
 			assertEquals((draw4.perform(model1)).size() , 0);
@@ -517,12 +551,13 @@ public class GameActionTest {
 			model1.getGamePlayers().get(1).getAvatar().setIsWinner(EndState.WINNER);
 			evtDrown1 = humanWin.perform(model1);
 			assertTrue(evtDrown1.get(0) instanceof EventNotifyHumanWin);
-			assertTrue(evtDrown1.get(1) instanceof EventNotifyClosingTopic);
 			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsWinner() , EndState.WINNER);
 			evtNotify = hatchBlocked.perform(model1).get(0);
 			model1.getActualTurn().getCurrentPlayer().getAvatar().setCurrentSector(sector7);
 			draw5.perform(model1);
 			assertTrue(!((Hatch)model1.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()).getIsOpen());
+			assertTrue(retire.perform(model1).get(0) instanceof EventNotifyRetired);
+			assertTrue(chat.perform(model1).get(0) instanceof EventNotifyChatMessage);
 				
 	}
 } 

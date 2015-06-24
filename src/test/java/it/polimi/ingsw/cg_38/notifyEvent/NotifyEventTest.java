@@ -21,10 +21,12 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventHatchBlocked;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotYourTurn;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyAliensWin;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyChatMessage;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyEnvironment;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyError;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyHumanWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyPlayerState;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyRetired;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTopics;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
@@ -71,6 +73,8 @@ public class NotifyEventTest {
 	Action action;
 	EventRejectCardAlien rejectCardAlien;
 	EventRejectCardHuman rejectCardHuman;
+	EventNotifyChatMessage notifyChatMessage;
+	EventNotifyRetired notifyRetired;
 	/*EventShowTopics showTopics;*/
 	
 	Player player1;
@@ -157,6 +161,8 @@ public class NotifyEventTest {
 		humanWin = new EventNotifyHumanWin(player1);
 		rejectCardAlien = new EventRejectCardAlien(player1);
 		rejectCardHuman = new EventRejectCardHuman(player1 , card2);
+		notifyChatMessage = new EventNotifyChatMessage(player1 , "Welcome");
+		notifyRetired = new EventNotifyRetired(player1);
 		
 	}
 	
@@ -164,6 +170,9 @@ public class NotifyEventTest {
 	@Test
 	public void test() {
 		
+		assertEquals(notifyRetired.getGenerator() , player1);
+		assertTrue(closingGame.getAreThereOtherHumans());
+		assertEquals(notifyChatMessage.getMessage() , "Welcome");
 		assertEquals(addedToGame.getGenerator() , player1);
 		assertEquals(addedToGame.getType() , NotifyEventType.Added);
 		assertEquals(addedToGame.getAdded() , added);

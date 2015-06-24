@@ -97,6 +97,7 @@ public class GameModelTest {
 		player21.setAvatar(avatar22);
 		player31 = model3.getGamePlayers().get(0);
 		player31.setAvatar(avatar32);
+		player31.getAvatar().setIsAlive(LifeState.ALIVE);
 		model1.getGamePlayers().get(1).setAvatar(avatar12);
 		player12 = model1.getGamePlayers().get(1);
 		model2.getGamePlayers().get(1).setAvatar(avatar22);
@@ -178,6 +179,8 @@ public class GameModelTest {
 		assertEquals(sector3.toString() , "Sector [name=" + sector3.getName() + "row:" + sector3.getRow() + "col" + sector3.getCol() + "]");
 		hatch.setIsOpen(true);
 		assertEquals(hatch.getIsOpen() , true);
+		assertTrue(model3.areThereOtherHumans());
+		
 		}
 
 }

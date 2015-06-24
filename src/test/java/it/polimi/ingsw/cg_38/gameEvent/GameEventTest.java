@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_38.controller.event.GameEventType;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAdrenaline;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttackCard;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventChat;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDefense;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
@@ -17,6 +18,7 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseMySect;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseRandSect;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventRejectCard;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventRequestTopic;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventRetired;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSedatives;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
@@ -55,6 +57,8 @@ public class GameEventTest {
 	EventHumanWin humanWin;
 	EventDefense defense;
 	EventRejectCard rejectCard;
+	EventChat chat;
+	EventRetired retired;
 	
 	Player player1;
 	
@@ -64,6 +68,7 @@ public class GameEventTest {
 	
 	String room;
 	String RMI_ID;
+	String message;
 	
 	int PORT;
 
@@ -84,6 +89,7 @@ public class GameEventTest {
 		player1.setAvatar(avatar1);
 		
 		room = "room1";
+		message = "Welcome";
 		
 		map = "Galvani";
 		
@@ -107,12 +113,17 @@ public class GameEventTest {
 		humanWin = new EventHumanWin(player1);
 		defense = new EventDefense(player1);
 		rejectCard = new EventRejectCard(player1 , (ObjectCard)card1);
+		chat = new EventChat(player1 , message);
+		retired = new EventRetired(player1);
 		
 				
 	}
 	
 	@Test
 	public void test(){
+		
+		assertTrue(retired.getType().equals(GameEventType.retired));
+		assertTrue(chat.getMessage().equals(message));
 		
 		assertEquals(adrenaline.getToUse() , card1);
 		assertEquals(adrenaline.getType() , GameEventType.Adrenaline);

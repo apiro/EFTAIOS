@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventAdrenaline;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttackCard;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventChat;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDefense;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
@@ -14,11 +15,11 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventMove;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseMySect;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseRandSect;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventRejectCard;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventRetired;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSedatives;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventTeleport;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
 import it.polimi.ingsw.cg_38.model.Avatar;
 import it.polimi.ingsw.cg_38.model.Human;
 import it.polimi.ingsw.cg_38.model.Name;
@@ -52,6 +53,9 @@ public class GameActionCreatorTest {
 	EventHatchBlocked hatchBlocked;
 	EventDefense evtDefense;
 	EventRejectCard evtRejectCard;
+	EventChat evtChat;
+	EventRetired evtRetired;
+	
 	
 	Attack attack1;
 	AliensWin aliensWin;
@@ -78,6 +82,7 @@ public class GameActionCreatorTest {
 	
 	String room;
 	String map;
+	String message;
 	
 	Card card1;
 	
@@ -94,6 +99,7 @@ public class GameActionCreatorTest {
 		
 		room = "room2";
 		map = "Galvani";
+		message = "Welcome";
 		
 		card1 = new ObjectCard(ObjectCardType.Adrenaline);
 		
@@ -119,6 +125,8 @@ public class GameActionCreatorTest {
 		hatchBlocked = new EventHatchBlocked(player1);
 		evtDefense = new EventDefense(player1);
 		evtRejectCard = new EventRejectCard(player1 , (ObjectCard)card1);
+		evtChat = new EventChat(player1 , message);
+		evtRetired = new EventRetired(player1);
 	}
 
 	@Test
@@ -139,6 +147,10 @@ public class GameActionCreatorTest {
 		assertTrue(GameActionCreator.createGameAction(evtAliensWinner) instanceof AliensWin);
 		assertTrue(GameActionCreator.createGameAction(humanWin) instanceof HumanWin);
 		assertTrue(GameActionCreator.createGameAction(hatchBlocked) instanceof HatchBlocked);
+		assertTrue(GameActionCreator.createGameAction(evtDefense) instanceof Defense);
+		assertTrue(GameActionCreator.createGameAction(evtRejectCard) instanceof Reject);
+		assertTrue(GameActionCreator.createGameAction(evtChat) instanceof Chat);
+		assertTrue(GameActionCreator.createGameAction(evtRetired) instanceof Retire);
 		
 	}
 

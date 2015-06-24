@@ -139,7 +139,7 @@ public class GameModel {
      */
     
     public Player getNextPlayer() {
-    	
+    	/*
         	for(int i = 0; i < this.getGamePlayers().size(); i++){
     	    	 if(this.getGamePlayers().get(i).equals(this.getActualTurn().getCurrentPlayer()) && 
     	    			 this.getGamePlayers().get(i).getAvatar().getIsAlive().equals(LifeState.ALIVE) &&
@@ -151,13 +151,13 @@ public class GameModel {
         	} 
         	return null;
         
-    	/*
+    	*/
     	for(int i = 0; i < this.getGamePlayers().size(); i++){
 	    	 if(this.getGamePlayers().get(i).equals(this.getActualTurn().getCurrentPlayer())) {
 	    		 for(int j = i+1; j != i; ){
 	    		  if(j<=this.getGamePlayers().size()-1 ){
 	    			  if((this.getGamePlayers().get(j).getAvatar().getIsAlive() == LifeState.ALIVE) &&
-	    			  (this.getGamePlayers().get(i).getAvatar().getIsWinner().equals(EndState.PLAYING)))
+	    			  (this.getGamePlayers().get(j).getAvatar().getIsWinner().equals(EndState.PLAYING)))
 	    				  return this.getGamePlayers().get(j);
 	    			  else
 	    				  j++;
@@ -168,7 +168,7 @@ public class GameModel {
 	    	 } 
     	}
     	return null;
-    	*/
+    	
     }
 
 	public Turn getActualTurn() {
@@ -177,7 +177,8 @@ public class GameModel {
 
 	public Boolean areThereOtherHumans() {
 		for(Player pl:this.gamePlayers) {
-			if(pl.getAvatar().getIsAlive().equals(EndState.PLAYING)) {
+			if((pl.getAvatar().getIsWinner().equals(EndState.PLAYING)) &&
+					(pl.getAvatar().getIsAlive().equals(LifeState.ALIVE))) {
 				return true;
 			}
 		}

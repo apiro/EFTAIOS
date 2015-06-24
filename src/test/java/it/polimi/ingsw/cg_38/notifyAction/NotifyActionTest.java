@@ -13,6 +13,8 @@ import it.polimi.ingsw.cg_38.client.notifyAction.RenderAliensWin;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderAttackDamage;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderAttacked;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderCardPerformed;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderChatMessage;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderClosingGame;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderDrown;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderEnvironment;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderError;
@@ -24,6 +26,7 @@ import it.polimi.ingsw.cg_38.client.notifyAction.RenderNoise;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderNotifyTurn;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderRejectCard;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderRejectHumanCard;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderRetired;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderSpotlight;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderTeleport;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderUseDefenseCard;
@@ -38,15 +41,18 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAddedToGame;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAttacked;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventClosingGame;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDeclareNoise;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDeclarePosition;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDrown;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyAliensWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyCardPerformed;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyChatMessage;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyEnvironment;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyError;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyHumanWin;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyRetired;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTeleport;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyWin;
@@ -100,6 +106,9 @@ public class NotifyActionTest {
 	RenderHatchBlocked renderHatchBlocked;
 	RenderHumanWin renderHumanWin;
 	RenderRejectHumanCard renderRejectHuman; 
+	RenderChatMessage renderChatMessage;
+	RenderRetired renderRetired;
+	RenderClosingGame renderClosingGame;
 	
 	EventNotifyAliensWin evtNotifyAliensWin;
 	EventNotifyCardPerformed evtNotifyCardPerformed;
@@ -127,6 +136,9 @@ public class NotifyActionTest {
 	EventHatchBlocked evtHatchBlocked;
 	EventNotifyHumanWin evtHumanWin;
 	EventRejectCardHuman evtRejectCardHuman;
+	EventNotifyChatMessage evtChatMessage;
+	EventNotifyRetired evtRetired;
+	EventClosingGame evtClosingGame;
 	
 	EventDraw evtDraw;
 	Draw draw;
@@ -205,6 +217,9 @@ public class NotifyActionTest {
 		evtHatchBlocked = new EventHatchBlocked(player1 , sector3);
 		evtHumanWin = new EventNotifyHumanWin(player1);
 		evtRejectCardHuman = new EventRejectCardHuman(player1 , card5);
+		evtChatMessage = new EventNotifyChatMessage(player1 , "Welcome");
+		evtRetired = new EventNotifyRetired(player1);
+		evtClosingGame = new EventClosingGame(player1 , true);
 		
 		client = new PlayerClientCLI("RMI" , evtSubscribe);
 		client.setPlayer(player1);
@@ -233,6 +248,9 @@ public class NotifyActionTest {
 		renderHatchBlocked = new RenderHatchBlocked(evtHatchBlocked);
 		renderHumanWin = new RenderHumanWin(evtHumanWin);
 		renderRejectHuman = new RenderRejectHumanCard(evtRejectCardHuman);
+		renderChatMessage = new RenderChatMessage(evtChatMessage);
+		renderRetired = new RenderRetired(evtRetired);
+		renderClosingGame = new RenderClosingGame(evtClosingGame);
 		
 	}
 
@@ -315,7 +333,6 @@ public class NotifyActionTest {
 		assertTrue(!renderRejectCard.isPossible(client));
 		assertEquals(renderAliensWin.isPossible(client) , false);
 		assertTrue(!renderCardPerformed.isPossible(client));
-		assertEquals(renderAliensWin.render(client) , null);
 		evtNotifyAliensWin = new EventNotifyAliensWin(player1 , winners , false);
 		renderAliensWin = new RenderAliensWin(evtNotifyAliensWin);
 		assertEquals(renderAliensWin.render(client) , null);
@@ -354,9 +371,15 @@ public class NotifyActionTest {
 		client.getPlayer().getAvatar().setIsWinner(EndState.LOOSER);	
 		assertTrue(!renderHumanWin.isPossible(client));
 		assertEquals(renderDrown.isPossible(client) , false);
+		assertTrue(!renderChatMessage.isPossible(client));
+		assertTrue(!renderRetired.isPossible(client));
+		assertTrue(!renderClosingGame.isPossible(client));
 		client.getPlayer().getAvatar().setIsAlive(LifeState.ALIVE);
 		client.getPlayer().getAvatar().setIsWinner(EndState.WINNER);	
+		assertTrue(renderRetired.isPossible(client));
+		assertTrue(renderChatMessage.isPossible(client));
 		assertTrue(renderHumanWin.isPossible(client));
+		assertTrue(renderClosingGame.isPossible(client));
 		assertEquals(renderDrown.isPossible(client) , true);		
 		assertEquals(renderDrown.render(client).getGenerator() , evtNoiseMySect.getGenerator());
 		card = new SectorCard(SectorCardType.Silence , false);
@@ -398,7 +421,13 @@ public class NotifyActionTest {
 		assertTrue(renderRejectCard.render(client) instanceof EventContinue);
 		assertEquals(renderRejectHuman.render(client) , null);
 		assertEquals(renderRejectHuman.render(client2) , null);
-				
+		assertEquals(renderHumanWin.render(client) , null);
+		assertTrue(client.getIsInterfaceBlocked());
+		assertEquals(renderHumanWin.render(client2) , null);
+		assertTrue(!client2.getIsInterfaceBlocked());
+		assertEquals(renderChatMessage.render(client) , null);
+		assertEquals(renderRetired.render(client) , null);
+		
 	}
 
 }

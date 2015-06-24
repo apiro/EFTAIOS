@@ -12,6 +12,8 @@ import it.polimi.ingsw.cg_38.client.notifyAction.RenderAliensWin;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderAttackDamage;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderAttacked;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderCardPerformed;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderChatMessage;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderClosingGame;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderDrown;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderEnvironment;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderError;
@@ -23,6 +25,7 @@ import it.polimi.ingsw.cg_38.client.notifyAction.RenderNoise;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderNotifyTurn;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderRejectCard;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderRejectHumanCard;
+import it.polimi.ingsw.cg_38.client.notifyAction.RenderRetired;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderSpotlight;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderTeleport;
 import it.polimi.ingsw.cg_38.client.notifyAction.RenderUseDefenseCard;
@@ -32,6 +35,7 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAddedToGame;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAttacked;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventClosingGame;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDeclareNoise;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDeclarePosition;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDrown;
@@ -39,9 +43,11 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventHatchBlocked;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyAliensWin;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyCardPerformed;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyChatMessage;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyEnvironment;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyError;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyHumanWin;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyRetired;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTeleport;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
@@ -88,6 +94,9 @@ public class NotifyActionCreatorTest {
 	EventRejectCardAlien rejectCard;
 	EventNotifyCardPerformed notifyCardPerformed;
 	EventRejectCardHuman rejectCardHuman;
+	EventClosingGame closingGame;
+	EventNotifyChatMessage chatMessage;
+	EventNotifyRetired retired;
 	
 	Player player;
 	Avatar avatar;
@@ -135,6 +144,9 @@ public class NotifyActionCreatorTest {
 		rejectCard = new EventRejectCardAlien(player);
 		notifyCardPerformed = new EventNotifyCardPerformed(player);
 		rejectCardHuman = new EventRejectCardHuman(player , card1);
+		closingGame = new EventClosingGame(player , true);
+		chatMessage = new EventNotifyChatMessage(player , "Welocme");
+		retired = new EventNotifyRetired(player);
 		
 	}
 
@@ -160,6 +172,9 @@ public class NotifyActionCreatorTest {
 	assertTrue(NotifyActionCreator.createNotifyAction(rejectCard) instanceof RenderRejectCard);
 	assertTrue(NotifyActionCreator.createNotifyAction(notifyCardPerformed) instanceof RenderCardPerformed);
 	assertTrue(NotifyActionCreator.createNotifyAction(rejectCardHuman) instanceof RenderRejectHumanCard);
+	assertTrue(NotifyActionCreator.createNotifyAction(closingGame) instanceof RenderClosingGame);
+	assertTrue(NotifyActionCreator.createNotifyAction(chatMessage) instanceof RenderChatMessage);
+	assertTrue(NotifyActionCreator.createNotifyAction(retired) instanceof RenderRetired);
 	
 	}
 
