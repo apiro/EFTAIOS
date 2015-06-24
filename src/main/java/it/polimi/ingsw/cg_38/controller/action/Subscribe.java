@@ -70,7 +70,8 @@ public class Subscribe extends Action {
 			for(GameController gc:server.getTopics().values()) {
 				if(gc.getTopic().equals(this.getTopic())) {
 					synchronized(gc) {
-						if(gc.getGameModel().getGameState().equals(GameState.ACCEPTING) ) {
+						if(gc.getGameModel().getGameState().equals(GameState.ACCEPTING) &&
+								gc.getGameModel().getGamePlayers().size() < 8) {
 							gc.getSubscribers().add(c);
 							gc.getGameModel().getGamePlayers().add(super.getPlayer());
 							server.getTopics().put(super.getPlayer().getName(), gc);

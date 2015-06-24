@@ -14,6 +14,7 @@ import it.polimi.ingsw.cg_38.model.deck.HatchCard;
 import it.polimi.ingsw.cg_38.model.deck.HatchCardType;
 import it.polimi.ingsw.cg_38.model.deck.SectorCard;
 import it.polimi.ingsw.cg_38.model.deck.SectorCardType;
+import it.polimi.ingsw.cg_38.model.map.Hatch;
 
 public class RenderDrown extends NotifyAction {
 	
@@ -56,11 +57,13 @@ public class RenderDrown extends NotifyAction {
 			
 		} else if (((EventDrown)evt).getDrown() instanceof HatchCard) {
 			HatchCard card = ((HatchCard)((EventDrown)evt).getDrown());
-			if(card.getColor().equals(HatchCardType.GREEN)) {
+			if(card.getColor().equals(HatchCardType.GREEN) && 
+					((Hatch)player.getAvatar().getCurrentSector()).getIsOpen()) {
 				client.paintHatch(true, evt.getGenerator().getAvatar().getCurrentSector());
 				this.renderWin(client);
 				evt1 = new EventHumanWin(client.getPlayer());
-			} else if(card.getColor().equals(HatchCardType.RED)) {
+			} else if((card.getColor().equals(HatchCardType.RED)) ||
+					!((Hatch)player.getAvatar().getCurrentSector()).getIsOpen()) {
 				client.paintHatch(false, evt.getGenerator().getAvatar().getCurrentSector());
 				client.setIsInterfaceBlocked(false);
 				client.getLogger().print("You can't escape frome the SpaceShip !");
