@@ -125,7 +125,7 @@ public class PlayerClientGUI implements PlayerClient {
 	}
 
 	public void initFields() {
-		playerClientState = PlayerClientState.init;
+		playerClientState = PlayerClientState.INIT;
 		this.toProcess = new ConcurrentLinkedQueue<Event>();
 		this.toSend = new ConcurrentLinkedQueue<Event>();
 		this.startSender();
@@ -382,6 +382,7 @@ public class PlayerClientGUI implements PlayerClient {
 		this.isInterfaceBlocked = isInterfaceBlocked;
 	}
 
+	@Override
 	public Logger getLogger() {
 		return logger;
 	}

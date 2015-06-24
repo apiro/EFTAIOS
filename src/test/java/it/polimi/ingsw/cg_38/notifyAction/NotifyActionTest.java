@@ -262,7 +262,7 @@ public class NotifyActionTest {
 		assertEquals(addedToGame.isPossible(client) , true);
 		System.out.println(addedToGame.getEvt().getGenerator().getName());
 		assertEquals(addedToGame.render(client) , null);
-		assertEquals(client.getPlayerClientState() , PlayerClientState.connected);
+		assertEquals(client.getPlayerClientState() , PlayerClientState.CONNECTED);
 		evtAddedToGame = new EventAddedToGame(player1 , false , false);
 		addedToGame = new AddedToGame(evtAddedToGame);
 		assertEquals(addedToGame.render(client) , null);
@@ -275,7 +275,7 @@ public class NotifyActionTest {
 		assertEquals(client.getIsInterfaceBlocked() , true);
 		assertTrue(renderWin.isPossible(client));
 		assertTrue(!renderMoved.isPossible(client));
-		client.setPlayerClientState(PlayerClientState.isTurn);
+		client.setPlayerClientState(PlayerClientState.ISTURN);
 		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
 		client.getPlayer().getAvatar().setIsWinner(EndState.LOOSER);
 		assertTrue(!renderMoved.isPossible(client));
@@ -363,10 +363,10 @@ public class NotifyActionTest {
 		assertTrue(renderAttacked2.render(client2) instanceof EventContinue);
 		assertEquals(client2.getIsInterfaceBlocked() , true);
 		
-		client.setPlayerClientState(PlayerClientState.playing);
+		client.setPlayerClientState(PlayerClientState.PLAYING);
 		assertTrue(renderTeleport.render(client) instanceof EventContinue);
 		assertEquals(renderDrown.isPossible(client) , false);
-		client.setPlayerClientState(PlayerClientState.isTurn);
+		client.setPlayerClientState(PlayerClientState.ISTURN);
 		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
 		client.getPlayer().getAvatar().setIsWinner(EndState.LOOSER);	
 		assertTrue(!renderHumanWin.isPossible(client));
@@ -396,7 +396,7 @@ public class NotifyActionTest {
 		client.getPlayer().getAvatar().setCurrentSector(sector3);
 		((Hatch)client.getPlayer().getAvatar().getCurrentSector()).setIsOpen(true);
 		assertTrue(renderDrown.render(client) instanceof EventHumanWin);
-		assertEquals(client.getPlayerClientState() , PlayerClientState.winner);
+		assertEquals(client.getPlayerClientState() , PlayerClientState.WINNER);
 		assertTrue(client.getIsInterfaceBlocked());
 		assertTrue(client.getIsInterfaceBlocked());
 		card3 = new ObjectCard(ObjectCardType.ADRENALINE);

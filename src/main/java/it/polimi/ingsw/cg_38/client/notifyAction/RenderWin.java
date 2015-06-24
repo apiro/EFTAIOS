@@ -23,7 +23,7 @@ public class RenderWin extends NotifyAction {
 	public GameEvent render(PlayerClient client) {
 		client.getLogger().print("YOU WIN !");
 		client.setIsInterfaceBlocked(true);
-		client.setPlayerClientState(PlayerClientState.winner);
+		client.setPlayerClientState(PlayerClientState.WINNER);
 		client.paintHatch(true, evt.getGenerator().getAvatar().getCurrentSector());
 		client.closeClient();
 		return new EventFinishTurn(super.evt.getGenerator());

@@ -27,7 +27,7 @@ public class RenderDrown extends NotifyAction {
 
 	@Override
 	public Boolean isPossible(PlayerClient client) {
-		if(client.getPlayerClientState().equals(PlayerClientState.isTurn) && 
+		if(client.getPlayerClientState().equals(PlayerClientState.ISTURN) && 
 				super.check(client)){
 			return true;
 		}
@@ -76,6 +76,6 @@ public class RenderDrown extends NotifyAction {
 	private void renderWin(PlayerClient client) {
 		client.getLogger().print("YOU WIN !");
 		client.setIsInterfaceBlocked(true);
-		client.setPlayerClientState(PlayerClientState.winner);
+		client.setPlayerClientState(PlayerClientState.WINNER);
 	}
 }

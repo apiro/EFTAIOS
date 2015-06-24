@@ -19,7 +19,7 @@ public class RenderMoved extends NotifyAction {
 
 	@Override
 	public Boolean isPossible(PlayerClient client) {
-		if(client.getPlayerClientState().equals(PlayerClientState.isTurn) && 
+		if(client.getPlayerClientState().equals(PlayerClientState.ISTURN) && 
 				super.check(client)){
 			return true;
 		}

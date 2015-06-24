@@ -65,7 +65,7 @@ public class PlayerClientCLI implements PlayerClient {
 
 	@Override
 	public void init() {
-		playerClientState = PlayerClientState.init;
+		playerClientState = PlayerClientState.INIT;
 		toProcess = new ConcurrentLinkedQueue<Event>();
 		toSend = new ConcurrentLinkedQueue<Event>();
 		connection = this.askForTypeOfConnection();
@@ -97,7 +97,7 @@ public class PlayerClientCLI implements PlayerClient {
 		EventSubscribe evtSub = new EventSubscribe(player, room, map);
 		logger.print("----------------------------------------------------------------------");
 		logger.print("Connecting with the server... ");
-		playerClientState = PlayerClientState.connecting;
+		playerClientState = PlayerClientState.CONNECTING;
 		return evtSub;
 	}
 	

@@ -27,6 +27,7 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 		this.server = server;
 	}
 	
+	@Override
 	public RMIRemoteObjectInterface register(RMIRemoteObjectInterface clientView, EventSubscribe subEvent) throws RemoteException {
 
 		logger.print("---------------------------------------------------------------------");

@@ -40,6 +40,7 @@ public class ObjectDeck extends Deck {
 
     private ArrayList<ObjectCard> rejectedObjectDeck;
 
+    @Override
     public void shuffle() {
     	Collections.shuffle(this.getObjectDeck());
     }

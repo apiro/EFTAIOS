@@ -42,6 +42,7 @@ public class SocketCommunicator implements Communicator {
 		this.socket = socket;
 	}
 
+	@Override
 	public void send(Event evt) {
 		try {
 			this.getOutputStream().writeObject(evt);

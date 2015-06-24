@@ -41,7 +41,7 @@ public class SectorDeck extends Deck {
 	/**
      * 
      */
-    private ArrayList<SectorCard> sectorDeck;
+    private ArrayList<SectorCard> gameSectorDeck;
 
     /**
      * 
@@ -55,11 +55,11 @@ public class SectorDeck extends Deck {
     }
 
     public ArrayList<SectorCard> getSectorDeck() {
-		return sectorDeck;
+		return gameSectorDeck;
 	}
 
 	public void setSectorDeck(ArrayList<SectorCard> sectorDeck) {
-		this.sectorDeck = sectorDeck;
+		this.gameSectorDeck = sectorDeck;
 	}
 
 	public ArrayList<SectorCard> getRejectedSectorDeck() {
