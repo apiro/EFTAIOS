@@ -93,10 +93,7 @@ public class SectorDeck extends Deck {
         */
     }
 
-    /**
-     * @param Card card 
-     * @return
-     */
+    @Override
     public void eliminateCard(Card card) {
         // TODO implement here
     	this.getSectorDeck().remove(card);

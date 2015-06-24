@@ -4,14 +4,6 @@ public class HatchCard extends Card {
 	
 	private static final long serialVersionUID = 1L;
 
-	/*
-	@Override
-	public String toString() {
-		return "HatchCard [color=" + color + "]";
-	}
-	
-	*/
-
 	@Override
 	public String toString() {
 		return "HatchCard [color=" + color + "]";

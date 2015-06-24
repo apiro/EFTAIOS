@@ -15,6 +15,7 @@ public class EventUseDefense extends EventCardUsed {
 		this.typeCard = typeCard;
 	}
 
+	@Override
 	public ObjectCardType getTypeCard() {
 		return typeCard;
 	}

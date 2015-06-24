@@ -78,6 +78,7 @@ public class SocketCommunicator implements Communicator {
 		return evt;
 	}
 	
+	@Override
 	public void closeCommunicator(){
 		try {
 			this.getOutputStream().close();

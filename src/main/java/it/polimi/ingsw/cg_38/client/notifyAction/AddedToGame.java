@@ -34,6 +34,7 @@ public class AddedToGame extends NotifyAction {
 		return null;		
 	}
 
+	@Override
 	public Boolean isPossible(PlayerClient client) {
 		return true;
 	}

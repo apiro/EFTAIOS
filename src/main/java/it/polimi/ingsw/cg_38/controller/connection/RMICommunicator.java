@@ -32,6 +32,7 @@ public class RMICommunicator implements Communicator {
 		logger.print("Sending ... : " + evt.toString());
 	}
 
+	@Override
 	public Event recieveEvent() throws RemoteException {
 		//CHI CHIAMA QUESTO METODO SI PONE IN ATTESA DI RICEVERE UN EVENTO DALL'OGGETTO REMOTO E LO METTE IN evt
 		NotifyEvent evt = null;/*remoteView.grabEvent();*/

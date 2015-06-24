@@ -36,10 +36,12 @@ public class HatchDeck extends Deck {
 		return rejectedHatchDeck;
 	}
 
+	@Override
     public void shuffle() {
     	Collections.shuffle(this.getHatchDeck());
     }
     
+	@Override
     public Card draw() {
     	if(this.getHatchDeck().size() == 0) {
     		this.setHatchDeck(rejectedHatchDeck);
@@ -51,6 +53,7 @@ public class HatchDeck extends Deck {
         return extracted;
     }
 
+	@Override
     public void eliminateCard(Card card) {
     	this.getHatchDeck().remove(card);
     	this.getRejectedHatchDeck().add((HatchCard) card);

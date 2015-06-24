@@ -35,6 +35,7 @@ import it.polimi.ingsw.cg_38.controller.action.Draw;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventHumanWin;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseMySect;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
@@ -426,7 +427,7 @@ public class NotifyActionTest {
 		assertEquals(renderHumanWin.render(client2) , null);
 		assertTrue(!client2.getIsInterfaceBlocked());
 		assertEquals(renderChatMessage.render(client) , null);
-		assertEquals(renderRetired.render(client) , null);
+		assertTrue(renderRetired.render(client) instanceof EventFinishTurn);
 		
 	}
 
