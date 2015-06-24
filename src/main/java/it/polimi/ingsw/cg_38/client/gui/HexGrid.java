@@ -2,8 +2,6 @@ package it.polimi.ingsw.cg_38.client.gui;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventMove;
-import it.polimi.ingsw.cg_38.controller.logger.Logger;
-import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.map.Map;
 
@@ -41,7 +39,6 @@ public class HexGrid extends JPanel {
 	private int oldx = 30;
 	private int oldy = 30;
 	private ImageIcon oldIcon = null;
-	private Logger logger = new LoggerCLI();
 	
 	public ArrayList<GraphicSector> getSects() {
 		return sects;

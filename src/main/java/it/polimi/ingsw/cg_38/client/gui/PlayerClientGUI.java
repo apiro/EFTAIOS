@@ -7,10 +7,8 @@ import it.polimi.ingsw.cg_38.client.notifyAction.NotifyAction;
 import it.polimi.ingsw.cg_38.client.notifyAction.NotifyActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventChat;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventRejectCard;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventRetired;
@@ -227,8 +225,8 @@ public class PlayerClientGUI implements PlayerClient {
 	    		@Override
 		  		public void actionPerformed(ActionEvent e) {
 	    			synchronized(toSend) {
-						toSend.add(new EventFinishTurn(player));
 						toSend.add(new EventRetired(player));
+						toSend.add(new EventFinishTurn(player));
 					}
 		  		}
 	      	  

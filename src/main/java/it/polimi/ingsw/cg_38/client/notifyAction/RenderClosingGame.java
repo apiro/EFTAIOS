@@ -26,4 +26,3 @@ public class RenderClosingGame extends NotifyAction {
 		return null;
 	}
 }
-

@@ -4,7 +4,6 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyRetired;
 import it.polimi.ingsw.cg_38.model.GameModel;
-import it.polimi.ingsw.cg_38.model.Player;
 
 import java.util.ArrayList;
 
@@ -19,8 +18,8 @@ public class Retire extends GameAction {
 	@Override
 	public ArrayList<NotifyEvent> perform(GameModel model) {
 		ArrayList<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
-		for(Player pl:model.getGamePlayers()) {
-			pl.getAvatar().attacked();
+		if(model.getActualTurn().getHasMoved()) {
+			player.getAvatar().attacked();
 		}
 		callbackEvent.add(new EventNotifyRetired(model.getActualTurn().getCurrentPlayer()));
 		return callbackEvent;

@@ -12,5 +12,4 @@ public class EventRetired extends GameEvent {
 		super(generator, true);
 		super.setType(GameEventType.retired);
 	}
-
 }

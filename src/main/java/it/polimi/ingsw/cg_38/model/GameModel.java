@@ -177,7 +177,8 @@ public class GameModel {
 
 	public Boolean areThereOtherHumans() {
 		for(Player pl:this.gamePlayers) {
-			if((pl.getAvatar().getIsWinner().equals(EndState.PLAYING)) &&
+			if(pl.getAvatar() instanceof Human &&
+					(pl.getAvatar().getIsWinner().equals(EndState.PLAYING)) &&
 					(pl.getAvatar().getIsAlive().equals(LifeState.ALIVE))) {
 				return true;
 			}
