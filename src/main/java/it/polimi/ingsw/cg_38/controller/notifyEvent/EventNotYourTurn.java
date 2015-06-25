@@ -15,6 +15,7 @@ public class EventNotYourTurn extends NotifyEvent {
 	}
 
 	private static final long serialVersionUID = 1L;
+	
 	private String message = "This is not your turn !";
 	
 }

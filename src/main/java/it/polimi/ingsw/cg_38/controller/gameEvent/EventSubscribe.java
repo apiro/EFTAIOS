@@ -8,10 +8,13 @@ import it.polimi.ingsw.cg_38.model.Player;
 
 public class EventSubscribe extends GameEvent implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
+	/** contiene il nome della mappa del gioco al quale il giocatore ha deciso di sottoscriversi */
+	private String map;
+	
+	/** contiene il nome della stanza alla quale il giocatore ha scelto di sottoscriversi */
+	private String room;
 
 	public EventSubscribe(Player generator, String room, String map) {
 		super(generator, true);
@@ -32,9 +35,6 @@ public class EventSubscribe extends GameEvent implements Serializable{
 		this.map = map;
 	}
 
-	private String map;
-	private String room;
-	
 	public String getRoom() {
 		return room;
 	}

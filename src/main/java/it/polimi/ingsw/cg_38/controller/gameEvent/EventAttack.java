@@ -8,6 +8,8 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 public class EventAttack extends GameEvent {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** contiene il settore sul quale il giocatore ha scelto di attaccare */
 	private Sector target;
 	
 	public Sector getTarget() {

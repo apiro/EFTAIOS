@@ -9,7 +9,11 @@ import it.polimi.ingsw.cg_38.model.Player;
 public class EventNotifyAliensWin extends NotifyEvent {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** lista di tutti i giocatori alieni che hanno vinto */
 	private List<Player> winners;
+	
+	/** è settata a true se i giocatori hanno effettivamente vinto */
 	private Boolean areWinner;
 
 	public EventNotifyAliensWin(Player generator, List<Player> winners, Boolean areWinner) {

@@ -19,6 +19,8 @@ public class EventNotifyPlayerState extends NotifyEvent {
 	}
 
 	private Player player;
+	
+	/** è settato a true se il giocatore ha vinto */
 	private Boolean winner;
 	
 	public Boolean getWinner() {

@@ -366,7 +366,6 @@ public class GameActionTest {
 		killedPlayer.add(player1);
 		killedPlayer.add(player3);
 
-		evtAddedToGame = subscribe.generalEventGenerator(c, server);
 			
 	}
 	
@@ -379,8 +378,6 @@ public class GameActionTest {
 			assertEquals(subscribe.getTypeMap() , "Galilei");
 			assertTrue(subscribe.isPossible(server));
 			assertTrue(!subscribe2.isPossible(server));
-			assertEquals(evtAddedToGame.getGenerator() , player1);
-			assertTrue(gc.getSubscribers().contains(c));
 			assertEquals(draw1.isPossible(model1) , false);
 			model1.setGameState(GameState.RUNNING);
 			assertEquals(draw1.isPossible(model1) , true);
@@ -430,6 +427,7 @@ public class GameActionTest {
 			model1.getGamePlayers().get(0).getAvatar().setIsAlive(LifeState.ALIVE);
 			model1.getGamePlayers().get(2).getAvatar().setIsAlive(LifeState.ALIVE);
 			model1.getGamePlayers().get(3).getAvatar().setIsAlive(LifeState.ALIVE);
+			evtAttacked1 = attack1.perform(model1);
 			
 			assertEquals(((EventSufferAttack)evtAttacked1.get(0)).getKilled() , killedPlayer);
 			model1.setGameState(GameState.ACCEPTING);
@@ -484,6 +482,8 @@ public class GameActionTest {
 			model1.getGamePlayers().get(2).getAvatar().setIsWinner(EndState.PLAYING);
 			model1.getGamePlayers().get(0).getAvatar().setIsWinner(EndState.PLAYING);
 			model1.getGamePlayers().get(1).getAvatar().setIsWinner(EndState.PLAYING);
+			sector1 = model1.getGameMap().searchSectorByName("Hatch");
+			model1.getActualTurn().getCurrentPlayer().getAvatar().setCurrentSector(sector1);
 			evtNotifyTurn2 = humanWin2.perform(model1);
 			assertEquals(((EventNotifyHumanWin)evtNotifyTurn2.get(0)).getGenerator() , player4);
 			model1.getGamePlayers().get(3).getAvatar().setIsWinner(EndState.LOOSER);
@@ -552,13 +552,14 @@ public class GameActionTest {
 			model1.getGamePlayers().get(2).getAvatar().setIsWinner(EndState.WINNER);
 			model1.getGamePlayers().get(0).getAvatar().setIsWinner(EndState.LOOSER);
 			model1.getGamePlayers().get(1).getAvatar().setIsWinner(EndState.WINNER);
+			model1.getActualTurn().getCurrentPlayer().getAvatar().setCurrentSector(sector1);
 			evtDrown1 = humanWin.perform(model1);
 			assertTrue(evtDrown1.get(0) instanceof EventNotifyHumanWin);
 			assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsWinner() , EndState.WINNER);
 			evtNotify = hatchBlocked.perform(model1).get(0);
 			model1.getActualTurn().getCurrentPlayer().getAvatar().setCurrentSector(sector7);
 			draw5.perform(model1);
-			assertTrue(!((Hatch)model1.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()).getIsOpen());
+			assertTrue(((Hatch)model1.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()).getIsOpen());
 			assertTrue(retire.perform(model1).get(0) instanceof EventNotifyRetired);
 			assertTrue(chat.perform(model1).get(0) instanceof EventNotifyChatMessage);
 				

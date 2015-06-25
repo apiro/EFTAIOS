@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.model.Player;
 public class EventAliensWinner extends GameEvent {
 
 	private static final long serialVersionUID = 1L;
+	
 	private Boolean areWinner;
 
 	public EventAliensWinner(Player generator, Boolean areWinner) {

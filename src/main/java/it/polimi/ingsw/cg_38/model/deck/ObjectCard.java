@@ -1,12 +1,13 @@
 package it.polimi.ingsw.cg_38.model.deck;
 
-/**
- * 
- */
+/** identifica una carta oggetto */
 public class ObjectCard extends Card {
 
-
-
+	private static final long serialVersionUID = 1L;
+	
+	/** indica il tipo della carta oggetto */
+	private ObjectCardType type;
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -15,6 +16,9 @@ public class ObjectCard extends Card {
 		return result;
 	}
 
+	/** stabilice l'uguaglianza tra due oggetti
+	 * @param obj indica l'oggetto da eguagliare
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -29,8 +33,6 @@ public class ObjectCard extends Card {
 		return true;
 	}
 
-	private static final long serialVersionUID = 1L;
-
 	/*
 	@Override
 	public String toString() {
@@ -39,11 +41,6 @@ public class ObjectCard extends Card {
 	
 	*/
 
-	private ObjectCardType type;
-	
-    /**
-     * @param ObjectCardType type 
-     */
     public ObjectCard(ObjectCardType type) {
         this.setType(type);
     }

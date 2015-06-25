@@ -19,6 +19,7 @@ public class EventNotifyTurn extends NotifyEvent {
 		return "EventNotifyTurn [playerOfTurn= " + playerOfTurn.getName() + "]";
 	}
 
+	/** contiene il giocatore del turno attuale */
 	private Player playerOfTurn;
 	
 	public Player getPlayerOfTurn() {

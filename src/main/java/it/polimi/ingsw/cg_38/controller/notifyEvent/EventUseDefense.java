@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
 public class EventUseDefense extends EventCardUsed {
 
 	private static final long serialVersionUID = 1L;
+	
 	private ObjectCardType typeCard;
 
 	public EventUseDefense(Player generator, Boolean broadcast, ObjectCardType typeCard) {

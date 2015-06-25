@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg_38.model.Player;
 
 public class EventSufferAttack extends NotifyEvent {
 
+	/** lista dei giocatori uccisi */
 	private List<Player> killed;
 
 	public EventSufferAttack(Player generator, List<Player> killed) {

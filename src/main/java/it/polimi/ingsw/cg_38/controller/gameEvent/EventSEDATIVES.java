@@ -7,7 +7,9 @@ import it.polimi.ingsw.cg_38.model.deck.Card;
 
 public class EventSEDATIVES extends GameEvent {
 
+	/** contiene la carta oggetto di tipo sedativo che il giocatore ha scelto di utilizzare */
 	private Card toUse;
+	
 	private static final long serialVersionUID = 1L;
 	
 	public Card getToUse() {

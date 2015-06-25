@@ -12,6 +12,8 @@ public class EventFinishedTurn extends NotifyEvent {
 	}
 
 	private static final long serialVersionUID = 1L;
+	
+	/* è settato a true se il turno del giocatore è effettivamente finito */
 	private Boolean finished;
 	
 	public Boolean getFinished() {

@@ -1,8 +1,11 @@
 package it.polimi.ingsw.cg_38.model.deck;
 
+/** classe utilizzata per la creazione di un deck specifico */
 public class DeckCreator {
 
-	/** create deck based to the required type */
+	/** crea un mazzo in base al nome ricevuto come parametro 
+	 * @param nameDeck indica il nome del deck da creare
+	 * @return deck creato*/
     public static Deck createDeck(String nameDeck) {
     	Deck deck = null;
     	if(nameDeck == "SectorDeck") {

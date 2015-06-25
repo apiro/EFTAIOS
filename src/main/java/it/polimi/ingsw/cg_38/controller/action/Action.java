@@ -7,12 +7,13 @@ import it.polimi.ingsw.cg_38.model.Player;
 public abstract class Action implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+	
+	/** contiene il giocatore che vuole effettuare l'azione */
+    public Player player;
 
 	public Action(Player player) {
     	this.setPlayer(player);
     }
-    
-    public Player player;
 
 	public Player getPlayer() {
 		return player;

@@ -8,8 +8,12 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 
 public class EventSPOTLIGHT extends GameEvent{
 
+	/** contiene il settore sul quale il giocatore ha scelto di fare luce */
 	private Sector target;
+	
+	/** contiene la carta di tipo SPOTLIGHT che il giocatore ha scelto di utilizzare */
 	private Card card;
+	
 	private static final long serialVersionUID = 1L;
 	
 	public Card getToUse() {

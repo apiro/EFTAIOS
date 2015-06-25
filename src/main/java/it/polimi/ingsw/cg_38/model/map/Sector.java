@@ -2,14 +2,17 @@ package it.polimi.ingsw.cg_38.model.map;
 import java.io.Serializable;
 import java.util.*;
 
-/**
- * 
- */
+/** identifica un settore generico in base alle cordinate e ai suoi settori vicini */
 public class Sector implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	
+	/** lista dei settori adiacenti */
+    private List<Sector> neighboringSectors;
+
+    private int row;
+
+    private int col;
 	
     @Override
 	public int hashCode() {
@@ -25,6 +28,9 @@ public class Sector implements Serializable{
 		return result;
 	}
 
+    /** definisce l'uguaglianza tra settori 
+     * @param obj oggetto rispetto al quale verificare l'uguaglianza
+     * @return true se gli oggetti sono uguali,  false altrimenti */
     @Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -68,16 +74,9 @@ public class Sector implements Serializable{
 		this.name = name;
 	}
 
-    private List<Sector> neighboringSectors;
-
-    private int row;
-
-    private int col;
-
-    /**
-     * @param String typeSector 
-     * @return
-     */
+    /** crea uno specifico settore in base al tipo passato come parametro
+     * @param typeSector indica il tipo del settore da creare
+     * @return settore creato*/
     public static Sector factoryCreator(String typeSector) {
     	Sector creatingSector = null;
     	if(typeSector == "Safe") {

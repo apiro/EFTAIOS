@@ -23,7 +23,7 @@ public class Human extends Avatar implements Serializable {
 		this.canAttack = canAttack;
 	}
 
-	/** check if human can move in target sector */
+	/** controlla se l'umano può muoversi sul settore considerato */
 	@Override
     public Boolean canMove(Sector sector) {
     	if(("HumanStartingPoint").equals(sector.getName())) {

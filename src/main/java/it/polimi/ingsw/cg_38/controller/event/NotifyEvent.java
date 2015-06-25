@@ -4,16 +4,22 @@ import it.polimi.ingsw.cg_38.model.Player;
 
 public class NotifyEvent extends Event {
 
-	@Override
-	public String toString() {
-		return "NotifyEvent [type=" + type + "]";
-	}
-
 	private static final long serialVersionUID = 1L;
-
+	
+	/** è settato a true se l'evento di gioco genera solo eventi di notifica di tipo broadcast ed è settato
+	 * a false se l'evento genera eventi di notifica sia di tipo broadcast sia personali */
+	private Boolean broadcast;
+	
+	private NotifyEventType type;
+	
 	public NotifyEvent(Player generator, Boolean broadcast) {
 		super(generator);
 		this.setBroadcast(broadcast);
+	}
+	
+	@Override
+	public String toString() {
+		return "NotifyEvent [type=" + type + "]";
 	}
 
 	public Boolean isBroadcast() {
@@ -24,8 +30,6 @@ public class NotifyEvent extends Event {
 		this.broadcast = broadcast;
 	}
 
-	private Boolean broadcast;
-	private NotifyEventType type;
 	
 	public NotifyEventType getType() {
 		return this.type;

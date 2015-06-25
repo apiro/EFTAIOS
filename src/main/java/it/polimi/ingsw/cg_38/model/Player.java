@@ -48,7 +48,7 @@ public class Player implements Serializable {
     	this.name = name;
     }
 
-    /** increase number of turn played */
+    /** incrementa il numero di turni giocati */
     public void finishTurn(){
     	this.setNumTurniGiocati(this.getNumTurniGiocati()+1);
     }

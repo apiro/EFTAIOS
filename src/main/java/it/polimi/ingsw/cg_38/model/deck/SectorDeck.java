@@ -1,15 +1,16 @@
 package it.polimi.ingsw.cg_38.model.deck;
 import java.util.*;
 
-/**
- * 
- * 10 rosse -> 4 icona
- * 10 verdi -> 4 icona
- * 5 bianche -> 0 icona
- * 
- */
+/** identifica un deck di carte settore */
 public class SectorDeck extends Deck {
 
+	/** lista delle carte del mazzo */
+    private List<SectorCard> gameSectorDeck;
+
+    /** lista delle carte già pescate */
+    private List<SectorCard> rejectedSectorDeck;
+    
+	/** il costrutto popola il deck con le carte settore */
     public SectorDeck() {
     	this.setSectorDeck(new ArrayList<SectorCard>());
     	this.setRejectedSectorDeck(new ArrayList<SectorCard>());
@@ -35,9 +36,6 @@ public class SectorDeck extends Deck {
 		this.rejectedSectorDeck = rejectedSectorDeck;
 	}
 
-    private List<SectorCard> gameSectorDeck;
-
-    private List<SectorCard> rejectedSectorDeck;
 
     @Override
     public void shuffle() {
@@ -56,7 +54,9 @@ public class SectorDeck extends Deck {
 		return rejectedSectorDeck;
 	}
 
-	/** draw a card and if deck is terminated it is rebuilt*/
+	/** Pesca la prima carta del mazzo che successivamente viene rimescolato. Inoltre se il deck dal quale 
+	 * pescare è vuoto viene ripopolato dalle carte contenute nel rejected deck 
+	 * @return la carta pescata*/
 	@Override
     public Card draw() {
     	if(this.getSectorDeck().isEmpty()) {
@@ -70,7 +70,8 @@ public class SectorDeck extends Deck {
         
     }
 
-	/** eliminate a card from deck and add it to rejectDeck */
+	/** elimina una carta dal mazzo che viene aggiunta al rejected deck 
+	 * @param card indica la carta da eliminare */
     @Override
     public void eliminateCard(Card card) {
     	this.getSectorDeck().remove(card);

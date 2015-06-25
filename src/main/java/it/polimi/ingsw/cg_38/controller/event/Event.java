@@ -7,6 +7,8 @@ import it.polimi.ingsw.cg_38.model.Player;
 public class Event implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** contiene il nome del giocatore che ha generato l'evento */
 	private Player generator;
 	
 	public Event(Player generator) {

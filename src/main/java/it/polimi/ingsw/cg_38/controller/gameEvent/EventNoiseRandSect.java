@@ -8,8 +8,15 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 public class EventNoiseRandSect extends GameEvent {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** contiene il settore sul quale il giocatore ha scelto di fare rumore */
 	private Sector toNoise;
 	
+	public EventNoiseRandSect(Player generator, Sector toNoise) {
+		super(generator, true);
+		super.setType(GameEventType.NOISERANDSECT);
+		this.setToNoise(toNoise);
+	}
 	public Sector getToNoise() {
 		return toNoise;
 	}
@@ -18,9 +25,4 @@ public class EventNoiseRandSect extends GameEvent {
 		this.toNoise = toNoise;
 	}
 
-	public EventNoiseRandSect(Player generator, Sector toNoise) {
-		super(generator, true);
-		super.setType(GameEventType.NOISERANDSECT);
-		this.setToNoise(toNoise);
-	}
 }

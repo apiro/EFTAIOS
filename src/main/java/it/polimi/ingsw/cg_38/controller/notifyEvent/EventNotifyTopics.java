@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.model.Player;
 
 public class EventNotifyTopics extends NotifyEvent {
 
+	/** lista contente tutti i topic */
 	private List<String> topics;
 
 	public EventNotifyTopics(Player generator, Boolean broadcast, List<String> topics) {

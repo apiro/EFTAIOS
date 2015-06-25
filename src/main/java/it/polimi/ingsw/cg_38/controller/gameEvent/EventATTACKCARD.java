@@ -9,7 +9,11 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 public class EventATTACKCARD extends GameEvent {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** contiene il settore sul quale il giocatre ha scelto di attaccare */
 	private Sector target;
+	
+	/** contiene la carta oggetto di tipo attacco che il giocatore ha utilizzato */
 	private Card toUse;
 	
 	public Sector getTarget() {

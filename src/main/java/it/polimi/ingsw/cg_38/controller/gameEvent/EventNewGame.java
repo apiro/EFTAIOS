@@ -6,8 +6,16 @@ import it.polimi.ingsw.cg_38.model.Player;
 
 public class EventNewGame extends GameEvent {
 
+	/** contiene il nome della nuova stanza che il giocatore ha creato */
 	private String creatingRoomName;
+	
 	private static final long serialVersionUID = 1L;
+	
+	public EventNewGame(Player generator, String room) {
+		super(generator, true);
+		super.setType(GameEventType.NEWGAME);
+		this.setCreatingRoomName(room);
+	}
 	
 	public String getCreatingRoomName() {
 		return creatingRoomName;
@@ -17,9 +25,4 @@ public class EventNewGame extends GameEvent {
 		this.creatingRoomName = creatingRoomName;
 	}
 
-	public EventNewGame(Player generator, String room) {
-		super(generator, true);
-		super.setType(GameEventType.NEWGAME);
-		this.setCreatingRoomName(room);
-	}
 }

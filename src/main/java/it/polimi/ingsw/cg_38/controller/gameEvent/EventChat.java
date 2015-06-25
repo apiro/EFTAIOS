@@ -7,6 +7,8 @@ import it.polimi.ingsw.cg_38.model.Player;
 public class EventChat extends GameEvent {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** contiene il messaggio di chat che il giocatore ha scelto di inviare */
 	private String message;
 
 	public EventChat(Player generator, String message) {

@@ -1,13 +1,11 @@
 package it.polimi.ingsw.cg_38.model.map;
 
-/**
- * 
- */
+/** identifica un settore scialuppa */
 public class Hatch extends Sector {
 	
 	private static final long serialVersionUID = 1L;
 
-	/** show if the sectors opened*/
+	/** mostra se il settore è aperto */
 	private Boolean isOpen = true;
 	
     public Boolean getIsOpen() {

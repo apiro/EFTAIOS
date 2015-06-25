@@ -8,6 +8,7 @@ public class EventMoved extends NotifyEvent {
 
 	private static final long serialVersionUID = 1L;
 	
+	/* contiene il nome del settore sul cui il giocatore ha effettuato il movimento */
 	private String moved;
 	
 	public String getMoved() {

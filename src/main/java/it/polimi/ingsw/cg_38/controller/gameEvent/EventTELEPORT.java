@@ -7,7 +7,9 @@ import it.polimi.ingsw.cg_38.model.deck.Card;
 
 public class EventTELEPORT extends GameEvent {
 
+	/** contiene la carta oggetto di tipo TELEPORT che il giocatore ha deciso di utilizzare */
 	private Card toUse;
+	
 	private static final long serialVersionUID = 1L;
 	
 	public EventTELEPORT(Player generator, Card card) {

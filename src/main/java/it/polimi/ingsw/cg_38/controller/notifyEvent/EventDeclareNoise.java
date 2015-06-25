@@ -9,6 +9,7 @@ public class EventDeclareNoise extends NotifyEvent {
 	
 	private static final long serialVersionUID = 1L;
 	
+	/** contiene il settore sul quale performare il noise */
 	private Sector sectorToNoise;
 	
 	public EventDeclareNoise(Player generator , Sector sector){

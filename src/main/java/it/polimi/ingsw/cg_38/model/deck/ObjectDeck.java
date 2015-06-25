@@ -1,11 +1,16 @@
 package it.polimi.ingsw.cg_38.model.deck;
 import java.util.*;
 
-/**
- * 
- */
+/** identifica un mazzo di carte oggetto */
 public class ObjectDeck extends Deck {
 
+	/** lista delle carte del mazzo */
+    private List<ObjectCard> gameObjectDeck;
+
+    /** lista delle carte già pescate */
+    private List<ObjectCard> rejectedObjectDeck;
+    
+	/** il costruttore popola con le carte oggetto il deck che successivamente viene mischiato*/
     public ObjectDeck() {
     	this.setObjectDeck(new ArrayList<ObjectCard>());
     	this.setRejectedObjectDeck(new ArrayList<ObjectCard>());
@@ -21,7 +26,6 @@ public class ObjectDeck extends Deck {
     	this.shuffle();
     }
 
-
     /*
     public void printDeck() {
 		for (Card card: this.getObjectDeck()) {
@@ -31,21 +35,19 @@ public class ObjectDeck extends Deck {
 	
 	*/
     
-    
     public void setRejectedObjectDeck(List<ObjectCard> rejectedObjectDeck) {
 		this.rejectedObjectDeck = rejectedObjectDeck;
 	}
 
-    private List<ObjectCard> gameObjectDeck;
-
-    private List<ObjectCard> rejectedObjectDeck;
 
     @Override
     public void shuffle() {
     	Collections.shuffle(this.getObjectDeck());
     }
     
-    /** draw a card and if deck is terminated it is rebuilt*/
+	/** Pesca la prima carta del mazzo che successivamente viene rimescolato. Inoltre se il deck dal quale 
+	 * pescare è vuoto viene ripopolato dalle carte contenute nel rejected deck 
+	 * @return la carta pescata*/
     @Override
     public Card draw() {
     	if(this.getObjectDeck().isEmpty()) {
@@ -58,7 +60,8 @@ public class ObjectDeck extends Deck {
         return extracted;
     }
     
-    /** eliminate a card from deck and add it to rejectDeck */
+	/** elimina una carta dal mazzo che viene aggiunta al rejected deck 
+	 * @param card carta da eliminare */
     @Override
     public void eliminateCard(Card card) {
     	this.getObjectDeck().remove(card);

@@ -22,7 +22,9 @@ public class EventNotifyEnvironment extends NotifyEvent {
 	}
 	
 	private static final long serialVersionUID = 1L;
+	
 	private List<Player> mappingPlayerAvatar = new ArrayList<Player>();
+	
 	private Map map;
 	
 	public Map getMap() {

@@ -15,7 +15,10 @@ public class EventDrown extends NotifyEvent {
 
 	private static final long serialVersionUID = 1L;
 	
+	/** contiene la carta oggetto pescata nel caso in cui la carta settore ha l'icona */
 	private ObjectCard added;
+	
+	/** contiene la carta settore pescata */
 	private Card drown;
 	
 	public EventDrown(Player generator, ObjectCard added, Card card) {

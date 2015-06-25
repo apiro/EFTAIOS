@@ -9,17 +9,11 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 import java.io.Serializable;
 import java.util.*;
 
-/**
- * 
- */
 public abstract class Avatar implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	/** show all avatar's card */
+	/** contiene tutte le carte oggetto possedute dal avatar */
 	private List<ObjectCard> myCards = new ArrayList<ObjectCard>();
 
 	private Sector currentSector;
@@ -48,13 +42,13 @@ public abstract class Avatar implements Serializable {
 
 	private EndState isWinner = EndState.PLAYING;
 
-	/** show all avatar's movements */
+	/** contiene tutti i movimenti già effettuati dall'avatar */
 	private List<Movement> myMovements = new ArrayList<Movement>();
 
 	public Avatar() {
 	}
 
-	/** check if has defense card */
+	/**verifica se il giocatore possiede la carta oggetto difesa */
 	public Boolean hasDefenseCard() {
 
 		for (int i = 0; i < myCards.size(); i++) {
@@ -66,13 +60,13 @@ public abstract class Avatar implements Serializable {
 		return false;
 	}
 
-	/** draw a card from deck */
+	/** pesca una carta dal mazzo */
 	public Card draw(Deck deck) {
 		Card drown = deck.draw();
 		return drown;
 	}
 
-	/** move avatar in target sector and increases the number of turn */
+	/** muove l'avatar nel settore passato come parametro ed incrementa il numero di turni giocati */
 	public String move(Sector sector, int number) {
 		this.setCurrentSector(sector);
 		this.getMyMovements()
@@ -84,13 +78,13 @@ public abstract class Avatar implements Serializable {
 		this.currentSector = currentSector;
 	}
 
-	/** delete a card from avatar's cards */
+	/** elimina una carta dalla lista di carte oggetto possedute */
 	public Card eliminateFromMyCards(Card card) {
 		this.getMyCards().remove(card);
 		return card;
 	}
 
-	/** add card to avatar's cards */
+	/** aggiunge una carta alla lista di carte oggetto controllando che non ne possegga già 3 */
 	public Boolean addCard(Card card) {
 		/* if(this.getMyCards().size()<3) { */
 		this.getMyCards().add((ObjectCard) card);
@@ -100,10 +94,10 @@ public abstract class Avatar implements Serializable {
 		 */
 	}
 
-	/** check if avatar can move in target sector */
+	/** verifica se l'avatar può muoversi nel settore passato come parametro */
 	public abstract Boolean canMove(Sector sector);
 
-	/** change avatar's state when he was attacked */
+	/** cambia lo stato dell'avatar quando esso viene attaccato */
 	public void attacked() {
 		this.setIsAlive(LifeState.DEAD);
 		this.setIsWinner(EndState.LOOSER);

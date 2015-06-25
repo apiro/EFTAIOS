@@ -9,6 +9,7 @@ public class EventCardUsed extends NotifyEvent {
 
 	private static final long serialVersionUID = 1L;
 	
+	/** è settato a true se l'azione è stata correttamente performata */
 	private Boolean performed;
 
 	private ObjectCardType typeCard;

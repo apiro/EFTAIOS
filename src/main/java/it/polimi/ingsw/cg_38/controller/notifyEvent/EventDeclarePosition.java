@@ -11,6 +11,7 @@ public class EventDeclarePosition extends NotifyEvent {
 
 	private static final long serialVersionUID = 1L;
 	
+	/** contiene i giocatori da dichiarare */
 	private List<Player> toDeclare = new ArrayList<Player>();
 	
 	public EventDeclarePosition(Player generator, List<Player> toDeclare) {

@@ -17,10 +17,9 @@ public class EventNotifyError extends NotifyEvent {
 		return relatedAction;
 	}
 
-	/**
-	 * 
-	 */
+	/** contiene l'azione che ha generato l'errore */
 	private Action relatedAction;
+	
 	private static final long serialVersionUID = 1L;
 
 }

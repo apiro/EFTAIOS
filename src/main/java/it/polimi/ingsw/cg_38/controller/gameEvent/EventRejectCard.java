@@ -8,6 +8,8 @@ import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 public class EventRejectCard extends GameEvent {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** contiene la carta che il giocatore ha deciso di scartare */
 	private ObjectCard card;
 
 	public EventRejectCard(Player generator, ObjectCard card) {

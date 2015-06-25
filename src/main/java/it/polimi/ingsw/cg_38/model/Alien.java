@@ -3,9 +3,6 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 
 import java.io.Serializable;
 
-/**
- * 
- */
 public class Alien extends Avatar implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -15,13 +12,12 @@ public class Alien extends Avatar implements Serializable {
     	this.setName(name);
     }
 
-    /** check if has defenseCard */
     @Override
 	public Boolean hasDefenseCard() {
 		return false;
 	}
 
-	/** check if avatar can move in target sector */
+	/** verifica se l'avatar può muoversi nel settore passato come parametro */
     @Override
     public Boolean canMove(Sector sector) {
     	if(("AlienStartingPoint").equals(sector.getName()) || ("Hatch").equals(sector.getName())) {

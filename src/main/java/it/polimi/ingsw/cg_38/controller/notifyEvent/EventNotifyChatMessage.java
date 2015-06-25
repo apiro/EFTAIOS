@@ -7,6 +7,8 @@ import it.polimi.ingsw.cg_38.model.Player;
 public class EventNotifyChatMessage extends NotifyEvent {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** contiene il messaggio che il giocatore vuole inviare agli altri giocatori della partita */
 	private String message;
 
 	public EventNotifyChatMessage(Player generator, String message) {

@@ -1,25 +1,21 @@
 package it.polimi.ingsw.cg_38.model.deck;
 
-/**
- * 
- */
 public class SectorCard extends Card {
 	
 	private static final long serialVersionUID = 1L;
 
+    /** indica se la carta ha l'icona*/
+	private Boolean hasObjectIcon;
+	
+	/** indica il tipo della carta settore */
+    private SectorCardType type;
+    
     @Override
 	public String toString() {
 		return "SectorCard [hasObjectIcon=" + hasObjectIcon + ", type=" + type
 				+ "]";
 	}
 
-	private Boolean hasObjectIcon;
-    private SectorCardType type;
-
-    /**
-     * @param SectorCardType type Boolean hasIcon
-     * @return
-     */
     public SectorCard(SectorCardType type, Boolean hasIcon) {
     	this.setType(type);
     	if(hasIcon == true) {
@@ -35,10 +31,7 @@ public class SectorCard extends Card {
 	}
 	
 	*/
-
-	/**
-     * getter e setter 
-     * **/
+    
     public Boolean getHasObjectIcon() {
 		return hasObjectIcon;
 	}

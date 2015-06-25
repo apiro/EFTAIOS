@@ -8,7 +8,9 @@ public class EventAddedToGame extends NotifyEvent {
 
 	private static final long serialVersionUID = 1L;
 	
+	/** added è settato a true se il giocatore è statto correttamente aggiunto al gioco */
 	private Boolean added;
+	
 	private NotifyEventType type;
 	
 	@Override

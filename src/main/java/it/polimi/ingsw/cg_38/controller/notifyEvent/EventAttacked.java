@@ -8,8 +8,11 @@ public class EventAttacked extends NotifyEvent {
 
 	private static final long serialVersionUID = 1L;
 	
+	/** è settato a true se il giocatore risulta potenziato */
 	private Boolean areYouPowered;
+	
 	private Boolean areThereOtherHumans;
+	
 	public Boolean getAreThereOtherHumans() {
 		return areThereOtherHumans;
 	}

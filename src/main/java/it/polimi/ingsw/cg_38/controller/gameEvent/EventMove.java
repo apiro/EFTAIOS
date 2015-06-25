@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 
 public class EventMove extends GameEvent {
 
+	/** contiene il settore sul quale il giocatore ha scelto di muoversi */
 	private Sector toMove;
 	private static final long serialVersionUID = 1L;
 	
