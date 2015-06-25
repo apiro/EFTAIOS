@@ -41,6 +41,7 @@ public class HatchDeck extends Deck {
     	Collections.shuffle(this.getHatchDeck());
     }
     
+    /** draw a card and if deck is terminated it is rebuilt*/
 	@Override
     public Card draw() {
     	if(this.getHatchDeck().size() == 0) {
@@ -62,6 +63,7 @@ public class HatchDeck extends Deck {
         */
     }
 
+    /** eliminate a card from deck and add it to rejectDeck */
 	@Override
     public void eliminateCard(Card card) {
     	this.getHatchDeck().remove(card);

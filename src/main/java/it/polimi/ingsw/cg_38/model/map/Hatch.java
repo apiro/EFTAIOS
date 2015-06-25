@@ -7,10 +7,7 @@ public class Hatch extends Sector {
 	
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * 
-     */
-	
+	/** show if the sectors opened*/
 	private Boolean isOpen = true;
 	
     public Boolean getIsOpen() {

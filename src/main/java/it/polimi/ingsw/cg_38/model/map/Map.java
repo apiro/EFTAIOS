@@ -77,10 +77,7 @@ public class Map implements Serializable {
 		}
     	this.setConfiguration(conf);
     }
-    
-    /**
-     * 
-     */
+
     public List<ArrayList<Sector>> table;
 
 	public final int height = 14;

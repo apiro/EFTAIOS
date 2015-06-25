@@ -45,6 +45,7 @@ public class ObjectDeck extends Deck {
     	Collections.shuffle(this.getObjectDeck());
     }
     
+    /** draw a card and if deck is terminated it is rebuilt*/
     @Override
     public Card draw() {
     	if(this.getObjectDeck().size() == 0) {
@@ -57,6 +58,7 @@ public class ObjectDeck extends Deck {
         return extracted;
     }
     
+    /** eliminate a card from deck and add it to rejectDeck */
     @Override
     public void eliminateCard(Card card) {
     	this.getObjectDeck().remove(card);
