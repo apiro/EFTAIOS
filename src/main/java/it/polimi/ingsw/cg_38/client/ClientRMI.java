@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.controller.logger.Logger;
 import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -63,12 +64,14 @@ public class ClientRMI extends Client implements Runnable {
 	@Override
 	public void run() {
 		while(clientAlive) {
-			Event msg = toSend.poll();
-			if(msg != null) {
-				try {
-					communicator.send(msg);
-				} catch (RemoteException e) {
-					logger.print("Can't send the message ...");
+			synchronized(toSend) {
+				Event msg = toSend.poll();
+				if(msg != null) {
+					try {
+						communicator.send(msg);
+					} catch (IOException e) {
+						logger.print("A client is probably disconnected ...");
+					}
 				}
 			}
 		}

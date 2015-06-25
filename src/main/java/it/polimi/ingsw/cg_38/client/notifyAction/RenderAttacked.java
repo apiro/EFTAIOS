@@ -38,7 +38,6 @@ public class RenderAttacked extends NotifyAction {
 					
 					if(((EventAttacked)evt).getAreThereOtherHumans()) {
 						
-						client.getLogger().print("There are no players in the sector you have choosen !");
 						client.setIsInterfaceBlocked(false);
 						return null;
 					} else {

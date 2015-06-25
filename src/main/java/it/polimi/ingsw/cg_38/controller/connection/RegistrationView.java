@@ -11,6 +11,7 @@ import it.polimi.ingsw.cg_38.controller.logger.Logger;
 import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAddedToGame;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Queue;
@@ -73,8 +74,8 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 			queue.add((NotifyEvent)evt);
 			try {
 				server.getTopics().get(evt.getGenerator().getName()).sendNotifyEvent();
-			} catch (RemoteException e) {
-				logger.print("Problems with the trasmission of the event ... ");
+			} catch (IOException e) {
+				logger.print("A client is probably disconnected ...");
 			}
 		}
 		synchronized(queue) {

@@ -11,20 +11,18 @@ import javax.swing.SwingUtilities;
 public class UXStarter {
 
 	private UX ux;
-	private Logger myLogger;
-	private Queue<Event> toSend;
+	private final Logger myLogger;
 	
 	public UXStarter(final Object[] params) {
 		
 		this.myLogger = (Logger)params[0];
-		this.toSend = ((Queue<Event>)params[1]);
 		
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() 
 			{
 				public void run() 
 				{
-					ux = new UX(myLogger, toSend);
+					ux = new UX(myLogger);
 					myLogger.print("Graphic UX loaded ...");
 				}
 			});
@@ -33,6 +31,7 @@ public class UXStarter {
 		} catch (InterruptedException e) {
 			myLogger.print("Interrupted Exception in UXStarter ...");
 		}
+		
 	}
 
 	public UX getUx() {

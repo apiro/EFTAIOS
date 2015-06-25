@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.client.notifyAction.NotifyAction;
 import it.polimi.ingsw.cg_38.client.notifyAction.NotifyActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
+import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventChat;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
@@ -63,8 +64,9 @@ public class PlayerClientGUI implements PlayerClient {
 		alive[0] = true;
 		logger = new LoggerCLI();
 		this.waitForLoadingUX();
-		this.createClient();
 		this.initFields();
+		this.createClient();
+		this.startSender();
 		while (!clientAlive) {
 			try {
 				Thread.sleep(3000);
@@ -101,10 +103,9 @@ public class PlayerClientGUI implements PlayerClient {
 	}
 
 	public void waitForLoadingUX() {
-		Object[] params = new Object[2];
+		Logger[] params = new Logger[1];
 		
 		params[0] = logger;
-		params[1] = toSend;
 		uxHandler = new UXStarter(params);
 	}
 
@@ -112,9 +113,10 @@ public class PlayerClientGUI implements PlayerClient {
 		Runnable r = new Runnable() {
 			@Override
 			public void run() {
-
+				Queue<Event>[] queue =(Queue<Event>[]) new Queue<?>[1];
+				queue[0] = toSend;
 				connection = uxHandler.getUx().getConnection();
-				player = uxHandler.getUx().prepareGUI();
+				player = uxHandler.getUx().prepareGUI(queue);
 				evt = uxHandler.getUx().generateEventSub(player);
 			}
 		};
@@ -131,7 +133,6 @@ public class PlayerClientGUI implements PlayerClient {
 		playerClientState = PlayerClientState.INIT;
 		this.toProcess = new ConcurrentLinkedQueue<Event>();
 		this.toSend = new ConcurrentLinkedQueue<Event>();
-		this.startSender();
 	}
 
 	@Override
@@ -181,25 +182,26 @@ public class PlayerClientGUI implements PlayerClient {
 
 	@Override
 	public void process(Event msg) {
-		System.out
-				.println("----------------------------------------------------------------------\n");
-		System.err.println("Recieving " + msg.toString() + " ...\n");
-		NotifyAction action = (NotifyAction) NotifyActionCreator
-				.createNotifyAction(msg);
-		GameEvent gamEvt = null;
-		if (action.isPossible(this)) {
-			gamEvt = action.render(this);
-			if (gamEvt != null) {
-				if (gamEvt instanceof EventContinue)
-					return;
-				this.toSend.add(gamEvt);
+		if(((NotifyEvent)msg).getType() != null) {
+			System.out.println("----------------------------------------------------------------------\n");
+			System.err.println("Recieving " + msg.toString() + " ...\n");
+			NotifyAction action = (NotifyAction) NotifyActionCreator
+					.createNotifyAction(msg);
+			GameEvent gamEvt = null;
+			if (action.isPossible(this)) {
+				gamEvt = action.render(this);
+				if (gamEvt != null) {
+					if (gamEvt instanceof EventContinue)
+						return;
+					this.toSend.add(gamEvt);
+				} else {
+					if (!isInterfaceBlocked) {
+					} else
+						return;
+				}
 			} else {
-				if (!isInterfaceBlocked) {
-				} else
-					return;
+				System.out.println("Error in parsing the notifyEvent ...");
 			}
-		} else {
-			System.out.println("Error in parsing the notifyEvent ...");
 		}
 	}
 

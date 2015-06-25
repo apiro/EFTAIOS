@@ -51,6 +51,10 @@ public class FinishTurn extends GameAction {
 				callbackEvent.add(new EventClosingGame(model.getActualTurn().getCurrentPlayer(), model.areThereOtherHumans()));
 				return callbackEvent;
 			}*/
+			if(model.getGamePlayers().size() == 0) {
+				callbackEvent.add(new EventClosingGame(model.getActualTurn().getCurrentPlayer(), model.areThereOtherHumans()));
+				return callbackEvent;
+			}
 			if(!model.areThereOtherHumans() || 
 					(model.getActualTurn().getCurrentPlayer().getNumTurniGiocati() == 39 &&
 					model.getNextPlayer().getNumTurniGiocati()+1 == 40)) {

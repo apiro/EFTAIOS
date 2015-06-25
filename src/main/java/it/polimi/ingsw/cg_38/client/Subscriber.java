@@ -55,8 +55,8 @@ public class Subscriber implements Runnable {
 						toProcess.notify();
 					}
 				}
-			} catch (RemoteException e) {
-				logger.print("Problems in receiving the server message ...");
+			} catch (IOException e) {
+				logger.print("A client is probably disconnected ...");
 			}
 		}
 	}

@@ -43,15 +43,11 @@ public class SocketCommunicator implements Communicator {
 	}
 
 	@Override
-	public void send(Event evt) {
-		try {
-			this.getOutputStream().writeObject(evt);
-			this.getOutputStream().reset();
-			logger.print("Sending ... : " + evt.toString());
-			this.getOutputStream().flush();
-		} catch (IOException e) {
-			logger.print("Can't send the message ...");
-		}
+	public void send(Event evt) throws IOException {
+		this.getOutputStream().writeObject(evt);
+		this.getOutputStream().reset();
+		logger.print("Sending ... : " + evt.toString());
+		this.getOutputStream().flush();
 	}
 		
 	public void initCommunicator() throws IOException{
@@ -75,7 +71,8 @@ public class SocketCommunicator implements Communicator {
 		} catch (ClassNotFoundException e) {
 			logger.print("Event class not found in socket parsing object from output stream ...");
 		} catch (IOException e) {
-			logger.print("Can't read the object ...");
+			logger.print("Disconnected ... ");
+			
 		}
 		return evt;
 	}

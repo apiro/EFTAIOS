@@ -14,6 +14,7 @@ import it.polimi.ingsw.cg_38.model.Human;
 import it.polimi.ingsw.cg_38.model.Name;
 import it.polimi.ingsw.cg_38.model.Turn;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,7 +55,7 @@ public class GameController implements Observer {
 		if(((String)arg).equals(this.getTopic())) {
 			try {
 				this.sendNotifyEvent();
-			} catch (RemoteException e) {
+			} catch (IOException e) {
 				logger.print("Problems in sending broadcast message ...");
 			}
 		} 
@@ -64,7 +65,7 @@ public class GameController implements Observer {
 		return subscribers;
 	}
 
-	public void publish(NotifyEvent evt) throws RemoteException {
+	public void publish(NotifyEvent evt) throws IOException {
 		for(Communicator comm: this.getSubscribers()) {
 			comm.send(evt);
 		}
@@ -94,7 +95,7 @@ public class GameController implements Observer {
 		return notifyEvent; 
 	}
 
-	public void sendNotifyEvent() throws RemoteException {
+	public void sendNotifyEvent() throws IOException {
 		NotifyEvent msg = this.getBuffer().poll();
 		if(msg != null) {
 			this.publish(msg);

@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventRetired;
 import it.polimi.ingsw.cg_38.controller.logger.Logger;
 import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotYourTurn;
@@ -113,7 +114,10 @@ public class PlayerController extends Thread  {
 					return;
 				}
 			} catch (RemoteException e) {
-				logger.print("Problems in recieving the client message !");
+				logger.print("Client probably disconnected, default is set him as retired !");
+			} catch (IOException e1) {
+				logger.print("Client probably disconnected, default is set him as retired !");
+				
 			}
 		}
 	}
