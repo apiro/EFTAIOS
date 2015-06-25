@@ -23,6 +23,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -39,7 +40,7 @@ public class UX extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel controlPanel;
 	private JPanel panelSx;
-	private ArrayList<JButton> buttons = new ArrayList<JButton>();
+	private List<JButton> buttons = new ArrayList<JButton>();
 	private JPanel panelDx;
 	private JTextArea text1;
 	private JScrollPane scroll1;

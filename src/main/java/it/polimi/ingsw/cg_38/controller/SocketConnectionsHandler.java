@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Queue;
@@ -23,10 +24,10 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 	private Boolean alive;
 	private ServerSocket serverSocket;
 	private Queue<Event> queue;
-	private HashMap<String, GameController> topics;
+	private Map<String, GameController> topics;
 	private Logger logger = new LoggerCLI();
 	
-	public SocketConnectionsHandler(ServerSocket serverSocket, Queue<Event> queue, Boolean alive, HashMap<String, GameController> topics) {
+	public SocketConnectionsHandler(ServerSocket serverSocket, Queue<Event> queue, Boolean alive, Map<String, GameController> topics) {
 		this.topics = topics;
 		this.alive = alive;
 		this.serverSocket = serverSocket;

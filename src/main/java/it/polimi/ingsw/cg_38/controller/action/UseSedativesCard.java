@@ -30,7 +30,7 @@ public class UseSedativesCard extends GameAction {
 		this.card = card;
 	}
 
-
+	@Override
     public List<NotifyEvent> perform(GameModel model) {
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	if(("Alien").equals(this.currentAvatarType(model))){
@@ -50,9 +50,7 @@ public class UseSedativesCard extends GameAction {
     	return callbackEvent;
     }
 
-    /**
-     * @return
-     */
+	@Override
     public Boolean isPossible(GameModel model) {
 	    if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
 	    		!model.getActualTurn().getHasUsedObjectCard() &&

@@ -16,6 +16,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 public class PlayerController extends Thread  {
@@ -32,7 +33,7 @@ public class PlayerController extends Thread  {
 
 	private Queue<Event> eventsToProcess;
 
-	private HashMap<String, GameController> topics;
+	private Map<String, GameController> topics;
 	
 	private Logger logger = new LoggerCLI();
 
@@ -44,7 +45,7 @@ public class PlayerController extends Thread  {
 		this.eventsToProcess = eventsToProcess;
 	}
 	
-	public PlayerController(Communicator communicator, Queue<Event> toDispatch, HashMap<String, GameController> topics) throws IOException {
+	public PlayerController(Communicator communicator, Queue<Event> toDispatch, Map<String, GameController> topics) throws IOException {
 		//a questo passo la lista di topic(arraylist di gamecontroller)
 		this.topics = topics;
 		this.communicator = communicator;

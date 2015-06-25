@@ -24,6 +24,7 @@ public class Human extends Avatar implements Serializable {
 	}
 
 	/** check if human can move in target sector */
+	@Override
     public Boolean canMove(Sector sector) {
     	if(("HumanStartingPoint").equals(sector.getName())) {
     		return false;

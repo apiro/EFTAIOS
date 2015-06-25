@@ -42,14 +42,14 @@ public class AlienTest {
     	//asp 5,11
     	model.getGamePlayers().add(new Player("Alberto"));
     	player = model.getGamePlayers().get(0);
-    	model.getGamePlayers().get(0).setAvatar(new Alien(Name.Alien1, alienStartingPoint));
+    	model.getGamePlayers().get(0).setAvatar(new Alien(Name.ALIEN1, alienStartingPoint));
     	actualTurn = new Turn(player);
     	model.setActualTurn(actualTurn);
     	player.setNumTurniGiocati(player.getNumTurniGiocati());
     	avatar = model.getGamePlayers().get(0).getAvatar();
     	drownSect = avatar.draw(model.getDeckSector());
     	drownHatch = avatar.draw(model.getDeckHatch());
-    	avatar2 = new Alien(Name.Alien1 , sector);
+    	avatar2 = new Alien(Name.ALIEN1 , sector);
     	player2 = new Player("reda");
     	player2.setAvatar(avatar2);
 	}
@@ -130,7 +130,7 @@ public class AlienTest {
 		avatar.eliminateFromMyCards(drownObj);
 		assertEquals(avatar.getMyCards().size(), 3);
 		
-		assertEquals(avatar.getName(), Name.Alien1);
+		assertEquals(avatar.getName(), Name.ALIEN1);
 		
 		avatar.setIsAlive(LifeState.ALIVE);
 		assertEquals(avatar.getIsAlive(), LifeState.ALIVE);

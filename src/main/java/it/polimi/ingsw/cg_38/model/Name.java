@@ -3,12 +3,12 @@ package it.polimi.ingsw.cg_38.model;
 import java.io.Serializable;
 
 public enum Name implements Serializable{
-    Human1,
-    Human2,
-    Human3,
-    Human4,
-    Alien1,
-    Alien2,
-    Alien3,
-    Alien4
+    HUMAN1,
+    HUMAN2,
+    HUMAN3,
+    HUMAN4,
+    ALIEN1,
+    ALIEN2,
+    ALIEN3,
+    ALIEN4
 }

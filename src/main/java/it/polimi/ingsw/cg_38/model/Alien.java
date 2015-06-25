@@ -8,14 +8,8 @@ import java.io.Serializable;
  */
 public class Alien extends Avatar implements Serializable {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-     * 
-     */
     public Alien(Name name, Sector sector) {
     	this.setCurrentSector(sector);
     	this.setName(name);
@@ -28,6 +22,7 @@ public class Alien extends Avatar implements Serializable {
 	}
 
 	/** check if avatar can move in target sector */
+    @Override
     public Boolean canMove(Sector sector) {
     	if(("AlienStartingPoint").equals(sector.getName()) || ("Hatch").equals(sector.getName())) {
     		return false;

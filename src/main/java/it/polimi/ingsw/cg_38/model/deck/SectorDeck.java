@@ -59,7 +59,7 @@ public class SectorDeck extends Deck {
 	/** draw a card and if deck is terminated it is rebuilt*/
 	@Override
     public Card draw() {
-    	if(this.getSectorDeck().size() == 0) {
+    	if(this.getSectorDeck().isEmpty()) {
     		this.setSectorDeck(rejectedSectorDeck);
     		this.setRejectedSectorDeck(new ArrayList<SectorCard>());
     	}

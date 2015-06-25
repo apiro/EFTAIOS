@@ -37,9 +37,7 @@ public class UseRandomSectorNoise extends GameAction {
 		this.toDeclare = toDeclare;
 	}
 
-	/**
-     * @return
-     */
+	@Override
     public Boolean isPossible(GameModel model) {
         return super.isPossible(model);
     }
