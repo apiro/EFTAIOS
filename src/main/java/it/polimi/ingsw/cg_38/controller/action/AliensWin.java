@@ -13,6 +13,7 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
 import it.polimi.ingsw.cg_38.model.Alien;
 import it.polimi.ingsw.cg_38.model.EndState;
 import it.polimi.ingsw.cg_38.model.GameModel;
+import it.polimi.ingsw.cg_38.model.LifeState;
 import it.polimi.ingsw.cg_38.model.Player;
 
 public class AliensWin extends GameAction {
@@ -31,7 +32,8 @@ public class AliensWin extends GameAction {
 		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		
 		for(Player pl:model.getGamePlayers()) {
-			if(pl.getAvatar() instanceof Alien) {
+			if(pl.getAvatar() instanceof Alien && 
+					pl.getAvatar().getIsAlive().equals(LifeState.ALIVE)) {
 				pl.getAvatar().setIsWinner(EndState.WINNER);
 				winners.add(pl);
 			}

@@ -19,11 +19,11 @@ public class RenderClosingGame extends NotifyAction {
 
 	@Override
 	public GameEvent render(PlayerClient client) {
-		client.getLogger().print("Game closing in 10 secs ... ");
+		client.getLogger().print("Game closing in 30 secs ... ");
 		/*client.setIsInterfaceBlocked(true);
 		client.setClientAlive(false);*/
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(30000);
 		} catch (InterruptedException e) {
 			client.getLogger().print("EXCEPTION IN SLEEPING THE THREAD !");
 		}

@@ -58,8 +58,10 @@ public class Subscribe extends Action {
 			if(gc.getGameModel().getGamePlayers().contains(super.getPlayer())) {
 				synchronized(gc) {
 					gc.getSubscribers().add(c);
-					server.getTopics().put(super.getPlayer().getName(), gc);
-					return new EventAddedToGame(super.getPlayer(), false, false);
+					gc.addEventToTheQueue(new EventAddedToGame(super.getPlayer(), false, true));
+					gc.sendNotifyEvent();
+					gc.getSubscribers().remove(c);
+					return null;
 				}
 			}
 		}
@@ -78,8 +80,10 @@ public class Subscribe extends Action {
 							return new EventAddedToGame(super.getPlayer(), true, true);
 						}  else {
 							gc.getSubscribers().add(c);
-							server.getTopics().put(super.getPlayer().getName(), gc);
-							return new EventAddedToGame(super.getPlayer(), false, false);	
+							gc.addEventToTheQueue(new EventAddedToGame(super.getPlayer(), false, true));
+							gc.sendNotifyEvent();
+							gc.getSubscribers().remove(c);
+							return null;	
 						}
 					}
 				}

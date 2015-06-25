@@ -4,7 +4,7 @@ import java.util.List;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventAdrenaline;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventADRENALINE;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyCardPerformed;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
@@ -22,7 +22,7 @@ public class UseAdrenalineCard extends GameAction {
 
     public UseAdrenalineCard(GameEvent evt) {
     	super(evt.getGenerator());
-    	this.setCard(((ObjectCard)((EventAdrenaline)evt).getToUse()));
+    	this.setCard(((ObjectCard)((EventADRENALINE)evt).getToUse()));
     }
 
     private ObjectCard card;

@@ -32,7 +32,7 @@ public class AddedToGame extends NotifyAction {
 			client.setPlayerClientState(PlayerClientState.CONNECTED);
 			client.setIsInterfaceBlocked(true);
 		}
-		client.setIsInterfaceBlocked(true);
+		client.setIsInterfaceBlocked(false);
 		return null;		
 	}
 

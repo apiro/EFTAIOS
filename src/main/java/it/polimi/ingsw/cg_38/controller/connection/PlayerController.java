@@ -60,6 +60,9 @@ public class PlayerController extends Thread  {
 				//è broadcast o no se è broadcast lo aggiunge alla coda del server mentre se 
 				//è personale lo processa direttmente qui e invia l'evento di risposta !
 				Event evt = this.communicator.recieveEvent();
+				logger.print("---------------------------------------------------------------------\n");
+				logger.print("Game Event arrived !\n");
+				logger.print("Parsing Event... : " + evt.toString());
 				if(!((GameEvent)evt).getNotifyEventIsBroadcast()){
 					List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 					GameController gcFound = null;

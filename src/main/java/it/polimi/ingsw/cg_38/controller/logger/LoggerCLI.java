@@ -12,7 +12,7 @@ public class LoggerCLI implements Logger {
 	}
 
 	@Override
-	public String showAndRead(String toShow) {
+	public String showAndRead(String toShow, String title) {
 		this.print(toShow);
 		return in.nextLine();
 	}

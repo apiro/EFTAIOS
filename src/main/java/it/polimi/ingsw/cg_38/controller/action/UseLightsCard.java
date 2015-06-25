@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg_38.controller.action;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventSPOTLIGHT;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDeclarePosition;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyCardPerformed;
@@ -24,8 +24,8 @@ public class UseLightsCard extends GameAction {
 
     public UseLightsCard(GameEvent evt) {
     	super(evt.getGenerator());
-    	this.setCard(((ObjectCard)((EventSpotLight)evt).getToUse()));
-    	this.setTargetSector(((EventSpotLight)evt).getTarget());
+    	this.setCard(((ObjectCard)((EventSPOTLIGHT)evt).getToUse()));
+    	this.setTargetSector(((EventSPOTLIGHT)evt).getTarget());
     }
 
     private ObjectCard card;

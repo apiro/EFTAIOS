@@ -20,11 +20,11 @@ public class LoggerGUI implements Logger {
 	}
 
 	@Override
-	public String showAndRead(String toShow) {
+	public String showAndRead(String toShow, String title) {
 		return JOptionPane.showInputDialog(
 		           frame,
-		            "Game Message",
 		            toShow,
+		            title,
 		            JOptionPane.INFORMATION_MESSAGE);
 	}
 

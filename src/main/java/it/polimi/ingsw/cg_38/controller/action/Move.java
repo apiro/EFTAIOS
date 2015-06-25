@@ -31,7 +31,10 @@ public class Move extends GameAction {
     public List<NotifyEvent> perform(GameModel model) {
     	
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
-    	String toReturn = model.getActualTurn().getCurrentPlayer().getAvatar().move(getSectorToMove(), model.getActualTurn().getCurrentPlayer().getNumTurniGiocati()+1);
+    	
+    	Sector sec = model.getGameMap().searchSectorByCoordinates(getSectorToMove().getRow(), getSectorToMove().getCol());
+    	String toReturn = model.getActualTurn().getCurrentPlayer().getAvatar().move(sec, model.getActualTurn().getCurrentPlayer().getNumTurniGiocati()+1);
+    	
     	model.getActualTurn().setHasMoved(true);
     	callbackEvent.add(new EventMoved(model.getActualTurn().getCurrentPlayer(), toReturn));
     	return callbackEvent;

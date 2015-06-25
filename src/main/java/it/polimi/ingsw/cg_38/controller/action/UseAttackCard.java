@@ -5,7 +5,7 @@ import java.util.List;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttackCard;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventATTACKCARD;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
 import  it.polimi.ingsw.cg_38.model.*;
@@ -26,8 +26,8 @@ public class UseAttackCard extends GameAction {
 	public UseAttackCard(GameEvent evt) {
 		super(evt.getGenerator());
 		this.generator = evt.getGenerator();
-		this.setCard(((ObjectCard)((EventAttackCard)evt).getToUse()));
-    	this.setSectorToAttack(((EventAttackCard)evt).getTarget());
+		this.setCard(((ObjectCard)((EventATTACKCARD)evt).getToUse()));
+    	this.setSectorToAttack(((EventATTACKCARD)evt).getTarget());
     }
 
     public Sector getSectorToAttack() {

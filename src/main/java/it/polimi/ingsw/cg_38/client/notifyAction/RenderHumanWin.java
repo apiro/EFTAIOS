@@ -4,7 +4,6 @@ import it.polimi.ingsw.cg_38.client.PlayerClient;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
-import it.polimi.ingsw.cg_38.model.map.Hatch;
 
 public class RenderHumanWin extends NotifyAction {
 

@@ -88,24 +88,21 @@ public class ServerController extends Observable {
 			Event msg = toDispatch.poll();
 			List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 			if(msg != null) {
+				
+				logger.print("---------------------------------------------------------------------\n");
 				logger.print("Game Event arrived !\n");
 				logger.print("Parsing Event... : " + msg.toString());
+				
 				GameController gcFound = null;
 				Action generatedAction = GameActionCreator.createGameAction(msg);
 				gcFound = topics.get(msg.getGenerator().getName());
 				if(gcFound == null) break;
 				if( msg.getGenerator().getName().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer().getName()) ||
 						msg instanceof EventChat) {
-					//se l'evento viene dal giocatore del turno corrente
 					callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
+					if(callbackEvent == null) break;
 				} else {
-					//se l'evento non viene dal gicatore del turno (qualcuno ha inviato un evento fuori turno)
-					/*if(msg instanceof EventPlayerLooser || msg instanceof EventPlayerWinner) {
-						callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
-					} else {
-						NotifyEvent callbackError = new EventNotYourTurn(msg.getGenerator());
-						callbackEvent.add(callbackError);
-					}*/
+					break;
 				}
 				Event eR= null;
 				for(NotifyEvent e:callbackEvent) {
@@ -123,16 +120,6 @@ public class ServerController extends Observable {
 					}
 				}
 				if(eR != null) callbackEvent.remove(eR);
-				
-				for(NotifyEvent e:callbackEvent) {
-					if(e.getType().equals(NotifyEventType.ADDED)) {
-						if(((EventAddedToGame)e).getAdded() == false ) {
-							gcFound.getSubscribers().remove(msg.getGenerator().getName());
-							this.getTopics().remove(msg.getGenerator().getName());
-							this.deleteObserver(gcFound);
-						}
-					}
-				}
 				
 				logger.print("Event parsed !");
 				logger.print("---------------------------------------------------------------------\n");

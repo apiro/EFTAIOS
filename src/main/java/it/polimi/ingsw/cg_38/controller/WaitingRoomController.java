@@ -33,16 +33,17 @@ public class WaitingRoomController extends Observable implements Runnable {
 		logger.print("ACCEPTING: " + gc.getTopic() + " ...");
 		logger.print("---------------------------------------------------------------------\n");
 		try {
-			Thread.sleep(70000);
+			Thread.sleep(60000);
 		} catch (InterruptedException e1) {
 			logger.print("Problems during the rianimation of the room-handling-thread ...");
 		}
 		
 		synchronized(gc) {
 			//E' LA FASE DI SETTAGGIO A RUNNING DEL GIOCO
+			gc.getGameModel().setGameState(GameState.RUNNING);
 			logger.print("---------------------------------------------------------------------\n");
 			logger.print("RUNNING: " + gc.getTopic() + " ...");
-			logger .print("---------------------------------------------------------------------\n");
+			logger.print("---------------------------------------------------------------------\n");
 			gc.assignAvatars();
 			gc.getBuffer().add(new EventNotifyEnvironment(gc.getGameModel().getGamePlayers(), gc.getGameModel().getGameMap()));
 			this.setChanged();
@@ -52,7 +53,6 @@ public class WaitingRoomController extends Observable implements Runnable {
 			gc.getBuffer().add(new EventNotifyTurn(gc.getGameModel().getActualTurn().getCurrentPlayer()));
 			this.setChanged();
 			this.notifyObservers(gc.getTopic());
-			gc.getGameModel().setGameState(GameState.RUNNING);
 			gc.notify();
 			
 			Thread.currentThread().interrupt();

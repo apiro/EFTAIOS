@@ -4,7 +4,7 @@ import java.util.List;
 
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventTeleport;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventTELEPORT;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTeleport;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
@@ -17,7 +17,7 @@ public class UseTeleportCard extends GameAction {
 
     public UseTeleportCard(GameEvent evt) {
     	super(evt.getGenerator());
-    	this.setCard(((ObjectCard)((EventTeleport)evt).getToUse()));
+    	this.setCard(((ObjectCard)((EventTELEPORT)evt).getToUse()));
     }
 
     private ObjectCard card;

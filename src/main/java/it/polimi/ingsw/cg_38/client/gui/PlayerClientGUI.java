@@ -101,9 +101,11 @@ public class PlayerClientGUI implements PlayerClient {
 	}
 
 	public void waitForLoadingUX() {
-		Logger[] arrLog = new Logger[1];
-		arrLog[0] = logger;
-		uxHandler = new UXStarter(arrLog);
+		Object[] params = new Object[2];
+		
+		params[0] = logger;
+		params[1] = toSend;
+		uxHandler = new UXStarter(params);
 	}
 
 	public void createClient() {
@@ -269,7 +271,18 @@ public class PlayerClientGUI implements PlayerClient {
 				for (int i = 2; i < 5; i++) {
 					uxHandler.getUx().addButtonActionListener(i,
 							new ActionListener() {
-
+								
+								private Class<?> generateClass(ActionEvent e, String s) {
+									Class<?> myClass = null;
+									
+									try {
+										myClass = Class.forName(s);
+									} catch (ClassNotFoundException e1) {
+										logger.print("You haven't selected a card ! retry ...");
+									}
+									return myClass;
+								}
+								
 								@Override
 								public void actionPerformed(ActionEvent e) {
 									String choice = uxHandler.getUx()
@@ -279,13 +292,8 @@ public class PlayerClientGUI implements PlayerClient {
 									String s = "it.polimi.ingsw.cg_38.controller.gameEvent.Event"
 											+ ((JButton) e.getSource())
 													.getText();
-									System.out.println(s);
-									Class<?> myClass = null;
-									try {
-										myClass = Class.forName(s);
-									} catch (ClassNotFoundException e1) {
-										logger.print("The requested Class is not available !");
-									}
+									Class<?> myClass = this.generateClass(e,s);
+									
 									Constructor<?> constructor = null;
 									try {
 										for (ObjectCard c : player.getAvatar()
@@ -311,7 +319,7 @@ public class PlayerClientGUI implements PlayerClient {
 												return;
 											}
 										}
-										if (("it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight").equals(s)) {
+										if (("it.polimi.ingsw.cg_38.controller.gameEvent.EventSPOTLIGHT").equals(s)) {
 											sec = uxHandler.getUx()
 													.askForMoveCoordinates(map);
 											constructor = myClass
@@ -333,7 +341,7 @@ public class PlayerClientGUI implements PlayerClient {
 									}
 									Object instance = null;
 									try {
-										if (("it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight").equals(s)) {
+										if (("it.polimi.ingsw.cg_38.controller.gameEvent.EventSPOTLIGHT").equals(s)) {
 											instance = constructor.newInstance(
 													player, sec, card);
 										} else {
@@ -342,13 +350,12 @@ public class PlayerClientGUI implements PlayerClient {
 										}
 									} catch (InstantiationException e1) {
 										logger.print("Problems with the instantiation of the object ...");
-										e1.printStackTrace();
 									} catch (IllegalAccessException e1) {
-										e1.printStackTrace();
+										logger.print("Problems with access...");
 									} catch (IllegalArgumentException e1) {
-										e1.printStackTrace();
+										logger.print("Problems with arguments...");
 									} catch (InvocationTargetException e1) {
-										e1.printStackTrace();
+										logger.print("Problems with the invocation target...");
 									}
 									player.getAvatar().getMyCards()
 											.remove(card);
@@ -361,6 +368,7 @@ public class PlayerClientGUI implements PlayerClient {
 										toSend.add(evt);
 									}
 								}
+
 							});
 				}
 			}

@@ -6,7 +6,7 @@ import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.deck.Card;
 import it.polimi.ingsw.cg_38.model.map.Sector;
 
-public class EventAttackCard extends GameEvent {
+public class EventATTACKCARD extends GameEvent {
 
 	private static final long serialVersionUID = 1L;
 	private Sector target;
@@ -28,7 +28,7 @@ public class EventAttackCard extends GameEvent {
 		this.toUse = toUse;
 	}
 
-	public EventAttackCard(Player generator, Card card) {
+	public EventATTACKCARD(Player generator, Card card) {
 		super(generator, false);
 		this.setTarget(super.getGenerator().getAvatar().getCurrentSector());
 		this.setToUse(card);

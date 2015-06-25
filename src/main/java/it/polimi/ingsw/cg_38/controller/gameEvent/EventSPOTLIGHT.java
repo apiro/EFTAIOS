@@ -6,7 +6,7 @@ import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.deck.Card;
 import it.polimi.ingsw.cg_38.model.map.Sector;
 
-public class EventSpotLight extends GameEvent{
+public class EventSPOTLIGHT extends GameEvent{
 
 	private Sector target;
 	private Card card;
@@ -20,7 +20,7 @@ public class EventSpotLight extends GameEvent{
 		this.card = card;
 	}
 
-	public EventSpotLight(Player generator, Sector target, Card card) {
+	public EventSPOTLIGHT(Player generator, Sector target, Card card) {
 		super(generator, false);
 		super.setType(GameEventType.LIGHTS);
 		this.setTarget(target);

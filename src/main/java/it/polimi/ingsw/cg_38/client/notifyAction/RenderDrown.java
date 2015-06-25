@@ -43,6 +43,7 @@ public class RenderDrown extends NotifyAction {
 		client.updateCards();
 		
 		if(((EventDrown)evt).getDrown() instanceof SectorCard) {
+			
 			SectorCard card = ((SectorCard)((EventDrown)evt).getDrown());
 			if(card.getType().equals(SectorCardType.MYSECTORNOISE)) {
 				evt1 = new EventNoiseMySect(client.getPlayer());
@@ -58,7 +59,7 @@ public class RenderDrown extends NotifyAction {
 		} else if (((EventDrown)evt).getDrown() instanceof HatchCard) {
 			HatchCard card = ((HatchCard)((EventDrown)evt).getDrown());
 			if(card.getColor().equals(HatchCardType.GREEN) && 
-					((Hatch)player.getAvatar().getCurrentSector()).getIsOpen()) {
+					((Hatch)client.getPlayer().getAvatar().getCurrentSector()).getIsOpen()) {
 				client.paintHatch(true, evt.getGenerator().getAvatar().getCurrentSector());
 				this.renderWin(client);
 				evt1 = new EventHumanWin(client.getPlayer());
@@ -67,7 +68,8 @@ public class RenderDrown extends NotifyAction {
 				client.setIsInterfaceBlocked(false);
 				client.getLogger().print("You can't escape frome the SpaceShip !");
 				evt1 = new EventHatchBlocked(client.getPlayer());
-			} else if (!((Hatch)player.getAvatar().getCurrentSector()).getIsOpen()) {
+			} else if (card.getColor().equals(HatchCardType.GREEN) && 
+					!((Hatch)client.getPlayer().getAvatar().getCurrentSector()).getIsOpen()) {
 				client.getLogger().print("You can't escape frome the SpaceShip !");
 			}
 		}

@@ -26,8 +26,9 @@ public class HumanWin extends GameAction {
 		
 		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
 		model.getActualTurn().getCurrentPlayer().getAvatar().setIsWinner(EndState.WINNER);
+		Hatch htc = ((Hatch)model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector());
 		
-		((Hatch)model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()).setIsOpen(false);
+		((Hatch)model.getGameMap().searchSectorByCoordinates(htc.getRow(), htc.getCol())).setIsOpen(false);
 		callbackEvent.add(new EventNotifyHumanWin(model.getActualTurn().getCurrentPlayer()));
 		if(!model.areThereOtherHumans()) {
 			callbackEvent.add(new EventNotifyClosingTopic(model.getActualTurn().getCurrentPlayer()));

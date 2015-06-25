@@ -16,7 +16,7 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAliensWinner;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventChat;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventDefense;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventDEFENSE;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventHatchBlocked;
@@ -122,7 +122,7 @@ public class GameActionTest {
 	EventSubscribe evtSubscribe;
 	EventSubscribe evtSubscribe2;
 	EventHatchBlocked evtHatch;
-	EventDefense evtDefense;
+	EventDEFENSE evtDefense;
 	EventRejectCard evtRejectCard;
 	EventRetired evtRetired;
 	EventChat evtChat;
@@ -298,7 +298,7 @@ public class GameActionTest {
 		evtHuman = new EventHumanWin(player7);
 		evtHuman2 = new EventHumanWin(player4);
 		evtHatch = new EventHatchBlocked(player7);
-		evtDefense = new EventDefense(player7);
+		evtDefense = new EventDEFENSE(player7);
 		evtRejectCard = new EventRejectCard(player7 , card2);
 		evtRetired = new EventRetired(player7);
 		evtChat = new EventChat(player7 , message);

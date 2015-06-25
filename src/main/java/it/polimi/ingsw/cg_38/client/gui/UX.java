@@ -1,12 +1,13 @@
 package it.polimi.ingsw.cg_38.client.gui;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventAdrenaline;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttackCard;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventSedatives;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventADRENALINE;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventATTACKCARD;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventRetired;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventSEDATIVES;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventSPOTLIGHT;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventTeleport;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventTELEPORT;
 import it.polimi.ingsw.cg_38.controller.logger.Logger;
 import it.polimi.ingsw.cg_38.controller.logger.LoggerGUI;
 import it.polimi.ingsw.cg_38.model.Movement;
@@ -24,11 +25,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -51,13 +50,16 @@ public class UX extends JFrame {
 	private JScrollPane scroll3;
 	private JPanel panelChat;
 	private JTextField input;
+	private Queue<Event> toSend;
+	private String name;
 
 	public JTextField getInput() {
 		return input;
 	}
 
-	public UX (Logger logger) {
-		this.logger = logger;
+	public UX (Logger logger, Queue<Event> toSend) {
+		this.logger = new LoggerGUI(null, this);
+		this.toSend = toSend;
 	}
 	
     public void setLogger(Logger logger) {
@@ -74,13 +76,17 @@ public class UX extends JFrame {
 	
     public Player prepareGUI(){
 		 
-	    this.setTitle("Game");
+	    this.setTitle("ESCAPE FROM THE ALIENS IN OUTER SPACE");
 	    this.setSize(1285, 700);
 	    this.setResizable(false);
 	      
 	    this.addWindowListener(new WindowAdapter() {
 	    	public void windowClosing(WindowEvent windowEvent){
-		       System.exit(0);
+	    		synchronized(toSend) {
+	    			toSend.add(new EventRetired(new Player(name)));
+	    		}
+	    		toSend.notify();
+		        System.exit(0);
 	        }        
 	    });  
 	      
@@ -93,86 +99,54 @@ public class UX extends JFrame {
 	
 	public EventSubscribe generateEventSub(Player player) {
 		   
-		String room = JOptionPane.showInputDialog(
-		           this,
-		            "Choose a Room in the game:",
-		            "Room",
-		            JOptionPane.INFORMATION_MESSAGE);
-		while(room == null) {
-	    	  room = JOptionPane.showInputDialog(
-			           this,
-			            "Choose a name in the game:",
-			            "Name",
-			            JOptionPane.INFORMATION_MESSAGE);
-	    }
+		String room;
+		  room = logger.showAndRead("Choose a room in the game:", "REGISTRATION:");
+	      while(room == "") {
+	    	  room = logger.showAndRead("Choose a room in the game:", "REGISTRATION:");
+	      }
 		
-		String nameMap = JOptionPane.showInputDialog(
-			           this,
-			            "Choose a Map:\n (if you are joining an existing room you can type smth random)",
-			            "Map",
-			            JOptionPane.INFORMATION_MESSAGE);
-		while(nameMap == null) {
-	    	  nameMap = JOptionPane.showInputDialog(
-			           this,
-			            "Choose a name in the game:",
-			            "Name",
-			            JOptionPane.INFORMATION_MESSAGE);
-	    }
+	      String nameMap;
+	      nameMap = logger.showAndRead("Choose a map for the starting game: \nType smth random if you are accessing to an existing room ...", "REGISTRATION:");
+	      while(nameMap == "") {
+	    	  nameMap = logger.showAndRead("Choose a map for the starting game:", "REGISTRATION:");
+	      }
 		
 		return new EventSubscribe(player, room, nameMap);
 	}
 	
 	public String askForUseCardOrRejectCard() {
-		String choice = JOptionPane.showInputDialog(
-		           this,
-		            "Do you wanna Use [U] or Reject [R] the selected Card ?",
-		            "Use or Reject",
-		            JOptionPane.INFORMATION_MESSAGE);
-	while(!("U").equals(choice) && !("R").equals(choice)) {
-		choice = JOptionPane.showInputDialog(
-		           this,
-		            "Do you wanna Use [U] or Reject [R] the selected Card ?",
-		            "Use or Reject",
-		            JOptionPane.INFORMATION_MESSAGE);
+		String choice = logger.showAndRead("Do you wanna Use [U] or Reject [R] the selected Card ?", "USE OR REJECT:");
+		while(!("U").equals(choice) && !("R").equals(choice)) {
+			choice = logger.showAndRead("Do you wanna Use [U] or Reject [R] the selected Card ?", "USE OR REJECT:");
 		}
-	return choice;
+		return choice;
 	}
 	
 	public Player getIdentity() {
-		   String name;
-		   
-		   name = JOptionPane.showInputDialog(
-		           this,
-		            "Choose a name in the game:",
-		            "Name",
-		            JOptionPane.INFORMATION_MESSAGE);
-	      while(name == null) {
-	    	  name = JOptionPane.showInputDialog(
-			           this,
-			            "Choose a name in the game:",
-			            "Name",
-			            JOptionPane.INFORMATION_MESSAGE);
+		  String name;
+		  name = logger.showAndRead("Choose a name in the game:", "REGISTRATION:");
+	      while(name == "") {
+	    	  name = logger.showAndRead("Choose a name in the game:", "REGISTRATION:");
 	      }
+	      this.setTitle("EFTAIOS - " + name);
+	      this.name = name;
 	      return new Player(name);
 	}
 	
 	public void updateCards(Player player, Queue<Event> toSend, Map map) {
 		   int i = 2;
 		   if(player.getAvatar().getMyCards().size() == 4) {
-			   int cardSelected = Integer.parseInt(JOptionPane.showInputDialog(
-			           this,
-			            "DROWN 4TH CARD: type-> " + player.getAvatar().getMyCards().get(3).getType().toString(),
-			            "You have 4 cards: you have to use one of them ! choose...",
-			            JOptionPane.INFORMATION_MESSAGE));
+			   int cardSelected = Integer.parseInt(logger.showAndRead("DROWN 4TH CARD: type-> " + player.getAvatar().getMyCards().get(3).getType().toString(),
+			            "You have 4 cards: you have to use one of them ! choose..."));
 			   try {
 					
 					if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.ADRENALINE)) {
 						
-						toSend.add(new EventAdrenaline(player, player.getAvatar().getMyCards().get(cardSelected)));
+						toSend.add(new EventADRENALINE(player, player.getAvatar().getMyCards().get(cardSelected)));
 						
 					} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.ATTACKCARD)) {
 						
-						toSend.add(new EventAttackCard(player, player.getAvatar().getMyCards().get(cardSelected)));
+						toSend.add(new EventATTACKCARD(player, player.getAvatar().getMyCards().get(cardSelected)));
 						
 					} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.DEFENSE)) {
 						
@@ -181,16 +155,16 @@ public class UX extends JFrame {
 						
 					} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SEDATIVES)) {
 						
-						toSend.add(new EventSedatives(player, player.getAvatar().getMyCards().get(cardSelected)));
+						toSend.add(new EventSEDATIVES(player, player.getAvatar().getMyCards().get(cardSelected)));
 						
 					} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SPOTLIGHT)) {
 						
 						Sector toMove = this.askForMoveCoordinates(map);
-						toSend.add(new EventSpotLight(player, toMove, player.getAvatar().getMyCards().get(cardSelected)));
+						toSend.add(new EventSPOTLIGHT(player, toMove, player.getAvatar().getMyCards().get(cardSelected)));
 						
 					} else if (player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.TELEPORT)) {
 						
-						toSend.add(new EventTeleport(player, player.getAvatar().getMyCards().get(cardSelected)));
+						toSend.add(new EventTELEPORT(player, player.getAvatar().getMyCards().get(cardSelected)));
 						
 					}
 					this.resetButton(cardSelected, player);
@@ -282,29 +256,14 @@ public class UX extends JFrame {
 	}
 	
 	public Sector askForMoveCoordinates(Map map) {
-		String x = JOptionPane.showInputDialog(
-		           this,
-		            "ASKING FOR MOVE COORDINATES:",
-		            "x?",
-		            JOptionPane.INFORMATION_MESSAGE);
-		while(x == null) {
-			x = JOptionPane.showInputDialog(
-			           this,
-			            "ASKING FOR MOVE COORDINATES:",
-			            "x?",
-			            JOptionPane.INFORMATION_MESSAGE);
+		String x = logger.showAndRead("x?", "ENTER COORDINATES:");
+		
+		while( x == null) {
+			x = logger.showAndRead("x?", "RETRY:");
 		}
-		String y = JOptionPane.showInputDialog(
-		           this,
-		            "ASKING FOR MOVE COORDINATES:",
-		            "y?",
-		            JOptionPane.INFORMATION_MESSAGE);
+		String y = logger.showAndRead("y?", "ENTER COORDINATES:");
 		while(y == null) {
-			y = JOptionPane.showInputDialog(
-			           this,
-			            "ASKING FOR MOVE COORDINATES:",
-			            "y?",
-			            JOptionPane.INFORMATION_MESSAGE);
+			y = logger.showAndRead("y?", "RETRY:");
 		}
 		
 		Sector toMove = map.searchSectorByCoordinates(Integer.parseInt(x), Integer.parseInt(y));
@@ -331,20 +290,10 @@ public class UX extends JFrame {
 	}
 	
 	public String getConnection() {
-		String connection = JOptionPane.showInputDialog(
-	    		  this,
-		            "WELCOME TO THE GAME: \nChoose a type of connection:\n"
-		            + "Are available: [Socket] | [RMI] choose one of them !",
-		            "Connection",
-		            JOptionPane.INFORMATION_MESSAGE);
+		String connection = logger.showAndRead("Choose a type of connection:\n" + "Are available: [Socket] | [RMI] choose one of them !", "WELCOME TO EFTAIOS:");
 		while(connection == null) {
-		  connection = JOptionPane.showInputDialog(
-			           this,
-			            "Choose a name in the game:",
-			            "Name",
-			            JOptionPane.INFORMATION_MESSAGE);
-	     }
-		
+			connection = logger.showAndRead("Choose a type of connection:\n" + "Are available: [Socket] | [RMI] choose one of them !", "WELCOME TO EFTAIOS:");
+	    }
 		return connection;
 	}
 }

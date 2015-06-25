@@ -12,7 +12,7 @@ public class PlayerMain {
 
 	public static void main(String[] args) {
 		
-		String choose = logger.showAndRead("Welcome to the game: type the UX you prefer: [CLI] | [GUI]");
+		String choose = logger.showAndRead("Welcome to the game: type the UX you prefer: [CLI] | [GUI]", "");
 		
 		if(("GUI").equals(choose)) {
 			player = new PlayerClientGUI();

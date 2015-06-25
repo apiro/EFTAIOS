@@ -20,7 +20,9 @@ public class HatchBlocked extends GameAction {
 	@Override
 	public List<NotifyEvent> perform(GameModel model) {
 		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
-		((Hatch)model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()).setIsOpen(false);
+		Hatch htc = ((Hatch)model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector());
+		
+		((Hatch)model.getGameMap().searchSectorByCoordinates(htc.getRow(), htc.getCol())).setIsOpen(false);
 		callbackEvent.add(new EventHatchBlocked(model.getActualTurn().getCurrentPlayer(), 
    						(Hatch)model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()));
 		return callbackEvent;

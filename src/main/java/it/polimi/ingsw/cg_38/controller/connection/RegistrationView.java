@@ -43,7 +43,6 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 		 * 	   ho la possibilità di verificare se posso farlo . se posso invio al giocatore che si è registrato un evento di 
 		 * 	   addedToGame con true se no uno con false.
 		 * */
-		logger.print("New Client is trying to connect using RMI ! ");
 		Communicator c = new RMICommunicator(clientView);
 		
 		Subscribe subscribeAction = (Subscribe) GameActionCreator.createGameAction(subEvent);

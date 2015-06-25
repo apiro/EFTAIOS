@@ -7,18 +7,18 @@ import it.polimi.ingsw.cg_38.client.notifyAction.NotifyAction;
 import it.polimi.ingsw.cg_38.client.notifyAction.NotifyActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventAdrenaline;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttackCard;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventADRENALINE;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventATTACKCARD;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventChat;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventMove;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventRejectCard;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventRetired;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventSedatives;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventSEDATIVES;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventSPOTLIGHT;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventTeleport;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventTELEPORT;
 import it.polimi.ingsw.cg_38.controller.logger.Logger;
 import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 import it.polimi.ingsw.cg_38.model.Movement;
@@ -103,10 +103,10 @@ public class PlayerClientCLI implements PlayerClient {
 	}
 	
 	public String askForUseCardOrRejectCard() {
-		String choice = logger.showAndRead("Do you wanna Use [U] or Reject [R] the selected Card ?");
+		String choice = logger.showAndRead("Do you wanna Use [U] or Reject [R] the selected Card ?", "");
 		
 		while(!("U").equals(choice) && !("R").equals(choice)) {
-			choice = logger.showAndRead("Do you wanna Use [U] or Reject [R] the selected Card ?");
+			choice = logger.showAndRead("Do you wanna Use [U] or Reject [R] the selected Card ?", "");
 		}
 		
 		return choice;
@@ -196,7 +196,7 @@ public class PlayerClientCLI implements PlayerClient {
 					this.toSend.add(new EventRetired(player));
 				}
 			} else if (("C").equals(command)) {
-				String chat = logger.showAndRead("Type the message ...");
+				String chat = logger.showAndRead("Type the message ...", "");
 				synchronized(this.toSend) {
 					this.toSend.add(new EventChat(player, chat));
 				}
@@ -237,11 +237,11 @@ public class PlayerClientCLI implements PlayerClient {
 			
 			if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.ADRENALINE)) {
 				synchronized(this.toSend) {
-					this.toSend.add(new EventAdrenaline(player, player.getAvatar().getMyCards().get(cardSelected)));
+					this.toSend.add(new EventADRENALINE(player, player.getAvatar().getMyCards().get(cardSelected)));
 				}
 			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.ATTACKCARD)) {
 				synchronized(this.toSend) {
-					this.toSend.add(new EventAttackCard(player, player.getAvatar().getMyCards().get(cardSelected)));
+					this.toSend.add(new EventATTACKCARD(player, player.getAvatar().getMyCards().get(cardSelected)));
 				}
 			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.DEFENSE)) {
 				
@@ -251,17 +251,17 @@ public class PlayerClientCLI implements PlayerClient {
 				
 			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SEDATIVES)) {
 				synchronized(this.toSend) {
-					this.toSend.add(new EventSedatives(player, player.getAvatar().getMyCards().get(cardSelected)));
+					this.toSend.add(new EventSEDATIVES(player, player.getAvatar().getMyCards().get(cardSelected)));
 				}
 			} else if(player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.SPOTLIGHT)) {
 				
 				Sector toMove = this.askForMoveCoordinates();
 				synchronized(this.toSend) {
-					this.toSend.add(new EventSpotLight(player, toMove, player.getAvatar().getMyCards().get(cardSelected)));
+					this.toSend.add(new EventSPOTLIGHT(player, toMove, player.getAvatar().getMyCards().get(cardSelected)));
 				}
 			} else if (player.getAvatar().getMyCards().get(cardSelected).getType().equals(ObjectCardType.TELEPORT)) {
 				synchronized(this.toSend) {
-					this.toSend.add(new EventTeleport(player, player.getAvatar().getMyCards().get(cardSelected)));
+					this.toSend.add(new EventTELEPORT(player, player.getAvatar().getMyCards().get(cardSelected)));
 				}
 			}
 			player.getAvatar().getMyCards().remove(cardSelected);

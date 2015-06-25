@@ -37,8 +37,9 @@ public class Attack extends GameAction {
     	
     	//tolgo il giocatore che ha attaccato che è nel target sector
     	for(Player pl:killed) {
-    		if(pl.getName().equals(super.getPlayer().getName())) {
-    			p = pl;
+    		if((pl.getName().equals(super.getPlayer().getName())) || 
+    				(pl.getAvatar().getIsAlive().equals(LifeState.DEAD))) {
+    			hasDefense.add(pl);
     		} else if (pl.getAvatar().hasDefenseCard()) {
     			hasDefense.add(pl);
     			callbackEvent.add(new EventUseDefense(pl, true, ObjectCardType.DEFENSE));
@@ -50,7 +51,6 @@ public class Attack extends GameAction {
        			}
     		}
     	}
-    	killed.remove(p);
     	for(Player pl:hasDefense) {
     		killed.remove(pl);
     	}
