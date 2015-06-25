@@ -45,7 +45,7 @@ public class Attack extends GameAction {
     		} else {
     			//qui setto il giocatore ucciso a dead e looser
     			pl.getAvatar().attacked();
-    			if(this.currentAvatarType(model).equals("Alien")) {
+    			if(("Alien").equals(this.currentAvatarType(model))) {
        				model.getActualTurn().getCurrentPlayer().getAvatar().setIsPowered(true);
        			}
     		}
@@ -87,12 +87,12 @@ public class Attack extends GameAction {
 	
 	@Override
     public Boolean isPossible(GameModel model) {
-        if(this.currentAvatarType(model).equals("Alien") &&
+        if(("Alien").equals(this.currentAvatarType(model)) &&
         		model.getActualTurn().getHasMoved() &&
         		!model.getActualTurn().getHasAttacked() && 
         		!model.getActualTurn().getHasDraw() && super.isPossible(model)) {
         	return true;
-        } else if (this.currentAvatarType(model).equals("Human") && 
+        } else if (("Human").equals(this.currentAvatarType(model)) && 
         		((Human)model.getActualTurn().getCurrentPlayer().getAvatar()).getCanAttack() && 
         		/*model.getActualTurn().getHasMoved() && non c'è questa condizione perchè l'umano puo giocare la carta attacco anche prima di aver mosso !*/
         		!model.getActualTurn().getHasAttacked() && 

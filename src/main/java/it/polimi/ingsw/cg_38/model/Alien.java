@@ -29,12 +29,12 @@ public class Alien extends Avatar implements Serializable {
 
 	/** check if avatar can move in target sector */
     public Boolean canMove(Sector sector) {
-    	if(sector.getName().equals("AlienStartingPoint") || sector.getName().equals("Hatch")) {
+    	if(("AlienStartingPoint").equals(sector.getName()) || ("Hatch").equals(sector.getName())) {
     		return false;
     	}
     	if(this.getCurrentSector().getNeighboringSectors().contains(sector)) {
 
-        	if(sector.getName().equals("Hatch")) {
+        	if(("Hatch").equals(sector.getName())) {
         		return false;
         	}
     		return true;
@@ -43,7 +43,7 @@ public class Alien extends Avatar implements Serializable {
     		for(Sector sec2: sec.getNeighboringSectors()){
         		if(sec2.equals(sector) && !(sec2.equals(this.getCurrentSector()))) {
 
-        	    	if(sector.getName().equals("Hatch")) {
+        	    	if(("Hatch").equals(sector.getName())) {
         	    		return false;
         	    	}
         			return true;
@@ -56,7 +56,7 @@ public class Alien extends Avatar implements Serializable {
         			for(Sector sec3: sec2.getNeighboringSectors()){
     	        		if(sec3.equals(sector) && !(sec3.equals(this.getCurrentSector()))) {
 
-    	        	    	if(sector.getName().equals("Hatch")) {
+    	        	    	if(("Hatch").equals(sector.getName())) {
     	        	    		return false;
     	        	    	}
     	        			return true;

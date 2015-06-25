@@ -30,12 +30,10 @@ public class UseSedativesCard extends GameAction {
 		this.card = card;
 	}
 
-	/**
-     * @return
-     */
+
     public List<NotifyEvent> perform(GameModel model) {
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
-    	if(this.currentAvatarType(model).equals("Alien")){
+    	if(("Alien").equals(this.currentAvatarType(model))){
     		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     		model.handleRejectedCard(card);
     		model.getActualTurn().setHasUsedObjectCard(true);

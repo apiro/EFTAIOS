@@ -14,11 +14,11 @@ public class MapCreator {
      */
     public static Map createMap(String type) throws ParserConfigurationException, Exception {
     	Map creating;
-    	if(type.equals("Galilei")) {
+    	if(("Galilei").equals(type)) {
     		creating = new Galilei();
-    	} else if (type.equals("Galvani")) {
+    	} else if (("Galvani").equals(type)) {
     		creating = new Galvani();
-    	} else if (type.equals("Fermi")) {
+    	} else if (("Fermi").equals(type)) {
     		creating = new Fermi();
     	} else {
     		creating = new Map(type);

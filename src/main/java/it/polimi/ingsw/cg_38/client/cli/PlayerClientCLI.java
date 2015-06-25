@@ -105,7 +105,7 @@ public class PlayerClientCLI implements PlayerClient {
 	public String askForUseCardOrRejectCard() {
 		String choice = logger.showAndRead("Do you wanna Use [U] or Reject [R] the selected Card ?");
 		
-		while(!choice.equals("U") && !choice.equals("R")) {
+		while(!("U").equals(choice) && !("R").equals(choice)) {
 			choice = logger.showAndRead("Do you wanna Use [U] or Reject [R] the selected Card ?");
 		}
 		
@@ -191,17 +191,17 @@ public class PlayerClientCLI implements PlayerClient {
 					this.toSend.add(new EventMove(player, toMove));
 				}
 				
-			} else if (command.equals("CC")) {
+			} else if (("CC").equals(command)) {
 				synchronized(this.toSend) {
 					this.toSend.add(new EventRetired(player));
 				}
-			} else if (command.equals("C")) {
+			} else if (("C").equals(command)) {
 				String chat = logger.showAndRead("Type the message ...");
 				synchronized(this.toSend) {
 					this.toSend.add(new EventChat(player, chat));
 				}
 				
-			} else if (command.equals("U")) {
+			} else if (("U").equals(command)) {
 				logger.print("----------------------------------------------------------------------");
 				logger.print("Which one? type the number ...");
 				int j = 1;
@@ -216,13 +216,13 @@ public class PlayerClientCLI implements PlayerClient {
 					logger.print("You typed a word not a number !");
 					this.loadInterface();
 				}
-				if(this.askForUseCardOrRejectCard().equals("R") && cardSelected<player.getAvatar().getMyCards().size()) {
+				if(("R").equals(this.askForUseCardOrRejectCard()) && cardSelected<player.getAvatar().getMyCards().size()) {
 					this.toSend.add(new EventRejectCard(player, player.getAvatar().getMyCards().get(cardSelected)));
 					player.getAvatar().getMyCards().remove(cardSelected);
 				} else {
 					this.useCard(cardSelected);
 				}
-			} else if (command.equals("F")) {
+			} else if (("F").equals(command)) {
 				synchronized(this.toSend) {
 					this.toSend.add(new EventFinishTurn(player));
 				}

@@ -128,7 +128,7 @@ public class UX extends JFrame {
 		            "Do you wanna Use [U] or Reject [R] the selected Card ?",
 		            "Use or Reject",
 		            JOptionPane.INFORMATION_MESSAGE);
-	while(!choice.equals("U") && !choice.equals("R")) {
+	while(!("U").equals(choice) && !("R").equals(choice)) {
 		choice = JOptionPane.showInputDialog(
 		           this,
 		            "Do you wanna Use [U] or Reject [R] the selected Card ?",

@@ -85,7 +85,7 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 	
 	@Override
 	public boolean isLoginValid(String username) throws RemoteException {
-		if(username.equals("test")) {
+		if(("test").equals(username)) {
 			return true;
 		}
 		return false;

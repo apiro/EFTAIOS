@@ -55,7 +55,7 @@ public class UseAttackCard extends GameAction {
     public List<NotifyEvent> perform(GameModel model) {
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	
-    	if(this.currentAvatarType(model).equals("Alien")){
+    	if(("Alien").equals(this.currentAvatarType(model))){
     		model.getActualTurn().getCurrentPlayer().getAvatar().eliminateFromMyCards(card);
     		model.handleRejectedCard(card);
     		model.getActualTurn().setHasUsedObjectCard(true);
@@ -77,9 +77,7 @@ public class UseAttackCard extends GameAction {
     	return callbackEvent;
     }
 
-    /**
-     * @return
-     */
+    @Override
     public Boolean isPossible(GameModel model) {
 	    if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
 	    		!model.getActualTurn().getHasUsedObjectCard() &&

@@ -298,7 +298,7 @@ public class PlayerClientGUI implements PlayerClient {
 												card = c;
 											}
 										}
-										if (choice.equals("R")) {
+										if (("R").equals(choice)) {
 											player.getAvatar().getMyCards()
 													.remove(card);
 											uxHandler.getUx().updateCards(
@@ -311,7 +311,7 @@ public class PlayerClientGUI implements PlayerClient {
 												return;
 											}
 										}
-										if (s.equals("it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight")) {
+										if (("it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight").equals(s)) {
 											sec = uxHandler.getUx()
 													.askForMoveCoordinates(map);
 											constructor = myClass
@@ -333,7 +333,7 @@ public class PlayerClientGUI implements PlayerClient {
 									}
 									Object instance = null;
 									try {
-										if (s.equals("it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight")) {
+										if (("it.polimi.ingsw.cg_38.controller.gameEvent.EventSpotLight").equals(s)) {
 											instance = constructor.newInstance(
 													player, sec, card);
 										} else {

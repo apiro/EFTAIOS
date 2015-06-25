@@ -34,6 +34,7 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 		
 	}
 	
+	@Override
 	public void run() {
 		alive = true;
 		while(alive) {

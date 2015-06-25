@@ -15,10 +15,8 @@ public class UseSilenceCard extends GameAction {
     public UseSilenceCard(GameEvent evt) {
     	super(evt.getGenerator());
     }
-
-    /**
-     * @return
-     */
+    
+    @Override
     public List<NotifyEvent> perform(GameModel model) {
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
         callbackEvent.add(new EventDeclareNoise(model.getActualTurn().getCurrentPlayer(), null));

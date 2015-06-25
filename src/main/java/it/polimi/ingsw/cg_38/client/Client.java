@@ -12,9 +12,9 @@ public abstract class Client implements Runnable {
 	protected Communicator communicator;
 	
 	public static Client clientCreator(String type, Queue<Event> toSend, Queue<Event> toProcess, EventSubscribe evt) {
-		if(type.equals("RMI")) {
+		if(("RMI").equals(type)) {
 			return new ClientRMI(toSend, toProcess, evt);
-		} else if(type.equals("Socket")) {
+		} else if(("Socket").equals(type)) {
 			return new ClientSocket(toSend, toProcess, evt);
 		} else return null;
 	}

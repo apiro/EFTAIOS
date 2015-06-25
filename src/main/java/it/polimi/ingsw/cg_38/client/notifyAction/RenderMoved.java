@@ -32,7 +32,7 @@ public class RenderMoved extends NotifyAction {
 		GameEvent evt1 = null;
 		
 		client.setPlayer(evt.getGenerator());
-		if(((EventMoved)evt).getMoved().equals("Safe")) {
+		if(("Safe").equals(((EventMoved)evt).getMoved())) {
 			String com = client.getLogger().showAndRead("You are in a SAFE sector ! Type attack or continue: [A] | [C]");
 			while(!com.equals("C") && !com.equals("A")) {
 				client.getLogger().print("Command not valid retry !");
@@ -47,7 +47,7 @@ public class RenderMoved extends NotifyAction {
 				client.updateMovements();
 				return evt1;
 			}
-		} else if(((EventMoved)evt).getMoved().equals("Dangerous")) {
+		} else if(("Dangerous").equals(((EventMoved)evt).getMoved())) {
 			String com = client.getLogger().showAndRead("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?");
 			client.getLogger().print("(If you activated the sedative card Type [D] to continue without drowing !");
 			while(!com.equals("D") && !com.equals("A")) {

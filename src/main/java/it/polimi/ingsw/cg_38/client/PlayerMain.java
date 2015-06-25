@@ -14,9 +14,9 @@ public class PlayerMain {
 		
 		String choose = logger.showAndRead("Welcome to the game: type the UX you prefer: [CLI] | [GUI]");
 		
-		if(choose.equals("GUI")) {
+		if(("GUI").equals(choose)) {
 			player = new PlayerClientGUI();
-		} else if (choose.equals("CLI")) {
+		} else if (("CLI").equals(choose)) {
 			player = new PlayerClientCLI();
 		}
 		player.run();

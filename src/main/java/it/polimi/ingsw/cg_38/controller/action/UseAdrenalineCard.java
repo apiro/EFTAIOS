@@ -35,9 +35,7 @@ public class UseAdrenalineCard extends GameAction {
 		this.card = card;
 	}
 
-	/**
-     * @return
-     */
+	@Override
     public List<NotifyEvent> perform(GameModel model) {
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	if(model.getActualTurn().getCurrentPlayer().getAvatar() instanceof Alien) {

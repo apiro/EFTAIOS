@@ -73,11 +73,11 @@ public class HexGrid extends JPanel {
 				oldy = sec.getRow();
 				oldIcon = (ImageIcon) sec.getIcon();
 				System.out.println(type);
-				if(type.substring(38).equals("Dangerous")){
+				if(("Dangerous").equals(type.substring(38))){
 					sec.setIcon(playerPointerD);
 					this.repaint();
 				}
-				if(type.substring(38).equals("Safe")){
+				if(("Safe").equals(type.substring(38))){
 					sec.setIcon(playerPointerS);
 					this.repaint();
 				}

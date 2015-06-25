@@ -27,6 +27,7 @@ public class WaitingRoomController extends Observable implements Runnable {
 		this.setGc(gc);
 	}
 	
+	@Override
 	public void run() {
 		logger.print("---------------------------------------------------------------------\n");
 		logger.print("ACCEPTING: " + gc.getTopic() + " ...");

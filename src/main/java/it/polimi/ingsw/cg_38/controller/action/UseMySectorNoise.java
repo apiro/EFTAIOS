@@ -24,10 +24,8 @@ public class UseMySectorNoise extends GameAction {
     	callbackEvent.add(new EventDeclareNoise(model.getActualTurn().getCurrentPlayer() , model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()));
     	return callbackEvent;
     }
-
-    /**
-     * @return
-     */
+    
+    @Override
     public Boolean isPossible(GameModel model) {
     	return super.isPossible(model);
     }

@@ -19,10 +19,8 @@ public class UseRandomSectorNoise extends GameAction {
     	super(evt.getGenerator());
     	this.setToDeclare(((EventNoiseRandSect)evt).getToNoise());
     }
-
-    /**
-     * @return
-     */
+	
+	@Override
     public List<NotifyEvent> perform(GameModel model) {
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	callbackEvent.add(new EventDeclareNoise(model.getActualTurn().getCurrentPlayer(), this.getToDeclare()));

@@ -37,6 +37,7 @@ public class Move extends GameAction {
     	return callbackEvent;
     }
 
+    @Override
     public Boolean isPossible(GameModel model) {
         if(!model.getActualTurn().getHasMoved() &&
         		model.getActualTurn().getCurrentPlayer().getAvatar().canMove(getSectorToMove()) && 
