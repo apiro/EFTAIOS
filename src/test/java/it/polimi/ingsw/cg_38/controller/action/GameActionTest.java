@@ -559,7 +559,7 @@ public class GameActionTest {
 			evtNotify = hatchBlocked.perform(model1).get(0);
 			model1.getActualTurn().getCurrentPlayer().getAvatar().setCurrentSector(sector7);
 			draw5.perform(model1);
-			assertTrue(((Hatch)model1.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()).getIsOpen());
+			assertTrue(!((Hatch)model1.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()).getIsOpen());
 			assertTrue(retire.perform(model1).get(0) instanceof EventNotifyRetired);
 			assertTrue(chat.perform(model1).get(0) instanceof EventNotifyChatMessage);
 				
