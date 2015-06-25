@@ -41,14 +41,15 @@ public class SubscribeController extends Observable implements Runnable {
 		try {
 			callbackEvent = ((Subscribe)action).generalEventGenerator(socketCommunicator, server);
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.print("General exception in sending the subscribe event ...");
 		}
 		gcFound = server.getTopics().get(evt.getGenerator().getName());
 		gcFound.addEventToTheQueue(callbackEvent);
 		try {
 			gcFound.sendNotifyEvent();
-		} catch (RemoteException e) {
-			logger.print("Problems with the RMI connection ...");
+		} catch (IOException e) {
+			logger.print("A client is probably disconnected ...");
 		}
 
 		Thread.currentThread().interrupt();

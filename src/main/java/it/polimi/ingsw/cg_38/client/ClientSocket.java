@@ -41,25 +41,27 @@ public class ClientSocket extends Client implements Runnable {
 	@Override
 	public void run() {
 		while(clientAlive) {
-			Event msg = toSend.poll();
-			if(msg != null) {
-				try {
-					 Socket socket = null;
+			synchronized(toSend) {
+				Event msg = toSend.poll();
+				if(msg != null) {
 					try {
-						socket = new Socket(host, clientServerPort);
-						communicator = new SocketCommunicator(socket);
-						 ((SocketCommunicator)communicator).initCommunicator(); 
+						 Socket socket = null;
+						try {
+							socket = new Socket(host, clientServerPort);
+							communicator = new SocketCommunicator(socket);
+							 ((SocketCommunicator)communicator).initCommunicator(); 
+						} catch (IOException e) {
+							logger.print("Problems with the creation of a socket with the server ...");
+						}
+						communicator.send(msg);
+						if(!((GameEvent)msg).getNotifyEventIsBroadcast()) {
+							Event received = communicator.recieveEvent();
+							this.toProcess.add(received);
+						}
+						communicator.closeCommunicator();
 					} catch (IOException e) {
-						logger.print("Problems with the creation of a socket with the server ...");
+						logger.print("A client is probably disconnected ...");
 					}
-					communicator.send(msg);
-					if(!((GameEvent)msg).getNotifyEventIsBroadcast()) {
-						Event received = communicator.recieveEvent();
-						this.toProcess.add(received);
-					}
-					communicator.closeCommunicator();
-				} catch (RemoteException e) {
-					logger.print("Problems with socket connection ! Check if the server is online ...");
 				}
 			}
 		}

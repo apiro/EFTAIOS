@@ -48,19 +48,10 @@ public class HatchDeck extends Deck {
     		this.setHatchDeck(rejectedHatchDeck);
     		this.setRejectedHatchDeck(new ArrayList<HatchCard>());
     	}
-    	HatchCard card = null;
-    	for(HatchCard c:this.getHatchDeck()) {
-    		if(c.getColor().equals(HatchCardType.GREEN)) {
-    			card = c;
-    		}
-    	}
-    	return card;
-    	/*
     	Card extracted = this.getHatchDeck().get(0);
     	this.eliminateCard(extracted);
     	this.shuffle();
         return extracted;
-        */
     }
 
     /** eliminate a card from deck and add it to rejectDeck */

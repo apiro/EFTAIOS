@@ -8,9 +8,12 @@ import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
+import it.polimi.ingsw.cg_38.controller.logger.Logger;
+import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotYourTurn;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -30,6 +33,7 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 	private Queue<Event> queue;
 	private ServerController server;
 	private RMICommunicator communicator;
+	private Logger logger = new LoggerCLI();
 
 	public ServerView(ServerController server, RMIRemoteObjectInterface clientView) throws RemoteException {
 		super();
@@ -85,7 +89,11 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 				if(e.isBroadcast()) {
 					synchronized(gcFound) {
 						gcFound.addEventToTheQueue(e);
-						gcFound.sendNotifyEvent();
+						try {
+							gcFound.sendNotifyEvent();
+						} catch (IOException e1) {
+							logger.print("A client is probably disconnected ...");
+						}
 						gcFound.notify();
 					}
 				} else {

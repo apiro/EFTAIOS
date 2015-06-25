@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_38.controller.connection;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 import it.polimi.ingsw.cg_38.controller.event.Event;
@@ -15,11 +16,12 @@ public interface Communicator {
 	 * 		comunicazione scelta. SocketServerInterface implementerà la send scrivendo sul canale di "out" il messaggio e
 	 * 		RMIServerInterface invece implementerà la send del messaggio in base alle modialità della comunicazione RMI.
 	 * @throws RemoteException 
+	 * @throws IOException 
 	 **/
 	
-	void send(Event evt) throws RemoteException;
+	void send(Event evt) throws RemoteException, IOException;
 	
-	Event recieveEvent() throws RemoteException;
+	Event recieveEvent() throws RemoteException, IOException;
 	
 	void closeCommunicator() throws RemoteException;
 }

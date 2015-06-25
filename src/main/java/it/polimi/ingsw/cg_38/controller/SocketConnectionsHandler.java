@@ -51,13 +51,13 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 				playerHandler.start();
 				playerHandler.setName("PlayerControllerThread");
 			} catch (IOException e) {
-				logger.print("Problems with the creation of the thread ...");
+				logger.print("A client is probably disconnected ...");
 			}		
 		}
 	    try {
 			serverSocket.close();
 		} catch (IOException e) {
-			logger.print("Problems closing the server socket ...");
+			logger.print("A client is probably disconnected ...");
 		}
 	}
 	

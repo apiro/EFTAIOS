@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_38.client.gui;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventADRENALINE;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventATTACKCARD;
+import it.polimi.ingsw.cg_38.controller.gameEvent.EventFinishTurn;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventRetired;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSEDATIVES;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSPOTLIGHT;
@@ -51,16 +52,14 @@ public class UX extends JFrame {
 	private JScrollPane scroll3;
 	private JPanel panelChat;
 	private JTextField input;
-	private Queue<Event> toSend;
 	private String name;
 
 	public JTextField getInput() {
 		return input;
 	}
 
-	public UX (Logger logger, Queue<Event> toSend) {
+	public UX (Logger logger) {
 		this.logger = new LoggerGUI(null, this);
-		this.toSend = toSend;
 	}
 	
     public void setLogger(Logger logger) {
@@ -75,7 +74,7 @@ public class UX extends JFrame {
 		return text3;
 	}
 	
-    public Player prepareGUI(){
+    public Player prepareGUI(final Queue<?>[] toSend){
 		 
 	    this.setTitle("ESCAPE FROM THE ALIENS IN OUTER SPACE");
 	    this.setSize(1285, 700);
@@ -84,10 +83,10 @@ public class UX extends JFrame {
 	    this.addWindowListener(new WindowAdapter() {
 	    	public void windowClosing(WindowEvent windowEvent){
 	    		synchronized(toSend) {
-	    			toSend.add(new EventRetired(new Player(name)));
+	    			((Queue<Event>)toSend[0]).add(new EventRetired(new Player(name)));
+	    			((Queue<Event>)toSend[0]).add(new EventFinishTurn(new Player(name)));
 	    		}
-	    		toSend.notify();
-		        System.exit(0);
+	    		Thread.currentThread().interrupt();
 	        }        
 	    });  
 	      
