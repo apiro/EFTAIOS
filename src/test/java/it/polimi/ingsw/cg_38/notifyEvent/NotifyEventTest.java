@@ -112,7 +112,7 @@ public class NotifyEventTest {
 		player2 = new Player("albi");
 		
 
-		name1 = Name.Alien1;
+		name1 = Name.ALIEN1;
 		
 		avatar1 = new Alien(name1 , sector1);
 		avatar1.setIsPowered(true);

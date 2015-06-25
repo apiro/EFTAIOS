@@ -56,9 +56,7 @@ public class UseAdrenalineCard extends GameAction {
     	return callbackEvent;
     }
 
-    /**
-     * @return
-     */
+	@Override
     public Boolean isPossible(GameModel model) {
         if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 
         		!model.getActualTurn().getHasUsedObjectCard() &&

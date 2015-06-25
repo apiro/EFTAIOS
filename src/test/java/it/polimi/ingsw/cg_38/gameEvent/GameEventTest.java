@@ -84,7 +84,7 @@ public class GameEventTest {
 				
 		sector1 = new Sector();
 		
-		avatar1 = new Human(Name.Human1 , sector1);
+		avatar1 = new Human(Name.HUMAN1 , sector1);
 		
 		player1.setAvatar(avatar1);
 		

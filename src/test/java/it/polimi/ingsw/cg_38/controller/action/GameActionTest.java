@@ -245,13 +245,13 @@ public class GameActionTest {
 		sector6 = new Safe();
 		sector7 = new Hatch();
 		
-		avatar1 = new Alien(Name.Alien1 , sector2);
-		avatar2 = new Alien(Name.Alien2 , sector2);
-		avatar3 = new Human(Name.Human1 , sector2);
-		avatar4 = new Human(Name.Human2 , sector4);
-		avatar5 = new Human(Name.Human3 , sector5);
-		avatar6 = new Alien(Name.Alien3 , sector4);
-		avatar7 = new Human(Name.Human4 , sector7);
+		avatar1 = new Alien(Name.ALIEN1 , sector2);
+		avatar2 = new Alien(Name.ALIEN2 , sector2);
+		avatar3 = new Human(Name.HUMAN1 , sector2);
+		avatar4 = new Human(Name.HUMAN2 , sector4);
+		avatar5 = new Human(Name.HUMAN3 , sector5);
+		avatar6 = new Alien(Name.ALIEN3 , sector4);
+		avatar7 = new Human(Name.HUMAN4 , sector7);
 		
 		sectorList1 = new ArrayList<SectorCard>();
 		objectList1 = new ArrayList<ObjectCard>();

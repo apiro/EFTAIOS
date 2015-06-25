@@ -371,10 +371,14 @@ public class PlayerClientCLI implements PlayerClient {
 	}
 
 	@Override
-	public void paintHatch(Boolean bool, Sector sec) {}
+	public void paintHatch(Boolean bool, Sector sec) {
+		
+	}
 
 	@Override
-	public void updateMovements() {}
+	public void updateMovements() {
+		
+	}
 
 	
 	@Override public Logger getLoggerChat() {

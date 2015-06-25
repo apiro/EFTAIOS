@@ -24,7 +24,7 @@ public class RenderSpotlight extends NotifyAction {
 	public GameEvent render(PlayerClient client) {
 		
 		/*client.setPlayer(evt.getGenerator());*/
-		if(((EventDeclarePosition)evt).getToDeclare().size() >= 1) {
+		if(!((EventDeclarePosition)evt).getToDeclare().isEmpty()) {
 			client.getLogger().print("Declared Light in sector: row: " + ((EventDeclarePosition)evt).getToDeclare().get(0).getAvatar().getCurrentSector().getRow() + 
 				"col: " + ((EventDeclarePosition)evt).getToDeclare().get(0).getAvatar().getCurrentSector().getCol());
 			int i = 0;

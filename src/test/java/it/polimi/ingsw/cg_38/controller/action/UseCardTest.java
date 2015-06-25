@@ -174,12 +174,12 @@ public class UseCardTest {
 		sector4 = model1.getGameMap().getTable().get(8).get(13);
 		sector5 = model1.getGameMap().getTable().get(3).get(5);
 		
-		avatar1 = new Alien(Name.Alien1 , sector2);
-		avatar2 = new Human(Name.Human1 , sector3);
-		avatar3 = new Human(Name.Human2 , sector2);
-		avatar4 = new Human(Name.Human4 , sector4);
-		avatar5 = new Human(Name.Human3 , sector4);
-		avatar6 = new Alien(Name.Alien2 , sector5);
+		avatar1 = new Alien(Name.ALIEN1 , sector2);
+		avatar2 = new Human(Name.HUMAN1 , sector3);
+		avatar3 = new Human(Name.HUMAN2 , sector2);
+		avatar4 = new Human(Name.HUMAN4 , sector4);
+		avatar5 = new Human(Name.HUMAN3 , sector4);
+		avatar6 = new Alien(Name.ALIEN2 , sector5);
 		
 		avatar1.addCard(adrenalineCard1);
 		avatar2.addCard(adrenalineCard2);

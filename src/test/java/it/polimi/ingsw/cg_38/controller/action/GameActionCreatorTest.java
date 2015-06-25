@@ -103,7 +103,7 @@ public class GameActionCreatorTest {
 		
 		card1 = new ObjectCard(ObjectCardType.ADRENALINE);
 		
-		avatar1 = new Human(Name.Human1 , sector1);
+		avatar1 = new Human(Name.HUMAN1 , sector1);
 		
 		player1 = new Player("scimmiu");
 		player1.setAvatar(avatar1);

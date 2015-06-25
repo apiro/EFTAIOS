@@ -49,9 +49,7 @@ public class GameController implements Observer {
     	this.setBuffer(new ConcurrentLinkedQueue<NotifyEvent>());
     }
 	
-	/**
-	 * quando viene aggiungo un evento alla coda di questo topic viene fired questo metodo che invia il messaggio.
-	 **/
+	@Override
 	public void update(Observable o, Object arg) {
 		if(((String)arg).equals(this.getTopic())) {
 			try {
@@ -142,9 +140,9 @@ public class GameController implements Observer {
 	   	for(int i =0; i<this.getGameModel().getGamePlayers().size(); i++) {
 	   		int floor = this.getGameModel().getGamePlayers().size()/2;
 	   		if(i<floor) {
-	   			this.getGameModel().getGamePlayers().get(i).setAvatar(new Human(Name.valueOf("Human"+(i+1)), this.getGameModel().getGameMap().searchSectorByCoordinates(1, 1)/*.searchSectorByName("HumanStartingPoint")*/));
+	   			this.getGameModel().getGamePlayers().get(i).setAvatar(new Human(Name.valueOf("HUMAN"+(i+1)), this.getGameModel().getGameMap().searchSectorByCoordinates(1, 1)/*.searchSectorByName("HumanStartingPoint")*/));
 	    	} else {
-	    		this.getGameModel().getGamePlayers().get(i).setAvatar(new Alien(Name.valueOf("Alien"+(i-floor+1)), this.getGameModel().getGameMap().searchSectorByCoordinates(1, 1)/*.searchSectorByName("AlienStartingPoint")*/));
+	    		this.getGameModel().getGamePlayers().get(i).setAvatar(new Alien(Name.valueOf("ALIEN"+(i-floor+1)), this.getGameModel().getGameMap().searchSectorByCoordinates(1, 1)/*.searchSectorByName("AlienStartingPoint")*/));
 	    	}
 	    }
 	   	Collections.shuffle(getGameModel().getGamePlayers());

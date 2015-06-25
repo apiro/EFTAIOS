@@ -36,7 +36,7 @@ public class ObjectDeck extends Deck {
 		this.rejectedObjectDeck = rejectedObjectDeck;
 	}
 
-    private List<ObjectCard> objectDeck;
+    private List<ObjectCard> gameObjectDeck;
 
     private List<ObjectCard> rejectedObjectDeck;
 
@@ -48,7 +48,7 @@ public class ObjectDeck extends Deck {
     /** draw a card and if deck is terminated it is rebuilt*/
     @Override
     public Card draw() {
-    	if(this.getObjectDeck().size() == 0) {
+    	if(this.getObjectDeck().isEmpty()) {
     		this.setObjectDeck(rejectedObjectDeck);
     		this.setRejectedObjectDeck(new ArrayList<ObjectCard>());
     	}
@@ -66,11 +66,11 @@ public class ObjectDeck extends Deck {
     }
 
     public List<ObjectCard> getObjectDeck() {
-		return objectDeck;
+		return gameObjectDeck;
 	}
 
 	public void setObjectDeck(List<ObjectCard> objectDeck) {
-		this.objectDeck = objectDeck;
+		this.gameObjectDeck = objectDeck;
 	}
 
 	public List<ObjectCard> getRejectedObjectDeck() {

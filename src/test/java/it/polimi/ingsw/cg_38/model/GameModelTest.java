@@ -68,10 +68,10 @@ public class GameModelTest {
 	@Before
 	public void init() throws ParserConfigurationException, Exception {
 		
-		avatar11 = new Alien(Name.Alien2 , sector);
-		avatar12 = new Human(Name.Human1 , sector);
-		avatar22 = new Alien(Name.Alien1 , sector);
-		avatar32 = new Human(Name.Human2 , sector);
+		avatar11 = new Alien(Name.ALIEN2 , sector);
+		avatar12 = new Human(Name.HUMAN1 , sector);
+		avatar22 = new Alien(Name.ALIEN1 , sector);
+		avatar32 = new Human(Name.HUMAN2 , sector);
 		model1 = new GameModel("Galilei");
 		model2 = new GameModel("Galvani");
 		model3 = new GameModel("Fermi");

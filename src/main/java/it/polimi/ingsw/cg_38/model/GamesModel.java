@@ -10,7 +10,7 @@ public class GamesModel {
 		return games;
 	}
 
-	public void setGames(ArrayList<GameModel> games) {
+	public void setGames(List<GameModel> games) {
 		this.games = games;
 	}
 

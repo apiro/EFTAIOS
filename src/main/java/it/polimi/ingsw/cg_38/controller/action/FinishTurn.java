@@ -26,6 +26,7 @@ public class FinishTurn extends GameAction {
 		
 	}
 
+	@Override
 	public Boolean isPossible(GameModel model){
 		super.isPossible(model);
 		if(super.isPossible(model) && model.getActualTurn().getHasMoved()) {

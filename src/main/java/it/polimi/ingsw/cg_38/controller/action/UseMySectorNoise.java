@@ -16,9 +16,7 @@ public class UseMySectorNoise extends GameAction {
     	super(evt.getGenerator());
     }
 
-    /**
-     * @return
-     */
+	@Override
     public List<NotifyEvent> perform(GameModel model) {
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	callbackEvent.add(new EventDeclareNoise(model.getActualTurn().getCurrentPlayer() , model.getActualTurn().getCurrentPlayer().getAvatar().getCurrentSector()));

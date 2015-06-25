@@ -49,9 +49,7 @@ public class UseAttackCard extends GameAction {
 		this.card = card;
 	}
 
-	/**
-     * @return
-     */
+	@Override
     public List<NotifyEvent> perform(GameModel model) {
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	

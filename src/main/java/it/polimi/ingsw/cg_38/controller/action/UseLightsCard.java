@@ -48,9 +48,7 @@ public class UseLightsCard extends GameAction {
 		this.targetSector = targetSector;
 	}
 
-	/**
-     * @return
-     */
+	@Override
     public List<NotifyEvent> perform(GameModel model) {
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
     	

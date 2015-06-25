@@ -182,8 +182,8 @@ public class NotifyActionTest {
 		card = new SectorCard(SectorCardType.MYSECTORNOISE , false);
 		card2 = new HatchCard(HatchCardType.GREEN);
 		card5 = new ObjectCard(ObjectCardType.SEDATIVES);
-		avatar1 = new Alien(Name.Alien1 , sector);
-		avatar2 = new Human(Name.Human1 , sector);
+		avatar1 = new Alien(Name.ALIEN1 , sector);
+		avatar2 = new Human(Name.HUMAN1 , sector);
 		player1.setAvatar(avatar1);
 		player2.setAvatar(avatar2);
 		winners.add(player1);

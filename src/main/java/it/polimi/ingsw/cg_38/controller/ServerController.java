@@ -28,6 +28,7 @@ import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -42,10 +43,10 @@ public class ServerController extends Observable {
 	private ServerSocket serverSocketPubSub;
 	private ServerSocket serverSocketClientServer;
 	//mappa che segna il nome del player con il corrispondente gamecontroller per poter trovare il topic di un player facilmente
-	private HashMap<String, GameController> topics = new HashMap<String, GameController>();
+	private Map<String, GameController> topics = new HashMap<String, GameController>();
 	private Logger logger = new LoggerCLI();
 	
-	public HashMap<String, GameController> getTopics() {
+	public Map<String, GameController> getTopics() {
 		return topics;
 	}
 	
@@ -174,7 +175,7 @@ public class ServerController extends Observable {
 		return toDispatch;
 	}
 
-	public void setToDispatch(ConcurrentLinkedQueue<Event> toDispatch) {
+	public void setToDispatch(Queue<Event> toDispatch) {
 		this.toDispatch = toDispatch;
 	}
 

@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Queue;
 
 import javax.imageio.ImageIO;
@@ -32,7 +33,7 @@ public class HexGrid extends JPanel {
 	private ImageIcon playerPointerD = null;
 	private ImageIcon hatchGreen = null;
 	private ImageIcon hatchRed = null;
-	private ArrayList<GraphicSector> sects = new ArrayList<GraphicSector>();
+	private List<GraphicSector> sects = new ArrayList<GraphicSector>();
 	private Queue<Event> toSend;
 	private Player player;
 	private Map map;
@@ -40,7 +41,7 @@ public class HexGrid extends JPanel {
 	private int oldy = 30;
 	private ImageIcon oldIcon = null;
 	
-	public ArrayList<GraphicSector> getSects() {
+	public List<GraphicSector> getSects() {
 		return sects;
 	}
 	

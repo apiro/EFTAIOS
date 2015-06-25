@@ -21,15 +21,15 @@ public class HatchDeck extends Deck {
 	}
 
 	public void setHatchDeck(List<HatchCard> hatchDeck) {
-		this.hatchDeck = hatchDeck;
+		this.gameHatchDeck = hatchDeck;
 	}
 
-    private List<HatchCard> hatchDeck;
+    private List<HatchCard> gameHatchDeck;
 
     private List<HatchCard> rejectedHatchDeck;
     
     public List<HatchCard> getHatchDeck() {
-		return hatchDeck;
+		return gameHatchDeck;
 	}
 
 	public List<HatchCard> getRejectedHatchDeck() {
@@ -44,7 +44,7 @@ public class HatchDeck extends Deck {
     /** draw a card and if deck is terminated it is rebuilt*/
 	@Override
     public Card draw() {
-    	if(this.getHatchDeck().size() == 0) {
+    	if(this.getHatchDeck().isEmpty()) {
     		this.setHatchDeck(rejectedHatchDeck);
     		this.setRejectedHatchDeck(new ArrayList<HatchCard>());
     	}

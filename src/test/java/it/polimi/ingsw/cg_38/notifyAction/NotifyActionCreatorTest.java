@@ -113,7 +113,7 @@ public class NotifyActionCreatorTest {
 	public void init() throws ParserConfigurationException, Exception{
 		
 		notifyActionCreator = new NotifyActionCreator();
-		avatar = new Human(Name.Human1 , sector);
+		avatar = new Human(Name.HUMAN1 , sector);
 		player = new Player("reda");
 		player.setAvatar(avatar);
 		draw = new EventDraw(player);

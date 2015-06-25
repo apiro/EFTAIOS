@@ -43,14 +43,14 @@ public class HumanTest {
     	model.getGamePlayers().add(new Player("Alberto"));
     	player = model.getGamePlayers().get(0);
     	player2 = new Player("Alberto");
-    	model.getGamePlayers().get(0).setAvatar(new Human(Name.Human1, humanStartingPoint));
+    	model.getGamePlayers().get(0).setAvatar(new Human(Name.HUMAN1, humanStartingPoint));
     	actualTurn = new Turn(player);
     	model.setActualTurn(actualTurn);
     	player.setNumTurniGiocati(player.getNumTurniGiocati());
     	avatar = model.getGamePlayers().get(0).getAvatar();
     	card1 = new ObjectCard(ObjectCardType.DEFENSE);
     	sector = model.getGameMap().searchSectorByCoordinates(2, 1);
-    	avatar2 = new Human(Name.Human1 , sector);
+    	avatar2 = new Human(Name.HUMAN1 , sector);
     	player2.setAvatar(avatar2);
     	drownSect = avatar.draw(model.getDeckSector());
     	drownHatch = avatar.draw(model.getDeckHatch());
@@ -135,7 +135,7 @@ public class HumanTest {
 		avatar.eliminateFromMyCards(drownObj);
 		assertEquals(avatar.getMyCards().size(), 3);
 		
-		assertEquals(avatar.getName(), Name.Human1);
+		assertEquals(avatar.getName(), Name.HUMAN1);
 		
 		avatar.setIsAlive(LifeState.ALIVE);
 		assertEquals(avatar.getIsAlive(), LifeState.ALIVE);
