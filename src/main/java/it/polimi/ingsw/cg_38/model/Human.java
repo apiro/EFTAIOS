@@ -4,16 +4,19 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 
 import java.io.Serializable;
 
+/** contiene i dati del gioco di un avatar di tipo umano */
 public class Human extends Avatar implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/** indica se l'avatar può attaccare */
+    private Boolean canAttack = false;
+    
     public Human(Name name, Sector sector) {
     	this.setName(name);
     	this.setCurrentSector(sector);
     }
 
-    private Boolean canAttack = false;
     
     public Boolean getCanAttack() {
 		return canAttack;
@@ -23,7 +26,9 @@ public class Human extends Avatar implements Serializable {
 		this.canAttack = canAttack;
 	}
 
-	/** controlla se l'umano può muoversi sul settore considerato */
+	/** controlla se l'umano può muoversi in un dato settore 
+	 * @param sector indica il settore nel quale il giocatore vuole effettuare il movimento 
+	 * @return true se è l'avatar può spostarsi nel settore indicato */
 	@Override
     public Boolean canMove(Sector sector) {
     	if(("HumanStartingPoint").equals(sector.getName())) {

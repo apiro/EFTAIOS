@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.deck.Card;
 import it.polimi.ingsw.cg_38.model.map.Sector;
 
+/** rappresenta l'evento di utilizzo della carta oggetto luci */
 public class EventSPOTLIGHT extends GameEvent{
 
 	/** contiene il settore sul quale il giocatore ha scelto di fare luce */
@@ -24,6 +25,12 @@ public class EventSPOTLIGHT extends GameEvent{
 		this.card = card;
 	}
 
+	/** invoca il costruttore della superclasse e setta i vari dati
+	 * 
+	 * @param generator giocatore che ha generato l'evento
+	 * @param target settore nel quale viene utilizzato l'effetto della carta
+	 * @param card carta utilizzata
+	 */
 	public EventSPOTLIGHT(Player generator, Sector target, Card card) {
 		super(generator, false);
 		super.setType(GameEventType.LIGHTS);

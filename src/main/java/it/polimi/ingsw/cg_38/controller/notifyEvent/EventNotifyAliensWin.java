@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
 import it.polimi.ingsw.cg_38.model.Player;
 
+/** rappresenta l'evento di notifica di vittoria degli alieni */
 public class EventNotifyAliensWin extends NotifyEvent {
 
 	private static final long serialVersionUID = 1L;
@@ -13,9 +14,15 @@ public class EventNotifyAliensWin extends NotifyEvent {
 	/** lista di tutti i giocatori alieni che hanno vinto */
 	private List<Player> winners;
 	
-	/** è settata a true se i giocatori hanno effettivamente vinto */
+	/** indica se i giocatori hanno effettivamente vinto */
 	private Boolean areWinner;
 
+	/** invoca il costruttore della superclasse e setta i vari dati
+	 * 
+	 * @param generator giocatore che ha generato l'evento
+	 * @param winners lista dei giocatori che hanno vinto
+	 * @param areWinner true se i giocatori hanno effettivamente vinto
+	 */
 	public EventNotifyAliensWin(Player generator, List<Player> winners, Boolean areWinner) {
 		super(generator, true);
 		this.setWinners(winners);

@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.deck.Card;
 import it.polimi.ingsw.cg_38.model.map.Sector;
 
+/** rappresenta l'evento di utilizzo della carta attacco */
 public class EventATTACKCARD extends GameEvent {
 
 	private static final long serialVersionUID = 1L;
@@ -15,6 +16,13 @@ public class EventATTACKCARD extends GameEvent {
 	
 	/** contiene la carta oggetto di tipo attacco che il giocatore ha utilizzato */
 	private Card toUse;
+	
+	public EventATTACKCARD(Player generator, Card card) {
+		super(generator, false);
+		this.setTarget(super.getGenerator().getAvatar().getCurrentSector());
+		this.setToUse(card);
+		super.setType(GameEventType.ATTACKCARD);
+	}
 	
 	public Sector getTarget() {
 		return target;
@@ -32,10 +40,4 @@ public class EventATTACKCARD extends GameEvent {
 		this.toUse = toUse;
 	}
 
-	public EventATTACKCARD(Player generator, Card card) {
-		super(generator, false);
-		this.setTarget(super.getGenerator().getAvatar().getCurrentSector());
-		this.setToUse(card);
-		super.setType(GameEventType.ATTACKCARD);
-	}
 }

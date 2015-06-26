@@ -17,13 +17,31 @@ import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+/** contiene tutte le informazione utili per una partita: la mappa, i vari deck e 
+ * 	una lista dei giocatori  */
 public class GameModel {
 
     public GameModel(String map) throws ParserConfigurationException, Exception {
     	this.init(map);
     }
 
-    /** inizializza tutte le variabili neccesarie per il gioco */
+    private List<Player> gamePlayers;
+
+    private Map gameMap;
+
+    /** mazzo delle carte settore */
+    private Deck deckSector;
+
+    /** mazzo delle carte scialuppa */
+    private Deck deckHatch;
+
+    /** mazzo delle carte oggetto */
+    private Deck deckObject;
+
+    private Turn actualTurn = null;
+
+    /** inizializza tutte le variabili neccesarie per il gioco 
+     * @param map indica il nome della mappa da creare */
     public void init(String map) throws ParserConfigurationException, Exception{
     	this.setGameMap(MapCreator.createMap(map));
     	this.setDeckObject(DeckCreator.createDeck("ObjectDeck"));
@@ -32,7 +50,9 @@ public class GameModel {
     	this.setGamePlayers(new ArrayList<Player>());
     }
     
-    /** ritorna tutti i giocatori che si trovano sul settore passato come parametro */
+    /** cerca tutti i giocatori che si trovano su un dato settore
+     * @param sectorToSearch indica il settore sul quale effettuare la ricerca
+     * @return ritorna la lista dei giocori che si torvano nel settore */
     public List<Player> getDesiredPlayers(Sector sectorToSearch){
     	List<Player> selected = new ArrayList<Player>();
     	for(Player pl:this.getGamePlayers()) {
@@ -93,20 +113,10 @@ public class GameModel {
 		this.gameMap = gameMap;
 	}
 
-    private List<Player> gamePlayers;
 
-    private Map gameMap;
-
-    private Deck deckSector;
-
-    private Deck deckHatch;
-
-    private Deck deckObject;
-
-    private Turn actualTurn = null;
-
-    /** ritorna il prossimo giocatore che dovrà effettura il suo turno. Ovviamente il giocatore deve essere
-     * ancora vivo e non deve aver vinto o perso */   
+    /** cerca il giocatore che dovrà effettura il prossimo turno. Ovviamente il giocatore deve essere
+     * ancora vivo e non deve aver vinto o perso 
+     * @return ritorna il giocatore che deve effettuare il prossimo turno*/   
     public Player getNextPlayer() {
 
     	for(int i = 0; i < this.getGamePlayers().size(); i++){
@@ -132,7 +142,8 @@ public class GameModel {
 		return actualTurn;
 	}
 
-	/** controlla se ci sono ancora umani in gioco */
+	/** controlla se ci sono ancora umani in gioco 
+	 * @return ritorna true se ci sono ancora umani in gioco */
 	public Boolean areThereOtherHumans() {
 		for(Player pl:this.gamePlayers) {
 			if(pl.getAvatar() instanceof Human &&
@@ -148,7 +159,8 @@ public class GameModel {
 		this.actualTurn = actualTurn;
 	}
 
-	/** aggiunge la carta passata come parametro al corrispettivo rejected deck */
+	/** aggiunge la carta passata come parametro al corrispettivo rejected deck 
+	 * @param eliminateFromMyCards la carta da eliminare */
 	public void handleRejectedCard(Card eliminateFromMyCards) {
 		if(eliminateFromMyCards instanceof ObjectCard) {
 			((ObjectDeck)this.getDeckObject()).getRejectedObjectDeck().add((ObjectCard) eliminateFromMyCards);

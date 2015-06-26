@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 import java.io.Serializable;
 import java.util.*;
 
+/** rappresenta un generico avatar */
 public abstract class Avatar implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -16,7 +17,19 @@ public abstract class Avatar implements Serializable {
 	/** contiene tutte le carte oggetto possedute dal avatar */
 	private List<ObjectCard> myCards = new ArrayList<ObjectCard>();
 
+	/** indica il settore sul quale si trova l'avatar */
 	private Sector currentSector;
+
+	private Name name;
+
+	/** indica se l'avatar è potenziato */
+	private Boolean isPowered = false;
+
+	/** contiene lo stato di vita dell' avatar */
+	private LifeState isAlive = LifeState.ALIVE;
+
+	/** contiene lo stato di fine dell' avatar */
+	private EndState isWinner = EndState.PLAYING;
 
 	/*
 	 * @Override public String toString() { String code = "name=" + name +
@@ -34,13 +47,6 @@ public abstract class Avatar implements Serializable {
 	 * return code; }
 	 */
 
-	private Name name;
-
-	private Boolean isPowered = false;
-
-	private LifeState isAlive = LifeState.ALIVE;
-
-	private EndState isWinner = EndState.PLAYING;
 
 	/** contiene tutti i movimenti già effettuati dall'avatar */
 	private List<Movement> myMovements = new ArrayList<Movement>();
@@ -48,7 +54,8 @@ public abstract class Avatar implements Serializable {
 	public Avatar() {
 	}
 
-	/**verifica se il giocatore possiede la carta oggetto difesa */
+	/**verifica se il giocatore possiede la carta oggetto difesa
+	 * @return ritorna true se il giocatore possiede una carta difesa */
 	public Boolean hasDefenseCard() {
 
 		for (int i = 0; i < myCards.size(); i++) {
@@ -60,13 +67,18 @@ public abstract class Avatar implements Serializable {
 		return false;
 	}
 
-	/** pesca una carta dal mazzo */
+	/** pesca una carta dal mazzo 
+	 * @param deck indica il deck dal quale pescare 
+	 * @return ritorna la carta pescata */
 	public Card draw(Deck deck) {
 		Card drown = deck.draw();
 		return drown;
 	}
 
-	/** muove l'avatar nel settore passato come parametro ed incrementa il numero di turni giocati */
+	/** muove l'avatar in un dato settore ed incrementa il numero di turni giocati
+	 * @param sector indica il settore sul quale si vuole effettuare il movimento
+	 * @param number indica il numero turni già giocatori dal giocatore
+	 * @return ritorna il nome del settore sul quale l'avatar è stato mosso */
 	public String move(Sector sector, int number) {
 		this.setCurrentSector(sector);
 		this.getMyMovements()
@@ -78,13 +90,17 @@ public abstract class Avatar implements Serializable {
 		this.currentSector = currentSector;
 	}
 
-	/** elimina una carta dalla lista di carte oggetto possedute */
+	/** elimina una carta dalla lista di carte oggetto possedute 
+	 * @param card carta da eliminare
+	 * @return ritorna la carta eiliminata*/
 	public Card eliminateFromMyCards(Card card) {
 		this.getMyCards().remove(card);
 		return card;
 	}
 
-	/** aggiunge una carta alla lista di carte oggetto controllando che non ne possegga già 3 */
+	/** aggiunge una carta alla lista di carte oggetto dell'avatar
+	 * @param card carta da aggiungere
+	 * @return ritorna true se la carta è stata aggiunta*/
 	public Boolean addCard(Card card) {
 		/* if(this.getMyCards().size()<3) { */
 		this.getMyCards().add((ObjectCard) card);
@@ -94,7 +110,9 @@ public abstract class Avatar implements Serializable {
 		 */
 	}
 
-	/** verifica se l'avatar può muoversi nel settore passato come parametro */
+	/** verifica se l'avatar può muoversi sul dato settore
+	 * @param settore sul quale il giocatore vuole spostarsi
+	 * @return ritorna true se è possibile effettuare il movimento*/
 	public abstract Boolean canMove(Sector sector);
 
 	/** cambia lo stato dell'avatar quando esso viene attaccato */
