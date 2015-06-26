@@ -266,7 +266,7 @@ public class NotifyActionTest {
 		evtAddedToGame = new EventAddedToGame(player1 , false , false);
 		addedToGame = new AddedToGame(evtAddedToGame);
 		assertEquals(addedToGame.render(client) , null);
-		assertEquals(client.getIsInterfaceBlocked() , false);
+		assertEquals(client.getIsInterfaceBlocked() , true);
 		client.setMap(new Galvani());
 		assertEquals(renderEnvironment.isPossible(client) , false);
 		client.setMap(null);
