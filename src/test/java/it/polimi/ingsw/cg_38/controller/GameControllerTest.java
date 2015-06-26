@@ -24,6 +24,7 @@ import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.map.Dangerous;
 import it.polimi.ingsw.cg_38.model.map.Fermi;
 
+/** contiene i test del gameController */
 public class GameControllerTest {
 	
 	GameController gc;
@@ -74,12 +75,13 @@ public class GameControllerTest {
 		
 	}
 
+
 	@Test
 	public void test() throws RemoteException {
 		
 		assertEquals(gc.getTopic() , topic);
 		assertTrue(gc.getGameModel().getGameMap() instanceof Fermi);
-		assertEquals(gc.getBuffer().size() , 0);
+		assertTrue(gc.getBuffer().isEmpty());
 		assertTrue(gc.getCanAcceptOtherPlayers());
 		gc.assignAvatars();
 		for(int i=0; i<gc.getGameModel().getGamePlayers().size(); i++){
@@ -89,8 +91,13 @@ public class GameControllerTest {
 			else
 				count2++;
 		}
+		
+		/* verifica che il numero di alieni in gioco sia maggiore o uguale del numero di 
+		 * umani in gioco */
 		assertTrue(count1 >= count2);
 		
+		/* verifica che il giocatore che deve effettuare il primo turno è il primo della lista dei giocatori
+		 * del model */
 		gc.setFirstTurn();
 		assertEquals(gc.getGameModel().getActualTurn().getCurrentPlayer() , gc.getGameModel().getGamePlayers().get(0));
 
@@ -102,8 +109,11 @@ public class GameControllerTest {
 		notifyEvents = gc.performUserCommands(finishTurn);
 		assertEquals(((EventNotifyTurn)notifyEvents.get(0)).getPlayerOfTurn()    , gc.getGameModel().getActualTurn().getCurrentPlayer());
 		
+		/* verifico che il giocatore non può effettuare l'azione di pescaggio in quanto non ha ancora
+		 * mosso durante il proprio turno */
 		notifyEvents = gc.performUserCommands(draw);
 		assertTrue(notifyEvents.get(0) instanceof EventNotifyError);
+		
 		gc.getGameModel().getActualTurn().setHasMoved(true);
 		gc.getGameModel().setGameState(GameState.RUNNING);
 		notifyEvents = gc.performUserCommands(draw);

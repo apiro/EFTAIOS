@@ -5,20 +5,14 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import it.polimi.ingsw.cg_38.controller.GameState;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventADRENALINE;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventATTACKCARD;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseMySect;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventNoiseRandSect;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventSEDATIVES;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSPOTLIGHT;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventTELEPORT;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventCardUsed;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventDeclareNoise;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyCardPerformed;
+import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventSufferAttack;
 import it.polimi.ingsw.cg_38.model.Alien;
 import it.polimi.ingsw.cg_38.model.Avatar;
@@ -30,18 +24,16 @@ import it.polimi.ingsw.cg_38.model.Turn;
 import it.polimi.ingsw.cg_38.model.deck.Card;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
-import it.polimi.ingsw.cg_38.model.deck.ObjectDeck;
-import it.polimi.ingsw.cg_38.model.deck.SectorCard;
-import it.polimi.ingsw.cg_38.model.deck.SectorDeck;
 import it.polimi.ingsw.cg_38.model.map.Sector;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyCardPerformed;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class UseCardTest {
-	
+/** contiene i test delle azioni relativo l'utilizzo delle carte attacco, luci e adrenalina */
+public class UseCard1Test {
+
 	UseAdrenalineCard useAdrenalineCard1;
 	UseAdrenalineCard useAdrenalineCard2;
 	UseAdrenalineCard useAdrenalineCard3;
@@ -52,15 +44,6 @@ public class UseCardTest {
 	UseLightsCard useLightsCard1;
 	UseLightsCard useLightsCard2;
 	UseLightsCard useLightsCard3;
-	UseMySectorNoise useMySectorNoise;
-	UseRandomSectorNoise useRandomSectorNoise;
-	UseSedativesCard useSedativesCard;
-	UseSedativesCard useSedativesCard2;
-	UseSedativesCard useSedativesCard3;
-	UseSilenceCard useSilenceCard;
-	UseTeleportCard useTeleportCard;
-	UseTeleportCard useTeleportCard2;
-	UseTeleportCard useTeleportCard3;
 	
 	EventADRENALINE evtAdren1;
 	EventADRENALINE evtAdren2;
@@ -72,22 +55,9 @@ public class UseCardTest {
 	EventSPOTLIGHT evtLights1;
 	EventSPOTLIGHT evtLights2;
 	EventSPOTLIGHT evtLights3;
-	EventNoiseMySect evtNoiseMySect;
-	EventNoiseRandSect evtNoiseRandSect;
-	EventSEDATIVES evtSedat;
-	EventSEDATIVES evtSedat2;
-	EventSEDATIVES evtSedat3;
-	EventTELEPORT evtTeleport;
-	EventTELEPORT evtTeleport2;
-	EventTELEPORT evtTeleport3;
-	
 	
 	List<NotifyEvent> evtAttacked;
 	List<NotifyEvent> evtDeclarePosition1;
-	List<NotifyEvent> evtDeclareNoise1;
-	List<NotifyEvent> evtDeclareNoise2;
-	List<NotifyEvent> evtDeclareNoise3;
-	List<NotifyEvent> evtMoved;
 	List<NotifyEvent> evtCardUsed;
 	
 	Player player1;
@@ -104,14 +74,9 @@ public class UseCardTest {
 	Turn turn5;
 	Turn turn6;
 	
-	List<SectorCard> sectorList1;
-	List<ObjectCard> objectList1;
 	List<Player> killedPlayer;
 	List<Player> addPlayers;
 	List<Player> toDeclare;
-	
-	SectorDeck sectorDeck1;
-	ObjectDeck objectDeck1;
 	
 	Card adrenalineCard1;
 	Card adrenalineCard2;
@@ -119,9 +84,6 @@ public class UseCardTest {
 	Card attackCard2;
 	Card lightsCard1;
 	Card lightsCard2;
-	Card sedatCard;
-	Card teleportCard;
-	Card defenseCard;
 	
 	Avatar avatar1;
 	Avatar avatar2;
@@ -136,6 +98,7 @@ public class UseCardTest {
 	Sector sector4;
 	Sector sector5;
 	
+	Card defenseCard;
 	
 	GameModel model1;
 	
@@ -155,9 +118,6 @@ public class UseCardTest {
 		attackCard2 = new ObjectCard(ObjectCardType.ATTACKCARD);
 		lightsCard1 = new ObjectCard(ObjectCardType.SPOTLIGHT);
 		lightsCard2 = new ObjectCard(ObjectCardType.SPOTLIGHT);
-		sedatCard = new ObjectCard(ObjectCardType.SEDATIVES);
-		teleportCard = new ObjectCard(ObjectCardType.TELEPORT);
-		defenseCard = new ObjectCard(ObjectCardType.DEFENSE);
 		
 		model1 = new GameModel("Galvani");
 		
@@ -184,22 +144,16 @@ public class UseCardTest {
 		avatar1.addCard(adrenalineCard1);
 		avatar2.addCard(adrenalineCard2);
 		avatar3.addCard(lightsCard1);
-		avatar4.addCard(sedatCard);
 		avatar5.addCard(attackCard1);
 		avatar5.addCard(attackCard2);
-		avatar5.addCard(teleportCard);
 		avatar6.addCard(lightsCard2);
 		avatar6.addCard(attackCard2);
-		avatar6.addCard(teleportCard);
-		avatar6.addCard(sedatCard);
 		
+		defenseCard = new ObjectCard(ObjectCardType.DEFENSE);
 		
 		killedPlayer = new ArrayList<Player>();
 		addPlayers = new ArrayList<Player>();
 		toDeclare = new ArrayList<Player>();
-		
-		sectorDeck1 = new SectorDeck();
-		objectDeck1 = new ObjectDeck();
 		
 		player1.setAvatar(avatar1);
 		player2.setAvatar(avatar2);
@@ -228,14 +182,6 @@ public class UseCardTest {
 		evtLights1 = new EventSPOTLIGHT(player3 , sector2 , lightsCard1);
 		evtLights2 = new EventSPOTLIGHT(player6 , sector5 , lightsCard2);
 		evtLights3 = new EventSPOTLIGHT(player2 , sector3 , lightsCard2);
-		evtNoiseMySect = new EventNoiseMySect(player2);
-		evtNoiseRandSect = new EventNoiseRandSect(player3 , sector4);
-		evtSedat = new EventSEDATIVES(player4 , sedatCard);
-		evtSedat2 = new EventSEDATIVES(player6 , sedatCard);
-		evtSedat3 = new EventSEDATIVES(player5 , sedatCard);
-		evtTeleport = new EventTELEPORT(player5 , teleportCard);
-		evtTeleport2 = new EventTELEPORT(player6 , teleportCard);
-		evtTeleport3 = new EventTELEPORT(player4 , teleportCard);
 		
 		useAdrenalineCard1 = new UseAdrenalineCard(evtAdren1);
 		useAdrenalineCard2 = new UseAdrenalineCard(evtAdren2);
@@ -247,38 +193,33 @@ public class UseCardTest {
 		useLightsCard1 = new UseLightsCard(evtLights1);
 		useLightsCard2 = new UseLightsCard(evtLights2);
 		useLightsCard3 = new UseLightsCard(evtLights3);
-		useMySectorNoise = new UseMySectorNoise(evtNoiseMySect);
-		useRandomSectorNoise = new UseRandomSectorNoise(evtNoiseRandSect);
-		useSedativesCard = new UseSedativesCard(evtSedat);
-		useSedativesCard2 = new UseSedativesCard(evtSedat2);
-		useSedativesCard3 = new UseSedativesCard(evtSedat3);
-		useSilenceCard = new UseSilenceCard(evtNoiseMySect);
-		useTeleportCard = new UseTeleportCard(evtTeleport);
-		useTeleportCard2 = new UseTeleportCard(evtTeleport2);
-		useTeleportCard3 = new UseTeleportCard(evtTeleport3);
-		
 		
 		toDeclare.add(player1);
 		toDeclare.add(player3);
-		toDeclare.add(player6);
-		/*toDeclare.put(player6.getName(), player6.getAvatar().getCurrentSector());*/
-		
+		toDeclare.add(player6);		
 	}
 	
-	
-
 	@Test
 	public void test() {
 
-		
+		/* verifica il corretto funzionamento del metodo isPossible dell'utilizzo 
+		 * della carta adrenalina */
 		assertEquals(useAdrenalineCard1.isPossible(model1) , false);
+		
+		/* verifica il corretto funzionamento della perform dell'utilizzo 
+		 * della carta adrenalina */
 		model1.setGameState(GameState.RUNNING);
 		evtCardUsed = useAdrenalineCard1.perform(model1);
 		assertTrue(evtCardUsed.get(0) instanceof EventRejectCardAlien);
+		
+		/* verifica il corretto funzionamento del metodo isPossible dell'utilizzo 
+		 * della carta attacco */
 		assertEquals(useAttackCard4.isPossible(model1) , false);
 		
 		model1.setActualTurn(turn2);
 		
+		/* verifica il corretto funzionamento del metodo isPossible dell'utilizzo 
+		 * della carta luci e della carta adrenaline */
 		assertEquals(useLightsCard3.isPossible(model1) , false);
 		model1.setGameState(GameState.ACCEPTING);
 		assertEquals(useAdrenalineCard2.isPossible(model1) , false);
@@ -286,15 +227,17 @@ public class UseCardTest {
 		assertEquals(useAdrenalineCard2.isPossible(model1) , true); 
 		model1.getActualTurn().setHasUsedObjectCard(true);
 		assertEquals(useAdrenalineCard2.isPossible(model1) , false);
+		
+		/* verifica il corretto funzionamento della perform dell'utilizzo 
+		 * della carta adrenalina */
 		useAdrenalineCard2.perform(model1);
 		assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getIsPowered() , true);
 		assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards() , new ArrayList<Card>());
 		
-		assertEquals(useMySectorNoise.isPossible(model1) , true);
-		evtDeclareNoise1 = useMySectorNoise.perform(model1);
-		assertEquals(((EventDeclareNoise)evtDeclareNoise1.get(0)).getSectorToNoise() , sector3);
-		
 		model1.setActualTurn(turn3);
+		
+		/* verifica il corretto funzionamento del metodo isPossible dell'utilizzo 
+		 * della carta luci e della carta adrenalina */
 		assertEquals(useAdrenalineCard3.isPossible(model1) , false);
 		model1.setGameState(GameState.ACCEPTING);
 		assertEquals(useLightsCard1.isPossible(model1) , false);
@@ -302,32 +245,17 @@ public class UseCardTest {
 		assertEquals(useLightsCard1.isPossible(model1) , true);
 		model1.getActualTurn().setHasUsedObjectCard(true);
 		assertEquals(useLightsCard1.isPossible(model1) , false);
+		
+		/* verifica il corretto funzionamento della perform dell'utilizzo 
+		 * della carta luci */
 		evtDeclarePosition1 = useLightsCard1.perform(model1);
 		assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards() , new ArrayList<Card>());
 		assertTrue(evtDeclarePosition1.get(0) instanceof EventNotifyCardPerformed);
-		assertEquals(useSilenceCard.isPossible(model1) , true);
-		evtDeclareNoise3 = useSilenceCard.perform(model1);
-		assertEquals(((EventDeclareNoise)evtDeclareNoise3.get(0)).getSectorToNoise() , null);
-		
-		assertEquals(useRandomSectorNoise.isPossible(model1) , true);
-		evtDeclareNoise2 = useRandomSectorNoise.perform(model1);
-		assertEquals(((EventDeclareNoise)evtDeclareNoise2.get(0)).getSectorToNoise() , sector4);
-		
-		model1.setActualTurn(turn4);
-		assertEquals(useTeleportCard3.isPossible(model1) , false);
-		model1.setGameState(GameState.ACCEPTING);
-		assertEquals(useSedativesCard.isPossible(model1) , false);
-		model1.setGameState(GameState.RUNNING);
-		assertEquals(useSedativesCard.isPossible(model1) , true);
-		model1.getActualTurn().setHasUsedObjectCard(true);
-		assertEquals(useSedativesCard.isPossible(model1) , false);
-		useSedativesCard.perform(model1);
-		assertEquals(model1.getActualTurn().getHasDraw() , true);
-		assertEquals(useAttackCard3.isPossible(model1) , false);
 		
 		model1.setActualTurn(turn5);
 		
-		assertEquals(useSedativesCard3.isPossible(model1) , false);
+		/* verifica il corretto funzionamento del metodo isPossible dell'utilizzo 
+		 * della carta attacco  */
 		model1.setGameState(GameState.ACCEPTING);
 		assertEquals(useAttackCard1.isPossible(model1) , false);
 		model1.setGameState(GameState.RUNNING);
@@ -337,39 +265,32 @@ public class UseCardTest {
 		model1.getActualTurn().setHasUsedObjectCard(false);
 		assertEquals(useAttackCard1.isPossible(model1) , true);
 		assertEquals(useAttackCard1.getCard() , attackCard1);
+		
+		/* verifica il corretto funzionamento della perform dell'utilizzo 
+		 * della carta attacco */
 		model1.getActualTurn().setHasAttacked(true);
 		assertEquals(useAttackCard1.perform(model1).size() , 1);
 		model1.getActualTurn().setHasAttacked(false);
 		model1.getGamePlayers().get(3).getAvatar().addCard(defenseCard);
 		assertTrue(useAttackCard1.perform(model1).get(0) instanceof EventCardUsed);
 		model1.getActualTurn().setHasAttacked(false);
-		assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().size() , 2);
+		assertEquals(model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().size() , 1);
 		evtAttacked = useAttackCard1.perform(model1);
 		assertEquals(((EventSufferAttack)evtAttacked.get(0)).getKilled() , killedPlayer);
-		model1.setGameState(GameState.ACCEPTING);
-		model1.getActualTurn().setHasUsedObjectCard(false);
-		assertEquals(useTeleportCard.isPossible(model1) , false);
-		model1.setGameState(GameState.RUNNING);
-		assertEquals(useTeleportCard.isPossible(model1) , true);
-		model1.getActualTurn().setHasUsedObjectCard(true);
-		assertEquals(useTeleportCard.isPossible(model1) , false);
-		evtMoved = useTeleportCard.perform(model1);
-		assertEquals(((EventMoved)evtMoved.get(0)).getMoved() , "HumanStartingPoint");
 		
 		model1.setActualTurn(turn6);
+		
+		/* verifica il corretto funzionamento della perform dell'utilizzo 
+		 * della carta luci e della carta attacco */
 		useLightsCard2.perform(model1);
 		assertTrue(!(model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(lightsCard2)));
 		assertEquals(useLightsCard2.isPossible(model1) , false);
 		useAttackCard2.perform(model1);
 		assertTrue(!(model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(attackCard2)));
-		useTeleportCard2.perform(model1);
-		assertTrue(!(model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(teleportCard)));
-		useSedativesCard2.perform(model1);
-		assertTrue(!(model1.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(sedatCard)));
+	
+		/* verifica il corretto funzionamento del metodo isPossible dell'utilizzo 
+		 * della carta attacco  */
 		assertEquals(useAttackCard2.isPossible(model1) , false);
-		assertEquals(useTeleportCard2.isPossible(model1) , false);
-		assertEquals(useSedativesCard2.isPossible(model1) , false);
-			
 	}
 
 }

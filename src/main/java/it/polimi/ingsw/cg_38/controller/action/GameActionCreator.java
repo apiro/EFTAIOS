@@ -42,10 +42,6 @@ public class GameActionCreator {
     		return action;
     	} else if (type.equals(GameEventType.SUBSCRIBE)) {
     		action = new Subscribe((GameEvent)evt);
-    	} else if (type.equals(GameEventType.WINNER)) {
-    		action = new Winner((GameEvent)evt);
-    	} else if (type.equals(GameEventType.LOOSER)) {
-    		action = new Looser((GameEvent)evt);
     	} else if (type.equals(GameEventType.ALIENSWIN)) {
     		action = new AliensWin((GameEvent)evt);
     	} else if (type.equals(GameEventType.HUMANWIN)) {

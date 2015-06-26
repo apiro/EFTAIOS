@@ -15,6 +15,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.Before;
 import org.junit.Test;
 
+/** contiene i test dellec classi del controller */
 public class ControllerTest {
 	
 	ConcurrentLinkedQueue<Event> queue;
@@ -64,12 +65,18 @@ public class ControllerTest {
 		
 		assertEquals(clientView.getQueue().size() , 1);
 		assertEquals(waitingRoom.getGc() , gc);
+		
 		assertEquals(gc2.getTopic() , topic);
+		
 		serverController.setToDispatch(queue);
+		
 		assertEquals(serverController.getToDispatch() , queue);
+		
 		assertEquals(boolean1 , true);
 		assertEquals(boolean2 , false);
+		
 		assertEquals(details.getRMI_ID() , RMI_ID);
+		
 		
 		
 		

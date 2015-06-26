@@ -34,6 +34,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.Before;
 import org.junit.Test;
 
+/** contiene i test del funzionamento del gameActionCreator */
 public class GameActionCreatorTest {
 	
 	EventADRENALINE evtAdren;
@@ -61,7 +62,6 @@ public class GameActionCreatorTest {
 	AliensWin aliensWin;
 	Draw draw;
 	FinishTurn finishTurn;
-	Looser looser;
 	Move move;
 	Subscribe subscribe;
 	UseAdrenalineCard adrenalineCard;
@@ -72,7 +72,6 @@ public class GameActionCreatorTest {
 	UseSedativesCard sedativesCard;
 	UseSilenceCard silenceCard;
 	UseTeleportCard teleportCard;
-	Winner winner;
 	HumanWin human;
 	
 	
@@ -129,6 +128,7 @@ public class GameActionCreatorTest {
 		evtRetired = new EventRetired(player1);
 	}
 
+	/** verifica che da un dato evento di gioco viene generata l'azione corrispondetne */
 	@Test
 	public void test() {
 		
