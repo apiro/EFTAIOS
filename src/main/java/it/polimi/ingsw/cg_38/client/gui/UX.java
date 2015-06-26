@@ -35,6 +35,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+/**
+ * Macro classe che contiene la costruzioen dell'interfaccia e la sua gestione, cioè i metodi chiamabili dal client 
+ * per modificarla
+ * */
 public class UX extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -74,6 +78,10 @@ public class UX extends JFrame {
 		return text3;
 	}
 	
+	/**
+	 * Prepara la gui settando gli attributi del JFrame
+	 * @param final toSend riferiemnto alla coda da passare al window action listener
+	 * */
     public Player prepareGUI(final Queue<?>[] toSend){
 		 
 	    this.setTitle("ESCAPE FROM THE ALIENS IN OUTER SPACE");
@@ -96,7 +104,11 @@ public class UX extends JFrame {
 	      
 	    return this.getIdentity();     
 	}
-	
+    
+	/**
+	 * Chiede all'utente dati per costruire l'evento di subscribe da inviare al server
+	 * @param player parametro giocatore che serve per costruire l'evento
+	 * */
 	public EventSubscribe generateEventSub(Player player) {
 		   
 		String room;
@@ -113,7 +125,10 @@ public class UX extends JFrame {
 		
 		return new EventSubscribe(player, room, nameMap);
 	}
-	
+
+	/**
+	 * Chiede all'utente se vuole scartare o usare la carta e ritorna una stringa con il risultato
+	 * */
 	public String askForUseCardOrRejectCard() {
 		String choice = logger.showAndRead("Do you wanna Use [U] or Reject [R] the selected Card ?", "USE OR REJECT:");
 		while(!("U").equals(choice) && !("R").equals(choice)) {
@@ -121,7 +136,10 @@ public class UX extends JFrame {
 		}
 		return choice;
 	}
-	
+
+	/**
+	 * Chiede al giocatore l'identita nelal fase iniziale del gioco
+	 * */
 	public Player getIdentity() {
 		  String name;
 		  name = logger.showAndRead("Choose a name in the game:", "REGISTRATION:");
@@ -132,7 +150,15 @@ public class UX extends JFrame {
 	      this.name = name;
 	      return new Player(name);
 	}
-	
+
+	/**
+	 * Verifica che le carte del giocatore siano meno di 4 se no gliene fa giocare una, dopo di che ridisegna
+	 * i bottoni delle carte aggiornando i testi, solitamente questo metodo viene chiamato dopo un pescaggio o
+	 * uno scartaggio di carta.
+	 * @param player giocatore in cui cercare le carte
+	 * @param toSend coda a cui aggiunger gli eventi di gioco
+	 * @param map riferimento alla mappa
+	 * */
 	public void updateCards(Player player, Queue<Event> toSend, Map map) {
 		   int i = 2;
 		   if(player.getAvatar().getMyCards().size() == 4) {
@@ -181,6 +207,10 @@ public class UX extends JFrame {
 		   }
 	}
 
+	/**
+	 * Aggiunge all textaarea una stringa in seguito alla perform di una mossa
+	 * @param player giocatore in cui cercare i movimenti
+	 * */
 	public void updateMovements(Player player) {
 		this.text2.setText(null);
 		int i = 0;
@@ -192,12 +222,24 @@ public class UX extends JFrame {
 		panelCentr.slidePlayerPosition(player.getAvatar().getCurrentSector().getCol(), player.getAvatar().getCurrentSector().getRow(),
 				player.getAvatar().getCurrentSector().getClass().toString());
 	}
-	
+
+	/**
+	 * Risetta il titolo iniziale al bottone della carta usata
+	 * @param cardSelected indica carta da resettare
+	 * @param player riferimento al giocatore
+	 * */
 	public void resetButton(int cardSelected, Player player) {
 		 buttons.get(cardSelected + buttons.size()).setText("Use Card");
 		 player.getAvatar().getMyCards().remove(cardSelected);
 	}
-	
+
+	/**
+	 * Disegna tutta la UX posizionando gli elementi usando i Layout 
+	 * @param board tabella da disegnare
+	 * @param toSend coda a cui aggiungere eventi di gioco
+	 * @param player riferimento al giocatore
+	 * @param map riferimento alla mappa
+	 * */
 	public void showUX(int[][] board, Queue<Event> toSend, it.polimi.ingsw.cg_38.model.Player player, Map map){
 	      controlPanel.setBackground(Color.DARK_GRAY);
 	      BorderLayout layout = new BorderLayout();
@@ -254,7 +296,11 @@ public class UX extends JFrame {
 	      
 	      this.setVisible(true);  
 	}
-	
+
+	/**
+	 * Chiede al user le coordinate della mossa o del rumore
+	 * @param map mappa in cui cercare il settore con le coordinate inserite
+	 * */
 	public Sector askForMoveCoordinates(Map map) {
 		String x = logger.showAndRead("x?", "ENTER COORDINATES:");
 		
@@ -269,7 +315,11 @@ public class UX extends JFrame {
 		Sector toMove = map.searchSectorByCoordinates(Integer.parseInt(x), Integer.parseInt(y));
 		return toMove;
 	}
-	
+
+	/**
+	 * Blocca l'interfaccia 
+	 * @param b definisce se va bloccata o meno
+	 * */
 	public void blockInterf(Boolean b) {
 		for(JButton butt:this.buttons) {
 			butt.setEnabled(!b);
@@ -278,17 +328,30 @@ public class UX extends JFrame {
 			sec.setEnabled(!b);
 		}
 	}
-	   
+
+	/**
+	 * aggiunge al bottone con indice i l'actionlistener listener
+	 * @param index bottone su cui lavorare
+	 * @param listener funzione da chiamare quando avviene un certo evento
+	 * */
 	public void addButtonActionListener(int index, ActionListener listener) {
 		for (int i = 0; i < 5 ; i++ ){
 			if(i == index) buttons.get(i).addActionListener(listener);
 		}
 	}
-	
+
+	/**
+	 * Richiama il metodo di colorazione delle scialuppe del HEXGRID
+	 * @param bool color
+	 * @param sec sector da colorare
+	 * */
 	public void paintHatch(Boolean bool, Sector sec) {
 		panelCentr.hatchPainter(sec.getCol(), sec.getRow(), bool);
 	}
-	
+
+	/**
+	 * Chiede allo user il tipo di connessione
+	 * */
 	public String getConnection() {
 		String connection = logger.showAndRead("Choose a type of connection:\n" + "Are available: [Socket] | [RMI] choose one of them !", "WELCOME TO EFTAIOS:");
 		while(connection == null) {

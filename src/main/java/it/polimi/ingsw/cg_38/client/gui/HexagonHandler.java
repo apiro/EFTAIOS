@@ -2,6 +2,9 @@ package it.polimi.ingsw.cg_38.client.gui;
 
 import java.awt.*;
 
+/**
+ * Classe che permette di gestire la costruzione della forma geometrica dell'esagono (Shape)
+ * */
 public class HexagonHandler {
  
 	public final static boolean orFLAT= true;

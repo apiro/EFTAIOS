@@ -30,28 +30,63 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.swing.*;
 
+/**
+ * Classe principale del Client connesso con GUI
+ * */
 public class PlayerClientGUI implements PlayerClient {
 
 	private Map map;
 	private EventSubscribe evt;
+	
+	/**
+	 * Oggetto Runnable che serve per lanciare il thread di invio messaggi al server
+	 * */
 	private Client client;
 	private PlayerClientState playerClientState;
 	private it.polimi.ingsw.cg_38.model.Player player;
 	private Boolean isMyTurn = false;
 	private Boolean clientAlive = false;
 	private Boolean isInterfaceBlocked = true;
+	/**
+	 * Thread che invia i messaggi al server. Indifferentemente ClientRMI o ClientSocket perche il loro funzionamento
+	 * è mascherato dall'interfaccia comune Client
+	 * */
 	private Thread gameEventSender;
+	/**
+	 * Logger assegnato alla gui
+	 * */
 	private Logger logger;
+	/**
+	 * Gestore della Gui
+	 * */
 	private UXStarter uxHandler;
 
 	final Boolean[] alive = new Boolean[1];
+	/**
+	 * Numero colonne della board
+	 * */
 	final static int BSIZEW = 23;
+	/**
+	 * Numero di righe della board
+	 * */
 	final static int BSIZEH = 14;
+	/**
+	 * Altezza dell'esagono
+	 * */
 	final static int HEXSIZE = 45;
 	final static int BORDERS = 15;
 
+	/**
+	 * Array multidimensionale che definisce la composizioen della scacchiera
+	 * */
 	private int[][] board = new int[BSIZEH][BSIZEW];
+	/**
+	 * coda di messaggi da inviare generati dalla gui
+	 * */
 	private Queue<Event> toSend;
+	/**
+	 * coda di messaggi da processare inviati dal server
+	 * */
 	private Queue<Event> toProcess;
 	private String connection;
 	private Logger loggerChat;
@@ -60,6 +95,11 @@ public class PlayerClientGUI implements PlayerClient {
 		return clientAlive;
 	}
 
+	/**
+	 *  Questo costruttore è particolarmente importante perchè chiama alcuni metodi di questa classe con una 
+	 *  sequenza tale tale da costruire in modo rigoroso l'oggetto client e renderlo utilizzabile dalle azioni
+	 *  di gioco.
+	 * */
 	public PlayerClientGUI() {
 		alive[0] = true;
 		logger = new LoggerCLI();
@@ -86,6 +126,9 @@ public class PlayerClientGUI implements PlayerClient {
 				uxHandler.getUx());
 	}
 
+	/**
+	 * Questo metodo manda un messaggio alla Gui in modo tale da renderla visibile
+	 * */
 	public void showGUI() {
 		Runnable r = new Runnable() {
 			@Override
@@ -102,6 +145,9 @@ public class PlayerClientGUI implements PlayerClient {
 		}
 	}
 
+	/**
+	 * Inizializza il gestore della GUI
+	 * */
 	public void waitForLoadingUX() {
 		Logger[] params = new Logger[1];
 		
@@ -109,6 +155,9 @@ public class PlayerClientGUI implements PlayerClient {
 		uxHandler = new UXStarter(params);
 	}
 
+	/**
+	 * Lancia la Gui e crea l'interfaccia grafica 
+	 * */
 	public void createClient() {
 		Runnable r = new Runnable() {
 			@Override
@@ -129,6 +178,9 @@ public class PlayerClientGUI implements PlayerClient {
 		}
 	}
 
+	/**
+	 * Inizializza i campi del client
+	 * */
 	public void initFields() {
 		playerClientState = PlayerClientState.INIT;
 		this.toProcess = new ConcurrentLinkedQueue<Event>();
@@ -150,6 +202,11 @@ public class PlayerClientGUI implements PlayerClient {
 		plcGUI.run();
 	}
 
+	/**
+	 * Metodo che in base alla variabile isInterfaceIsBlocked setta i componenti dell'interfaccia. 
+	 * La variabile isInterfaceBlocked è modificata costantemente dai metodi render delle azioni di notifica
+	 * facendo cosi che l'utilizzo dell'interfaccia sia guidata dalle azioni dell'utente.
+	 * */
 	public void blockInterf() {
 		Runnable r = new Runnable() {
 			@Override
@@ -166,6 +223,10 @@ public class PlayerClientGUI implements PlayerClient {
 		}
 	}
 
+	/**
+	 * Metodo che prende un evento dalla coda ogni ciclo di while e lo processa. Dopo di che aggiorna le carte del
+	 * giocatore per avere sempre una situazione aggiornata.
+	 * */
 	@Override
 	public void run() {
 		while (alive[0]) {
@@ -180,6 +241,11 @@ public class PlayerClientGUI implements PlayerClient {
 		Thread.currentThread().interrupt();
 	}
 
+	/**
+	 * Metodo del client che processa l'evento che gli viene passato, ne genera l'azione di notifica e renderizza l'effetto 
+	 * sull' interfaccia.
+	 * @param msg evento da processare
+	 * */
 	@Override
 	public void process(Event msg) {
 		if(((NotifyEvent)msg).getType() != null) {
@@ -206,6 +272,10 @@ public class PlayerClientGUI implements PlayerClient {
 		}
 	}
 
+	/**
+	 * Metodo che setta alcune variabili della classe HexagonHandler e inizializza la board trasformando un array 
+	 * monodimensionale in uno multidimensionale
+	 * */
 	@Override
 	public void init() {
 
@@ -221,6 +291,9 @@ public class PlayerClientGUI implements PlayerClient {
 		}
 	}
 
+	/**
+	 * Metodo che fa partire il thread di invio messaggi di gioco al server
+	 * */
 	@Override
 	public void startSender() {
 		client = Client.clientCreator(connection, toSend, toProcess, evt);
@@ -228,13 +301,19 @@ public class PlayerClientGUI implements PlayerClient {
 		gameEventSender.start();
 	}
 
+	/**
+	 * Metodo che aggiunge gli actionlistener agli oggetti della GUI
+	 * */
 	private void handleActionListeners() {
 		Runnable r = new Runnable() {
 			@Override
 			public void run() {
 				uxHandler.getUx().addButtonActionListener(0,
 						new ActionListener() {
-
+							
+							/**
+							 * Quando viene premuto il pulsante invia un evento di ritiro
+							 * */
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								synchronized (toSend) {
@@ -247,6 +326,9 @@ public class PlayerClientGUI implements PlayerClient {
 				uxHandler.getUx().getInput()
 						.addActionListener(new ActionListener() {
 
+							/**
+							 * Quando viene premuto il pulsante invia un evento di Chat
+							 * */
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								synchronized (toSend) {
@@ -262,6 +344,9 @@ public class PlayerClientGUI implements PlayerClient {
 				uxHandler.getUx().addButtonActionListener(1,
 						new ActionListener() {
 
+							/**
+							 * Quando viene premuto il pulsante invia un evento di Fine Turno
+							 * */
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								synchronized (toSend) {
@@ -275,6 +360,9 @@ public class PlayerClientGUI implements PlayerClient {
 					uxHandler.getUx().addButtonActionListener(i,
 							new ActionListener() {
 								
+								/**
+								 * Genera dinamicamente una classe a partire dal pulsante schiacciato
+								 * */
 								private Class<?> generateClass(ActionEvent e, String s) {
 									Class<?> myClass = null;
 									
@@ -286,6 +374,11 @@ public class PlayerClientGUI implements PlayerClient {
 									return myClass;
 								}
 								
+								/**
+								 * Metodo che gestisce l'invio dell'evento relativo al pulsante schiacciato dall'utente.
+								 * Costruisce il costruttore della classe appena creata e gestisce l'invio dell'evento
+								 * corrispondente
+								 * */
 								@Override
 								public void actionPerformed(ActionEvent e) {
 									String choice = uxHandler.getUx()
@@ -419,6 +512,9 @@ public class PlayerClientGUI implements PlayerClient {
 		return playerClientState;
 	}
 
+	/**
+	 * Termina il processo Client dopo 15 sec dalla sua chiamata
+	 * */
 	@Override
 	public void closeClient() {
 		logger.print("CLOSING CLIENT TERMINAL ...");
@@ -446,6 +542,10 @@ public class PlayerClientGUI implements PlayerClient {
 		this.isMyTurn = b;
 	}
 
+	/**
+	 * Richiama il metodo colora hatch della gui, in un ambiente protetto dato da SwingUtilities che permette di 
+	 * lavorare dentro l'EDT
+	 * */
 	@Override
 	public void paintHatch(final Boolean bool, final Sector sec) {
 		Runnable r = new Runnable() {
@@ -468,6 +568,10 @@ public class PlayerClientGUI implements PlayerClient {
 		return this.uxHandler.getUx().askForMoveCoordinates(map);
 	}
 
+	/**
+	 * Richiama il metodo updateCards() della gui, in un ambiente protetto dato da SwingUtilities che permette di 
+	 * lavorare dentro l'EDT
+	 * */
 	@Override
 	public void updateCards() {
 		Runnable r = new Runnable() {
@@ -485,6 +589,10 @@ public class PlayerClientGUI implements PlayerClient {
 		}
 	}
 
+	/**
+	 * Richiama il metodo updateMovements() della gui, in un ambiente protetto dato da SwingUtilities che permette di 
+	 * lavorare dentro l'EDT
+	 * */
 	@Override
 	public void updateMovements() {
 		Runnable r = new Runnable() {

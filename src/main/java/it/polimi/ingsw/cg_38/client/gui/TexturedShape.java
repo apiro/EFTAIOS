@@ -5,8 +5,16 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 
+/**
+ * Classe che fornisce metodi statici 
+ * */
 class TexturedShape {
 
+	/**
+	 * Ritorna una immagine sagomata rispetto ad una certa forma passata come parametro
+	 * @param src immagine da sagomare
+	 * @param shp forma secondo la quale sagomare
+	 * */
     public static BufferedImage getTexturedImage(
             BufferedImage src, Shape shp) {
         Rectangle r = shp.getBounds();
@@ -43,7 +51,10 @@ class TexturedShape {
 
         return tmp;
     }
-
+    /**
+     * Crea una linea tramite la quale sagomare le immagini a partire da un poligono (insieme di punti)
+     * @param poly poligono di source
+     * */
     public static Shape fromPolygonToShape(Polygon poly) {
     	
     	GeneralPath p = new GeneralPath();
