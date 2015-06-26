@@ -128,7 +128,7 @@ public class UX extends JFrame {
 	      while(name == "") {
 	    	  name = logger.showAndRead("Choose a name in the game:", "REGISTRATION:");
 	      }
-	      this.setTitle("EFTAIOS - " + name);
+	      this.setTitle("ESCAPE FROM THE ALIENS IN OUTER SPACE - PLAYER: " + name + " TURNO: ");
 	      this.name = name;
 	      return new Player(name);
 	}

@@ -190,6 +190,7 @@ public class PlayerClientGUI implements PlayerClient {
 			GameEvent gamEvt = null;
 			if (action.isPossible(this)) {
 				gamEvt = action.render(this);
+				uxHandler.getUx().setTitle("ESCAPE FROM THE ALIENS IN OUTER SPACE - PLAYER: " + player.getName() + " - TURNO: " + player.getNumTurniGiocati());
 				if (gamEvt != null) {
 					if (gamEvt instanceof EventContinue)
 						return;

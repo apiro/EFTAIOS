@@ -33,7 +33,7 @@ public class WaitingRoomController extends Observable implements Runnable {
 		logger.print("ACCEPTING: " + gc.getTopic() + " ...");
 		logger.print("---------------------------------------------------------------------\n");
 		try {
-			Thread.sleep(60000);
+			Thread.sleep(40000);
 		} catch (InterruptedException e1) {
 			logger.print("Problems during the rianimation of the room-handling-thread ...");
 		}
@@ -55,7 +55,11 @@ public class WaitingRoomController extends Observable implements Runnable {
 			this.notifyObservers(gc.getTopic());
 			gc.notify();
 			
+			Thread t2 = new Thread(new TurnTimerController(gc), "TurnHandler");
+			t2.start();
+			
 			Thread.currentThread().interrupt();
+			
 			try {
 				synchronized(gc.getBuffer()) {
 					gc.getBuffer().wait();
@@ -63,8 +67,6 @@ public class WaitingRoomController extends Observable implements Runnable {
 			} catch (InterruptedException e) {
 				return;
 			}
-
 		}
-		
 	}
 }

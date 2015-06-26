@@ -21,6 +21,8 @@ public class Turn {
 
     /** indica se il giocatore ha già pescato durante il turno */
     private Boolean hasDraw = false;
+    
+    private Boolean yetValid = true;
 
     public Boolean getHasMoved() {
 		return hasMoved;
@@ -60,6 +62,14 @@ public class Turn {
 
 	public Boolean getHasDraw() {
 		return hasDraw;
+	}
+
+	public Boolean getYetValid() {
+		return yetValid;
+	}
+
+	public void setYetValid(Boolean yetValid) {
+		this.yetValid = yetValid;
 	}
 
 

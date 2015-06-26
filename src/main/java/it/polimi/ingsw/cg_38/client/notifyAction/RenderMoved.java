@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventAttack;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
+import it.polimi.ingsw.cg_38.model.Alien;
 
 public class RenderMoved extends NotifyAction {
 	
@@ -42,10 +43,14 @@ public class RenderMoved extends NotifyAction {
 				client.setIsInterfaceBlocked(false);
 				client.updateMovements();
 				return null;
-			} else if (("A").equals(com)) {
+			} else if (("A").equals(com) && client.getPlayer().getAvatar() instanceof Alien) {
 				evt1 = new EventAttack(client.getPlayer(), client.getPlayer().getAvatar().getCurrentSector());
 				client.updateMovements();
 				return evt1;
+			} else {
+				client.setIsInterfaceBlocked(false);
+				client.updateMovements();
+				return null;
 			}
 		} else if(("Dangerous").equals(((EventMoved)evt).getMoved())) {
 			String com = client.getLogger().showAndRead("You are in a DANGEROUS sector ! Type draw or attack :[D] | [A] ?", "Game Message");
@@ -56,8 +61,10 @@ public class RenderMoved extends NotifyAction {
 			}
 			if(("D").equals(com)) {
 				evt1 = new EventDraw(client.getPlayer());
-			} else if (("A").equals(com)) {
+			} else if (("A").equals(com) && client.getPlayer().getAvatar() instanceof Alien) {
 				evt1 = new EventAttack(client.getPlayer(), client.getPlayer().getAvatar().getCurrentSector());
+			} else {
+				evt1 = new EventDraw(client.getPlayer());
 			}
 		} else if(("Hatch").equals(((EventMoved)evt).getMoved())) {
 			String com = client.getLogger().showAndRead("You are in a HATCH sector ! Type [D]", "Game Message");

@@ -73,7 +73,9 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 		gcFound = server.getTopics().get(evt.getGenerator().getName());
 		if( evt.getGenerator().getName().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer().getName())) {
 			//se l'evento viene dal giocatore del turno corrente
-			callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
+			synchronized(gcFound) {
+				callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
+			}
 		} else {
 			//se l'evento non viene dal gicatore del turno (qualcuno ha inviato un evento fuori turno)
 			NotifyEvent callbackError = new EventNotYourTurn(evt.getGenerator());
