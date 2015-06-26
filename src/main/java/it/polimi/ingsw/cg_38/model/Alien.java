@@ -3,6 +3,7 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 
 import java.io.Serializable;
 
+/** contiene i dati del gioco di un avatar di tipo alieno */
 public class Alien extends Avatar implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -12,12 +13,16 @@ public class Alien extends Avatar implements Serializable {
     	this.setName(name);
     }
 
+    /** verifica se l'avatar possiede una carta difesa 
+     * @return ritorna sempre false in quanto l'alieno non può utilizzare la carta difesa */
     @Override
 	public Boolean hasDefenseCard() {
 		return false;
 	}
 
-	/** verifica se l'avatar può muoversi nel settore passato come parametro */
+	/** verifica se l'avatar può muoversi nel settore passato come parametro 
+	 * @param sector settore sul quale il giocatore vuole effettuare il movimento
+	 * @return ritorna true se l'avatar può essere spostato nel settore*/
     @Override
     public Boolean canMove(Sector sector) {
     	if(("AlienStartingPoint").equals(sector.getName()) || ("Hatch").equals(sector.getName())) {

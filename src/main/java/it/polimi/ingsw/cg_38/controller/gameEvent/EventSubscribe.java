@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.GameEventType;
 import it.polimi.ingsw.cg_38.model.Player;
 
+/** rappresenta l'evento di sottoscrizione */
 public class EventSubscribe extends GameEvent implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -16,6 +17,12 @@ public class EventSubscribe extends GameEvent implements Serializable{
 	/** contiene il nome della stanza alla quale il giocatore ha scelto di sottoscriversi */
 	private String room;
 
+	/** invoca il costruttore della superclasse e setta i vari dati
+	 * 
+	 * @param generator giocatore che ha generato l'evento
+	 * @param room nome della stanza da creare
+	 * @param map nome della mappa da crare
+	 */
 	public EventSubscribe(Player generator, String room, String map) {
 		super(generator, true);
 		this.setRoom(room);

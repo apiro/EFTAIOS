@@ -5,15 +5,23 @@ import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
 
+/** rappresenta l'evento di carta usata */
 public class EventCardUsed extends NotifyEvent {
 
 	private static final long serialVersionUID = 1L;
 	
-	/** è settato a true se l'azione è stata correttamente performata */
+	/** indica se l'azione è stata performata correttamente */
 	private Boolean performed;
 
+	/** indica il tipo della carta oggetto */
 	private ObjectCardType typeCard;
 	
+	/** invoca il costruttore della superclasse e setta i vari dati
+	 * 
+	 * @param generator giocatore che ha generato l'evento
+	 * @param performed true se l'azione è stata performata correttamente
+	 * @param typeCard indica il tipo della carta oggetto da utilizzare
+	 */
 	public EventCardUsed(Player generator, Boolean performed, ObjectCardType typeCard) {
 		super(generator, true);
 		super.setType(NotifyEventType.CARDUSED);

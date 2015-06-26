@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.deck.Card;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 
+/** rappresenta l'evento di pescaggio */
 public class EventDrown extends NotifyEvent {
 
 	@Override
@@ -15,12 +16,18 @@ public class EventDrown extends NotifyEvent {
 
 	private static final long serialVersionUID = 1L;
 	
-	/** contiene la carta oggetto pescata nel caso in cui la carta settore ha l'icona */
+	/** contiene la carta oggetto pescata */
 	private ObjectCard added;
 	
 	/** contiene la carta settore pescata */
 	private Card drown;
 	
+	/** invoca il costruttore della superclasse e setta i vari dati
+	 * 
+	 * @param generator giocatore che ha generato l'evento
+	 * @param added carta oggetto pescata
+	 * @param card carta settore pescata
+	 */
 	public EventDrown(Player generator, ObjectCard added, Card card) {
 		super(generator, false);
 		super.setType(NotifyEventType.DROWN);

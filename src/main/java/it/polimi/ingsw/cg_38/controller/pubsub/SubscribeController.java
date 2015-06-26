@@ -12,7 +12,6 @@ import it.polimi.ingsw.cg_38.controller.logger.Logger;
 import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.Observable;
 
 public class SubscribeController extends Observable implements Runnable {

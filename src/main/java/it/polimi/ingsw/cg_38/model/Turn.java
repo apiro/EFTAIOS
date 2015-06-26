@@ -1,19 +1,25 @@
 package it.polimi.ingsw.cg_38.model;
 
+/** rappresenta un turno del gioco */
 public class Turn {
 
     public Turn(Player currentPlayer) {
     	this.setCurrentPlayer(currentPlayer);
     }
 
+    /** contiene il giocatore che sta effettuando il turno */
     private Player currentPlayer;
 
+    /** indica se il giocatore ha già mosso durante il turno */
     private Boolean hasMoved = false;
-
+    
+    /** indica se il giocatore ha già utilizzato una carta oggetto durante il turno */
     private Boolean hasUsedObjectCard = false;
-
+    
+    /** indica se il giocatore ha già attaccato durante il turno */
     private Boolean hasAttacked = false;
 
+    /** indica se il giocatore ha già pescato durante il turno */
     private Boolean hasDraw = false;
 
     public Boolean getHasMoved() {
