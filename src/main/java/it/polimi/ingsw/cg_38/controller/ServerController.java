@@ -33,38 +33,45 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+/** si occupa di rendere disponibile il server ad accettare connessioni e di ricevere gli eventi 
+ * di gioco inviati dal giocatori e generare, di conseguenza, azioni che  poi vengono passate 
+ * al relativo game controller */
 public class ServerController extends Observable {
 	
 	private int socketPortNumber = 4322;
+	
 	private int portPublisherSubscriber = 3111;
+	
 	private String IPAdress = "localhost";
+	
 	private ServerSocket serverSocketPubSub;
+	
 	private ServerSocket serverSocketClientServer;
-	//mappa che segna il nome del player con il corrispondente gamecontroller per poter trovare il topic di un player facilmente
+	
+	/**mappa che assegna il nome del player al corrispondente gamecontroller per 
+	 * poter trovare il topic a cu è sottoscritto un giocatore */
 	private Map<String, GameController> topics = new HashMap<String, GameController>();
+	
 	private Logger logger = new LoggerCLI();
 	
 	public Map<String, GameController> getTopics() {
 		return topics;
 	}
 	
+	/** coda degli eventi di gioco ricevuti dai giocatori */
 	private Queue<Event> toDispatch;
 	
 	private Registry registry;
+	
+	/** true se il server è attivo */
 	private Boolean serverAlive = true;
 	
-	/**
-	 * è il buffer nel quale vengono inseriti i messaggi provenienti da ogni client, quindi generati da chiamate a metodi RMI
-	 * remoti e chiamati dal playerhandler(tramite l'attributo SocketServerInterface).
-	 * 
-	 * 
-	 * client->Rmi->passa messaggi ad un metodo di un oggetto Rmi del server-> questo aggiunge il messaggio al buffer del server
-	 * */
-	
+	/** il costruttore inizializza la coda di eventi di gioco */
 	public ServerController() throws RemoteException {
 		this.toDispatch = new ConcurrentLinkedQueue<Event>();
 	}
 	
+	/** chiude il server annullando tutte le connessioni ed ilimina il topic associato */
 	public void closeServer() {
 		//closing the server and deallocate all the objects
 		this.serverAlive = false;
@@ -75,6 +82,12 @@ public class ServerController extends Observable {
 		this.topics = null;
 	}
 
+	/** starta il server che si mette in ascolto sulla coda di eventi di gioco per generare azioni
+	 * che poi verranno performare dal controllore del gioco
+	 * 
+	 * @throws ParserConfigurationException
+	 * @throws Exception
+	 */
 	public void startServer() throws ParserConfigurationException, Exception {
 		
 		logger.print("Starting the Server !");
@@ -126,6 +139,7 @@ public class ServerController extends Observable {
 		}
 	}
 	
+	/** rimuove un topic dal server */
 	public void removeTopic(GameController gcFound) {
 		List<String> toRemove = new ArrayList<String>();
 		for(String topic:topics.keySet()) {
@@ -143,6 +157,7 @@ public class ServerController extends Observable {
 		logger.print("---------------------------------------------------------------------\n");
 	}
 
+	/** setta tutte le variabili necessarie per la connessione di tipo RMI */
 	private void startRMIEnvironment() throws RemoteException, AlreadyBoundException {
 		
 		RMIRemoteObjectDetails serverView = new RMIRemoteObjectDetails("REGISTRATIONVIEW");
@@ -163,6 +178,14 @@ public class ServerController extends Observable {
 		}
 	}
 
+	/** inizializza e starta una nuova partita
+	 * 
+	 * @param map nome della mappa della partita
+	 * @param topic nome del topic da creare
+	 * @return ritorna il gameController associato alla nuova partita
+	 * @throws ParserConfigurationException
+	 * @throws Exception
+	 */
 	public GameController initAndStartANewGame(String map, String topic) throws ParserConfigurationException, Exception {
 
     	GameController generalController = new GameController(map, topic);
@@ -177,6 +200,7 @@ public class ServerController extends Observable {
 		this.toDispatch = toDispatch;
 	}
 
+	/** setta tutte le variabili necessarie per la connessione via Socket */
 	private void startSocketEnvironment() throws IOException {
 		try {
 			this.serverSocketClientServer = new ServerSocket(socketPortNumber);

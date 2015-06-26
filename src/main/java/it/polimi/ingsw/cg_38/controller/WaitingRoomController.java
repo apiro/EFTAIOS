@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 
 import java.util.Observable;
 
+/** utilizzato per iniziare l'esecuzione di una partita */
 public class WaitingRoomController extends Observable implements Runnable {
 	
 	private GameController gc;
@@ -22,11 +23,16 @@ public class WaitingRoomController extends Observable implements Runnable {
 		this.gc = gc;
 	}
 
+	/** il cosruttore sellta il gameController relativo alla partita 
+	 * 
+	 * @param gc gameCOntroller della partita */
 	public WaitingRoomController(GameController gc) {
 		this.addObserver(gc);
 		this.setGc(gc);
 	}
 	
+	/** vengono assegnati gli avatar ai vari giocatori della partita e viene settato il 
+	 * primo turno */
 	@Override
 	public void run() {
 		logger.print("---------------------------------------------------------------------\n");

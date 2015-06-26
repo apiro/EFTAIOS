@@ -14,19 +14,26 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Queue;
-
+/** gestisce la logica di creazione dei thread, quando richiesta */
 public class SocketConnectionsHandler extends Thread implements Observer {
-	
-	/**
-	 * il seguente è un oggetto che gestisce la logica di creazione dei thread, questo oggetto per esempio gestisce la logica di creazione 
-	 * di un thread quando una sua creazione è richiesta
-	 **/
+
 	private Boolean alive;
+	
 	private ServerSocket serverSocket;
+	
 	private Queue<Event> queue;
+	
 	private Map<String, GameController> topics;
+	
 	private Logger logger = new LoggerCLI();
 	
+	/** inizializza tutte le variabili necessarie 
+	 * 
+	 * @param serverSocket serverSocket della connessione
+	 * @param queue coda di eventi 
+	 * @param true se il thread è vivo
+	 * @topics mappa di tutti i topics del server
+	 * */
 	public SocketConnectionsHandler(ServerSocket serverSocket, Queue<Event> queue, Boolean alive, Map<String, GameController> topics) {
 		this.topics = topics;
 		this.alive = alive;
@@ -35,6 +42,8 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 		
 	}
 	
+	/** finchè il thread è vivo rimane in attesa di ricevere nuove connessioni via Socket creando, di
+	 * conseguenza, un nuovo controllore del giocatore */
 	@Override
 	public void run() {
 		alive = true;

@@ -9,15 +9,25 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventDraw;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
 import it.polimi.ingsw.cg_38.model.Alien;
 
+/** rappresenta l'azione di rendimento dell'azione di mossa */
 public class RenderMoved extends NotifyAction {
 	
 	private static final long serialVersionUID = 1L;
 
+	/** invoca il costruttore della superclasse
+	 * 
+	 * @param evt evento di notifica che ha generato l'azione
+	 */
 	public RenderMoved(NotifyEvent evt){
-		
 		super(evt.getGenerator() , evt);
 	}
 
+	/** verifica se è possibile performare l'azione sul client
+	 * 
+	 * @param client client sul quale fare la verifica
+	 * @return true se è il turno del giocatore associato al client e se l'avatar del giocatore
+	 * è vivo ed è in gioco
+	 */
 	@Override
 	public Boolean isPossible(PlayerClient client) {
 		if(client.getPlayerClientState().equals(PlayerClientState.ISTURN) && 
@@ -27,6 +37,12 @@ public class RenderMoved extends NotifyAction {
 		return false;
 	}
 
+	/** fa scegliere al client quale azione generare dopo la mossa e genera, di conseguenza,
+	 * un azione di gioco 
+	 * 
+	 * @param client client sul quale performare l'azione
+	 * @return evento di gioco generato
+	 */
 	@Override
 	public GameEvent render(PlayerClient client) {
 		

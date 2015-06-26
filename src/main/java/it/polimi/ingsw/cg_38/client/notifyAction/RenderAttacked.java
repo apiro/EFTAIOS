@@ -8,22 +8,36 @@ import it.polimi.ingsw.cg_38.controller.gameEvent.EventContinue;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAttacked;
 import it.polimi.ingsw.cg_38.model.Alien;
 
+/** rappresenta il rendimento dell'azione di essere attaccato */
 public class RenderAttacked extends NotifyAction {
 	
 	private static final long serialVersionUID = 1L;
 
+	/** invoca il costruttore della superclasse
+	 * 
+	 * @param evt evento di notifica che ha generato l'azione
+	 */
 	public RenderAttacked(NotifyEvent evt){
 		
 		super(evt.getGenerator() , evt);
 	}
 
+	/** verifica se è possibile performare l'azione
+	 * 
+	 * @param client client sul quale fare la verifica
+	 * @return true se l'avatar del client e vivo ed è in gioco
+	 */
 	@Override
 	public Boolean isPossible(PlayerClient client) {
-		//deve sempre ritornare true perchè l'evento di attaccato deve essere processato anche
-		//da chi non è del turno(anche chi è stato attaccato deve fare la render)
 		return super.check(client);
 	}
 
+	/** verifica il tipo di avatar che ha effettuato l'attacco e se ci sono altri umani in gioco e,
+	 * di conseguenza, genera eventi di gioco
+	 * 
+	 * @param client client sul quale performare l'azione
+	 * @return ritorna un evento di gioco in base alla situazione del gioco
+	 */
 	@Override
 	public GameEvent render(PlayerClient client) {	
 		

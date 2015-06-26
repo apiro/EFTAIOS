@@ -5,11 +5,17 @@ import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEventType;
 
+/** crea un azione di notifica in base all'evento di notifica ricevuto */
 public class NotifyActionCreator {
 
 	public NotifyActionCreator() {
     }
 	
+	/** crea un azione a seconda dell'evento passato come parametro
+	 * 
+	 * @param evt evento di notifica che ha generato l'evento
+	 * @return ritorna l'azione di notifica generata
+	 */
 	public static Action createNotifyAction(Event evt) {
 		NotifyEventType type = ((NotifyEvent)evt).getType();
     	Action action = null;

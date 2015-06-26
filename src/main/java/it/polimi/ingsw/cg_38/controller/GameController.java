@@ -26,24 +26,36 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+/** utilizzato per la gestione di una partita e dei giocatori che vi partecipano
+ * . Si occupa di inizializzare una partita, di assegnare gli avatar e di inviare gli eventi
+ *  di notifica ai giocatori generati in conseguenza di azioni performate
+ *  
+ * @author Marco
+ *
+ */
 public class GameController implements Observer {
 
+	/** lista di comunicatori di tutti i giocatori sottoscritti al topic */
 	private List<Communicator> subscribers = new ArrayList<Communicator>();
 	
+	/** buffer degli eventi di notifica da inviare */
 	private Queue<NotifyEvent> buffer;
 
+	/** modello del gioco */
 	private GameModel gameModel;
 	
     private String topic;
     
     private Logger logger = new LoggerCLI();
-	
-    public String getTopic() {
-		return topic;
-	}
 
+    /** true se è possibile ancora accettare altri giocatori alla partita */
 	private Boolean canAcceptOtherPlayers = true;
 
+	/** il costruttore inizializza il gioco e setta il buffer con una lista di eventi di notifica 
+	 * 
+	 * @param type mappa da utilizzare nella partita
+	 * @param topic nome del topic della partita
+	 */
 	public GameController(String type, String topic) throws ParserConfigurationException, Exception {
 		
     	this.initGame(type, topic);
@@ -61,16 +73,28 @@ public class GameController implements Observer {
 		} 
 	}
 	
+    public String getTopic() {
+		return topic;
+	}
+
 	public List<Communicator> getSubscribers() {
 		return subscribers;
 	}
 
+	/** manda l'evento di notifica al giocatore 
+	 * 
+	 * @param evt evento di notifica generato
+	 */
 	public void publish(NotifyEvent evt) throws IOException {
 		for(Communicator comm: this.getSubscribers()) {
 			comm.send(evt);
 		}
 	}
 
+	/** aggiunge un evento di notifica al buffer 
+	 * 
+	 * @param msg evento di notifica da aggiungere
+	 */
 	public void addEventToTheQueue(NotifyEvent msg) {
 		buffer.add(msg);
 		synchronized(buffer) {
@@ -78,6 +102,14 @@ public class GameController implements Observer {
 		}
 	}
 	
+	/** viene verificata la possibilità di performare l'azione e in caso positivo vengono generati 
+	 * gli eventi di notifica relativi l'azione. se non è possibile performare l'azione
+	 * viene generato un evento di notifica di errore
+	 * 
+	 * @param action azione da performare
+	 * @return ritorna la lista di eventi di notifica da inviare al giocatore
+	 * @throws RemoteException
+	 */
 	public List<NotifyEvent> performUserCommands(GameAction action) throws RemoteException {
 		List<NotifyEvent> notifyEvent = new ArrayList<NotifyEvent>();
 		if(action instanceof FinishTurn) {
@@ -129,6 +161,14 @@ public class GameController implements Observer {
 		this.buffer = buffer;
 	}
 
+	/** setta il nome del topic e crea un nuovo modell con la mappa scelta dal giocatore che ha creato
+	 * la partita
+	 * 
+	 * @param type tipo di mappa da creare
+	 * @param topic nome del topic della partita
+	 * @throws ParserConfigurationException
+	 * @throws Exception
+	 */
 	public void initGame(String type, String topic) throws ParserConfigurationException, Exception {
 		this.setTopic(topic);
 	    this.setGameModel(new GameModel(type));
@@ -138,15 +178,20 @@ public class GameController implements Observer {
 		this.topic = topic;
 	}
 	
+	/** viene modificato lo stato di gioco del modello */
 	public void closeGame() {
 	    this.getGameModel().setGameState(GameState.CLOSING);
 	}
 	
+	/** viene settato il primo turno con il primo giocatore nella lista presente nel modello */
 	public void setFirstTurn() {
     	Turn actualTurn = new Turn(this.getGameModel().getGamePlayers().get(0));
     	this.getGameModel().setActualTurn(actualTurn);
     }
 	
+	/** viene mischiata la lista dei giocatori della partita e in base al loro numero 
+	 *  viene assegnato un avatar ad ognuno di essi
+	 */
 	 public void assignAvatars() {
 	    Collections.shuffle(getGameModel().getGamePlayers());
 	   	for(int i =0; i<this.getGameModel().getGamePlayers().size(); i++) {

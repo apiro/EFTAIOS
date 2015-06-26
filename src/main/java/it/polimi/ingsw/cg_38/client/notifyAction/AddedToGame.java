@@ -6,10 +6,20 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAddedToGame;
 
+/** rappresenta l'azione di avvenura aggiunta al gioco */
 public class AddedToGame extends NotifyAction {
 
 	private static final long serialVersionUID = 1L;
+	
 	private NotifyEvent evt;
+	
+	/** invoca il costruttore della superclasse
+	 * 
+	 * @param evt2 evento di notifica che ha generato l'azione
+	 */
+	public AddedToGame(NotifyEvent evt2) {
+		super(evt2.getGenerator() , evt2);
+	}
 	
 	@Override
 	public NotifyEvent getEvt() {
@@ -21,10 +31,11 @@ public class AddedToGame extends NotifyAction {
 		this.evt = evt;
 	}
 
-	public AddedToGame(NotifyEvent evt2) {
-		super(evt2.getGenerator() , evt2);
-	}
-
+	/** il client viene settato a connesso e viene bloccata la sua interfaccia in attesta che inizi
+	 * la partita
+	 * 
+	 * @param client client che ha richiesto l'azione
+	 */
 	@Override
 	public GameEvent render(PlayerClient client) {
 		client.getLogger().print(this.getEvt().getGenerator().getName() + " has been added ? " + ((EventAddedToGame)evt).getAdded());
@@ -35,6 +46,7 @@ public class AddedToGame extends NotifyAction {
 		return null;		
 	}
 
+	/** è sempre possibile performare questa azione */
 	@Override
 	public Boolean isPossible(PlayerClient client) {
 		return true;

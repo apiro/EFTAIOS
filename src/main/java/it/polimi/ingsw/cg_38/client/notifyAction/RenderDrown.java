@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg_38.client.notifyAction;
 
-
 import it.polimi.ingsw.cg_38.client.PlayerClient;
 import it.polimi.ingsw.cg_38.client.PlayerClientState;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
@@ -16,15 +15,24 @@ import it.polimi.ingsw.cg_38.model.deck.SectorCard;
 import it.polimi.ingsw.cg_38.model.deck.SectorCardType;
 import it.polimi.ingsw.cg_38.model.map.Hatch;
 
+/** rappresenta il rendimento dell'azione di pescaggio di una carta */
 public class RenderDrown extends NotifyAction {
 	
 	private static final long serialVersionUID = 1L;
 
+	/** invoca il costruttore della superclasse
+	 * 
+	 * @param evt evento di notifica che ha generato l'azione
+	 */
 	public RenderDrown(NotifyEvent evt){
-		
 		super(evt.getGenerator() , evt);
 	}
 
+	/** verifica se è possibile performare l'azione
+	 * 
+	 * @param client client sul quale fare la verifica
+	 * @return true se l'avatar associato al cient è vivo ed è in gioco e se è il suo turno
+	 */
 	@Override
 	public Boolean isPossible(PlayerClient client) {
 		if(client.getPlayerClientState().equals(PlayerClientState.ISTURN) && 
@@ -34,6 +42,12 @@ public class RenderDrown extends NotifyAction {
 		return false;
 	}
 
+	/** genera un evento di gioco in base al tipo di mazzo dal quale è stata pescata la carta
+	 * e al tipo di carta pescata
+	 * 
+	 *  @param client client che ha generato l'azione
+	 *  @return ritorna un evento di gioco 
+	 */
 	@Override
 	public GameEvent render(PlayerClient client) {
 		
@@ -78,6 +92,10 @@ public class RenderDrown extends NotifyAction {
 		return evt1;
 	}
 
+	/** comunica al giocatore che ha vinto e blocca la sua interfaccia
+	 * 
+	 * @param client client client sul quale performare l'azione
+	 */
 	private void renderWin(PlayerClient client) {
 		client.getLogger().print("YOU WIN !");
 		client.setIsInterfaceBlocked(true);
