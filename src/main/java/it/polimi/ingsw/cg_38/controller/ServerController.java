@@ -89,7 +89,7 @@ public class ServerController extends Observable {
 			if(msg != null) {
 				
 				logger.print("---------------------------------------------------------------------\n");
-				logger.print("Game Event arrived !\n");
+				logger.print("[SC]Game Event arrived !\n");
 				logger.print("Parsing Event... : " + msg.toString());
 				
 				GameController gcFound = null;

@@ -81,34 +81,15 @@ public class GameController implements Observer {
 	public List<NotifyEvent> performUserCommands(GameAction action) throws RemoteException {
 		List<NotifyEvent> notifyEvent = new ArrayList<NotifyEvent>();
 		if(action instanceof FinishTurn) {
-			
-			String oldPlayer = null;
-			String newPlayer = null;
-			
-			synchronized(this.getGameModel()) {
-				oldPlayer = this.getGameModel().getActualTurn().getCurrentPlayer().getName();
-				notifyEvent = action.perform(this.getGameModel());
-				newPlayer = this.getGameModel().getActualTurn().getCurrentPlayer().getName();
-			}
-			
-			if(!newPlayer.equals(oldPlayer) && this.getGameModel().areThereOtherHumans()) {
-				Thread tH = new Thread(new TurnTimerController(this), "TurnHandler");
-				tH.start();
-				logger.print("Starting new Turn and starting a new Turn Handler !");
-			} else {
-				logger.print("Error ! This turn can't finish now ...");
-			}
-			
+			notifyEvent = action.perform(this.getGameModel());
 			return notifyEvent; 
 		}
 		
-		synchronized(this.getGameModel()) {
-			if(action.isPossible(this.getGameModel())) {
-				notifyEvent = action.perform(this.getGameModel());
-			} else {
-				NotifyEvent e = new EventNotifyError(action.getPlayer(), action);
-				notifyEvent.add(e);
-			}
+		if(action.isPossible(this.getGameModel())) {
+			notifyEvent = action.perform(this.getGameModel());
+		} else {
+			NotifyEvent e = new EventNotifyError(action.getPlayer(), action);
+			notifyEvent.add(e);
 		}
 		return notifyEvent; 
 	}

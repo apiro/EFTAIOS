@@ -63,7 +63,7 @@ public class PlayerController extends Thread  {
 				//è personale lo processa direttmente qui e invia l'evento di risposta !
 				Event evt = this.communicator.recieveEvent();
 				logger.print("---------------------------------------------------------------------\n");
-				logger.print("Game Event arrived !\n");
+				logger.print("[PC]Game Event arrived !\n");
 				logger.print("Parsing Event... : " + evt.toString());
 				if(!((GameEvent)evt).getNotifyEventIsBroadcast()){
 					List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
@@ -72,10 +72,13 @@ public class PlayerController extends Thread  {
 					gcFound = topics.get(evt.getGenerator().getName());
 					if( evt.getGenerator().getName().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer().getName())) {
 						//se l'evento viene dal giocatore del turno corrente
-						synchronized(gcFound) {
+						synchronized(gcFound.getGameModel()) {
 							callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 						}
-						if(callbackEvent == null) return;
+						if(callbackEvent == null)  {
+							System.out.println("callbackEvent == null pc line 80");
+							return;
+						}
 					} else {
 						return;
 					}
@@ -104,7 +107,9 @@ public class PlayerController extends Thread  {
 						}
 					}
 				} else {
-					this.getEventsToProcess().add((Event) evt);
+					synchronized(this.getEventsToProcess()) {
+						this.getEventsToProcess().add((Event) evt);
+					}
 				}
 				Thread.currentThread().interrupt();
 				try {

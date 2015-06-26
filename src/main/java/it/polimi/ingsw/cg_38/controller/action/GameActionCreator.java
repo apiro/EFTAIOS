@@ -60,8 +60,6 @@ public class GameActionCreator {
     		action = new Chat((GameEvent)evt);
     	} else if (type.equals(GameEventType.RETIRED)) {
     		action = new Retire((GameEvent)evt);
-    	} else if (type.equals(GameEventType.FORCEDFINISH)) {
-    		action = new ForceFinishTurn((GameEvent)evt);
     	}
 		return action;
     }

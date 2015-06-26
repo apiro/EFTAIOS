@@ -27,7 +27,7 @@ public class RenderHumanWin extends NotifyAction {
 			return new EventFinishTurn(client.getPlayer());
 		} else {
 			client.paintHatch(false, evt.getGenerator().getAvatar().getCurrentSector());
-			client.setIsInterfaceBlocked(false);
+			client.setIsInterfaceBlocked(true);
 		}
 		return null;
 	}

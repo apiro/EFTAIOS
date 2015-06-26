@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.polimi.ingsw.cg_38.controller.GameState;
-import it.polimi.ingsw.cg_38.controller.TurnTimerController;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventClosingGame;
@@ -93,7 +92,7 @@ public class FinishTurn extends GameAction {
 			Turn newTurn = new Turn(model.getNextPlayer());
 	    	model.setActualTurn(newTurn);
 	    	
-	    	callbackEvent.add(new EventNotifyTurn(model.getActualTurn().getCurrentPlayer()));
+	    	callbackEvent.add(new EventNotifyTurn(newTurn.getCurrentPlayer()));
 		} else {
 			callbackEvent.add(new EventNotifyTurn(model.getActualTurn().getCurrentPlayer()));
 		}
