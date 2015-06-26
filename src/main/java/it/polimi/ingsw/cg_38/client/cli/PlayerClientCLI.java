@@ -51,6 +51,7 @@ public class PlayerClientCLI implements PlayerClient {
 	private Logger logger = new LoggerCLI();
 	private Logger loggerChat = new LoggerCLI();
 	private Boolean clientAlive = true;
+	private Thread processer;
 	
 	public PlayerClientCLI(String connection , EventSubscribe evt){
 		
@@ -301,6 +302,10 @@ public class PlayerClientCLI implements PlayerClient {
 		Thread.currentThread().interrupt();
 	}
 	
+	public Boolean getClientAlive() {
+		return clientAlive;
+	}
+
 	@Override
 	public void process(Event msg) {
 		logger.print("----------------------------------------------------------------------\n");
@@ -383,5 +388,9 @@ public class PlayerClientCLI implements PlayerClient {
 	
 	@Override public Logger getLoggerChat() {
 		return loggerChat;
+	}
+
+	public Queue<Event> getToProcess() {
+		return toProcess;
 	}
 }

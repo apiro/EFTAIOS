@@ -27,7 +27,7 @@ public class TurnTimerController extends Observable implements Runnable {
 		logger.print("STARTING TURN TIMER");
 		logger.print("---------------------------------------------------------------------\n");
 		try {
-			Thread.sleep(40000);
+			Thread.sleep(60000);
 		} catch (InterruptedException e1) {
 			logger.print("Problems during the rianimation of the room-handling-thread ...");
 		}
@@ -36,14 +36,14 @@ public class TurnTimerController extends Observable implements Runnable {
 		logger.print("TURN TIME EXCEDED ... THE TURN IS CHANGED !");
 		logger.print("---------------------------------------------------------------------\n");
 		
-		synchronized(gc) {
+		synchronized(gc.getGameModel()) {
 			String newPlayer = gc.getGameModel().getActualTurn().getCurrentPlayer().getName();
 			if(newPlayer.equals(oldPlayer)) {
 				ForceFinishTurn act = new ForceFinishTurn(new EventFinishTurn(gc.getGameModel().getActualTurn().getCurrentPlayer()));
 				List<NotifyEvent> callbackEvent = null;
 				callbackEvent = act.perform(gc.getGameModel());
-				if(gc.getGameModel().areThereOtherHumans() ||
-						gc.getGameModel().getGameState().equals(GameState.CLOSING)) {
+				if(gc.getGameModel().areThereOtherHumans() &&
+						!gc.getGameModel().getGameState().equals(GameState.CLOSING)) {
 					Thread tH = new Thread(new TurnTimerController(gc), "TurnHandler");
 					tH.start();
 				}

@@ -94,7 +94,6 @@ public class FinishTurn extends GameAction {
 	    	model.setActualTurn(newTurn);
 	    	
 	    	callbackEvent.add(new EventNotifyTurn(model.getActualTurn().getCurrentPlayer()));
-	    	System.out.println(model.getActualTurn().getCurrentPlayer().getName() + " " + model.getActualTurn().getCurrentPlayer().getNumTurniGiocati());
 		} else {
 			callbackEvent.add(new EventNotifyTurn(model.getActualTurn().getCurrentPlayer()));
 		}

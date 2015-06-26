@@ -75,10 +75,9 @@ public class PlayerController extends Thread  {
 						synchronized(gcFound) {
 							callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 						}
+						if(callbackEvent == null) return;
 					} else {
-						//se l'evento non viene dal gicatore del turno (qualcuno ha inviato un evento fuori turno)
-						NotifyEvent callbackError = new EventNotYourTurn(evt.getGenerator());
-						callbackEvent.add(callbackError);
+						return;
 					}
 					/**
 					 * invece che essere un evento callbackevent sara un arraylist di eventi. qui prendo l'arraylist

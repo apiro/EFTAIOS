@@ -98,7 +98,9 @@ public class ServerController extends Observable {
 				if(gcFound == null) break;
 				if( msg.getGenerator().getName().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer().getName()) ||
 						msg instanceof EventChat) {
-					callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
+					synchronized(gcFound) {
+						callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
+					}
 					if(callbackEvent == null) break;
 				} else {
 					break;
