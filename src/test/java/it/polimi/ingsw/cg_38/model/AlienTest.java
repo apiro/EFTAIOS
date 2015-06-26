@@ -62,7 +62,8 @@ public class AlienTest {
 		Sector sector1 = model.getGameMap().searchSectorByCoordinates(4, 11);
 		Sector sector2 = model.getGameMap().searchSectorByCoordinates(3, 11);
 		Sector sector3 = model.getGameMap().searchSectorByCoordinates(2, 11);
-		
+		 /* verifica il corretto funzionamento del metodo canMove dell'avatar
+		  * di tipo alieno  */
 		if(avatar.canMove(sector1)){
 			assertEquals(avatar.canMove(sector1), true);
 			String nameOfSector = avatar.move(sector1, player.getNumTurniGiocati()+1);
@@ -124,14 +125,16 @@ public class AlienTest {
 		avatar.addCard(new ObjectCard(ObjectCardType.ADRENALINE));
 		Boolean result = avatar.addCard(new ObjectCard(ObjectCardType.ADRENALINE));
 		
-		assertEquals(result, true/*false*/);
+		assertEquals(result, true);
 		assertEquals(avatar.getMyCards().size(), 4);
 		
+		/* verifica il corretto funzionamento del metodo eliminateFromMyCards dell'avatar */
 		avatar.eliminateFromMyCards(drownObj);
 		assertEquals(avatar.getMyCards().size(), 3);
 		
 		assertEquals(avatar.getName(), Name.ALIEN1);
 		
+		/* vengono verificati i vari getter and setter dell'avatar di tipo alieno */
 		avatar.setIsAlive(LifeState.ALIVE);
 		assertEquals(avatar.getIsAlive(), LifeState.ALIVE);
 		
@@ -151,7 +154,10 @@ public class AlienTest {
 		assertEquals(avatar.getIsWinner(), EndState.LOOSER);
 		assertEquals(avatar.getIsAlive(), LifeState.DEAD);
 		
-		assertEquals(player2.getAvatar().canMove(alienStartingPoint) , false);
+		assertEquals(player2.getAvatar().canMove(alienStartingPoint) , false); 
+		
+		/* verifica il corretto funzionamento del metodo canMove dell'avatar di 
+		 * tipo alieno	 */
 		player2.getAvatar().setIsPowered(true);
 		assertEquals(player2.getAvatar().canMove(sector) , false);
 		sector3.getNeighboringSectors().add(sector4);
@@ -166,8 +172,6 @@ public class AlienTest {
 		sector.getNeighboringSectors().add(sector4);
 		sector2.getNeighboringSectors().add(sector);
 		assertTrue(!avatar2.canMove(sector4));
-		
-		
-		
+	
 	}
 }

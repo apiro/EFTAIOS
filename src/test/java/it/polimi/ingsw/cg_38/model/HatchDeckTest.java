@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_38.model.deck.HatchDeck;
 import org.junit.Before;
 import org.junit.Test;
 
+/** contiene i test del mazzo di carte scialuppa */
 public class HatchDeckTest {
 
 	HatchDeck deck;
@@ -19,13 +20,9 @@ public class HatchDeckTest {
 	
 	@Test
 	public void test() {
-		HatchCard hatchCard = (HatchCard)deck.draw();/*
-		if(!deck.getHatchDeck().contains(hatchCard)) {
-			contains = false;
-		} else {
-			contains = true;
-		}
-		assertEquals(contains, false);*/
+		/* verifica il corretto funzionamento del metodo draw del mazzo di carte scialuppa */
+		HatchCard hatchCard = (HatchCard)deck.draw();
+
 		assertEquals(hatchCard.toString() , "HatchCard [color=" + hatchCard.getColor() + "]");
 		deck.draw();
 		deck.draw();

@@ -37,6 +37,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.Before;
 import org.junit.Test;
 
+/** contiene i test degli eventi di gioco */
 public class GameEventTest {
 	
 	EventADRENALINE adrenaline;

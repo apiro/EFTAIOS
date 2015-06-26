@@ -49,6 +49,7 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 import org.junit.Before;
 import org.junit.Test;
 
+/** contie i test degli eventi di notifica */
 public class NotifyEventTest {
 	
 	EventAddedToGame addedToGame;
@@ -75,7 +76,6 @@ public class NotifyEventTest {
 	EventRejectCardHuman rejectCardHuman;
 	EventNotifyChatMessage notifyChatMessage;
 	EventNotifyRetired notifyRetired;
-	/*EventShowTopics showTopics;*/
 	
 	Player player1;
 	Player player2;
@@ -225,7 +225,7 @@ public class NotifyEventTest {
 		assertEquals(rejectCardAlien.getGenerator() , player1);
 		
 		assertEquals(rejectCardHuman.getCard() , card2);
-		/*assertEquals(showTopics.getTopics() , topics);*/		
+		
 	}
 
 }

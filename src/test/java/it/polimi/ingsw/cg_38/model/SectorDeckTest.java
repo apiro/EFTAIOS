@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import it.polimi.ingsw.cg_38.model.deck.Card;
 import it.polimi.ingsw.cg_38.model.deck.SectorCard;
 import it.polimi.ingsw.cg_38.model.deck.SectorCardType;
 import it.polimi.ingsw.cg_38.model.deck.SectorDeck;
@@ -11,6 +12,7 @@ import it.polimi.ingsw.cg_38.model.deck.SectorDeck;
 import org.junit.Before;
 import org.junit.Test;
 
+/** contiene i test del mazzo di carte settore */
 public class SectorDeckTest {
 
 	SectorDeck deck;
@@ -21,7 +23,7 @@ public class SectorDeckTest {
 	
 	SectorCard card1;
 	SectorCard card2;
-	private boolean contain;
+	boolean contain;
 
 	@Before
 	public void init(){
@@ -40,11 +42,11 @@ public class SectorDeckTest {
 	}
 	@Test
 	public void test() {
-		/*
+		
 		Card sectorCardDrown = deck.draw();
 		if(deck.getSectorDeck().contains(sectorCardDrown)){
 			contain = true;
-		}*/
+		}
 		
 		deck.setRejectedSectorDeck(rejected);
 		assertEquals(deck.getRejectedSectorDeck() , rejected);
@@ -53,10 +55,8 @@ public class SectorDeckTest {
 		assertEquals(deck.getSectorDeck().size() , a);
 		deck.setSectorDeck(rejected);
 		assertEquals(deck.draw() , card1);
-		deck.eliminateCard(card2);/*
-		assertEquals(deck.getRejectedSectorDeck().size() , 3);
-		deck.draw();
-		assertEquals(deck.draw() , card1);
-	*/
+		deck.eliminateCard(card2);
+		
 	}
+	
 }

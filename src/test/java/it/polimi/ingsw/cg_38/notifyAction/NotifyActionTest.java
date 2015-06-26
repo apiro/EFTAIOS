@@ -84,6 +84,7 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 import org.junit.Before;
 import org.junit.Test;
 
+/** contiene i test delle azioni di notifica */
 public class NotifyActionTest {
 	
 	AddedToGame addedToGame;
@@ -258,6 +259,7 @@ public class NotifyActionTest {
 	@Test
 	public void test() {
 		
+		/* verifica il corretto funzionamento della classe addedToGame */
 		assertEquals(addedToGame.getEvt() , evtAddedToGame);
 		assertEquals(addedToGame.isPossible(client) , true);
 		System.out.println(addedToGame.getEvt().getGenerator().getName());
@@ -267,12 +269,16 @@ public class NotifyActionTest {
 		addedToGame = new AddedToGame(evtAddedToGame);
 		assertEquals(addedToGame.render(client) , null);
 		assertEquals(client.getIsInterfaceBlocked() , true);
+		
+		/* verifica il corretto funzionamento della classe renderEnvironment */
 		client.setMap(new Galvani());
 		assertEquals(renderEnvironment.isPossible(client) , false);
 		client.setMap(null);
 		assertTrue(renderEnvironment.isPossible(client));
 		assertEquals(renderEnvironment.render(client) , null);
 		assertEquals(client.getIsInterfaceBlocked() , true);
+		
+		/* verifica il metodo isPossible delle azioni di notifica */
 		assertTrue(renderWin.isPossible(client));
 		assertTrue(!renderMoved.isPossible(client));
 		client.setPlayerClientState(PlayerClientState.ISTURN);
@@ -284,7 +290,10 @@ public class NotifyActionTest {
 		client.getPlayer().getAvatar().setIsWinner(EndState.PLAYING);
 		assertTrue(renderRejectHuman.isPossible(client));
 		assertTrue(renderMoved.isPossible(client));
+		
 		assertEquals(renderMoved.render(client) , null);
+		
+		/* verifica il corretto funzionamente dei metodi del renderAttackDamage */
 		assertTrue(renderAttackDamage.isPossible(client));
 		assertTrue(renderAttackDamage.render(client) instanceof EventContinue);
 		killed2.add(player1);
@@ -294,22 +303,28 @@ public class NotifyActionTest {
 		assertTrue(renderSpotlight.isPossible(client));
 		assertTrue(renderSpotlight.render(client) instanceof EventContinue);
 		assertTrue(renderSpotlight.render(client2) instanceof EventContinue);
+		
 		assertTrue(renderTurn.isPossible(client));
 		assertEquals(renderTurn.render(client) , null);
 		assertEquals(client.getIsInterfaceBlocked() , false);
 		assertEquals(renderTurn.render(client2) , null);
 		assertEquals(client2.getIsInterfaceBlocked() , true);
+		
 		assertTrue(renderError.isPossible(client));
 		assertEquals(renderError.render(client2) , null);
 		assertEquals(renderError.render(client) , null);
 		assertEquals(client.getIsInterfaceBlocked() , false);
+		
 		assertTrue(renderUseDefenseCard.render(client) instanceof EventContinue);
 		assertTrue(renderUseDefenseCard.render(client2) instanceof EventContinue);
+		
 		assertEquals(renderEffectCard.isPossible(client) , true);
 		assertEquals(renderEffectCard.render(client) , null);
 		assertEquals(renderEffectCard.render(client2) , null);
+		
 		assertEquals(renderNoise.isPossible(client) , true);
 		assertEquals(renderNoise.render(client) , null);
+		
 		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
 		client.getPlayer().getAvatar().setIsWinner(EndState.LOOSER);
 		assertTrue(!renderHatchBlocked.isPossible(client));
@@ -322,9 +337,12 @@ public class NotifyActionTest {
 		client.getPlayer().getAvatar().setIsAlive(LifeState.ALIVE);
 		client.getPlayer().getAvatar().setIsWinner(EndState.PLAYING);
 		assertTrue(renderHatchBlocked.isPossible(client));
+		
 		declarePosition = new EventDeclarePosition(player1 , declared);
 		renderSpotlight = new RenderSpotlight(declarePosition);
 		assertTrue(renderSpotlight.render(client) instanceof EventContinue);
+		
+		/* verifica il corretto funzionamento del metodo isPossible delle varie azioni */
 		assertEquals(renderAliensWin.isPossible(client) , true);
 		assertEquals(renderAliensWin.getEvt() , evtNotifyAliensWin);
 		player1.setAvatar(avatar2);
@@ -342,6 +360,8 @@ public class NotifyActionTest {
 		assertTrue(renderRejectCard.isPossible(client));
 		assertTrue(renderCardPerformed.isPossible(client));
 		assertEquals(renderAttacked.isPossible(client) , true);
+		
+		/* verifica il corretto funzionamento dei metodi della classe renderAttacked */
 		evtAttacked.setAreYouPowered(true);
 		evtAttacked.setAreYouPowered(true);
 		renderAttacked = new RenderAttacked(evtAttacked);
@@ -363,6 +383,7 @@ public class NotifyActionTest {
 		assertTrue(renderAttacked2.render(client2) instanceof EventContinue);
 		assertEquals(client2.getIsInterfaceBlocked() , true);
 		
+		/* verifica il corretto funzionamento del metodo isPossible delle varie azioni */
 		client.setPlayerClientState(PlayerClientState.PLAYING);
 		assertTrue(renderTeleport.render(client) instanceof EventContinue);
 		assertEquals(renderDrown.isPossible(client) , false);
@@ -379,6 +400,8 @@ public class NotifyActionTest {
 		assertTrue(renderHumanWin.isPossible(client));
 		assertTrue(renderClosingGame.isPossible(client));
 		assertEquals(renderDrown.isPossible(client) , true);		
+		
+		/* verifica il corretto funzionamento dei metodi della classe renderDrown */
 		assertEquals(renderDrown.render(client).getGenerator() , evtNoiseMySect.getGenerator());
 		card = new SectorCard(SectorCardType.SILENCE , false);
 		evtDrown = new EventDrown(player1 , null , card);
@@ -404,6 +427,8 @@ public class NotifyActionTest {
 		client.getPlayer().getAvatar().setIsWinner(EndState.WINNER);
 		client.getPlayer().getAvatar().setIsAlive(LifeState.DEAD);
 		assertEquals(renderDrown.check(client) , true);
+		
+		/* controllo generale sui metodi delle azioni di notifica */
 		assertTrue(addedToGame.getEvt() instanceof EventAddedToGame);
 		assertEquals(client.getPlayer() , player1);
 		assertEquals(renderHatchBlocked.render(client) , null);

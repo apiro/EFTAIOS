@@ -15,6 +15,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.Before;
 import org.junit.Test;
 
+/** contiene i test dell'avatar di tipo umano */
 public class HumanTest {
 
 	GameModel model;
@@ -30,16 +31,10 @@ public class HumanTest {
 	Card drownHatch;
 	Card card1;
 	
-	/**
-	 * setCurrentSector(sector) su avatar non setta il settore!
-	 * */
-	
 	@Before
 	public void init() throws ParserConfigurationException, Exception {
 		model = new GameModel("Galilei");
     	humanStartingPoint = model.getGameMap().searchSectorByName("HumanStartingPoint");
-    	
-    	//asp 5,11
     	model.getGamePlayers().add(new Player("Alberto"));
     	player = model.getGamePlayers().get(0);
     	player2 = new Player("Alberto");
@@ -67,6 +62,7 @@ public class HumanTest {
 		Hatch sector4 = (Hatch)model.getGameMap().searchSectorByCoordinates(1, 1);
 		Sector sector5 = model.getGameMap().searchSectorByCoordinates(1, 2);
 		
+		/* verifica se il metodo canMove dell'avatar di tipo umano funziona correttamente */
 		if(avatar.canMove(sector1)){
 			assertEquals(avatar.canMove(sector1), true);
 			String nameOfSector = avatar.move(sector1, player.getNumTurniGiocati()+1);
@@ -124,6 +120,7 @@ public class HumanTest {
 			drownObj = model.getDeckObject().draw();
 		}
 		
+		/* verifica il corretto funzionamento del metodo addCard dell'avatar di tipo alieno */
 		avatar.addCard(drownObj);
 		avatar.addCard(new ObjectCard(ObjectCardType.ADRENALINE));
 		avatar.addCard(new ObjectCard(ObjectCardType.ADRENALINE));
@@ -137,21 +134,17 @@ public class HumanTest {
 		
 		assertEquals(avatar.getName(), Name.HUMAN1);
 		
+		/* verifica di vari getter and setter */
 		avatar.setIsAlive(LifeState.ALIVE);
 		assertEquals(avatar.getIsAlive(), LifeState.ALIVE);
-		
 		avatar.setIsAlive(LifeState.DEAD);
 		assertEquals(avatar.getIsAlive(), LifeState.DEAD);
-		
 		avatar.setIsWinner(EndState.LOOSER);
 		assertEquals(avatar.getIsWinner(), EndState.LOOSER);
-		
 		avatar.setIsWinner(EndState.PLAYING);
 		assertEquals(avatar.getIsWinner(), EndState.PLAYING);
-		
 		avatar.setIsWinner(EndState.WINNER);
 		assertEquals(avatar.getIsWinner(), EndState.WINNER);
-		
 		avatar.attacked();
 		assertEquals(avatar.getIsWinner(), EndState.LOOSER);
 		assertEquals(avatar.getIsAlive(), LifeState.DEAD);
@@ -166,8 +159,11 @@ public class HumanTest {
 		
 		assertEquals(avatar.hasDefenseCard() , false);
 		player2.getAvatar().setCurrentSector(sector5);
+		
 		sector4.setIsOpen(true);
 		assertEquals(sector4.getIsOpen() , true);
+		
+		/* verifica il corretto funzionamneto del metodo canMove dell'avatar di tipo umano */
 		assertTrue(player2.getAvatar().canMove(sector4));
 		sector4.setIsOpen(false);
 		assertTrue(!player2.getAvatar().canMove(sector4));

@@ -70,6 +70,7 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 import org.junit.Before;
 import org.junit.Test;
 
+/** contiene i test del creatore di azioni di notifica */
 public class NotifyActionCreatorTest {
 
 	NotifyActionCreator notifyActionCreator;
@@ -153,28 +154,29 @@ public class NotifyActionCreatorTest {
 	@Test
 	public void test() {
 	
-	assertTrue(NotifyActionCreator.createNotifyAction(added) instanceof AddedToGame);
-	assertTrue(NotifyActionCreator.createNotifyAction(attacked) instanceof RenderAttacked);
-	assertTrue(NotifyActionCreator.createNotifyAction(cardUsed) instanceof RenderNoSideEffectCard);
-	assertTrue(NotifyActionCreator.createNotifyAction(declareNoise) instanceof RenderNoise);
-	assertTrue(NotifyActionCreator.createNotifyAction(declarePosition) instanceof RenderSpotlight);
-	assertTrue(NotifyActionCreator.createNotifyAction(drown) instanceof RenderDrown);
-	assertTrue(NotifyActionCreator.createNotifyAction(moved) instanceof RenderMoved);
-	assertTrue(NotifyActionCreator.createNotifyAction(aliensWin) instanceof RenderAliensWin);
-	assertTrue(NotifyActionCreator.createNotifyAction(environment) instanceof RenderEnvironment);
-	assertTrue(NotifyActionCreator.createNotifyAction(error) instanceof RenderError);
-	assertTrue(NotifyActionCreator.createNotifyAction(turn) instanceof RenderNotifyTurn);
-	assertTrue(NotifyActionCreator.createNotifyAction(sufferAttack) instanceof RenderAttackDamage);
-	assertTrue(NotifyActionCreator.createNotifyAction(useDefense) instanceof RenderUseDefenseCard);
-	assertTrue(NotifyActionCreator.createNotifyAction(teleport) instanceof RenderTeleport);
-	assertTrue(NotifyActionCreator.createNotifyAction(humanWin) instanceof RenderHumanWin);
-	assertTrue(NotifyActionCreator.createNotifyAction(hatchBlocked) instanceof RenderHatchBlocked);
-	assertTrue(NotifyActionCreator.createNotifyAction(rejectCard) instanceof RenderRejectCard);
-	assertTrue(NotifyActionCreator.createNotifyAction(notifyCardPerformed) instanceof RenderCardPerformed);
-	assertTrue(NotifyActionCreator.createNotifyAction(rejectCardHuman) instanceof RenderRejectHumanCard);
-	assertTrue(NotifyActionCreator.createNotifyAction(closingGame) instanceof RenderClosingGame);
-	assertTrue(NotifyActionCreator.createNotifyAction(chatMessage) instanceof RenderChatMessage);
-	assertTrue(NotifyActionCreator.createNotifyAction(retired) instanceof RenderRetired);
+		/* verifica il corretto funzionamento del metodo createNotifyAction del NotifyActionCreator */
+		assertTrue(NotifyActionCreator.createNotifyAction(added) instanceof AddedToGame);
+		assertTrue(NotifyActionCreator.createNotifyAction(attacked) instanceof RenderAttacked);
+		assertTrue(NotifyActionCreator.createNotifyAction(cardUsed) instanceof RenderNoSideEffectCard);
+		assertTrue(NotifyActionCreator.createNotifyAction(declareNoise) instanceof RenderNoise);
+		assertTrue(NotifyActionCreator.createNotifyAction(declarePosition) instanceof RenderSpotlight);
+		assertTrue(NotifyActionCreator.createNotifyAction(drown) instanceof RenderDrown);
+		assertTrue(NotifyActionCreator.createNotifyAction(moved) instanceof RenderMoved);
+		assertTrue(NotifyActionCreator.createNotifyAction(aliensWin) instanceof RenderAliensWin);
+		assertTrue(NotifyActionCreator.createNotifyAction(environment) instanceof RenderEnvironment);
+		assertTrue(NotifyActionCreator.createNotifyAction(error) instanceof RenderError);
+		assertTrue(NotifyActionCreator.createNotifyAction(turn) instanceof RenderNotifyTurn);
+		assertTrue(NotifyActionCreator.createNotifyAction(sufferAttack) instanceof RenderAttackDamage);
+		assertTrue(NotifyActionCreator.createNotifyAction(useDefense) instanceof RenderUseDefenseCard);
+		assertTrue(NotifyActionCreator.createNotifyAction(teleport) instanceof RenderTeleport);
+		assertTrue(NotifyActionCreator.createNotifyAction(humanWin) instanceof RenderHumanWin);
+		assertTrue(NotifyActionCreator.createNotifyAction(hatchBlocked) instanceof RenderHatchBlocked);
+		assertTrue(NotifyActionCreator.createNotifyAction(rejectCard) instanceof RenderRejectCard);
+		assertTrue(NotifyActionCreator.createNotifyAction(notifyCardPerformed) instanceof RenderCardPerformed);
+		assertTrue(NotifyActionCreator.createNotifyAction(rejectCardHuman) instanceof RenderRejectHumanCard);
+		assertTrue(NotifyActionCreator.createNotifyAction(closingGame) instanceof RenderClosingGame);
+		assertTrue(NotifyActionCreator.createNotifyAction(chatMessage) instanceof RenderChatMessage);
+		assertTrue(NotifyActionCreator.createNotifyAction(retired) instanceof RenderRetired);
 	
 	}
 

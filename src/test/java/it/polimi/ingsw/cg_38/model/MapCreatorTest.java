@@ -24,6 +24,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.Before;
 import org.junit.Test;
 
+/** contiene i test delle varie mappe di gioco */
 public class MapCreatorTest {
 
 	MapCreator mapCreator;
@@ -56,6 +57,7 @@ public class MapCreatorTest {
 		
 		assertTrue(mapCreator instanceof MapCreator);
 		assertTrue(deckCreator instanceof DeckCreator);
+		
 		assertTrue(MapCreator.createMap("Galilei") instanceof Galilei);
 		MapCreator.createMap("Galilei");
 		assertTrue(MapCreator.createMap("Galvani") instanceof Galvani);
@@ -67,14 +69,17 @@ public class MapCreatorTest {
 		
 		assertEquals(map.searchSectorByName("nothing") , null);
 		assertEquals(map.searchSectorByCoordinates(56, 12) , null);
+		
 		map.readMap("Nothing");
 		map1.getConfiguration();
 		assertEquals(map.getConfiguration().length , 322);
 		map2.getConfiguration();
+		
 		assertEquals(((Galilei)map).getName() , "Galilei");
 		assertEquals(((Fermi)map1).getName() , "Fermi");
 		assertEquals(((Galvani)map2).getName() , "Galvani");
 		
+		/* verifica il corretto funzionamento del metodo equals del settore */
 		sector1.hashCode();
 		assertTrue(sector1.equals(sector2));
 		sector2 = null;
@@ -105,14 +110,14 @@ public class MapCreatorTest {
 		sector2.setRow(5);
 		assertTrue(sector1.equals(sector2));
 		
+		/* verifica il corretto funzionamento del metodo factoryCreator del settore */
 		assertTrue(Sector.factoryCreator("Empty") instanceof Empty);
 		assertTrue(Sector.factoryCreator("Dangerous") instanceof Dangerous);
 		assertTrue(Sector.factoryCreator("Hatch")instanceof Hatch);
 		assertTrue(Sector.factoryCreator("HumanStartingPoint") instanceof HumanStartingPoint);
 		assertTrue(Sector.factoryCreator("AlienStartingPoint") instanceof AlienStartingPoint);
 		assertTrue(Sector.factoryCreator("Safe") instanceof Safe);
-		assertEquals(Sector.factoryCreator("nothing") , null);
-				
+		assertEquals(Sector.factoryCreator("nothing") , null);			
 	
 	}
 

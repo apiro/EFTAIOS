@@ -13,6 +13,7 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 import org.junit.Before;
 import org.junit.Test;
 
+/** contiene i test degli eventi */
 public class ControllerEventTest {
 	
 	EventMove move;

@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 import org.junit.Before;
 import org.junit.Test;
 
+/** contiene i test del mazzo di carte oggetto */
 public class ObjectDeckTest {
 	
 	ObjectDeck deck;
@@ -31,9 +32,8 @@ public class ObjectDeckTest {
 
 		i = deck.getObjectDeck().size();
 		objectCard = (ObjectCard)deck.draw();
-		/*
-		assertEquals(deck.getObjectDeck().size() ,  i-1);
-		*/
+		
+		/* verifica il corretto funzionamento del metodo equals delle carte oggetto */
 		assertEquals(objectCard.equals(null) , false);
 		assertEquals(objectCard.equals(new Sector()) , false);
 		assertEquals(objectCard2.hashCode() - ObjectCardType.ADRENALINE.hashCode() , 31);
@@ -44,6 +44,7 @@ public class ObjectDeckTest {
 		assertTrue(!objectCard2.equals(objectCard3));
 		objectCard4 = new ObjectCard(ObjectCardType.ADRENALINE);
 		assertTrue(objectCard2.equals(objectCard4));
+		
 		assertEquals(objectCard4.getType() , ObjectCardType.ADRENALINE);
 		assertEquals(objectCard4.toString() , "ObjectCard [type=" + ObjectCardType.ADRENALINE + "]");
 		

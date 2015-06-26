@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+/** contiene i test del turno */
 public class TurnTest {
 
 	Player player;

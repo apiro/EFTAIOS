@@ -23,6 +23,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.Before;
 import org.junit.Test;
 
+/** contiene i test di alcune classi del modello */
 public class GameModelTest {
 
 	GameModel model1;
@@ -57,13 +58,6 @@ public class GameModelTest {
 	Deck deckSector;
 	Deck deckObject;
 	Deck deckHatch;
-	/*Deck deckSector21;
-	Deck deckObject22;
-	Deck deckHatch23;
-	Deck deckSector31;
-	Deck deckObject32;
-	Deck deckHatch33;*/
-	
 	
 	@Before
 	public void init() throws ParserConfigurationException, Exception {
@@ -129,19 +123,18 @@ public class GameModelTest {
 	
 	@Test
 	public void test() {
-		
+		/* verifico il corretto funzionamento dei vari getter and setter */
 		assertEquals(model4.getNextPlayer(), null);
 		
 		assertEquals(model1.getActualTurn(), turn1);
 		assertEquals(model2.getActualTurn(), turn2);
 		assertEquals(model3.getActualTurn(), turn3);
-		
 		assertEquals(model1.getNextPlayer(), player12);
 		assertEquals(model2.getNextPlayer(), player22);
 		assertEquals(model3.getNextPlayer(), player32);
 		
 		model1.setActualTurn(turn8);
-		
+		/* verifico il corretto funzionamento del metodo getNextPlayer del model */
 		assertEquals(model1.getNextPlayer(), player11);
 		
 		assertEquals(player11.getName(), "Anna");
@@ -149,14 +142,18 @@ public class GameModelTest {
 		i = player11.getNumTurniGiocati();
 		player11.finishTurn();
 		assertEquals(player11.getNumTurniGiocati(), i+1);
+		
 		assertEquals(DeckCreator.createDeck("nothing") , null);
 		
+		/* verifica il corretto funzionamento del metodo handelRejectedCard del model */
 		model1.handleRejectedCard(card1);
 		assertTrue(((SectorDeck)model1.getDeckSector()).getRejectedSectorDeck().contains(card1));
 		model1.handleRejectedCard(card2);
 		assertTrue(((ObjectDeck)model1.getDeckObject()).getRejectedObjectDeck().contains(card2));
 		model1.handleRejectedCard(card3);
 		assertTrue(((HatchDeck)model1.getDeckHatch()).getRejectedHatchDeck().contains(card3));
+		
+		/* verifia il corretto funzionamento del metodo equals del settore */
 		assertEquals(sector2.equals(null) , false);
 		assertEquals(sector2.equals(sector3) , false);
 		sector2.setCol(7);
@@ -176,9 +173,12 @@ public class GameModelTest {
 		sector2.setRow(5);
 		sector3.setRow(5);
 		assertEquals(sector2.equals(sector3) , true);
+		
 		assertEquals(sector3.toString() , "Sector [name=" + sector3.getName() + "row:" + sector3.getRow() + "col" + sector3.getCol() + "]");
+		
 		hatch.setIsOpen(true);
 		assertEquals(hatch.getIsOpen() , true);
+		
 		assertTrue(model3.areThereOtherHumans());
 		
 		}

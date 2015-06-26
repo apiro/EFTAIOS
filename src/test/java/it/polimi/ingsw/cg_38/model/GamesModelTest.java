@@ -9,6 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.Before;
 import org.junit.Test;
 
+/** contiene i tese della classe GamesModel */
 public class GamesModelTest {
 	GamesModel gamesModel;
 	ArrayList<GameModel> models ;
@@ -26,6 +27,7 @@ public class GamesModelTest {
 
 	@Test
 	public void test() {
+		
 		gamesModel.setGames(models);
 		assertEquals(gamesModel.getGames(), models);
 				
