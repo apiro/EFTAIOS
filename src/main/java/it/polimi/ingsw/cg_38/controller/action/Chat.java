@@ -9,16 +9,28 @@ import it.polimi.ingsw.cg_38.model.GameModel;
 import java.util.ArrayList;
 import java.util.List;
 
+/** identifica l'azione di invio di un messaggio di chat da parte di un giocatore */
 public class Chat extends GameAction {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** contiene il messagio che si desidera inviare */
 	private String message;
 
+	/** invoca il costruttore della superclasse e setta i dati
+	 * 
+	 * @param evt evento di gioco che ha generato l'azione
+	 */
 	public Chat(GameEvent evt) {
 		super(evt.getGenerator());
 		this.message = ((EventChat)evt).getMessage();
 	}
 
+	/** ha il solo compito di generare eventi di notifica
+	 * 
+	 * @param model gameModel sul quale performare l'azione
+	 * @return lista di eventi di notifica generati
+	 */
 	@Override
 	public List<NotifyEvent> perform(GameModel model) {
 		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();

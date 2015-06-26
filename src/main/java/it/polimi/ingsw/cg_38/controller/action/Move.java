@@ -9,10 +9,17 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventMoved;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.model.map.Sector;
 
+/** identifica l'azione di movimento */
 public class Move extends GameAction {
 
 	private static final long serialVersionUID = 1L;
 
+    public Sector sectorToMove;
+   
+	/** invoca il costruttore della superclasse e setta i vari dati
+	 * 
+	 * @param evt evento di gioco che ha generato l'azione
+	 */
     public Move(GameEvent evt) {
     	super(evt.getGenerator());
     	this.setSectorToMove(((EventMove)evt).getToMove());
@@ -25,9 +32,12 @@ public class Move extends GameAction {
 	public void setSectorToMove(Sector sectorToMove) {
 		this.sectorToMove = sectorToMove;
 	}
-
-    public Sector sectorToMove;
-    
+ 
+	/** modifica il settore attuale dell'avatar e lo stato del turno
+	 * 
+	 * @param model gameModel sul quale performare l'azione
+	 * @return lista degli eventi di notifica generati
+	 */
     @Override
     public List<NotifyEvent> perform(GameModel model) {
     	
@@ -41,6 +51,11 @@ public class Move extends GameAction {
     	return callbackEvent;
     }
 
+    /** verifica se è possibile performare l'azione sul model
+     * 
+     * @param model gameModel sul quale fare la verifica
+     * @return true se è possibile performare l'azione sul model
+     */
     @Override
     public Boolean isPossible(GameModel model) {
         if(!model.getActualTurn().getHasMoved() &&

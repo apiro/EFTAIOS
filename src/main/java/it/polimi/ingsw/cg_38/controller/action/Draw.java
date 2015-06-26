@@ -14,27 +14,26 @@ import it.polimi.ingsw.cg_38.model.map.Dangerous;
 import it.polimi.ingsw.cg_38.model.map.Hatch;
 import it.polimi.ingsw.cg_38.model.map.Safe;
 
-/**
- * 
- * se il giocatore ha pescato una carta settore questa viene ritornata e se la carta settore pescata aveva l'icona, al model
- * del giocatore viene aggiunta una carta oggetto random, dopodiche
- * viene ritornata al giocatore la carta settore pescata cosicchè nella view possa venire generata una azione di rumore,
- * la quale viene ritornata al controller(a seconda del tipo di carta settore ricevuta dal controller la view genera una 
- * azione rumore piuttosto che l'altra) che infine chiama perform().
- * 
- * giocatore-> manda azione di draw()-> al controller che chiama perform ritorna la carta pescata-> invia alla vista la carta
- * pescata e aggiunge al giocatore l'eventuale carta oggetto che gli spetta-> ritorna l'azione e il controller chiama perform
- * sulla azione rumore
- * 
- */
+/** identifica l'azione di pescaggio di una carta dal mazzo */
 public class Draw extends GameAction {
 
 	private static final long serialVersionUID = 1L;
 
+	/** invoca il costruttore della superclasse
+	 * 
+	 * @param evt evento di gioco che ha generato l'azione
+	 */
     public Draw(GameEvent evt) {
     	super(evt.getGenerator());
     }
 
+    /** in base al nome del settore su cui si trova l'avatar viene pescata una carta nel relativo deck.
+     * Se si tratta di una carta settore dotata di un icona viene anche aggiunta alle carte dell'avatar una
+     * carta oggetto pescata dal relativo mazzo
+     * 
+     * @param model gameModel sul quale performare l'azione
+     * @return ritorna gli eventi di notifica generati
+     */
     @Override
     public List<NotifyEvent> perform(GameModel model) {
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
@@ -58,6 +57,11 @@ public class Draw extends GameAction {
     	return callbackEvent;
     }
 
+    /** verifica se è possibile per formazione l'azione sul modello
+     * 
+     * @param model gameModel sul quale viene effettuata la verifica
+     * @return true se è possibile performare l'azione
+     */
     @Override
     public Boolean isPossible(GameModel model) {
        
@@ -71,5 +75,4 @@ public class Draw extends GameAction {
     	return false;
     }
     
-
 }

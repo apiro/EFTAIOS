@@ -10,11 +10,15 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTeleport;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
-
+/** identifica l'utilizzo della carta teletraporto */
 public class UseTeleportCard extends GameAction {
 
 	private static final long serialVersionUID = 1L;
 
+	/** invoca il costruttore della superclasse e setta i dati
+	 * 
+	 * @param evt evento di gioco che ha generato l'azione
+	 */
     public UseTeleportCard(GameEvent evt) {
     	super(evt.getGenerator());
     	this.setCard(((ObjectCard)((EventTELEPORT)evt).getToUse()));
@@ -30,6 +34,13 @@ public class UseTeleportCard extends GameAction {
 		this.card = card;
 	}
 
+	/** se l'avatar del giocatore che ha generato l'azione e di tipo alien scarto la carta,
+	 * altrimenti setto il settore corrente dell'avatar al settore di partenza degli umani e genero
+	 * i vari eventi di notifica
+	 * 
+	 * @param model gameModel sul quale performare l'azione
+	 * @return lista di eventi di notifica generati
+	 */
 	@Override
     public List<NotifyEvent> perform(GameModel model) {
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
@@ -56,6 +67,11 @@ public class UseTeleportCard extends GameAction {
     	return callbackEvent;
     }
 
+	/** verifica se il giocatore possiede la carta
+	 * 
+	 * @param model gameModel sul quale fare la verifica
+	 * @return true se è possibile effettuare l'azione sul model
+	 */
 	@Override
     public Boolean isPossible(GameModel model) {
 	    if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 

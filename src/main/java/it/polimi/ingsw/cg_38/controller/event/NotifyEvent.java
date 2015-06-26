@@ -2,12 +2,13 @@ package it.polimi.ingsw.cg_38.controller.event;
 
 import it.polimi.ingsw.cg_38.model.Player;
 
+/** identifica un generico evento di notifica */
 public class NotifyEvent extends Event {
 
 	private static final long serialVersionUID = 1L;
 	
-	/** è settato a true se l'evento di gioco genera solo eventi di notifica di tipo broadcast ed è settato
-	 * a false se l'evento genera eventi di notifica sia di tipo broadcast sia personali */
+	/**true se l'evento di gioco genera solo eventi di notifica di tipo broadcast
+	 *se l'evento genera eventi di notifica sia di tipo broadcast sia personali */
 	private Boolean broadcast;
 	
 	private NotifyEventType type;

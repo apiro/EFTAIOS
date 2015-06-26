@@ -11,12 +11,27 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventAddedToGame;
 
+/** identifica l'azione di sottoscrizione al topic */
 public class Subscribe extends Action {
 
 	private static final long serialVersionUID = 1L;
-	private String topic;
-	private String typeMap;
 	
+	/** contiene il nome del topic */
+	private String topic;
+	
+	/** contiene il tipo della mappa relativo al topic*/
+	private String typeMap;
+
+	/** invoca il costruttore della superclasse e setta i vari dati
+	 * 
+	 * @param evt evento di gioco che ha generato l'azione
+	 */
+	public Subscribe(GameEvent evt) {
+		super(evt.getGenerator());
+		this.setTopic(((EventSubscribe)evt).getRoom());
+		this.setTypeMap(((EventSubscribe)evt).getMap());
+    }
+
 	public String getTypeMap() {
 		return typeMap;
 	}
@@ -32,28 +47,20 @@ public class Subscribe extends Action {
 	public void setTopic(String topic) {
 		this.topic = topic;
 	}
-
-	public Subscribe(GameEvent evt) {
-		super(evt.getGenerator());
-		this.setTopic(((EventSubscribe)evt).getRoom());
-		this.setTypeMap(((EventSubscribe)evt).getMap());
-    }
 	
+	
+	/** genera un evento di notifica di aggiunta al gioco in base alla situazione del server.
+	 *Se il topic non esiste ne crea un nuovo e crea la partita relativa
+	 *
+	 *@param c communicator relativo al giocatore
+	 *@param server server del gioco
+	 *@return ritorna un evento di notifica di aggiunta al gioco
+	 *@exception ParserConfigurationException
+	 *@exception Exception
+	 */
 	public EventAddedToGame generalEventGenerator(Communicator c, ServerController server) throws ParserConfigurationException, Exception {
 		
-		/**
-		 * Controlla:
-		 * 	a) se il nome giocatore è gia presente tra i nomi --> added false
-		 * 	b) se il topic è gia presente tra i topic e il gioco è in accepting --> added true
-		 * 	c) se il topic è gia presente tra i topic e il gioco non è in accepting --> added false
-		 * 	d) se il topic non è presente ne creo uno
-		 * 
-		 * -->in ogni caso aggiungo il communicat al topic che il giocatore sceglie, 
-		 * 	  poi faro un controllo sull'evento di added per vedere se il bool 
-		 * 	  è falso, se lo è tolgo il comm e il rif al gioc nel server nella mappa
-		 * 	  gioc e gc.
-		 * */
-		
+
 		for(GameController gc:server.getTopics().values()) {
 			if(gc.getGameModel().getGamePlayers().contains(super.getPlayer())) {
 				synchronized(gc) {
@@ -89,8 +96,7 @@ public class Subscribe extends Action {
 				}
 			}
 		}
-		//il topic proposto NON è tra le topic già presenti
-		//E' LA FASE DI INIT DEL GIOCO ! STATO 0 DEL GIOCO, QUANDO UN GIOCATORE RICHIEDE DI GIOCARE IN UNA ROOM NON PRESENTE
+		
 		GameController newGc = null;
 		synchronized(server.getTopics()) {
 			newGc = server.initAndStartANewGame(this.getTypeMap(), this.getTopic());
@@ -108,6 +114,11 @@ public class Subscribe extends Action {
 		return new EventAddedToGame(super.getPlayer(), true, true);
 	}
 	
+	/** verifica l'esistenza del topic al quale il giocatore vuole sottoscriversi
+	 * 
+	 * @param server del gioco
+	 * @return true se è stato trovato il topic all'interno del server
+	 */
 	public Boolean isPossible(ServerController server) {
 		//true -> giocatore chiede room gia presente false->giocatore chiede room da istanziare
 		Boolean found = false;

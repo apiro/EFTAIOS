@@ -13,21 +13,34 @@ import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
 import it.polimi.ingsw.cg_38.model.map.Sector;
 
 /**
- * 
- * anche questa perform è void in realta
- * 
- * 
- * è l'azione di attacco base.attacco sia di umani che di alieni senza disitinzioni.
+ * rappresenta l'azione di attacco base, sia quello degli umani sia degli alieni senza disitinzioni.
  *  l'azione attacco per gli alieni viene generata con un'istanza di questa classe, per
- *  gli umani viene generata l'azione useAttackCard(Card card, Sector sector) che genera una azione attacco e la performa
- * 
+ *  gli umani viene generata l'azione useAttackCard(Card card, Sector sector) che genera a sua volta
+ *  una azione attacco 
  */
 public class Attack extends GameAction {
 	
 	private static final long serialVersionUID = 1L;
 	
+	/** contiene il settore sul quale performare l'attacco */
     public Sector sectorToAttack;
 
+    /** invoca il costruttore della superclasse e setta i dati
+     * 
+     * @param evt evento di gioco che ha generato l'azione
+     */
+    public Attack(GameEvent evt) {
+    	super(evt.getGenerator());
+    	this.setSectorToAttack(((EventAttack)evt).getTarget());
+    }
+
+
+    /** verifica quali sono i giocatori che risultano effettivamente attaccati cambiandone lo stato
+     * e nel caso in cui l'azione è generata da un alieno esso viene settato potenziato
+     * 
+     * @param model gameModel sul quale performare l'azione
+     * @return lista degli eventi di notifica generati
+     */
     @Override
     public List<NotifyEvent> perform(GameModel model) { 
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
@@ -69,14 +82,6 @@ public class Attack extends GameAction {
         return callbackEvent;
     }
 
-    /**
-     * @param Sector sector
-     */
-    public Attack(GameEvent evt) {
-    	super(evt.getGenerator());
-    	this.setSectorToAttack(((EventAttack)evt).getTarget());
-    }
-
     public Sector getSectorToAttack() {
 		return sectorToAttack;
 	}
@@ -85,6 +90,11 @@ public class Attack extends GameAction {
 		this.sectorToAttack = sectorToAttack;
 	}
 	
+	/** verifica se è possibile performare l'azione in base allo stato del game model
+	 * 
+	 * @param model gameModel sul quale deve essere performata l'azione
+	 * @return true se è possibile performare l'azione sul modello
+	 */
 	@Override
     public Boolean isPossible(GameModel model) {
         if(("Alien").equals(this.currentAvatarType(model)) &&

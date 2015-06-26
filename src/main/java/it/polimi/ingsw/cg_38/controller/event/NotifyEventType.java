@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_38.controller.event;
 
+/** enumerazione dei tipi di evento di notifica */
 public enum NotifyEventType {
 	ATTACKED, 
 	MOVED, 

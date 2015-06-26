@@ -11,10 +11,15 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventRejectCardAlien;
 import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 
+/** identifica l'azione di utilizzo della carta sedativo */
 public class UseSedativesCard extends GameAction {
 
 	private static final long serialVersionUID = 1L;
 
+	/** invoca il costruttore della superclasse e setta i dati
+	 * 
+	 * @param evt evento di gioco che ha generato l'azione
+	 */
     public UseSedativesCard(GameEvent evt) {
     	super(evt.getGenerator());
     	this.setCard(((ObjectCard)((EventSEDATIVES)evt).getToUse()));
@@ -30,6 +35,11 @@ public class UseSedativesCard extends GameAction {
 		this.card = card;
 	}
 
+	/** modifica lo stato del turno attuale settando a true la variabile setHasUsedObjectCard
+	 * 
+	 * @param model gameModel sul quale performare l'azione
+	 * @return lista di eventi di notifica generati
+	 */
 	@Override
     public List<NotifyEvent> perform(GameModel model) {
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
@@ -50,6 +60,11 @@ public class UseSedativesCard extends GameAction {
     	return callbackEvent;
     }
 
+	/** verifica se il giocatore possiede la carta e se il gioco è in esecuzione
+	 * 
+	 * @param model gameModel sul quale fare la verifica
+	 * @return true se è possibile performare l'azione sul gioco
+	 */
 	@Override
     public Boolean isPossible(GameModel model) {
 	    if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 

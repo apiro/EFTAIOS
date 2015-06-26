@@ -12,24 +12,23 @@ import it.polimi.ingsw.cg_38.model.map.Sector;
 
 import java.util.*;
 
-/**
- * 
- * la perform ritorna l'arraylist dei giocatori che devono dichiarare la loro posizione(nel player che ritorna 
- * c'è il currentSector che deve essere mandato a tutti i giocatori)
- * 
- */
+/**identifica l'azione di utilizzo della carta luci */
 public class UseLightsCard extends GameAction {
 
 	private static final long serialVersionUID = 1L;
 
+    private ObjectCard card;
+    
+    /** invoca il costruttore della superclasse e setta i vari dati
+     * 
+     * @param evt evento di gioco che ha generato l'azione
+     */
     public UseLightsCard(GameEvent evt) {
     	super(evt.getGenerator());
     	this.setCard(((ObjectCard)((EventSPOTLIGHT)evt).getToUse()));
     	this.setTargetSector(((EventSPOTLIGHT)evt).getTarget());
     }
 
-    private ObjectCard card;
-    
     public ObjectCard getCard() {
 		return card;
 	}
@@ -48,6 +47,12 @@ public class UseLightsCard extends GameAction {
 		this.targetSector = targetSector;
 	}
 
+	/** se l'avatar del giocatore che ha generato l'azione è di tipo alieno la carta viene scartata, altrimenti
+	 * viene generati un evento di notifica di tipo dichiarazione della posizione 
+	 * 
+	 * @param model gameModel sul quale performare l'azione
+	 * @return lista di eventi di notifica generati
+	 */
 	@Override
     public List<NotifyEvent> perform(GameModel model) {
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
@@ -83,6 +88,11 @@ public class UseLightsCard extends GameAction {
     	return callbackEvent;
     }
 
+	/** verifica se il giocatore possiede la carta
+	 * 
+	 * @param model gameModel sul quale fare la verifics
+	 * @return ritorna true se è possibile effettuare l'azione sul model
+	 */
     @Override
     public Boolean isPossible(GameModel model) {
 	    if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 

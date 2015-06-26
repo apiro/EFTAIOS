@@ -10,17 +10,30 @@ import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 import java.util.ArrayList;
 import java.util.List;
 
+/** identifica l'azione di scarto di una carta oggetto */
 public class Reject extends GameAction {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** contiene la carta oggetto da scartare */
 	private ObjectCard card;
 
+	/** invoca il costruttore della superclasse e setta i dati
+	 * 
+	 * @param evt evento di gioco che ha generato l'azione
+	 */
 	public Reject(GameEvent evt) {
 		super(evt.getGenerator());
 		this.setCard(((EventRejectCard)evt).getCard());
 		
 	}
 
+	/** elimina la carta oggetto dalla lista di carte possedute dall'avatar e la aggiunge alla lista
+	 *  di carte del rejectedDeck relativo
+	 * 
+	 * @param model gameModel sul quale performare l'azione
+	 * @return ritorna la lista di eventi di notifica generati
+	 */
 	@Override
 	public List<NotifyEvent> perform(GameModel model) {
 		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
@@ -37,6 +50,11 @@ public class Reject extends GameAction {
 		return callbackEvent;
 	}
 
+	/** verifica se l'avatar relativo al giocatore possiede realmente la carta
+	 * 
+	 * @param model gameModel sul quale fare la verifica
+	 * @return true se è possibile perfomare l'azione
+	 */
 	@Override
 	public Boolean isPossible(GameModel model) {
 	    if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 

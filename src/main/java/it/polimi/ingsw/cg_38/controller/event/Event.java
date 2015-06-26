@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import it.polimi.ingsw.cg_38.model.Player;
 
+/** identifica un evento generico */
 public class Event implements Serializable {
 
 	private static final long serialVersionUID = 1L;

@@ -18,15 +18,25 @@ import it.polimi.ingsw.cg_38.model.Human;
 import it.polimi.ingsw.cg_38.model.Player;
 import it.polimi.ingsw.cg_38.model.Turn;
 
+/** identifica l'azione di richiesa di fine del turno */
 public class FinishTurn extends GameAction {
 
 	private static final long serialVersionUID = 1L;
 
+	/** invoca il costruttore della superclasse
+	 * 
+	 * @param evt evento di gioco che ha generato l'azione
+	 */
 	public FinishTurn(GameEvent evt) {
 		super(evt.getGenerator());
 		
 	}
 
+	/** verifica se è possibile performare l'azione sul model
+	 * 
+	 * @param model gameModel sul quale viene fatta la verifica
+	 * @return true se è possibile performare l'azione sul model
+	 */
 	@Override
 	public Boolean isPossible(GameModel model){
 		super.isPossible(model);
@@ -35,6 +45,13 @@ public class FinishTurn extends GameAction {
 		} return false;
 	}
 	
+	/** viene verificato lo stato del turno e del model. Se non ci sono umani ancora in gioco vengono 
+	 * generati gli eventi di notifica di vittoria degli alieni, altrimenti viene creato un nuovo turno 
+	 * del giocatore successivo e vengono generati i relativi eventi di notifica
+	 * 
+	 * @param model gameModel sul quale performare l'azione
+	 * @return ritorna la lista di eventi di notifica generati
+	 */
 	@Override
 	public List<NotifyEvent> perform(GameModel model) {
 		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();

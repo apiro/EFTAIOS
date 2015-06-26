@@ -11,14 +11,24 @@ import it.polimi.ingsw.cg_38.model.deck.ObjectCardType;
 import java.util.ArrayList;
 import java.util.List;
 
+/** identifica l'azione di utilizzo dell carta difesa da parte di un giocatore */
 public class Defense extends GameAction {
 
 	private static final long serialVersionUID = 1L;
 
+	/** invoca il costruttore della superclasse
+	 * 
+	 * @param evt evento di gioco che ha generato l'azione
+	 */
 	public Defense(GameEvent evt) {
 		super(evt.getGenerator());
 	}
 
+	/** elimina la carta difesa dalle carte dell'avatar e la aggiunge alla lista di carte del rejectedDeck
+	 * 
+	 * @param model gameModel sul quale performare l'azione
+	 * @return lista di eventi di notifica generati
+	 */
 	@Override
 	public List<NotifyEvent> perform(GameModel model) {
 		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();

@@ -16,22 +16,29 @@ import it.polimi.ingsw.cg_38.model.GameModel;
 import it.polimi.ingsw.cg_38.model.LifeState;
 import it.polimi.ingsw.cg_38.model.Player;
 
-/** rappresenta l'azione di vincita degli alieni */
+/** rappresenta l'azione di vittoria degli alieni */
 public class AliensWin extends GameAction {
 
 	private static final long serialVersionUID = 1L;
 	
-	/** è settato a true se gli alieni hanno effettivamente vinto */
+	/** true se gli alieni hanno effettivamente vinto */
 	private Boolean areWinner;
 
+	/** invoca il costruttore della superclasse e setta i dati
+	 * 
+	 * @param evt evento di gioco che ha generato l'azione
+	 */
 	public AliensWin(Event evt) {
 		super(evt.getGenerator());
 		areWinner = ((EventAliensWinner)evt).getAreWinner();
 	}
 
 	/** performa l'azione aggiungendo alla lista di giocatori vincenti tutti gli alieni ancora vivi 
-	 * e aggiunge alla lista di eventi di notifica da ritornare un evento di notifica di vincita degli alieni, 
-	 * un evento di notifica di chiusura del topic ed un evento di chiusura del gioco*/
+	 * 
+	 * @param model gameModel sul quale performare l'azione
+	 * @return lista degli eventi di notifica generati 
+	 *
+	 */
 	@Override
 	public List<NotifyEvent> perform(GameModel model) {
 		List<Player> winners = new ArrayList<Player>();

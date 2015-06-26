@@ -12,17 +12,24 @@ import  it.polimi.ingsw.cg_38.model.*;
 import it.polimi.ingsw.cg_38.model.deck.ObjectCard;
 import it.polimi.ingsw.cg_38.model.map.Sector;
 
-/**
- * 
- * la perform ritorna true e modifica il modello(in realta è un void ma per seguire l'abstract method ritorno di 
- * default true
- * 
- */
+/**identifica l'azione di utilizzo della carta attacoo */
 public class UseAttackCard extends GameAction {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** contiene il giocatore che ha generato l'azione */
 	private Player generator;
+	
+	private ObjectCard card;
+	
+	/** contiene il settore nel quale effettuare l'attacco */
+    private Sector sectorToAttack;
+    
 
+	/** invoca il costruttore della superclasse e setta i vari dati
+	 * 
+	 * @param evt evento di gioco che ha generato l'azione
+	 */
 	public UseAttackCard(GameEvent evt) {
 		super(evt.getGenerator());
 		this.generator = evt.getGenerator();
@@ -38,9 +45,6 @@ public class UseAttackCard extends GameAction {
 		this.sectorToAttack = sectorToAttack;
 	}
 
-	private ObjectCard card;
-    private Sector sectorToAttack;
-    
     public ObjectCard getCard() {
 		return card;
 	}
@@ -49,6 +53,12 @@ public class UseAttackCard extends GameAction {
 		this.card = card;
 	}
 
+	/** se l'avatar del giocatore che ha generato l'azione è di tipo alien la carta viene scartata, 
+	 * altrimenti viene performata un azione di attacco normale
+	 * 
+	 * @param model gameModel sul quale performare l'azione
+	 * @return lista di eventi di notifica generati
+	 */
 	@Override
     public List<NotifyEvent> perform(GameModel model) {
     	List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
@@ -75,6 +85,11 @@ public class UseAttackCard extends GameAction {
     	return callbackEvent;
     }
 
+	/** verifica se il giocatore possiede la carta /*
+	 * 
+	 * @param model gameModel sul quale fare la verifica
+	 * @return true se è possibile performare l'azione sul model
+	 */
     @Override
     public Boolean isPossible(GameModel model) {
 	    if(model.getActualTurn().getCurrentPlayer().getAvatar().getMyCards().contains(this.getCard()) && 

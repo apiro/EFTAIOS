@@ -3,19 +3,15 @@ import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.GameEventType;
 
-/**
- * 
- */
+/** classe utilizzata per creare azioni in base agli eventi ricevuti dal server */
 public class GameActionCreator {
 
-    /**
-     * 
-     */
     public GameActionCreator() {
     }
 
-    /**
-     * @param String type
+    /** crea un azione in base al evento passato come parametro
+     * @param evt evento di gioco che genera l'azione
+     * @return ritorna l'azione generata
      */
     public static Action createGameAction(Event evt) {
     	GameEventType type = ((GameEvent)evt).getType();

@@ -2,16 +2,22 @@ package it.polimi.ingsw.cg_38.controller.event;
 
 import it.polimi.ingsw.cg_38.model.Player;
 
+/** identifica un generico evento di gioco */
 public class GameEvent extends Event {
 
 	private static final long serialVersionUID = 1L;
 	
-	/** è settato a true se l'evento di gioco genera solo eventi di notifica di tipo broadcast ed è settato
-	 * a false se l'evento genera eventi di notifica sia di tipo broadcast sia personali */
+	/** true se l'evento di gioco genera solo eventi di notifica di tipo broadcast
+	 * false se l'evento genera eventi di notifica sia di tipo broadcast sia personali */
 	private Boolean notifyEventIsBroadcast;
 	
 	private GameEventType type;
 
+	/** invoca il costruttore della superclasse e setta i dati
+	 * 
+	 * @param generator giocatore che ha generato l'evento
+	 * @param notifyEventIsBroadcast true se l'evento è boradcast
+	 */
 	public GameEvent(Player generator, Boolean notifyEventIsBroadcast) {
 		super(generator);
 		this.setNotifyEventIsBroadcast(notifyEventIsBroadcast);
