@@ -22,6 +22,8 @@ public interface PlayerClient {
 	
 	public Player getPlayer();
 	
+	public Boolean getIsMyTurn();
+	
 	public void setPlayer(Player player);
 	
 	public PlayerClientState getPlayerClientState();

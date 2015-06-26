@@ -28,11 +28,10 @@ public class AddedToGame extends NotifyAction {
 	@Override
 	public GameEvent render(PlayerClient client) {
 		client.getLogger().print(this.getEvt().getGenerator().getName() + " has been added ? " + ((EventAddedToGame)evt).getAdded());
-		if(((EventAddedToGame)evt).getAdded()) {
+		if(((EventAddedToGame)evt).getGenerator().getName().equals(client.getPlayer().getName())) {
 			client.setPlayerClientState(PlayerClientState.CONNECTED);
-			client.setIsInterfaceBlocked(true);
 		}
-		client.setIsInterfaceBlocked(false);
+		client.setIsInterfaceBlocked(true);
 		return null;		
 	}
 

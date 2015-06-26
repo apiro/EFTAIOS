@@ -22,5 +22,6 @@ public enum GameEventType {
 	DEFENSE, 
 	REJECTCARD, 
 	CHAT, 
-	RETIRED
+	RETIRED, 
+	FORCEDFINISH
 }

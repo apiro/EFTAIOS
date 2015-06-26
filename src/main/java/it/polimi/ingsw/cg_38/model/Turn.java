@@ -15,6 +15,8 @@ public class Turn {
     private Boolean hasAttacked = false;
 
     private Boolean hasDraw = false;
+    
+    private Boolean yetValid = true;
 
     public Boolean getHasMoved() {
 		return hasMoved;
@@ -54,6 +56,14 @@ public class Turn {
 
 	public Boolean getHasDraw() {
 		return hasDraw;
+	}
+
+	public Boolean getYetValid() {
+		return yetValid;
+	}
+
+	public void setYetValid(Boolean yetValid) {
+		this.yetValid = yetValid;
 	}
 
 

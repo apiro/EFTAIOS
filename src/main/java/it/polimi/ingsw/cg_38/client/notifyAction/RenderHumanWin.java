@@ -23,11 +23,6 @@ public class RenderHumanWin extends NotifyAction {
 		client.getLogger().print("PLAYER " + super.player.getName() + " HAS LEFT THE SPACESHIP ! ");
 		if(client.getPlayer().getName().equals(super.player.getName())) {
 			client.paintHatch(true, evt.getGenerator().getAvatar().getCurrentSector());
-			try {
-				Thread.sleep(10000);
-			} catch (InterruptedException e) {
-				client.getLogger().print("EXCEPTION IN CLOSING GAME...");
-			}
 			client.setIsInterfaceBlocked(true);
 			return new EventFinishTurn(client.getPlayer());
 		} else {

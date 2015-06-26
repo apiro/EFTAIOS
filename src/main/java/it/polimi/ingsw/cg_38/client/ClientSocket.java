@@ -9,7 +9,6 @@ import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.Queue;
 
 public class ClientSocket extends Client implements Runnable {
