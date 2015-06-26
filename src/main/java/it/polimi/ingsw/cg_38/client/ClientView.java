@@ -6,10 +6,15 @@ import java.util.Queue;
 import it.polimi.ingsw.cg_38.controller.connection.RMIRemoteObjectInterface;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 
+/**
+ * Oggetto che il client invia al server e tramite il quale il server può aggiungere eventi alla coda del client
+ * */
 public class ClientView extends UnicastRemoteObject implements RMIRemoteObjectInterface {
 	
 	private Queue<Event> queue;
-
+	/**
+	 * Al costruttore passo una coda alla quale chi utilizza l'oggetto aggiungerà i vari eventi di notifica (in questo caso)
+	 * */
 	public ClientView(Queue<Event> queue) throws RemoteException {
 		
 		super();

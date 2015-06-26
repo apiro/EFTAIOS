@@ -9,8 +9,13 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Oggetto che viene instanziato dal server e lancia una serversocket publisher/subscriber. Ogni connessione che
+ * riceve genera un thread di gestione del subscriber che si vuole registrare.
+ * */
 public class PubSubConnectionsHandler extends Thread {
-
+		
+	
 	private ServerSocket serverSocketPubSub;
 	private Boolean serverAlive;
 	private ServerController server;
@@ -22,6 +27,9 @@ public class PubSubConnectionsHandler extends Thread {
 		this.server = server;
 	}
 	
+	/**
+	 * attende connessioni sulla serversocket
+	 * */
 	@Override
 	public void run() {
 		serverAlive = true;

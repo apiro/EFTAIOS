@@ -19,16 +19,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
-//l'oggetto SERVERVIEW che il server mette remotamente a disposizione dei client 
-//i metodi di SERVERVIEW possono essere chiamati dai client quando esportano l'oggetto
-// -> TRASMITEVENT(GAMEEVENT EVT) aggiunge alla coda di eventi da dispacciare del server
-//		un evento di GIOCO.
-// -> HANDLEEVENT
+/**
+ * E' l'oggetto SERVERVIEW che il server mette remotamente a disposizione dei client 
+ * i metodi di SERVERVIEW possono essere chiamati dai client quando esportano l'oggetto
+ * -> TRASMITEVENT(GAMEEVENT EVT) aggiunge alla coda di eventi da dispacciare del server
+ *		un evento di GIOCO.
+ * -> HANDLEEVENT
+ * 
+ **/
 public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectInterface {
 
 	private static final long serialVersionUID = 1L;
-	//coda di eventi di gioco esportata in questa vista limitata del server
-	//aggiungendo un evento di gioco qui si aggiunge un evento da risolvere al server
+	
+	/**coda di eventi di gioco esportata in questa vista limitata del server
+	  *aggiungendo un evento di gioco qui si aggiunge un evento da risolvere al server
+	  **/
 	private Queue<Event> queue;
 	private ServerController server;
 	private RMICommunicator communicator;
@@ -36,12 +41,6 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 
 	public ServerView(ServerController server, RMIRemoteObjectInterface clientView) throws RemoteException {
 		super();
-		/*try {
-			UnicastRemoteObject.exportObject(this, 2344);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}*/
-		
 		this.communicator = new RMICommunicator(clientView);
 		this.server = server;
 		this.queue = server.getToDispatch();
@@ -54,9 +53,6 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 		logger.print("Parsing Event... : " + evt.toString());
 		
 		if(((GameEvent)evt).getNotifyEventIsBroadcast()) {
-			//se l'evento che il client vuole aggiungere presuppone un evento di risposta
-			//di tipo broadcast allora lo aggiungo alla coda del topic per poi inviarlo
-			//via publish.
 			synchronized(queue) {
 				queue.add((GameEvent)evt);
 			}
@@ -68,6 +64,14 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 		}
 	}
 	
+	/**
+	 * quando riceve un evento verifica se l'evento di risposta 
+	 * è broadcast o no se è broadcast lo aggiunge alla coda del server mentre se 
+	 * è personale lo processa direttmente qui e invia l'evento di risposta !
+	 * genera un arraylist di eventi. qui prendo l'arraylist
+	 * che ho popolato prima e guardo se l'evento di notifica è broacast o no. se lo è lo aggiungo al 
+	 * buffer del server --> this.getEventsToProcess().add((Event) evt); se non lo è --> this.communicator.send(callbackEvent);
+	 **/ 
 	@Override
 	public void processEvent(Event evt) throws RemoteException {
 		List<NotifyEvent> callbackEvent = new ArrayList<NotifyEvent>();
@@ -78,8 +82,9 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 			synchronized(gcFound.getGameModel()) {
 				callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 			}
+			gcFound.getGameModel().notify();
 			if(callbackEvent == null) {
-				System.out.println("callbackEvent == null sv line 80");
+				System.out.println("callbackEvent == nullsline 80");
 				return;
 			}
 		} else {
@@ -89,7 +94,6 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 			if(e instanceof EventNotifyClosingTopic) {
 				synchronized(gcFound) {
 					server.removeTopic(gcFound);
-					gcFound.notify();
 				}
 			} else {
 				if(e.isBroadcast()) {
@@ -101,7 +105,6 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 							logger.print("A client is probably disconnected ...");
 						}
 					}
-					gcFound.notify();
 				} else {
 					this.communicator.send(e);
 				}

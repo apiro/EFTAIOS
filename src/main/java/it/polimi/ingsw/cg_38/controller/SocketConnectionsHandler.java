@@ -9,12 +9,14 @@ import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Queue;
-/** gestisce la logica di creazione dei thread, quando richiesta */
+
+/** 
+ * gestisce la logica di creazione dei PlayerController thread, quando richiesta 
+ * */
 public class SocketConnectionsHandler extends Thread implements Observer {
 
 	private Boolean alive;
@@ -27,7 +29,8 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 	
 	private Logger logger = new LoggerCLI();
 	
-	/** inizializza tutte le variabili necessarie 
+	/** 
+	 * Inizializza tutte le variabili necessarie 
 	 * 
 	 * @param serverSocket serverSocket della connessione
 	 * @param queue coda di eventi 
@@ -42,8 +45,10 @@ public class SocketConnectionsHandler extends Thread implements Observer {
 		
 	}
 	
-	/** finchè il thread è vivo rimane in attesa di ricevere nuove connessioni via Socket creando, di
-	 * conseguenza, un nuovo controllore del giocatore */
+	/**
+	 * Finchè il thread è vivo rimane in attesa di ricevere nuove connessioni via Socket creando, di
+	 * conseguenza, un nuovo controllore del giocatore 
+	 * */
 	@Override
 	public void run() {
 		alive = true;

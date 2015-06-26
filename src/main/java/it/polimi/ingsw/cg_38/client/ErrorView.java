@@ -6,6 +6,9 @@ import it.polimi.ingsw.cg_38.controller.event.Event;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * Oggetto che viene ritornato se la registrazione non è andata a buon fine
+ * */
 public class ErrorView extends UnicastRemoteObject implements RMIRemoteObjectInterface{
 
 	private static final long serialVersionUID = 1L;

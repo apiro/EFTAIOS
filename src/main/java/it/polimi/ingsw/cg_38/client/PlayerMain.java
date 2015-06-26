@@ -5,6 +5,9 @@ import it.polimi.ingsw.cg_38.client.gui.PlayerClientGUI;
 import it.polimi.ingsw.cg_38.controller.logger.Logger;
 import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 
+/**
+ * Classe dalla quale viene fatto scegliere che tipo di client lanciare
+ * */
 public class PlayerMain {
 
 	private static PlayerClient player;

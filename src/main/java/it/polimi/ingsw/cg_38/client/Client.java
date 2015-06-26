@@ -5,8 +5,11 @@ import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.gameEvent.EventSubscribe;
 
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+ *Classe astratta che definisce i metodi dei thread di invio messaggi dal client al server, verrà implementata da
+ *ClientRMI o ClientSocket 
+ * */
 public abstract class Client implements Runnable {
 
 	protected Communicator communicator;

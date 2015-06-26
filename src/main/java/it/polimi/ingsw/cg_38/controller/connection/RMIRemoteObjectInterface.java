@@ -7,11 +7,6 @@ import java.rmi.RemoteException;
 
 /**
  * interfaccia che dichiara i metodi che possono essere invocati dal client 
- * --> tutti i parametri devono essere serializzabili !!!
- * 
- * tutti gli oggetti remoti utilizzati nei communicator per implementare le send per esempio devono rispettare 
- * questo protocollo
- * 
  * */
 
 public interface RMIRemoteObjectInterface extends Remote {

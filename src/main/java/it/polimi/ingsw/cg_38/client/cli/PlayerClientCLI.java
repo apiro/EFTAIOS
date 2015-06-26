@@ -32,12 +32,23 @@ import java.util.Queue;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-
+/**
+ * Classe principale del Client connesso con CLI
+ * */
 public class PlayerClientCLI implements PlayerClient {
 
+	/**
+	 * coda di messaggi da inviare generati dalla gui
+	 * */
 	private Queue<Event> toSend;
+	/**
+	 * coda di messaggi da processare inviati dal server
+	 * */
 	private Queue<Event> toProcess;
 	private EventSubscribe evt;
+	/**
+	 * Oggetto Runnable che serve per lanciare il thread di invio messaggi al server
+	 * */
 	private Client client;
 	private Scanner in = new Scanner(System.in);
 	private String room;
@@ -47,7 +58,14 @@ public class PlayerClientCLI implements PlayerClient {
 	private Boolean isMyTurn = false;
 	private Boolean isInterfaceBlocked = true;
 	private Map map;
+	/**
+	 * Thread che invia i messaggi al server. Indifferentemente ClientRMI o ClientSocket perche il loro funzionamento
+	 * è mascherato dall'interfaccia comune Client
+	 * */
 	private Thread gameEventSender;
+	/**
+	 * Logger assegnato alla cli
+	 * */
 	private Logger logger = new LoggerCLI();
 	private Logger loggerChat = new LoggerCLI();
 	private Boolean clientAlive = true;
@@ -64,6 +82,9 @@ public class PlayerClientCLI implements PlayerClient {
 		this.run();
 	}
 
+	/**
+	 * Inizializza i campi del client
+	 * */
 	@Override
 	public void init() {
 		playerClientState = PlayerClientState.INIT;
@@ -74,6 +95,9 @@ public class PlayerClientCLI implements PlayerClient {
 		this.startSender();
 	}
 
+	/**
+	 * Metodo che fa partire il thread di invio messaggi di gioco al server
+	 * */
 	@Override
 	public void startSender() {
 		client = Client.clientCreator(connection, toSend, toProcess, evt);
@@ -81,6 +105,9 @@ public class PlayerClientCLI implements PlayerClient {
 		gameEventSender.start();
 	}
 	
+	/**
+	 * Richiede al user le coordinate della mossa o del rumore
+	 * */
 	public String askForTypeOfConnection() {
 		logger.print("WELCOME TO THE GAME !\n");
 		logger.print("CHOOSE THE CONNECTION PROTOCOL: write [RMI] or [Socket] : ");
@@ -88,6 +115,9 @@ public class PlayerClientCLI implements PlayerClient {
 		return in.nextLine();
 	}
 
+	/**
+	 * Richiede allo user informazioni per generare l'evendo di subscribe
+	 * */
 	public EventSubscribe askForEventSubscribe() {
 		logger.print("INSERT  : \n\t1) YOUR USERNAME: \n\t2) THE ROOM YOU WANT TO ACCESS : \n\t3) THE MAP NAME: ");
 		logger.print("if you enter in an existing room type smth random");
@@ -102,6 +132,9 @@ public class PlayerClientCLI implements PlayerClient {
 		return evtSub;
 	}
 	
+	/**
+	 * Usato quando si vuole chiedere allo user che carta scartare a quando ha pescato la quarta
+	 * */
 	public String askForUseCardOrRejectCard() {
 		String choice = logger.showAndRead("Do you wanna Use [U] or Reject [R] the selected Card ?", "");
 		
@@ -151,6 +184,12 @@ public class PlayerClientCLI implements PlayerClient {
 		this.map = map;
 	}
 
+	/**
+	 * Metodo importante che ricarica l'interfaccia stampando sulla CLI l'interfaccia di gioco.
+	 * Questo metodo viene chiamato ogni volta che la gestione di un evento è terminata( per eventi che hanno token
+	 * si aspetta che il token svanisca e poi si ricarica l'interfaccia) ed ha il compito di acquisire eventi
+	 * di gioco dall giocatore.
+	 * */
 	public void loadInterface() {
 		System.out.println("Loading the map ...");
 		System.out.println("GAME MAP:\n");
@@ -289,6 +328,10 @@ public class PlayerClientCLI implements PlayerClient {
 		}
 	}
 
+	/**
+	 * Metodo che prende un evento dalla coda ogni ciclo di while e lo processa. Dopo di che aggiorna le carte del
+	 * giocatore per avere sempre una situazione aggiornata.
+	 * */
 	@Override
 	public void run() {
 		while(clientAlive) {
@@ -301,6 +344,11 @@ public class PlayerClientCLI implements PlayerClient {
 		Thread.currentThread().interrupt();
 	}
 	
+	/**
+	 * Metodo del client che processa l'evento che gli viene passato, ne genera l'azione di notifica e renderizza l'effetto 
+	 * sull' interfaccia.
+	 * @param msg evento da processare
+	 * */
 	@Override
 	public void process(Event msg) {
 		logger.print("----------------------------------------------------------------------\n");
@@ -339,6 +387,9 @@ public class PlayerClientCLI implements PlayerClient {
 		this.isInterfaceBlocked = isInterfaceBlocked;
 	}
 
+	/**
+	 * Termina il processo Client dopo 15 sec dalla sua chiamata
+	 * */
 	@Override
 	public void closeClient() {
 		logger.print("CLOSING CLIENT TERMINAL ...");
@@ -355,6 +406,10 @@ public class PlayerClientCLI implements PlayerClient {
 		return logger;
 	}
 
+	/**
+	 * Richiama il metodo updateCards() della gui, in un ambiente protetto dato da SwingUtilities che permette di 
+	 * lavorare dentro l'EDT
+	 * */
 	@Override
 	public void updateCards() {
 		
@@ -370,11 +425,19 @@ public class PlayerClientCLI implements PlayerClient {
 		this.clientAlive = b;
 	}
 
+	/**
+	 * Richiama il metodo colora hatch della gui, in un ambiente protetto dato da SwingUtilities che permette di 
+	 * lavorare dentro l'EDT
+	 * */
 	@Override
 	public void paintHatch(Boolean bool, Sector sec) {
 		
 	}
 
+	/**
+	 * Richiama il metodo updateMovements() della gui, in un ambiente protetto dato da SwingUtilities che permette di 
+	 * lavorare dentro l'EDT
+	 * */
 	@Override
 	public void updateMovements() {
 		

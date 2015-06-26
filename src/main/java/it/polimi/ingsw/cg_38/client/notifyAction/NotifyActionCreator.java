@@ -19,7 +19,7 @@ public class NotifyActionCreator {
 	public static Action createNotifyAction(Event evt) {
 		NotifyEventType type = ((NotifyEvent)evt).getType();
     	Action action = null;
-    	if(type.equals(null))
+    	if(type == null)
     		action = new RenderError((NotifyEvent) evt);
     	if(type.equals(NotifyEventType.ADDED)) 
     		action = new AddedToGame((NotifyEvent) evt);

@@ -33,9 +33,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-/** si occupa di rendere disponibile il server ad accettare connessioni e di ricevere gli eventi 
- * di gioco inviati dal giocatori e generare, di conseguenza, azioni che  poi vengono passate 
- * al relativo game controller */
+/** 
+ * Si occupa di rendere disponibile il server ad accettare connessioni, di ricevere gli eventi 
+ * di gioco inviati dai giocatori e generare, di conseguenza, azioni che  poi vengono passate 
+ * al relativo game controller 
+ * 
+ * */
 public class ServerController extends Observable {
 	
 	private int socketPortNumber = 4322;
@@ -48,8 +51,10 @@ public class ServerController extends Observable {
 	
 	private ServerSocket serverSocketClientServer;
 	
-	/**mappa che assegna il nome del player al corrispondente gamecontroller per 
-	 * poter trovare il topic a cu è sottoscritto un giocatore */
+	/**
+	 * mappa che assegna il nome del player al corrispondente gamecontroller per 
+	 * poter trovare il topic a cui è sottoscritto un giocatore 
+	 * */
 	private Map<String, GameController> topics = new HashMap<String, GameController>();
 	
 	private Logger logger = new LoggerCLI();
@@ -58,20 +63,28 @@ public class ServerController extends Observable {
 		return topics;
 	}
 	
-	/** coda degli eventi di gioco ricevuti dai giocatori */
+	/** 
+	 * coda degli eventi di gioco ricevuti dai giocatori 
+	 * */
 	private Queue<Event> toDispatch;
 	
 	private Registry registry;
 	
-	/** true se il server è attivo */
+	/** 
+	 * true se il server è attivo 
+	 * */
 	private Boolean serverAlive = true;
 	
-	/** il costruttore inizializza la coda di eventi di gioco */
+	/** 
+	 * il costruttore inizializza la coda di eventi di gioco 
+	 * */
 	public ServerController() throws RemoteException {
 		this.toDispatch = new ConcurrentLinkedQueue<Event>();
 	}
 	
-	/** chiude il server annullando tutte le connessioni ed ilimina il topic associato */
+	/** 
+	 * chiude il server annullando tutte le connessioni ed eilimina il topic associato 
+	 * */
 	public void closeServer() {
 		//closing the server and deallocate all the objects
 		this.serverAlive = false;
@@ -82,8 +95,9 @@ public class ServerController extends Observable {
 		this.topics = null;
 	}
 
-	/** starta il server che si mette in ascolto sulla coda di eventi di gioco per generare azioni
-	 * che poi verranno performare dal controllore del gioco
+	/** 
+	 * Starta il server che si mette in ascolto sulla coda di eventi di gioco per generare azioni
+	 * che poi verranno performate dal controllore del gioco
 	 * 
 	 * @throws ParserConfigurationException
 	 * @throws Exception
@@ -141,7 +155,9 @@ public class ServerController extends Observable {
 		}
 	}
 	
-	/** rimuove un topic dal server */
+	/**
+	 *  rimuove un topic dal server 
+	 *  */
 	public void removeTopic(GameController gcFound) {
 		List<String> toRemove = new ArrayList<String>();
 		for(String topic:topics.keySet()) {
@@ -159,7 +175,9 @@ public class ServerController extends Observable {
 		logger.print("---------------------------------------------------------------------\n");
 	}
 
-	/** setta tutte le variabili necessarie per la connessione di tipo RMI */
+	/**
+	 *  setta tutte le variabili necessarie per la connessione di tipo RMI 
+	 *  */
 	private void startRMIEnvironment() throws RemoteException, AlreadyBoundException {
 		
 		RMIRemoteObjectDetails serverView = new RMIRemoteObjectDetails("REGISTRATIONVIEW");
@@ -180,7 +198,8 @@ public class ServerController extends Observable {
 		}
 	}
 
-	/** inizializza e starta una nuova partita
+	/** 
+	 * Inizializza e starta una nuova partita
 	 * 
 	 * @param map nome della mappa della partita
 	 * @param topic nome del topic da creare
@@ -202,7 +221,9 @@ public class ServerController extends Observable {
 		this.toDispatch = toDispatch;
 	}
 
-	/** setta tutte le variabili necessarie per la connessione via Socket */
+	/** 
+	 * Setta tutte le variabili necessarie per la connessione via Socket 
+	 * */
 	private void startSocketEnvironment() throws IOException {
 		try {
 			this.serverSocketClientServer = new ServerSocket(socketPortNumber);

@@ -16,11 +16,10 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Queue;
 
+/**
+ * QUESTO OGGETTO INVIA AL SERVER I MESSAGGI CHE TROVA NELLA SUA CODA.
+ * */
 public class ClientRMI extends Client implements Runnable {
-
-	/**
-	 * QUESTO OGGETTO INVIA AL SERVER I MESSAGGI CHE TROVA NELLA SUA CODA.
-	 * */
 	
 	private Registry registry;
 	private EventSubscribe evt;
@@ -40,6 +39,10 @@ public class ClientRMI extends Client implements Runnable {
 		}
 	}
 	
+	/**
+	 * Inizializza il ClientRMI prendendo dal registro l'oggetto remoto di registrazione posto dal server
+	 * e crea a partire da questo un communicator per il client relativo
+	 * */
 	private void initClientRMI() throws RemoteException {
 
 		System.setProperty("java.rmi.server.hostname",this.host);

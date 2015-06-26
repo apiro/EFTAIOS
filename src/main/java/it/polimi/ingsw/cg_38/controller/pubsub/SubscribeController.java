@@ -14,6 +14,10 @@ import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 import java.io.IOException;
 import java.util.Observable;
 
+/**
+ * è un thread che ha lo scopo di ricevere l'unico evento che il client può inviare su questo socket, vale a dire
+ * l'evento di sottoscrizione iniziale ad un certo topic, una volta ricevuto e processato l'evento questo thread termina.
+ * */
 public class SubscribeController extends Observable implements Runnable {
 
 	private SocketCommunicator socketCommunicator;
@@ -30,7 +34,9 @@ public class SubscribeController extends Observable implements Runnable {
 		}
 		this.server = server;
 	}
-
+	/**
+	 * metodo che pone il thread in attesa della ricezione dell'evento di subscribe
+	 * */
 	@Override
 	public void run() {
 		EventSubscribe evt = (EventSubscribe) this.socketCommunicator.recieveEvent();
@@ -40,7 +46,6 @@ public class SubscribeController extends Observable implements Runnable {
 		try {
 			callbackEvent = ((Subscribe)action).generalEventGenerator(socketCommunicator, server);
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.print("General exception in sending the subscribe event ...");
 		}
 		gcFound = server.getTopics().get(evt.getGenerator().getName());

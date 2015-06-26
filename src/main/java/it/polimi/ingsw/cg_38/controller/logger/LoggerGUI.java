@@ -4,6 +4,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
+/**
+ * Questa è l'implementazione del logger secondo l'ambiente GUI
+ * */
 public class LoggerGUI implements Logger {
 
 	private JTextArea text;
@@ -14,11 +17,18 @@ public class LoggerGUI implements Logger {
 		this.frame = frame;
 	}
 	
+	/**
+	 *@param message: messaggio aggiunto alla JTextArea
+	 * */
 	@Override
 	public void print(String message) {
 		text.append(message + "\n");
 	}
 
+	/**
+	 *@param toShow: messaggio aggiunto alla JTextArea
+	 *@param title: parametro opzionale utilizzato in GUI
+	 * */
 	@Override
 	public String showAndRead(String toShow, String title) {
 		return JOptionPane.showInputDialog(

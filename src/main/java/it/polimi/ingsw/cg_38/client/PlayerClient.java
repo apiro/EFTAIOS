@@ -1,5 +1,8 @@
 package it.polimi.ingsw.cg_38.client;
 
+/**
+ * Interfaccia dei metodi che il PlayerClient deve implementare
+ * */
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.logger.Logger;
 import it.polimi.ingsw.cg_38.model.Player;
