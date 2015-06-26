@@ -42,31 +42,27 @@ public class TurnTimerController extends Observable implements Runnable {
 				ForceFinishTurn act = new ForceFinishTurn(new EventFinishTurn(gc.getGameModel().getActualTurn().getCurrentPlayer()));
 				List<NotifyEvent> callbackEvent = null;
 				callbackEvent = act.perform(gc.getGameModel());
-				
-				Thread tH = new Thread(new TurnTimerController(gc), "TurnHandler");
-				tH.start();
+				if(gc.getGameModel().areThereOtherHumans() ||
+						gc.getGameModel().getGameState().equals(GameState.CLOSING)) {
+					Thread tH = new Thread(new TurnTimerController(gc), "TurnHandler");
+					tH.start();
+				}
 				
 				if(callbackEvent != null) {
 					gc.getBuffer().addAll(callbackEvent);
 					this.setChanged();
 					this.notifyObservers(gc.getTopic());
 				}
-			/*
-			logger.print("---------------------------------------------------------------------\n");
-			logger.print("FORCED TURN CHANGE");
-			logger.print("---------------------------------------------------------------------\n");
-			} else {
-				logger.print("---------------------------------------------------------------------\n");
-				logger.print("NATURAL TURN CHANGE");
-				logger.print("---------------------------------------------------------------------\n");
-			}*/
 			}
-		/*if(gc.getGameModel().areThereOtherHumans() || 
-				gc.getGameModel().getGameState().equals(GameState.CLOSING)) {
-			Thread tH = new Thread(new TurnTimerController(gc), "TurnHandler");
-			tH.start();
-		}*/
 			Thread.currentThread().interrupt();
+			
+			try {
+				synchronized(gc.getBuffer()) {
+					gc.getBuffer().wait();
+				}
+			} catch (InterruptedException e) {
+				return;
+			}
 			return;
 		}
 	}
