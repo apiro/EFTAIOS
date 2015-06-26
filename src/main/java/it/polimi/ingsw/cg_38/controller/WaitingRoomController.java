@@ -61,9 +61,6 @@ public class WaitingRoomController extends Observable implements Runnable {
 			this.notifyObservers(gc.getTopic());
 			gc.notify();
 			
-			Thread t2 = new Thread(new TurnTimerController(gc), "TurnHandler");
-			t2.start();
-			
 			Thread.currentThread().interrupt();
 			
 			try {

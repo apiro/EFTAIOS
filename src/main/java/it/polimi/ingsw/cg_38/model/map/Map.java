@@ -86,11 +86,11 @@ public class Map implements Serializable {
 	}
 
 	/** lista di tutti i settori che formano la mappa */
-	public List<ArrayList<Sector>> table;
+	private List<ArrayList<Sector>> table;
 
-	public final int height = 14;
+	private final int height = 14;
 
-	public final int width = 23;
+	private final int width = 23;
 
 	/**
 	 * popola la mappa con i relativi settori in base alla sua configurazione

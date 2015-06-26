@@ -424,7 +424,7 @@ public class NotifyActionTest {
 		assertTrue(renderHumanWin.render(client) instanceof EventFinishTurn);
 		assertTrue(client.getIsInterfaceBlocked());
 		assertEquals(renderHumanWin.render(client2) , null);
-		assertTrue(!client2.getIsInterfaceBlocked());
+		assertEquals(!client2.getIsInterfaceBlocked(), false);
 		assertEquals(renderChatMessage.render(client) , null);
 		assertTrue(renderRetired.render(client) instanceof EventFinishTurn);
 		

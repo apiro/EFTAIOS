@@ -10,7 +10,6 @@ import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
 import it.polimi.ingsw.cg_38.controller.logger.Logger;
 import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotYourTurn;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
 
 import java.io.IOException;
@@ -50,6 +49,10 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 	
 	@Override
 	public void trasmitEvent(Event evt) throws RemoteException {
+		logger.print("---------------------------------------------------------------------\n");
+		logger.print("[SV]Game Event arrived !\n");
+		logger.print("Parsing Event... : " + evt.toString());
+		
 		if(((GameEvent)evt).getNotifyEventIsBroadcast()) {
 			//se l'evento che il client vuole aggiungere presuppone un evento di risposta
 			//di tipo broadcast allora lo aggiungo alla coda del topic per poi inviarlo
@@ -72,14 +75,15 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 		Action generatedAction = GameActionCreator.createGameAction(evt);
 		gcFound = server.getTopics().get(evt.getGenerator().getName());
 		if( evt.getGenerator().getName().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer().getName())) {
-			//se l'evento viene dal giocatore del turno corrente
-			synchronized(gcFound) {
+			synchronized(gcFound.getGameModel()) {
 				callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
 			}
+			if(callbackEvent == null) {
+				System.out.println("callbackEvent == null sv line 80");
+				return;
+			}
 		} else {
-			//se l'evento non viene dal gicatore del turno (qualcuno ha inviato un evento fuori turno)
-			NotifyEvent callbackError = new EventNotYourTurn(evt.getGenerator());
-			callbackEvent.add(callbackError);
+			return;
 		}
 		for(NotifyEvent e:callbackEvent) {
 			if(e instanceof EventNotifyClosingTopic) {
@@ -96,8 +100,8 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 						} catch (IOException e1) {
 							logger.print("A client is probably disconnected ...");
 						}
-						gcFound.notify();
 					}
+					gcFound.notify();
 				} else {
 					this.communicator.send(e);
 				}

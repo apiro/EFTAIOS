@@ -102,7 +102,7 @@ public class ServerController extends Observable {
 			if(msg != null) {
 				
 				logger.print("---------------------------------------------------------------------\n");
-				logger.print("Game Event arrived !\n");
+				logger.print("[SC]Game Event arrived !\n");
 				logger.print("Parsing Event... : " + msg.toString());
 				
 				GameController gcFound = null;
@@ -111,7 +111,9 @@ public class ServerController extends Observable {
 				if(gcFound == null) break;
 				if( msg.getGenerator().getName().equals(gcFound.getGameModel().getActualTurn().getCurrentPlayer().getName()) ||
 						msg instanceof EventChat) {
-					callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
+					synchronized(gcFound) {
+						callbackEvent = gcFound.performUserCommands((GameAction)generatedAction);
+					}
 					if(callbackEvent == null) break;
 				} else {
 					break;

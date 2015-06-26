@@ -86,9 +86,7 @@ public class RenderDrown extends NotifyAction {
 					!((Hatch)client.getPlayer().getAvatar().getCurrentSector()).getIsOpen()) {
 				client.getLogger().print("You can't escape frome the SpaceShip !");
 			}
-		} else {
-			return null;
-		}
+		} 
 		return evt1;
 	}
 
