@@ -7,7 +7,9 @@ import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyTurn;
 
 import java.util.Observable;
 
-/** utilizzato per iniziare l'esecuzione di una partita */
+/**
+ * Oggetto utilizzato per gestire l'esecuzione di una partita 
+ *  */
 public class WaitingRoomController extends Observable implements Runnable {
 	
 	private GameController gc;
@@ -23,23 +25,26 @@ public class WaitingRoomController extends Observable implements Runnable {
 		this.gc = gc;
 	}
 
-	/** il cosruttore sellta il gameController relativo alla partita 
-	 * 
-	 * @param gc gameCOntroller della partita */
+	/** 
+	 * Prende in ingresso il gameController della partita di cui dovrà gestire l'inizio
+	 * @param gc GameController della partita 
+	 * */
 	public WaitingRoomController(GameController gc) {
 		this.addObserver(gc);
 		this.setGc(gc);
 	}
 	
-	/** vengono assegnati gli avatar ai vari giocatori della partita e viene settato il 
-	 * primo turno */
+	/** 
+	 * Vengono assegnati gli avatar ai vari giocatori della partita e viene settato il 
+	 * primo turno dopo aver aspettato il tempo definito dalla waiting room
+	 * */
 	@Override
 	public void run() {
 		logger.print("---------------------------------------------------------------------\n");
 		logger.print("ACCEPTING: " + gc.getTopic() + " ...");
 		logger.print("---------------------------------------------------------------------\n");
 		try {
-			Thread.sleep(40000);
+			Thread.sleep(60000);
 		} catch (InterruptedException e1) {
 			logger.print("Problems during the rianimation of the room-handling-thread ...");
 		}

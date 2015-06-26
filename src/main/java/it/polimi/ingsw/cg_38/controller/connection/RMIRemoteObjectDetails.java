@@ -1,5 +1,9 @@
 package it.polimi.ingsw.cg_38.controller.connection;
 
+
+/**
+ * Classe che definisce i dettagli della connessione RMI
+ * */
 public class RMIRemoteObjectDetails {
 	public String RMI_ID;
 	public static final int RMI_PORT = 34555;

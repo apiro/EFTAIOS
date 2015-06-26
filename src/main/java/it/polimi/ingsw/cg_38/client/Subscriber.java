@@ -9,9 +9,12 @@ import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.Queue;
 
+/**
+ * Thread che si occupa di ricevere i messaggi dal PUB SUB e che invia un unico messaggio iniziale sul socket 
+ * del pub sub
+ * */
 public class Subscriber implements Runnable {
 
 	private int portPubSub = 3111;
@@ -28,6 +31,10 @@ public class Subscriber implements Runnable {
 		this.initSubscriber();
 	}
 	
+	/**
+	 * Crea il socket con la serversocket pub sub e rimane in ascolto su questo socket per ricevere i messaggi 
+	 * in broadcast del server
+	 * */
 	public void initSubscriber() {
 		Socket socketPubSub;
 		

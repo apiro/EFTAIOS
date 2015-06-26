@@ -9,10 +9,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * Implementazione Socket del Communicator. implementa i metodi di trasmissione con le regole di comunicazione di Socket
+ * */
 public class SocketCommunicator implements Communicator {
 
-	//OGNI VOLTA CHE UN CLIENT VUOLE INVIARE EVENTI DI GIOCO DEVE CREARE UN COMMUNICATOR NUOVO
-	//CREO IL SOCKET PRIMA, POI CREO UN COMMUNICATOR E INVIO
 	private Socket socket;
 	private ObjectInputStream inputStream;
 	private ObjectOutputStream outputStream;

@@ -6,31 +6,26 @@ import it.polimi.ingsw.cg_38.controller.action.GameActionCreator;
 import it.polimi.ingsw.cg_38.controller.event.Event;
 import it.polimi.ingsw.cg_38.controller.event.GameEvent;
 import it.polimi.ingsw.cg_38.controller.event.NotifyEvent;
-import it.polimi.ingsw.cg_38.controller.gameEvent.EventRetired;
 import it.polimi.ingsw.cg_38.controller.logger.Logger;
 import it.polimi.ingsw.cg_38.controller.logger.LoggerCLI;
-import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotYourTurn;
 import it.polimi.ingsw.cg_38.controller.notifyEvent.EventNotifyClosingTopic;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+/**
+ * Oggetto che si preoccupa di gestire il singolo messaggio del singolo client che si connette al server. decide se il messaggio
+ * richiede solo eventi broadcast di risposta, e allora dirotta il messaggio al server, se invece l'evento genera anche eventi di 
+ * notifica personali allora gestisce l'evento internamente e lo invia in questo stesso thread. in ogni caso questo thread termina
+ * e rimane vivo solo per la gestione di un singolo messaggio di gioco
+ * */
 public class PlayerController extends Thread  {
 
 	private Communicator communicator;
-	
-	/**
-	 * è un buffer sul PlayerController nel quale il Server mette in una coda i messaggi che il ServerController invia 
-	 * al PlayerHandler. 
-	 * Il PlayerController dopodichè si preoccuperà di inviare i messaggi al suo client usando il metodo
-	 * send(String msg), che a seconda del Communicator che ho istanziato nel momento della creazione del PlayerController
-	 * invierà il messaggio con le modalita prevista dal Communicator che ho scelto.
-	 * */
 
 	private Queue<Event> eventsToProcess;
 
@@ -46,6 +41,14 @@ public class PlayerController extends Thread  {
 		this.eventsToProcess = eventsToProcess;
 	}
 	
+	/**
+	 * Costruttore che setta il 
+	 * @param communicator comunicator con il quale questo thread puo parlare con il client che lo ha creato
+	 * @param toDispatch coda dove metter i messaggi da dirottare al server
+	 * @param topics mappa dei topic con il loro nome, utile quando devo performare l'evento in questo thread e devo cercare 
+	 * il topic su cui lavorare
+	 * 
+	 * */
 	public PlayerController(Communicator communicator, Queue<Event> toDispatch, Map<String, GameController> topics) throws IOException {
 		//a questo passo la lista di topic(arraylist di gamecontroller)
 		this.topics = topics;
@@ -54,13 +57,18 @@ public class PlayerController extends Thread  {
 		this.setEventsToProcess(toDispatch);
 	}
 	
+	/**
+	 *quando il thread handler riceve un evento verifica se l'evento di risposta 
+	 *è broadcast o no se è broadcast lo aggiunge alla coda del server mentre se 
+	 *è personale lo processa direttmente qui e invia l'evento di risposta !
+	 * genera di eventi. qui prendo l'arraylist
+	 * che ho popolato prima e guardo se l'evento di notifica è broacast o no. se lo è lo aggiungo al 
+	 * buffer del server --> this.getEventsToProcess().add((Event) evt); se non lo è --> this.communicator.send(callbackEvent);
+	 **/ 
 	@Override
 	public void run() {
 		while(true) {
 			try {
-				//quando il thread handler riceve un evento verifica se l'evento di risposta 
-				//è broadcast o no se è broadcast lo aggiunge alla coda del server mentre se 
-				//è personale lo processa direttmente qui e invia l'evento di risposta !
 				Event evt = this.communicator.recieveEvent();
 				logger.print("---------------------------------------------------------------------\n");
 				logger.print("[PC]Game Event arrived !\n");
@@ -82,11 +90,6 @@ public class PlayerController extends Thread  {
 					} else {
 						return;
 					}
-					/**
-					 * invece che essere un evento callbackevent sara un arraylist di eventi. qui prendo l'arraylist
-					 * che ho popolato prima e guardo se l'evento di notifica è broacast o no. se lo è lo aggiungo al 
-					 * buffer del server --> this.getEventsToProcess().add((Event) evt); se non lo è --> this.communicator.send(callbackEvent);
-					 * */
 					for(NotifyEvent e:callbackEvent) {
 						//un solo evento personale e quanti ne voglio broadcast ! per ogni evento arrivato
 						if(e instanceof EventNotifyClosingTopic) {
@@ -128,6 +131,11 @@ public class PlayerController extends Thread  {
 		}
 	}
 	
+
+	/**
+	 * Rimuove il topic dalla lista
+	 * @param gcFound topic da eliminare
+	 * */
 	public void removeTopic(GameController gcFound) {
 		List<String> toRemove = new ArrayList<String>();
 		for(String topic:topics.keySet()) {

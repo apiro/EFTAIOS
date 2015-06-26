@@ -16,7 +16,9 @@ import it.polimi.ingsw.cg_38.model.GameModel;
 import it.polimi.ingsw.cg_38.model.LifeState;
 import it.polimi.ingsw.cg_38.model.Player;
 
-/** rappresenta l'azione di vittoria degli alieni */
+/**
+ *  rappresenta l'azione di vittoria degli alieni 
+ *  */
 public class AliensWin extends GameAction {
 
 	private static final long serialVersionUID = 1L;

@@ -26,29 +26,38 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-/** utilizzato per la gestione di una partita e dei giocatori che vi partecipano
- * . Si occupa di inizializzare una partita, di assegnare gli avatar e di inviare gli eventi
- *  di notifica ai giocatori generati in conseguenza di azioni performate
+/** 
+ * Oggetto utilizzato per la gestione di una partita e dei giocatori che vi partecipano.
+ * Si occupa di inizializzare una partita, di assegnare gli avatar e di inviare gli eventi 
+ * generati in conseguenza di azioni performate broadcast di notifica ai giocatori
  *  
  * @author Marco
  *
  */
 public class GameController implements Observer {
 
-	/** lista di comunicatori di tutti i giocatori sottoscritti al topic */
+	/**
+	 *  lista di comunicatori di tutti i giocatori sottoscritti al topic 
+	 *  */
 	private List<Communicator> subscribers = new ArrayList<Communicator>();
 	
-	/** buffer degli eventi di notifica da inviare */
+	/**
+	 *  buffer degli eventi di notifica da inviare 
+	 *  */
 	private Queue<NotifyEvent> buffer;
 
-	/** modello del gioco */
+	/** 
+	 * modello del gioco 
+	 * */
 	private GameModel gameModel;
 	
     private String topic;
     
     private Logger logger = new LoggerCLI();
 
-    /** true se è possibile ancora accettare altri giocatori alla partita */
+    /** 
+     * true se è possibile ancora accettare altri giocatori alla partita
+     *  */
 	private Boolean canAcceptOtherPlayers = true;
 
 	/** il costruttore inizializza il gioco e setta il buffer con una lista di eventi di notifica 
@@ -81,9 +90,9 @@ public class GameController implements Observer {
 		return subscribers;
 	}
 
-	/** manda l'evento di notifica al giocatore 
+	/** manda l'evento di notifica a tutti i giocatori del topic 
 	 * 
-	 * @param evt evento di notifica generato
+	 * @param evt evento di notifica da inviare in broadcast
 	 */
 	public void publish(NotifyEvent evt) throws IOException {
 		for(Communicator comm: this.getSubscribers()) {
@@ -102,7 +111,8 @@ public class GameController implements Observer {
 		}
 	}
 	
-	/** viene verificata la possibilità di performare l'azione e in caso positivo vengono generati 
+	/** 
+	 * Viene verificata la possibilità di performare l'azione e in caso positivo vengono generati 
 	 * gli eventi di notifica relativi l'azione. se non è possibile performare l'azione
 	 * viene generato un evento di notifica di errore
 	 * 
@@ -149,7 +159,7 @@ public class GameController implements Observer {
 		this.buffer = buffer;
 	}
 
-	/** setta il nome del topic e crea un nuovo modell con la mappa scelta dal giocatore che ha creato
+	/** setta il nome del topic e crea un nuovo model con la mappa scelta dal giocatore che ha creato
 	 * la partita
 	 * 
 	 * @param type tipo di mappa da creare
@@ -166,28 +176,33 @@ public class GameController implements Observer {
 		this.topic = topic;
 	}
 	
-	/** viene modificato lo stato di gioco del modello */
+	/**
+	 * viene modificato lo stato di gioco del modello 
+	 * */
 	public void closeGame() {
 	    this.getGameModel().setGameState(GameState.CLOSING);
 	}
 	
-	/** viene settato il primo turno con il primo giocatore nella lista presente nel modello */
+	/**
+	 * viene settato il primo turno con il primo giocatore nella lista presente nel modello 
+	 * */
 	public void setFirstTurn() {
     	Turn actualTurn = new Turn(this.getGameModel().getGamePlayers().get(0));
     	this.getGameModel().setActualTurn(actualTurn);
     }
 	
-	/** viene mischiata la lista dei giocatori della partita e in base al loro numero 
-	 *  viene assegnato un avatar ad ognuno di essi
+	/** 
+	 * viene mischiata la lista dei giocatori della partita e in base al loro numero 
+	 * viene assegnato un avatar ad ognuno di essi
 	 */
 	 public void assignAvatars() {
 	    Collections.shuffle(getGameModel().getGamePlayers());
 	   	for(int i =0; i<this.getGameModel().getGamePlayers().size(); i++) {
 	   		int floor = this.getGameModel().getGamePlayers().size()/2;
 	   		if(i<floor) {
-	   			this.getGameModel().getGamePlayers().get(i).setAvatar(new Human(Name.valueOf("HUMAN"+(i+1)), this.getGameModel().getGameMap().searchSectorByCoordinates(1, 1)/*.searchSectorByName("HumanStartingPoint")*/));
+	   			this.getGameModel().getGamePlayers().get(i).setAvatar(new Human(Name.valueOf("HUMAN"+(i+1)), this.getGameModel().getGameMap().searchSectorByName("HumanStartingPoint")));
 	    	} else {
-	    		this.getGameModel().getGamePlayers().get(i).setAvatar(new Alien(Name.valueOf("ALIEN"+(i-floor+1)), this.getGameModel().getGameMap().searchSectorByCoordinates(1, 1)/*.searchSectorByName("AlienStartingPoint")*/));
+	    		this.getGameModel().getGamePlayers().get(i).setAvatar(new Alien(Name.valueOf("ALIEN"+(i-floor+1)), this.getGameModel().getGameMap().searchSectorByName("AlienStartingPoint")));
 	    	}
 	    }
 	   	Collections.shuffle(getGameModel().getGamePlayers());

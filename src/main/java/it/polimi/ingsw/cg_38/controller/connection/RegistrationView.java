@@ -17,6 +17,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+ * Oggetto remoto di registrazione intermedio dal quale bisogna passare per ottenere la vista completa del server.
+ * */
 public class RegistrationView extends UnicastRemoteObject implements RMIRegistrationInterface {
 
 	private static final long serialVersionUID = 1L;
@@ -29,21 +32,24 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 		this.server = server;
 	}
 	
+	/**
+	 * questo metodo prenderà come parametro la clientView e il topic a cui il client si vuole sottoscrivere, crea 
+	 * un RMICommunicator. cerca il topic tra quelli che ci sono nella mappa che il server gli ha passato in fase di 
+	 * costruzione di questo oggetto e aggiunge alla lista di communicator di quel topic trovato questo communicator che ha 
+	 * appena creato
+	 * --> il metodo public EventAddedToGame generalEventGenerator(Communicator c, ServerController server) della azione
+	 * 	   di SUBSCRIBE che verifica se il giocatore si puo aggiungere al topic che ha scelto non sarà piu una azione ma sarà
+	 * 	   direttamente un metodo del GameController, cosicche qui prima di aggiungere il communicator ad un GameController
+	 * 	   ho la possibilità di verificare se posso farlo . se posso invio al giocatore che si è registrato un evento di 
+	 * 	   addedToGame con true se no uno con false.
+	 * @param clientView oggetto remoto del client
+	 * @param subEvent evento di sub
+	 * */
 	@Override
 	public RMIRemoteObjectInterface register(RMIRemoteObjectInterface clientView, EventSubscribe subEvent) throws RemoteException {
 
 		logger.print("---------------------------------------------------------------------");
-		/**
-		 * questo metodo prenderà come parametro la clientView e il topic a cui il client si vuole sottoscrivere, crea 
-		 * un RMICommunicator. cerca il topic tra quelli che ci sono nella mappa che il server gli ha passato in fase di 
-		 * costruzione di questo oggetto e aggiunge alla lista di communicator di quel topic trovato questo communicator che ha 
-		 * appena creato
-		 * --> il metodo public EventAddedToGame generalEventGenerator(Communicator c, ServerController server) della azione
-		 * 	   di SUBSCRIBE che verifica se il giocatore si puo aggiungere al topic che ha scelto non sarà piu una azione ma sarà
-		 * 	   direttamente un metodo del GameController, cosicche qui prima di aggiungere il communicator ad un GameController
-		 * 	   ho la possibilità di verificare se posso farlo . se posso invio al giocatore che si è registrato un evento di 
-		 * 	   addedToGame con true se no uno con false.
-		 * */
+		
 		Communicator c = new RMICommunicator(clientView);
 		
 		Subscribe subscribeAction = (Subscribe) GameActionCreator.createGameAction(subEvent);
@@ -66,6 +72,10 @@ public class RegistrationView extends UnicastRemoteObject implements RMIRegistra
 		return new ServerView(server, clientView);
 	}	
 	
+	/**
+	 * Nel caso in cui l'evento sia da trasmetter al publisher perchè è broadcast allora chiamo questo metodo
+	 * @param evt evento da trasmettere
+	 * */
 	@Override
 	public void trasmitEventToPublisher(Event evt) {
 		

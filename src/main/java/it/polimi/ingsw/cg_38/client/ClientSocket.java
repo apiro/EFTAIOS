@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Queue;
 
+/**
+ * QUESTO OGGETTO INVIA AL SERVER I MESSAGGI CHE TROVA NELLA SUA CODA E GENERA IL THREAD DI RICEZIONE MESSAGGI
+ * PUB SUB
+ * */
 public class ClientSocket extends Client implements Runnable {
 
 	private Boolean clientAlive = true;
@@ -19,11 +23,6 @@ public class ClientSocket extends Client implements Runnable {
 	private Queue<Event> toProcess;
 	private Thread pubSubReceiver;
 	private Logger logger = new LoggerCLI();
-
-	/**
-	 * QUESTO OGGETTO INVIA AL SERVER I MESSAGGI CHE TROVA NELLA SUA CODA E GENERA IL THREAD DI RICEZIONE MESSAGGI
-	 * PUB SUB
-	 * */
 	
 	public ClientSocket(Queue<Event> toSend, Queue<Event> toProcess, EventSubscribe evt) {
 		this.toSend = toSend;
