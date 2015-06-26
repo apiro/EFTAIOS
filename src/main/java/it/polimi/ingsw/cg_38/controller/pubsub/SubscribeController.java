@@ -46,7 +46,6 @@ public class SubscribeController extends Observable implements Runnable {
 		try {
 			callbackEvent = ((Subscribe)action).generalEventGenerator(socketCommunicator, server);
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.print("General exception in sending the subscribe event ...");
 		}
 		gcFound = server.getTopics().get(evt.getGenerator().getName());

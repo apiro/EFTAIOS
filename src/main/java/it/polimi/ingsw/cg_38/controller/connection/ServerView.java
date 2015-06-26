@@ -94,7 +94,6 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 			if(e instanceof EventNotifyClosingTopic) {
 				synchronized(gcFound) {
 					server.removeTopic(gcFound);
-					gcFound.notify();
 				}
 			} else {
 				if(e.isBroadcast()) {
@@ -106,7 +105,6 @@ public class ServerView extends UnicastRemoteObject implements RMIRemoteObjectIn
 							logger.print("A client is probably disconnected ...");
 						}
 					}
-					gcFound.notify();
 				} else {
 					this.communicator.send(e);
 				}

@@ -431,9 +431,8 @@ public class PlayerClientGUI implements PlayerClient {
 										}
 									} catch (NoSuchMethodException e1) {
 										logger.print("The constructor is not available for the requested class !");
-										e1.printStackTrace();
 									} catch (SecurityException e1) {
-										e1.printStackTrace();
+										logger.print("Security Exception !");
 									}
 									Object instance = null;
 									try {
